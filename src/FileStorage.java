@@ -88,6 +88,7 @@ public class FileStorage {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		inputFile.delete();
 		tempFile.renameTo(inputFile);
 		
