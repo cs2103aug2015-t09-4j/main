@@ -33,6 +33,15 @@ public class GUIConsole extends JPanel {
 	public static void successfulAdd(String content) {
 		displayScreen.append("\"" + content + "\"" + " is added to File." + "\n\n");
 	}
+	
+	public static void successfulDelete(String content) {
+		displayScreen.append("\"" + content + "\"" + " is deleted from File." + "\n\n");
+	}
+	
+	//public static void successfulEdit(String content) {
+	//	displayScreen.append("\"" + content + "\"" + " is deleted from File." + "\n\n");
+	//}
+	
 	public static void successfulRecur(String content) {
 		displayScreen.append(content + "\n\n");
 	}
