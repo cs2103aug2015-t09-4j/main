@@ -2,11 +2,15 @@
 public class Task {
 	private String taskName;
 	private String taskType;
-	private String taskDate;
+	private Integer taskDate;
 	private String taskPriority;
 	private String taskDescription;
-	private int taskStartTime;
-	private int taskEndTime;
+	private Integer taskStartTime;
+	private Integer taskEndTime;
+	//for recurring
+	private String recurType;
+	private Integer recurStartDate;
+	private int recurEndDate;
 	
 	public void setTaskName(String taskName){
 		this.taskName = taskName;
@@ -14,7 +18,7 @@ public class Task {
 	public void setTaskType(String taskType){
 		this.taskType = taskType;
 	}
-	public void setTaskDate(String taskDate){
+	public void setTaskDate(Integer taskDate){
 		this.taskDate = taskDate;
 	}
 	public void setTaskPriority(String taskPriority){
@@ -23,13 +27,22 @@ public class Task {
 	public void setTaskDescription(String taskDescription){
 		this.taskDescription = taskDescription;
 	}
-	public void setTaskStartTime(int taskStartTime){
+	public void setTaskStartTime(Integer taskStartTime){
 		this.taskStartTime = taskStartTime;
-	}
-	
-	public void setTaskEndTime(int taskEndTime){
+	}	
+	public void setTaskEndTime(Integer taskEndTime){
 		this.taskEndTime = taskEndTime;
 	}
+	public void setRecurType(String recurType){
+		this.recurType = recurType;
+	}
+	public void setRecurStartDate(Integer recurStartDate){
+		this.recurStartDate = recurStartDate;
+	}
+	public void setRecurEndDate(Integer recurEndDate){
+		this.recurEndDate = recurEndDate;
+	}
+	
 	
 	public String getTaskName(){
 		return this.taskName;
@@ -37,7 +50,7 @@ public class Task {
 	public String getTaskType(){
 		return this.taskType;
 	}
-	public String getTaskDate(){
+	public Integer getTaskDate(){
 		return this.taskDate;
 	}
 	public String getTaskPriority(){
@@ -46,10 +59,19 @@ public class Task {
 	public String getTaskDescription(){
 		return this.taskDescription;
 	}
-	public int getStartTime(){
+	public Integer getStartTime(){
 		return this.taskStartTime;
 	}
-	public int getTaskEndTime(){
+	public Integer getTaskEndTime(){
 		return this.taskEndTime;
+	}
+	public String getRecurType(String recurType){
+		return this.recurType;
+	}
+	public Integer getRecurStartDate(Integer recurStartDate){
+		return this.recurStartDate;
+	}
+	public Integer getRecurEndDate(Integer recurEndDate){
+		return this.recurEndDate;
 	}
 }

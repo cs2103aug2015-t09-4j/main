@@ -7,35 +7,34 @@ public class CommandController {
 	private static final String COMMAND_RECUR = "recur";
 	private static final String COMMAND_NAVIGATE = "view";
 	private static final String MESSAGE_INVALID = "Invalid Command";
+
 	
-	public CommandController() {
-	}
-	
-	//Note: will error if not followed with whitespace
 	public static void processCommand(String command) {
-
-		String commandType = command.substring(0, command.indexOf(" "));
-
-		switch (commandType) {
+		
+		CommandParser commandparser = new CommandParser();		
+		String[] commandParts = commandparser.splitCommand(command);
+		
+		//AIDS FOR EVERYONE	
+		switch (commandParts[0]) {
 		
 		case COMMAND_ADD:
-			CommandParser.parseAdd(command);
+			commandparser.parseAdd(commandParts);
 			break;
 
 		case COMMAND_DELETE:
-			CommandParser.parseDelete(command);
+			commandparser.parseDelete(commandParts);
 			break;
 
 		case COMMAND_EDIT:
-			CommandParser.parseEdit(command);
+			commandparser.parseEdit(commandParts);
 			break;
 		
 		case COMMAND_RECUR:
-			CommandParser.parseRecur(command);
+			commandparser.parseRecur(commandParts);
 			break;
 			
 		case COMMAND_NAVIGATE:
-			CommandParser.parseNavigate(command);
+			commandparser.parseNavigate(commandParts);
 			break;
 			
 		default:
