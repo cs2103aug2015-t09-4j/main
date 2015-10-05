@@ -19,23 +19,23 @@ public class CommandController {
 		switch (commandType) {
 		
 		case COMMAND_ADD:
-			FileStorage.addEvent(command);
+			CommandParser.parseAdd(command);
 			break;
 
 		case COMMAND_DELETE:
-			FileStorage.deleteEvent(command);
+			CommandParser.parseDelete(command);
 			break;
 
 		case COMMAND_EDIT:
-			FileStorage.editEvent(command);
+			CommandParser.parseEdit(command);
 			break;
 		
 		case COMMAND_RECUR:
-			FileStorage.recurEvent(command);
+			CommandParser.parseRecur(command);
 			break;
 			
 		case COMMAND_NAVIGATE:
-			FileStorage.navigateDay(command);
+			CommandParser.parseNavigate(command);
 			break;
 			
 		default:
