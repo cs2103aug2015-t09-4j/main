@@ -23,7 +23,11 @@ public class FileStorage {
         read(f);
     }
     */
-
+	public static void clear(File f) throws Exception {
+		OutputStream out = new FileOutputStream(f, false);
+		MyObjectOutputStream oos = MyObjectOutputStream.newInstance(f, out);
+		oos.close();
+	}
  
     public static void write(File f, Object p) throws Exception {
     	 
