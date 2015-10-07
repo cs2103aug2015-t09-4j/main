@@ -72,7 +72,8 @@ public class CommandController {
 		}
 
 		for (int j = 0; j < deadlineTasks.size(); j++) {
-			System.out.println(deadlineTasks.get(j));
+			displayDeadlineTask()
+			displayTask(deadlineTasks.get(j))
 		}
 
 		// transfer deadlineTasks and floatingTasks here
@@ -86,7 +87,8 @@ public class CommandController {
 			}
 		}
 		for (int j = 0; j < floatingTasks.size(); j++) {
-			System.out.println(floatingTasks.get(j));
+			displayFloatingTask()
+			displayTask(floatingTasks.get(j))
 		}
 	}
 
