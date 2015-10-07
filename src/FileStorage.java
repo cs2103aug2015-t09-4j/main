@@ -10,6 +10,8 @@ public class FileStorage {
 	
 	static ArrayList<Task> objectList = new ArrayList<Task>();
 	
+	/*
+	 * refer to Person class and this is an example
     public static void main(String[] args) throws Exception {
         String path = "d:" + File.separator + "test.txt";
         File f = new File(path);
@@ -20,6 +22,7 @@ public class FileStorage {
         write(f, p2); 
         read(f);
     }
+    */
 
  
     public static void write(File f, Object p) throws Exception {
