@@ -1,8 +1,9 @@
 import java.io.*;
+import java.util.Stack;
 
 public class FileStorage {
 	
-	private void saveObject(String path, Object obj) {   
+	private static void saveObject(String path, Object obj) {   
         FileOutputStream fos = null;  
         ObjectOutputStream oos = null;  
         File f = new File(path);  
@@ -21,7 +22,7 @@ public class FileStorage {
         }  
     }  
       
-    private Object readObject(String path){  
+    private static Object readObject(String path){  
     	Object temp = null;
         FileInputStream fis = null;  
         ObjectInputStream ois = null;     
@@ -42,4 +43,16 @@ public class FileStorage {
             return temp;
         }  
     }  
+    
+    /* use for testing
+    public static void main(String[] args) {
+    	Task test = new Task();
+    	test.setRecurEndDate(34);
+    	saveObject("C:\\Users\\lemonaoko\\Desktop\\aaa.txt", test); 
+    	Object obj;
+    	obj = readObject("C:\\Users\\lemonaoko\\Desktop\\aaa.txt");
+    	System.out.println(obj);
+    	
+    }
+    */
 }
