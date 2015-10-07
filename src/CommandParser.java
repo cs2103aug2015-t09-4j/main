@@ -1,8 +1,10 @@
+import java.io.File;
 
 public class CommandParser {
-
+	
 	//PRIORITY AND DESCRIPTION NOT DONE
-	public  void parseAdd(String[] commandParts) {
+	public  void parseAdd(String[] commandParts) throws Exception {
+		File file = new File("C:\\eclipse\\workspace\\main\\test.txt");
 		String eventType = commandParts[1];
 		Task newTask = new Task();
 		
@@ -15,7 +17,7 @@ public class CommandParser {
 			break;
 		case "floating": 
 			newTask.setTaskType(eventType);
-			newTask.setTaskName(commandParts[1]);
+			newTask.setTaskName(commandParts[2]);
 			GUIConsole.successfulAdd(commandParts[1]);
 			break;
 		case "event": 
@@ -27,6 +29,7 @@ public class CommandParser {
 			GUIConsole.successfulAdd(commandParts[5]);
 			break;
 		}
+		FileStorage.write(file,newTask);
 	}
 
 	public void parseEdit(String[] commandParts) {
@@ -41,12 +44,12 @@ public class CommandParser {
 				break;
 			case "date":
 				newTask.setTaskDate(Integer.valueOf(commandParts[i++]));
-				GUIConsole.successfulEditDate(commandParts[1], Integer.commandParts[i]);
+//				GUIConsole.successfulEditDate(commandParts[1], Integer.commandParts[i]);
 				break;
 			case "time":
 				newTask.setTaskStartTime(Integer.valueOf(commandParts[i++]));
 				newTask.setTaskEndTime(Integer.valueOf(commandParts[i++]));
-				GUIConsole.successfulEditTime(commandParts[1], Integer.commandParts[i], Integer.commandParts[i--]);
+//				GUIConsole.successfulEditTime(commandParts[1], Integer.commandParts[i], Integer.commandParts[i--]);
 				break;
 			}
 		}

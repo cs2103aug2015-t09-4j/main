@@ -7,6 +7,9 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 
 public class FileStorage {
+	
+	static ArrayList<Task> objectList = new ArrayList<Task>();
+	
 	/*
 	 * refer to Person class and this is an example
     public static void main(String[] args) throws Exception {
@@ -32,17 +35,18 @@ public class FileStorage {
     }
 
      public static ArrayList<Task> read(File f) throws Exception {
+    	 objectList = new ArrayList<Task>();
          FileInputStream in = new FileInputStream(f);
          ObjectInputStream ois = new ObjectInputStream(in);
          int i = 0;
-         ArrayList<Task> objectList = new ArrayList<Task>();
+
          while(true) {   
         	 try{
         	  Task temp = new Task();
         	  temp = (Task) ois.readObject();
         	  objectList.add(i, temp);
         	  i++;
-              System.out.println((Task)temp);
+              //System.out.println((Task)temp);
         	 } catch (EOFException e){
         		 break;
         	 }

@@ -79,10 +79,32 @@ public class Task implements Serializable{
 	// I think need to distinguish based on different kind of operation 
 	// but all return buffer.toString(); so I think may be this one can be 
 	// modified
-    public String toString() {
-        StringBuffer buffer = new StringBuffer();
-        buffer.append(getRecurEndDate(recurEndDate));
-        buffer.append("\n");
-        return buffer.toString();
-    }
-}
+	 public String toString() {
+	    	//gives task in format of Name:name;TaskType:type;TaskDate:date;
+	    	
+	        StringBuffer buffer = new StringBuffer();
+	        
+	        buffer.append("Name:");
+	        buffer.append(getTaskName());
+	        buffer.append(";");
+	        
+	        buffer.append("TaskType:");
+	        buffer.append(getTaskType());
+	        buffer.append(";");
+	        
+//	        buffer.append("TaskDate:");
+//	        buffer.append(getTaskDate());
+//	        buffer.append(";");
+	       /*//FOR LATER 
+	        buffer.append("TaskStartTime:");
+	        buffer.append(getTaskStartTime());
+	        buffer.append(";");
+	        
+	        buffer.append("TaskEndTime:");
+	        buffer.append(getTaskEndTime());
+	        buffer.append(";");
+	        */
+	        
+	        return buffer.toString();
+	    }
+	}
