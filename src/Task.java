@@ -76,13 +76,4 @@ public class Task implements Serializable{
 		return this.recurEndDate;
 	}
 	
-	// I think need to distinguish based on different kind of operation 
-	// but all return buffer.toString(); so I think may be this one can be 
-	// modified
-    public String toString() {
-        StringBuffer buffer = new StringBuffer();
-        buffer.append(getRecurEndDate(recurEndDate));
-        buffer.append("\n");
-        return buffer.toString();
-    }
 }
