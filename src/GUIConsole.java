@@ -56,4 +56,16 @@ public class GUIConsole extends JPanel {
 	public static void successfulNavigate(String content) {
 		displayScreen.append("\"" + content + "\"" + " is added to File." + "\n\n");
 	}
+	
+	public static void displayTask(Task content) {
+		displayScreen.append(content + "\n");
+	}
+	
+	public static void displayFloatingTask() {
+		displayScreen.append("Floating Tasks:\n");
+	}
+	
+	public static void displayDeadlineTask() {
+		displayScreen.append("Deadline Tasks:"\n");
+	}
 }
