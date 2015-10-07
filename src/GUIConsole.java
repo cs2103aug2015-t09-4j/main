@@ -38,9 +38,17 @@ public class GUIConsole extends JPanel {
 		displayScreen.append("\"" + content + "\"" + " is deleted from File." + "\n\n");
 	}
 	
-	//public static void successfulEdit(String content) {
-	//	displayScreen.append("\"" + content + "\"" + " is deleted from File." + "\n\n");
-	//}
+	public static void successfulEditName(String content, String content1) {
+		displayScreen.append("Task name \"" + content + "\" changed to \"" + content1 + "\"\n\n");
+	}
+	
+	public static void successfulEditDate(String content, Integer content1) {
+		displayScreen.append("Date of \"" + content + "\" changed to \"" + content1 + "\"\n\n");
+	}
+	
+	public static void successfulEditTime(Integer content, Integer content1, Integer content2) {
+		displayScreen.append("Time of \"" + content1 + "\" changed to \"" + content2 + "-" + content1 + "\"\n\n");
+	}
 	
 	public static void successfulRecur(String content) {
 		displayScreen.append(content + "\n\n");
