@@ -66,6 +66,6 @@ public class GUIConsole extends JPanel {
 	}
 	
 	public static void displayDeadlineTask() {
-		displayScreen.append("Deadline Tasks:"\n");
+		displayScreen.append("Deadline Tasks:\n");
 	}
 }

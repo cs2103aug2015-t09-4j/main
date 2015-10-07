@@ -71,9 +71,10 @@ public class CommandController {
 			}
 		}
 
+		GUIConsole.displayDeadlineTask();
 		for (int j = 0; j < deadlineTasks.size(); j++) {
-			displayDeadlineTask()
-			displayTask(deadlineTasks.get(j))
+			GUIConsole.displayTask(deadlineTasks.get(j));
+			//System.out.println(deadlineTasks.get(j));
 		}
 
 		// transfer deadlineTasks and floatingTasks here
@@ -86,9 +87,11 @@ public class CommandController {
 				}
 			}
 		}
+
+		GUIConsole.displayFloatingTask();
 		for (int j = 0; j < floatingTasks.size(); j++) {
-			displayFloatingTask()
-			displayTask(floatingTasks.get(j))
+			GUIConsole.displayTask(floatingTasks.get(j));
+			//System.out.println(floatingTasks.get(j));
 		}
 	}
 
