@@ -9,6 +9,7 @@ public class CommandController {
 	private static final String COMMAND_EDIT = "edit";
 	private static final String COMMAND_RECUR = "recur";
 	private static final String COMMAND_NAVIGATE = "view";
+	private static final String COMMAND_HELP = "help";
 	private static final String MESSAGE_INVALID = "Invalid Command";
 
 	public static void processCommand(String command) {
@@ -39,14 +40,19 @@ public class CommandController {
 		case COMMAND_NAVIGATE:
 			commandparser.parseNavigate(commandParts);
 			break;
-		case "display":
-				display();
 			
+		case "display":
+			display();
 			break;
+		
+		case COMMAND_HELP:
+			commandparser.parseHelp();
+			break;
+			
 		default:
-			System.out.println(MESSAGE_INVALID);
+			//System.out.println(MESSAGE_INVALID);
+			commandparser.parseInvalidCommand(commandParts[0]);
 			break;
-
 		}
 		} catch (Exception e) {
 			e.printStackTrace();

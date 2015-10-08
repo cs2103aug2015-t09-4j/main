@@ -10,16 +10,22 @@ public class CommandParser {
 		Task newTask = new Task();
 
 		switch (eventType) {
+		case "floating":
+			newTask.setTaskType(eventType);
+			newTask.setTaskName(commandParts[2]);
+			GUIConsole.successfulAdd(commandParts[2]);
+			
+			//Add description
+			//for (int i = 3; i < commandParts.length; i++) {
+			//	newTask.addDesc(commandParts[i]);
+			//}
+			//System.out.println(newTask.getDesc());
+			break;
 		case "deadline":
 			newTask.setTaskType(eventType);
 			newTask.setTaskDate(Integer.valueOf(commandParts[2]));
 			newTask.setTaskName(commandParts[3]);
 			GUIConsole.successfulAdd(commandParts[3]);
-			break;
-		case "floating":
-			newTask.setTaskType(eventType);
-			newTask.setTaskName(commandParts[2]);
-			GUIConsole.successfulAdd(commandParts[1]);
 			break;
 		case "event":
 			newTask.setTaskType(eventType);
@@ -118,12 +124,29 @@ public class CommandParser {
 
 	public void parseRecur(String[] commandParts) {
 		// TODO get startdate
-
+		
+		/* get particular task 
+		 * retrieve taskDate
+		 * get recurring frequency
+		 * add task to respective dates and time (our own calendar?)
+		 * e.g. recur eat daily
+		 */
 	}
 
 	public void parseNavigate(String[] commandParts) {
 		// TODO Auto-generated method stub
-
+		
+		/* get what user wants to view
+		 * date e.g. navigate 01012001
+		 */
+	}
+	
+	public void parseHelp() {
+		GUIConsole.displayHelp();	
+	}
+	
+	public void parseInvalidCommand(String command) {
+		GUIConsole.displayErrorMessage(command);
 	}
 
 	public String[] splitCommand(String command) {

@@ -12,6 +12,7 @@ public class Task implements Serializable{
 	private String recurType;
 	private Integer recurStartDate;
 	private int recurEndDate;
+	//private String desc;
 	
 	public void setTaskName(String taskName){
 		this.taskName = taskName;
@@ -43,6 +44,9 @@ public class Task implements Serializable{
 	public void setRecurEndDate(Integer recurEndDate){
 		this.recurEndDate = recurEndDate;
 	}
+	/*public void addDesc(String desc){
+		this.desc += desc;
+	}*/
 	
 	
 	public String getTaskName(){
@@ -75,6 +79,9 @@ public class Task implements Serializable{
 	public Integer getRecurEndDate(Integer recurEndDate){
 		return this.recurEndDate;
 	}
+	/*public String getDesc() {
+		return this.desc;
+	}*/
 	
 	// I think need to distinguish based on different kind of operation 
 	// but all return buffer.toString(); so I think may be this one can be 

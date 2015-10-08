@@ -69,6 +69,24 @@ public class GUIConsole extends JPanel {
 		displayScreen.append("Deadline Tasks:\n");
 	}
 	
+	public static void displayHelp() {
+		displayScreen.append("Available Task Types:\n\n"
+				+ "deadline\n"
+				+ "floating\n"
+				+ "event\n\n"
+				+ "Available Commands:\n\n"
+				+ "add:\n\n"
+				+ "add floating [taskname]\n"
+				+ "add deadline [taskdate] [taskname]\n"
+				+ "add event [taskdate] [starttime] [endtime] [taskname]\n\n");
+	}
+	
+	public static void displayErrorMessage(String content) {
+		displayScreen.append("\"" + content + "\"" + " is an Invalid Command.\n\n"
+				+ "Available Commands: add, delete, edit, recur, navigate, display\n"
+				+ "For more information, type: help\n\n");
+	}
+	
 	public static void failDelete(String content) {
         displayScreen.append("Unable to find \"" + content + "\" to delete.");
     }
