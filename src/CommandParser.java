@@ -52,7 +52,7 @@ public class CommandParser {
 
 				newName = newName.substring(2, newName.length() - 1);
 				newTask.setTaskName(newName);
-				// GUIConsole.successfulEditName(commandParts[1],
+				 GUIConsole.successfulEditName(initialTaskName,newName);
 				// commandParts[i]);
 				break;
 			case "date":
@@ -76,8 +76,6 @@ public class CommandParser {
 				Task currentTask = fullList.get(j);
 
 				String[] taskParts = currentTask.toString().split(";");
-				// for (int k = 0; k < taskParts.length; k++) {
-				// System.out.println(taskParts[k]);
 				if (taskParts[0].toString().contains("Name:" + initialTaskName)) {
 					currentTask.setTaskName(newTask.getTaskName());
 					FileStorage.write(file, currentTask);
