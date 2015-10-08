@@ -68,4 +68,8 @@ public class GUIConsole extends JPanel {
 	public static void displayDeadlineTask() {
 		displayScreen.append("Deadline Tasks:\n");
 	}
+	
+	public static void failDelete(String content) {
+        displayScreen.append("Unable to find \"" + content + "\" to delete.");
+    }
 }
