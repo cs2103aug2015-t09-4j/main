@@ -89,8 +89,31 @@ public class CommandParser {
 	public void parseDelete(String[] commandParts) {
 		String taskType = commandParts[1];
 		String taskName = commandParts[2];
-		GUIConsole.successfulDelete(commandParts[2]);
-
+	  	ArrayList<Task> array = FileStorage.read(file);
+        	int i = 0;
+        	int x = 0;
+		while (i < array.size()) {
+            	if(array.get(i).getTaskType().equals(taskType)) {
+                	if(array.get(i).getTaskName().equals(taskName)) {
+                    		FileStorage.clear(file);
+                	 	array.remove(i);
+                		GUIConsole.successfulDelete(commandParts[2]);
+                    		x = 1;
+                    		break;
+                		}
+            		}
+            		i++;
+        	}
+        	if (x == 1) {
+        		int j = 0;
+        		while (j < array.size()) {
+            			FileStorage.write(file, array.get(j));
+            			j++;
+        			}
+        		}
+		if (x == 0) {
+                	GUIConsole.failDelete(taskName);
+        	}
 	}
 
 	public void parseRecur(String[] commandParts) {
