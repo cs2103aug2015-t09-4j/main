@@ -86,7 +86,7 @@ public class CommandParser {
 		}
 	}
 
-	public void parseDelete(String[] commandParts) {
+	public void parseDelete(String[] commandParts) throws Exception {
 		String taskType = commandParts[1];
 		String taskName = commandParts[2];
 	  	ArrayList<Task> array = FileStorage.read(file);
