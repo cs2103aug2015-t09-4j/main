@@ -17,16 +17,17 @@ public class FileStorage {
         File f = new File(path);
         Person p1 = new Person("a", 23);
         write(f, p1);
-        read(f);
         Person p2 = new Person("c", 32);
         write(f, p2); 
         read(f);
     }
     */
+	
 	public static void clear(File f) throws Exception {
 		OutputStream out = new FileOutputStream(f, false);
 		MyObjectOutputStream oos = MyObjectOutputStream.newInstance(f, out);
 		oos.close();
+		//out.flush();
 	}
  
     public static void write(File f, Object p) throws Exception {

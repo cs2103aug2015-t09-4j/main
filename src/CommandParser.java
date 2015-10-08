@@ -42,19 +42,18 @@ public class CommandParser {
 			case "name":
 				String namePart = commandParts[i++];
 				String newName = "";
-				while (true){
-					newName = newName+namePart;
-					if(namePart.substring(namePart.length() - 1).equals("\"")){
+				while (true) {
+					newName = newName + " " + namePart;
+					if (namePart.substring(namePart.length() - 1).equals("\"")) {
 						break;
 					}
 					namePart = commandParts[i++];
 				}
-				
-				//to trim the ""
-				
-				newName = newName.substring(1,newName.length()-1);
+
+				newName = newName.substring(2, newName.length() - 1);
 				newTask.setTaskName(newName);
-				//GUIConsole.successfulEditName(commandParts[1], commandParts[i]);
+				// GUIConsole.successfulEditName(commandParts[1],
+				// commandParts[i]);
 				break;
 			case "date":
 				newTask.setTaskDate(Integer.valueOf(commandParts[i++]));
@@ -68,24 +67,25 @@ public class CommandParser {
 				// Integer.commandParts[i], Integer.commandParts[i--]);
 				break;
 			}
-/*
+			// System.out.println(newTask);
 			ArrayList<Task> fullList = new ArrayList<Task>();
 			fullList = FileStorage.read(file);
+
+			FileStorage.clear(file);
 			for (int j = 0; j < fullList.size(); j++) {
 				Task currentTask = fullList.get(j);
 
 				String[] taskParts = currentTask.toString().split(";");
-				for (int k = 0; k < taskParts.length; k++) {
-					if (taskParts[j].contains("TaskName:" + initialTaskName)) {
-						FileStorage.write(file, newTask);
-					} else {
-						FileStorage.write(file, currentTask);
-					}
+				// for (int k = 0; k < taskParts.length; k++) {
+				// System.out.println(taskParts[k]);
+				if (taskParts[0].toString().contains("Name:" + initialTaskName)) {
+					currentTask.setTaskName(newTask.getTaskName());
+					FileStorage.write(file, currentTask);
+				} else {
+					FileStorage.write(file, currentTask);
 				}
 			}
-			FileStorage.clear(file);*/
 		}
-
 	}
 
 	public void parseDelete(String[] commandParts) {
