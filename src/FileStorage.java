@@ -4,10 +4,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class FileStorage {
-	
+public class FileStorage{
+//	private static final long serialVersionUID = -769626947865283;
 	static ArrayList<Task> objectList = new ArrayList<Task>();
 	
 	/*

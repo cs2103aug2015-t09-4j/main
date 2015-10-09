@@ -50,35 +50,47 @@ public class Task implements Serializable{
 	
 	
 	public String getTaskName(){
-		return this.taskName;
+		StringBuffer buffer = new StringBuffer(this.taskName);
+		return buffer.toString();
 	}
 	public String getTaskType(){
-		return this.taskType;
-	}
+		StringBuffer buffer = new StringBuffer(this.taskType);
+		return buffer.toString();	
+		}
+/*	
 	public Integer getTaskDate(){
-		return this.taskDate;
-	}
+		StringBuffer buffer = new StringBuffer(this.taskName);
+		return buffer.toString();
+		}
 	public String getTaskPriority(){
-		return this.taskPriority;
+		StringBuffer buffer = new StringBuffer(this.taskName);
+		return buffer.toString();	
 	}
 	public String getTaskDescription(){
-		return this.taskDescription;
+		StringBuffer buffer = new StringBuffer(this.taskName);
+		return buffer.toString();
 	}
 	public Integer getStartTime(){
-		return this.taskStartTime;
-	}
+		StringBuffer buffer = new StringBuffer(this.taskName);
+		return buffer.toString();
+		}
 	public Integer getTaskEndTime(){
-		return this.taskEndTime;
+		StringBuffer buffer = new StringBuffer(this.taskName);
+		return buffer.toString();	
 	}
 	public String getRecurType(String recurType){
-		return this.recurType;
+		StringBuffer buffer = new StringBuffer(this.taskName);
+		return buffer.toString();	
 	}
 	public Integer getRecurStartDate(Integer recurStartDate){
-		return this.recurStartDate;
-	}
+		StringBuffer buffer = new StringBuffer(this.taskName);
+		return buffer.toString();
+		}
 	public Integer getRecurEndDate(Integer recurEndDate){
-		return this.recurEndDate;
+		StringBuffer buffer = new StringBuffer(this.taskName);
+		return buffer.toString();	
 	}
+	*/
 	/*public String getDesc() {
 		return this.desc;
 	}*/
@@ -86,7 +98,7 @@ public class Task implements Serializable{
 	// I think need to distinguish based on different kind of operation 
 	// but all return buffer.toString(); so I think may be this one can be 
 	// modified
-	 public String toString() {
+	 /*public String toString() {
 	    	//gives task in format of Name:name;TaskType:type;TaskDate:date;
 	    	
 	        StringBuffer buffer = new StringBuffer();
@@ -98,7 +110,7 @@ public class Task implements Serializable{
 	        buffer.append("TaskType:");
 	        buffer.append(getTaskType());
 	        buffer.append(";");
-	        
+	        */
 //	        buffer.append("TaskDate:");
 //	        buffer.append(getTaskDate());
 //	        buffer.append(";");
@@ -110,8 +122,8 @@ public class Task implements Serializable{
 	        buffer.append("TaskEndTime:");
 	        buffer.append(getTaskEndTime());
 	        buffer.append(";");
-	        */
+	        
 	        
 	        return buffer.toString();
-	    }
+	    }*/
 	}

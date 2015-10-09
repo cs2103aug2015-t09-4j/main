@@ -57,7 +57,7 @@ public class GUIConsole extends JPanel {
 		displayScreen.append("\"" + content + "\"" + " is added to File." + "\n\n");
 	}
 	
-	public static void displayTask(Task content) {
+	public static void displayTask(String content) {
 		displayScreen.append(content + "\n");
 	}
 	

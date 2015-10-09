@@ -2,7 +2,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class CommandParser {
-	private static File file = new File("C:\\eclipse\\workspace\\main\\test.txt");
+	private static File file = new File("C:\\Users\\user\\workspace\\main\\test.txt");
 
 	// PRIORITY AND DESCRIPTION NOT DONE
 	public void parseAdd(String[] commandParts) throws Exception {
@@ -14,12 +14,12 @@ public class CommandParser {
 			newTask.setTaskType(eventType);
 			newTask.setTaskName(commandParts[2]);
 			GUIConsole.successfulAdd(commandParts[2]);
-			
-			//Add description
-			//for (int i = 3; i < commandParts.length; i++) {
-			//	newTask.addDesc(commandParts[i]);
-			//}
-			//System.out.println(newTask.getDesc());
+
+			// Add description
+			// for (int i = 3; i < commandParts.length; i++) {
+			// newTask.addDesc(commandParts[i]);
+			// }
+			// System.out.println(newTask.getDesc());
 			break;
 		case "deadline":
 			newTask.setTaskType(eventType);
@@ -58,7 +58,7 @@ public class CommandParser {
 
 				newName = newName.substring(2, newName.length() - 1);
 				newTask.setTaskName(newName);
-				 GUIConsole.successfulEditName(initialTaskName,newName);
+				GUIConsole.successfulEditName(initialTaskName, newName);
 				// commandParts[i]);
 				break;
 			case "date":
@@ -95,56 +95,97 @@ public class CommandParser {
 	public void parseDelete(String[] commandParts) throws Exception {
 		String taskType = commandParts[1];
 		String taskName = commandParts[2];
-	  	ArrayList<Task> array = FileStorage.read(file);
-        	int i = 0;
-        	int x = 0;
+		ArrayList<Task> array = FileStorage.read(file);
+		int i = 0;
+		int x = 0;
 		while (i < array.size()) {
-            	if(array.get(i).getTaskType().equals(taskType)) {
-                	if(array.get(i).getTaskName().equals(taskName)) {
-                    		FileStorage.clear(file);
-                	 	array.remove(i);
-                		GUIConsole.successfulDelete(commandParts[2]);
-                    		x = 1;
-                    		break;
-                		}
-            		}
-            		i++;
-        	}
-        	if (x == 1) {
-        		int j = 0;
-        		while (j < array.size()) {
-            			FileStorage.write(file, array.get(j));
-            			j++;
-        			}
-        		}
+			if (array.get(i).getTaskType().equals(taskType)) {
+				if (array.get(i).getTaskName().equals(taskName)) {
+					FileStorage.clear(file);
+					array.remove(i);
+					GUIConsole.successfulDelete(commandParts[2]);
+					x = 1;
+					break;
+				}
+			}
+			i++;
+		}
+		if (x == 1) {
+			int j = 0;
+			while (j < array.size()) {
+				FileStorage.write(file, array.get(j));
+				j++;
+			}
+		}
 		if (x == 0) {
-                	GUIConsole.failDelete(taskName);
-        	}
+			GUIConsole.failDelete(taskName);
+		}
 	}
 
 	public void parseRecur(String[] commandParts) {
 		// TODO get startdate
-		
-		/* get particular task 
-		 * retrieve taskDate
-		 * get recurring frequency
-		 * add task to respective dates and time (our own calendar?)
-		 * e.g. recur eat daily
+
+		/*
+		 * get particular task retrieve taskDate get recurring frequency add
+		 * task to respective dates and time (our own calendar?) e.g. recur eat
+		 * daily
 		 */
 	}
 
 	public void parseNavigate(String[] commandParts) {
 		// TODO Auto-generated method stub
-		
-		/* get what user wants to view
-		 * date e.g. navigate 01012001
+
+		/*
+		 * get what user wants to view date e.g. navigate 01012001
 		 */
 	}
-	
+
 	public void parseHelp() {
-		GUIConsole.displayHelp();	
+		GUIConsole.displayHelp();
 	}
-	
+
+	public static ArrayList<Task> display() throws Exception {
+		// public static void display() throws Exception {
+		ArrayList<Task> floatingTasks = new ArrayList<Task>();
+		ArrayList<Task> deadlineTasks = new ArrayList<Task>();
+		ArrayList<Task> fullList = new ArrayList<Task>();
+
+		fullList = FileStorage.read(file);
+
+		for (int j = 0; j < fullList.size(); j++) {
+			Task currentTask = fullList.get(j);
+			//System.out.println(currentTask.getTaskName() + " " + currentTask.getTaskType());
+
+			if (currentTask.getTaskType().equals("deadline")) {
+				deadlineTasks.add(currentTask);
+			}
+		}
+
+		GUIConsole.displayDeadlineTask();
+		for (int j = 0; j < deadlineTasks.size(); j++) {
+			GUIConsole.displayTask(deadlineTasks.get(j).getTaskName());
+			// System.out.println(deadlineTasks.get(j));
+		}
+
+		// transfer deadlineTasks and floatingTasks here
+		for (int j = 0; j < fullList.size(); j++) {
+			Task currentTask = fullList.get(j);
+			System.out.println(currentTask.getTaskName() + " " + currentTask.getTaskType());
+
+			if (currentTask.getTaskType().equals("floating")) {
+				floatingTasks.add(currentTask);
+			}
+		}
+
+		GUIConsole.displayFloatingTask();
+		for (int j = 0; j < floatingTasks.size(); j++) {
+			GUIConsole.displayTask(floatingTasks.get(j).getTaskName());
+			// System.out.println(floatingTasks.get(j));
+		}
+
+		return floatingTasks;
+	}
+
 	public void parseInvalidCommand(String command) {
 		GUIConsole.displayErrorMessage(command);
 	}
