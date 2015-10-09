@@ -6,36 +6,60 @@ public class CommandParser {
 
 	// PRIORITY AND DESCRIPTION NOT DONE
 	public void parseAdd(String[] commandParts) throws Exception {
-		String eventType = commandParts[1];
+		// assume floating first
+		Boolean floating = true;
 		Task newTask = new Task();
 
-		switch (eventType) {
-		case "floating":
-			newTask.setTaskType(eventType);
-			newTask.setTaskName(commandParts[2]);
-			GUIConsole.successfulAdd(commandParts[2]);
+		int wordIndex = 1;
+		String taskName = "";
 
-			// Add description
-			// for (int i = 3; i < commandParts.length; i++) {
-			// newTask.addDesc(commandParts[i]);
-			// }
-			// System.out.println(newTask.getDesc());
-			break;
-		case "deadline":
-			newTask.setTaskType(eventType);
-			newTask.setTaskDate(Integer.valueOf(commandParts[2]));
-			newTask.setTaskName(commandParts[3]);
-			GUIConsole.successfulAdd(commandParts[3]);
-			break;
-		case "event":
-			newTask.setTaskType(eventType);
-			newTask.setTaskDate(Integer.valueOf(commandParts[2]));
-			newTask.setTaskStartTime(Integer.valueOf(commandParts[3]));
-			newTask.setTaskEndTime(Integer.valueOf(commandParts[4]));
-			newTask.setTaskName(commandParts[5]);
-			GUIConsole.successfulAdd(commandParts[5]);
-			break;
+		// this while loop gets task name
+		while (true) {
+			taskName = taskName + commandParts[wordIndex++];
+			if (wordIndex >= commandParts.length) {
+				break;
+			}
+			if (commandParts[wordIndex].equals("on") || commandParts[wordIndex].equals("from")) {
+				break;
+			}
+			taskName = taskName + " ";
 		}
+		// System.out.println(taskName);
+		newTask.setTaskName(taskName);
+
+		while (wordIndex < commandParts.length) {
+			Boolean testNotFloating = false;
+			switch (commandParts[wordIndex++]) {
+			case "on":
+				String taskDate = commandParts[wordIndex++];
+				newTask.setTaskDate(taskDate);
+				testNotFloating = true;
+				break;
+
+			case "from":
+				String from = commandParts[wordIndex++];
+				wordIndex = wordIndex + 1;
+				String to = commandParts[wordIndex++];
+				if (String.valueOf(from).length() == 4) {
+					newTask.setTaskStartTime(from);
+					newTask.setTaskEndTime(to);
+				}
+				if (String.valueOf(from).length() == 6) {
+					newTask.setRecurStartDate(from);
+					newTask.setRecurEndDate(to);
+				}
+				testNotFloating = true;
+				break;
+
+			}
+			if (testNotFloating == true)
+				floating = false;
+		}
+		if (floating == true)
+			newTask.setTaskType("floating");
+		else if (floating == false)
+			newTask.setTaskType("deadline");
+
 		FileStorage.write(file, newTask);
 	}
 
@@ -59,16 +83,15 @@ public class CommandParser {
 				newName = newName.substring(2, newName.length() - 1);
 				newTask.setTaskName(newName);
 				GUIConsole.successfulEditName(initialTaskName, newName);
-				// commandParts[i]);
 				break;
 			case "date":
-				newTask.setTaskDate(Integer.valueOf(commandParts[i++]));
+				newTask.setTaskDate(commandParts[i++]);
 				// GUIConsole.successfulEditDate(commandParts[1],
 				// Integer.commandParts[i]);
 				break;
 			case "time":
-				newTask.setTaskStartTime(Integer.valueOf(commandParts[i++]));
-				newTask.setTaskEndTime(Integer.valueOf(commandParts[i++]));
+				newTask.setTaskStartTime(commandParts[i++]);
+				newTask.setTaskEndTime(commandParts[i++]);
 				// GUIConsole.successfulEditTime(commandParts[1],
 				// Integer.commandParts[i], Integer.commandParts[i--]);
 				break;
@@ -149,12 +172,14 @@ public class CommandParser {
 		ArrayList<Task> floatingTasks = new ArrayList<Task>();
 		ArrayList<Task> deadlineTasks = new ArrayList<Task>();
 		ArrayList<Task> fullList = new ArrayList<Task>();
+		Task currentTask;
 
 		fullList = FileStorage.read(file);
 
 		for (int j = 0; j < fullList.size(); j++) {
-			Task currentTask = fullList.get(j);
-			//System.out.println(currentTask.getTaskName() + " " + currentTask.getTaskType());
+			currentTask = fullList.get(j);
+			// System.out.println(currentTask.getTaskName() + " " +
+			// currentTask.getTaskType());
 
 			if (currentTask.getTaskType().equals("deadline")) {
 				deadlineTasks.add(currentTask);
@@ -163,14 +188,16 @@ public class CommandParser {
 
 		GUIConsole.displayDeadlineTask();
 		for (int j = 0; j < deadlineTasks.size(); j++) {
-			GUIConsole.displayTask(deadlineTasks.get(j).getTaskName());
+			currentTask = deadlineTasks.get(j);
+			GUIConsole.displayTask(currentTask.getTaskName() + currentTask.getStartTime().toString() + currentTask.getEndTime().toString());
 			// System.out.println(deadlineTasks.get(j));
 		}
 
 		// transfer deadlineTasks and floatingTasks here
 		for (int j = 0; j < fullList.size(); j++) {
-			Task currentTask = fullList.get(j);
-			System.out.println(currentTask.getTaskName() + " " + currentTask.getTaskType());
+			currentTask = fullList.get(j);
+			// System.out.println(currentTask.getTaskName() + " " +
+			// currentTask.getTaskType());
 
 			if (currentTask.getTaskType().equals("floating")) {
 				floatingTasks.add(currentTask);
@@ -179,7 +206,8 @@ public class CommandParser {
 
 		GUIConsole.displayFloatingTask();
 		for (int j = 0; j < floatingTasks.size(); j++) {
-			GUIConsole.displayTask(floatingTasks.get(j).getTaskName());
+			currentTask = floatingTasks.get(j);
+			GUIConsole.displayTask(currentTask.getTaskName() + currentTask.getTaskType().toString());
 			// System.out.println(floatingTasks.get(j));
 		}
 

@@ -3,15 +3,15 @@ import java.io.Serializable;
 public class Task implements Serializable {
 	private String taskName;
 	private String taskType;
-	private Integer taskDate;
+	private String taskDate;
 	private String taskPriority;
 	private String taskDescription;
-	private Integer taskStartTime;
-	private Integer taskEndTime;
+	private String taskStartTime;
+	private String taskEndTime;
 	// for recurring
 	private String recurType;
-	private Integer recurStartDate;
-	private int recurEndDate;
+	private String recurStartDate;
+	private String recurEndDate;
 	// private String desc;
 
 	public void setTaskName(String taskName) {
@@ -22,7 +22,7 @@ public class Task implements Serializable {
 		this.taskType = taskType;
 	}
 
-	public void setTaskDate(Integer taskDate) {
+	public void setTaskDate(String taskDate) {
 		this.taskDate = taskDate;
 	}
 
@@ -34,11 +34,11 @@ public class Task implements Serializable {
 		this.taskDescription = taskDescription;
 	}
 
-	public void setTaskStartTime(Integer taskStartTime) {
+	public void setTaskStartTime(String taskStartTime) {
 		this.taskStartTime = taskStartTime;
 	}
 
-	public void setTaskEndTime(Integer taskEndTime) {
+	public void setTaskEndTime(String taskEndTime) {
 		this.taskEndTime = taskEndTime;
 	}
 
@@ -46,11 +46,11 @@ public class Task implements Serializable {
 		this.recurType = recurType;
 	}
 
-	public void setRecurStartDate(Integer recurStartDate) {
+	public void setRecurStartDate(String recurStartDate) {
 		this.recurStartDate = recurStartDate;
 	}
 
-	public void setRecurEndDate(Integer recurEndDate) {
+	public void setRecurEndDate(String recurEndDate) {
 		this.recurEndDate = recurEndDate;
 	}
 	/*
@@ -82,14 +82,16 @@ public class Task implements Serializable {
 		return buffer.toString();
 	}
 
-	public Integer getStartTime() {
+	public String getStartTime() {
 		StringBuffer buffer = new StringBuffer(this.taskStartTime);
-		return Integer.valueOf(buffer.toString());
+		String buffer2 = buffer.toString();
+		return buffer2;
 	}
 
-	public Integer getTaskEndTime() {
+	public String getEndTime() {
 		StringBuffer buffer = new StringBuffer(this.taskEndTime);
-		return Integer.valueOf(buffer.toString());
+		String buffer2 = buffer.toString();
+		return buffer2;
 	}
 
 	public String getRecurType(String recurType) {
@@ -107,35 +109,4 @@ public class Task implements Serializable {
 		return Integer.valueOf(buffer.toString());
 	}
 
-	/*
-	 * public String getDesc() { return this.desc; }
-	 */
-
-	// I think need to distinguish based on different kind of operation
-	// but all return buffer.toString(); so I think may be this one can be
-	// modified
-	/*
-	 * public String toString() { //gives task in format of
-	 * Name:name;TaskType:type;TaskDate:date;
-	 * 
-	 * StringBuffer buffer = new StringBuffer();
-	 * 
-	 * buffer.append("Name:"); buffer.append(getTaskName()); buffer.append(";");
-	 * 
-	 * buffer.append("TaskType:"); buffer.append(getTaskType());
-	 * buffer.append(";");
-	 */
-	// buffer.append("TaskDate:");
-	// buffer.append(getTaskDate());
-	// buffer.append(";");
-	/*
-	 * //FOR LATER buffer.append("TaskStartTime:");
-	 * buffer.append(getTaskStartTime()); buffer.append(";");
-	 * 
-	 * buffer.append("TaskEndTime:"); buffer.append(getTaskEndTime());
-	 * buffer.append(";");
-	 * 
-	 * 
-	 * return buffer.toString(); }
-	 */
 }
