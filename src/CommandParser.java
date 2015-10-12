@@ -123,7 +123,8 @@ public class CommandParser {
 		GUIConsole.displayFloatingTask();
 		for (int j = 0; j < floatingTasks.size(); j++) {
 			currentTask = floatingTasks.get(j);
-			GUIConsole.displayTask(currentTask.getTaskName() + currentTask.getTaskStartTime() + currentTask.getTaskStartDate());
+			GUIConsole.displayTask(currentTask.getTaskName() + ": " +  currentTask.getTaskStartTime() +" "+ currentTask.getTaskStartDate() 
+			+ "-" + currentTask.getTaskEndTime() + " " +currentTask.getTaskEndDate());
 			// System.out.println(floatingTasks.get(j));
 		}
 

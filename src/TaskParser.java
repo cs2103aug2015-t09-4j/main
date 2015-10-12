@@ -25,43 +25,13 @@ public class TaskParser {
 			Boolean comma = false;
 			switch (commandParts[wordIndex++]) {
 			case "on":
-				String taskOn = commandParts[wordIndex];
-				// trim and comma is present
-				if (commandParts[wordIndex].contains(",")) {
-					taskOn = commandParts[wordIndex].substring(0, commandParts[wordIndex].indexOf(","));
-					comma = true;
-				}
-
-				if (taskOn.length() == 4) {
-					newTask.setTaskStartTime(taskOn);
-				} else if (taskOn.length() == 6) {
-					newTask.setTaskStartDate(taskOn);
-				}
-
-				if (comma) {
-					taskOn = commandParts[++wordIndex];
-					System.out.println(taskOn);
-					if (taskOn.length() == 4) {
-						newTask.setTaskStartTime(taskOn);
-					} else if (taskOn.length() == 6) {
-						newTask.setTaskStartDate(taskOn);
-					}
-					wordIndex = wordIndex+1;
-				}
+				wordIndex = splitCommaStart(commandParts, newTask, wordIndex, comma);
 				break;
 
 			case "from":
-				String from = commandParts[wordIndex++];
-				wordIndex = wordIndex + 1;
-				String to = commandParts[wordIndex++];
-				if (from.length() == 4) {
-					newTask.setTaskStartTime(from);
-					newTask.setTaskEndTime(to);
-				}
-				if (from.length() == 6) {
-					newTask.setRecurStartDate(from);
-					newTask.setRecurEndDate(to);
-				}
+				wordIndex = splitCommaStart(commandParts, newTask, wordIndex, comma);
+				wordIndex++;
+				wordIndex = splitCommaEnd(commandParts, newTask, wordIndex, comma);
 				break;
 
 			}
@@ -72,5 +42,59 @@ public class TaskParser {
 			newTask.setTaskType("deadline");
 
 		return newTask;
+	}
+
+	private int splitCommaStart(String[] commandParts, Task newTask, int wordIndex, Boolean comma) {
+		String taskOn = commandParts[wordIndex];
+		// trim and comma is present
+		if (commandParts[wordIndex].contains(",")) {
+			taskOn = commandParts[wordIndex].substring(0, commandParts[wordIndex].indexOf(","));
+			comma = true;
+		}
+
+		if (taskOn.length() == 4) {
+			newTask.setTaskStartTime(taskOn);
+		} else if (taskOn.length() == 6) {
+			newTask.setTaskStartDate(taskOn);
+		}
+
+		if (comma) {
+			taskOn = commandParts[++wordIndex];
+			System.out.println(taskOn);
+			if (taskOn.length() == 4) {
+				newTask.setTaskStartTime(taskOn);
+			} else if (taskOn.length() == 6) {
+				newTask.setTaskStartDate(taskOn);
+			}
+			wordIndex = wordIndex+1;
+		}
+		return wordIndex;
+	}
+	
+	private int splitCommaEnd(String[] commandParts, Task newTask, int wordIndex, Boolean comma) {
+		String taskOn = commandParts[wordIndex];
+		// trim and comma is present
+		if (commandParts[wordIndex].contains(",")) {
+			taskOn = commandParts[wordIndex].substring(0, commandParts[wordIndex].indexOf(","));
+			comma = true;
+		}
+
+		if (taskOn.length() == 4) {
+			newTask.setTaskEndTime(taskOn);
+		} else if (taskOn.length() == 6) {
+			newTask.setTaskEndDate(taskOn);
+		}
+
+		if (comma) {
+			taskOn = commandParts[++wordIndex];
+			System.out.println(taskOn);
+			if (taskOn.length() == 4) {
+				newTask.setTaskEndTime(taskOn);
+			} else if (taskOn.length() == 6) {
+				newTask.setTaskEndDate(taskOn);
+			}
+			wordIndex = wordIndex+1;
+		}
+		return wordIndex;
 	}
 }
