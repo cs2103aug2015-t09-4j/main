@@ -28,7 +28,7 @@ public class FileStorage{
         System.out.println("-----Oject write successfully....");
     }
 
-     public static ArrayList<Task> read(File f) throws IOException {
+     public static ArrayList<Task> read(File f) throws IOException, ClassNotFoundException {
     	 objectList = new ArrayList<Task>();
          FileInputStream in = new FileInputStream(f);
          ObjectInputStream ois = new ObjectInputStream(in);

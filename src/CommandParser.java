@@ -2,115 +2,30 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class CommandParser {
-	private static File file = new File("C:\\Users\\user\\workspace\\main\\test.txt");
+	private static File file = new File("C:\\eclipse\\workspace\\main\\test.txt");
+	private TaskParser taskparser = new TaskParser();
 
 	// PRIORITY AND DESCRIPTION NOT DONE
 	public void parseAdd(String[] commandParts) throws Exception {
 		// assume floating first
-		Boolean floating = true;
-		Task newTask = new Task();
-
-		int wordIndex = 1;
-		String taskName = "";
-
-		// this while loop gets task name
-		while (true) {
-			taskName = taskName + commandParts[wordIndex++];
-			if (wordIndex >= commandParts.length) {
-				break;
-			}
-			if (commandParts[wordIndex].equals("on") || commandParts[wordIndex].equals("from")) {
-				break;
-			}
-			taskName = taskName + " ";
-		}
-		// System.out.println(taskName);
-		newTask.setTaskName(taskName);
-
-		while (wordIndex < commandParts.length) {
-			Boolean testNotFloating = false;
-			switch (commandParts[wordIndex++]) {
-			case "on":
-				String taskDate = commandParts[wordIndex++];
-				newTask.setTaskDate(taskDate);
-				testNotFloating = true;
-				break;
-
-			case "from":
-				String from = commandParts[wordIndex++];
-				wordIndex = wordIndex + 1;
-				String to = commandParts[wordIndex++];
-				if (String.valueOf(from).length() == 4) {
-					newTask.setTaskStartTime(from);
-					newTask.setTaskEndTime(to);
-				}
-				if (String.valueOf(from).length() == 6) {
-					newTask.setRecurStartDate(from);
-					newTask.setRecurEndDate(to);
-				}
-				testNotFloating = true;
-				break;
-
-			}
-			if (testNotFloating == true)
-				floating = false;
-		}
-		if (floating == true)
-			newTask.setTaskType("floating");
-		else if (floating == false)
-			newTask.setTaskType("deadline");
-
+		Task newTask = taskparser.createNew(commandParts);
 		FileStorage.write(file, newTask);
 	}
 
 	public void parseEdit(String[] commandParts) throws Exception {
-		Task newTask = new Task();
 		String initialTaskName = commandParts[1];
+		Task newTask = taskparser.createNew(commandParts);
+		// System.out.println(newTask);
+		ArrayList<Task> fullList = FileStorage.read(file);
+		FileStorage.clear(file);
+		
+		for (int j = 0; j < fullList.size(); j++) {
+			Task currentTask = fullList.get(j);
 
-		for (int i = 2; i < commandParts.length;) {
-			switch (commandParts[i++]) {
-			case "name":
-				String namePart = commandParts[i++];
-				String newName = "";
-				while (true) {
-					newName = newName + " " + namePart;
-					if (namePart.substring(namePart.length() - 1).equals("\"")) {
-						break;
-					}
-					namePart = commandParts[i++];
-				}
-
-				newName = newName.substring(2, newName.length() - 1);
-				newTask.setTaskName(newName);
-				GUIConsole.successfulEditName(initialTaskName, newName);
-				break;
-			case "date":
-				newTask.setTaskDate(commandParts[i++]);
-				// GUIConsole.successfulEditDate(commandParts[1],
-				// Integer.commandParts[i]);
-				break;
-			case "time":
-				newTask.setTaskStartTime(commandParts[i++]);
-				newTask.setTaskEndTime(commandParts[i++]);
-				// GUIConsole.successfulEditTime(commandParts[1],
-				// Integer.commandParts[i], Integer.commandParts[i--]);
-				break;
-			}
-			// System.out.println(newTask);
-			ArrayList<Task> fullList = new ArrayList<Task>();
-			fullList = FileStorage.read(file);
-
-			FileStorage.clear(file);
-			for (int j = 0; j < fullList.size(); j++) {
-				Task currentTask = fullList.get(j);
-
-				String[] taskParts = currentTask.toString().split(";");
-				if (taskParts[0].toString().contains("Name:" + initialTaskName)) {
-					currentTask.setTaskName(newTask.getTaskName());
-					FileStorage.write(file, currentTask);
-				} else {
-					FileStorage.write(file, currentTask);
-				}
+			if (currentTask.getTaskName().equals(initialTaskName)) {
+				FileStorage.write(file, newTask);
+			} else {
+				FileStorage.write(file, currentTask);
 			}
 		}
 	}
@@ -189,7 +104,8 @@ public class CommandParser {
 		GUIConsole.displayDeadlineTask();
 		for (int j = 0; j < deadlineTasks.size(); j++) {
 			currentTask = deadlineTasks.get(j);
-			GUIConsole.displayTask(currentTask.getTaskName() + currentTask.getStartTime().toString() + currentTask.getEndTime().toString());
+			GUIConsole.displayTask(currentTask.getTaskName() + currentTask.getTaskStartTime().toString()
+					+ currentTask.getTaskEndTime().toString());
 			// System.out.println(deadlineTasks.get(j));
 		}
 
@@ -207,7 +123,7 @@ public class CommandParser {
 		GUIConsole.displayFloatingTask();
 		for (int j = 0; j < floatingTasks.size(); j++) {
 			currentTask = floatingTasks.get(j);
-			GUIConsole.displayTask(currentTask.getTaskName() + currentTask.getTaskType().toString());
+			GUIConsole.displayTask(currentTask.getTaskName() + currentTask.getTaskStartTime() + currentTask.getTaskStartDate());
 			// System.out.println(floatingTasks.get(j));
 		}
 
