@@ -28,6 +28,7 @@ public class FileStorage extends StorageParser {
     	FileWriter fw = new FileWriter(f,true);
     	String content = p.toString();
     	fw.write(content);
+    	fw.flush();
     }
 
      public static ArrayList<Task> read(String path) throws IOException, ClassNotFoundException {

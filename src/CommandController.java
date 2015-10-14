@@ -1,9 +1,10 @@
-import java.io.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CommandController {
-
-	private static File file = new File("C:\\Users\\user\\workspace\\main\\test.txt");
+	private static Logger logger = Logger.getLogger("CommandController");
+	
 	private static final String COMMAND_ADD = "add";
 	private static final String COMMAND_DELETE = "delete";
 	private static final String COMMAND_EDIT = "edit";
@@ -11,14 +12,18 @@ public class CommandController {
 	private static final String COMMAND_NAVIGATE = "view";
 	private static final String COMMAND_HELP = "help";
 	private static final String MESSAGE_INVALID = "Invalid Command";
-
+	
+	
 	public static void processCommand(String command) {
+		logger.log(Level.INFO, "going to start processing");
+		
 		
 		CommandParser commandparser = new CommandParser();
+		
+		
 		String[] commandParts = commandparser.splitCommand(command);
-
+		
 		try {
-		// AIDS FOR EVERYONE
 		switch (commandParts[0]) {
 
 		case COMMAND_ADD:
@@ -55,6 +60,7 @@ public class CommandController {
 			break;
 		}
 		} catch (Exception e) {
+			logger.log(Level.WARNING, "processing error", e);
 			e.printStackTrace();
 		}
 	}

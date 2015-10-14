@@ -20,7 +20,39 @@ public class TaskParser {
 		}
 		// System.out.println(taskName);
 		newTask.setTaskName(taskName);
+		
+		try{
+		wordIndex = parseTime(commandParts, newTask, wordIndex);
+		}catch(Exception e){
+			System.err.println("Invalid input: " + e.getMessage());
+		}
+		if (floating == true)
+			newTask.setTaskType("floating");
+		//else if (floating == false)
+		//	newTask.setTaskType("deadline");
 
+		return newTask;
+	}
+
+	private int parseTime(String[] commandParts, Task newTask, int wordIndex) throws Exception {
+		Boolean from = false;
+		Boolean to = false;
+		for(String part:commandParts){
+			if(part.contains("from")){
+				from = true;
+			}
+		}
+		for(String part:commandParts){
+			if(part.contains("to")){
+				to = true;
+			}
+		}
+		if(from){
+			if(!to){
+				throw new Exception("From has no to");
+			}
+		}
+		
 		while (wordIndex < commandParts.length) {
 			Boolean comma = false;
 			switch (commandParts[wordIndex++]) {
@@ -36,17 +68,18 @@ public class TaskParser {
 
 			}
 		}
-		if (floating == true)
-			newTask.setTaskType("floating");
-		else if (floating == false)
-			newTask.setTaskType("deadline");
-
-		return newTask;
+		return wordIndex;
 	}
 
-	private int splitCommaStart(String[] commandParts, Task newTask, int wordIndex, Boolean comma) {
+	private int splitCommaStart(String[] commandParts, Task newTask, int wordIndex, Boolean comma) throws Exception {
 		String taskOn = commandParts[wordIndex];
 		// trim and comma is present
+		if(commandParts[wordIndex].contains(",")){
+			if(!(commandParts[wordIndex].indexOf(",")==commandParts[wordIndex].length()-1)){
+				throw new Exception("Start comma has no spacing");
+			}
+		}
+		
 		if (commandParts[wordIndex].contains(",")) {
 			taskOn = commandParts[wordIndex].substring(0, commandParts[wordIndex].indexOf(","));
 			comma = true;
@@ -71,7 +104,13 @@ public class TaskParser {
 		return wordIndex;
 	}
 	
-	private int splitCommaEnd(String[] commandParts, Task newTask, int wordIndex, Boolean comma) {
+	private int splitCommaEnd(String[] commandParts, Task newTask, int wordIndex, Boolean comma)throws Exception {
+		if(commandParts[wordIndex].contains(",")){
+			if(!(commandParts[wordIndex].indexOf(",")==commandParts[wordIndex].length()-1)){
+				throw new Exception("End comma has no spacing");
+			}
+		}
+		
 		String taskOn = commandParts[wordIndex];
 		// trim and comma is present
 		if (commandParts[wordIndex].contains(",")) {
