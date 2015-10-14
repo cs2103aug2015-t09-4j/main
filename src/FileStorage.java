@@ -40,6 +40,9 @@ public class FileStorage extends StorageParser {
     		fw.flush();
     		storageLog.log(Level.INFO, "end of writing");
     	}  
+    	String content = p.toString();
+    	fw.write(content);
+    	fw.flush();
     }
 
      public static ArrayList<Task> read(String path) throws IOException, ClassNotFoundException {
