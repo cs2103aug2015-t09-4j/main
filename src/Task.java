@@ -32,6 +32,24 @@ public class Task implements Serializable {
 		// private String desc= "";
 	}
 */
+	
+    public String toString() {
+    	String temp = "";
+    	temp = temp + "taskname:" + taskName + ";";
+    	temp = temp + "tasktype:" + taskType + ";";
+    	temp = temp + "taskStartDate:" + taskStartDate + ";";
+    	temp = temp + "taskEndDate:" + taskEndDate + ";";
+    	temp = temp + "taskPriority:" + taskPriority + ";";
+    	temp = temp + "taskDescription:" + taskDescription + ";";
+    	temp = temp + "taskStartTime:" + taskStartTime + ";";
+    	temp = temp + "taskEndTime:" + taskEndTime + ";";
+    	temp = temp + "recurType:" + recurType + ";";
+    	temp = temp + "recurStartDate:" + recurStartDate + ";";
+    	temp = temp + "recurEndDate:" + recurEndDate + ";";
+    	temp = temp + "\n";
+    	return temp;
+    }
+	
 	public void setTaskName(String taskName) {
 		this.taskName = taskName;
 	}
