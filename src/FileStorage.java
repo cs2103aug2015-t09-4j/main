@@ -25,7 +25,7 @@ public class FileStorage extends StorageParser {
  
     public static void write(String path, Object p) throws IOException {  
     	File f = new File(path);
-    	FileWriter fw = new FileWriter(f);
+    	FileWriter fw = new FileWriter(f,true);
     	String content = p.toString();
     	fw.write(content);
     }
