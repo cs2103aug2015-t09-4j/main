@@ -16,11 +16,17 @@ public class FileStorage extends StorageParser {
 	static ArrayList<Task> objectList = new ArrayList<Task>();
 	private static final String MSG_WHEN_INVALID_FILENAME = "cannot find targeted file"; 
 	
-	public static void clear(File f) throws Exception {
-		OutputStream out = new FileOutputStream(f, false);
-		MyObjectOutputStream oos = MyObjectOutputStream.newInstance(f, out);
-		oos.close();
-		out.flush();
+	public static void clear(String path) throws IOException {
+		File f = new File(path);	
+		assert f.exists() == true;
+		FileWriter fw = new FileWriter(f);
+		try{
+			fw.write("");			
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			fw.close();			
+		}
 	}
  
     public static void write(String path, Object p) throws IOException {  
