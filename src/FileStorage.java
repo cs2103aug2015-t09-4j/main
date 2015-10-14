@@ -33,7 +33,9 @@ public class FileStorage extends StorageParser {
      public static ArrayList<Task> read(String path) throws IOException, ClassNotFoundException {
     	 objectList = new ArrayList<Task>();
          File f = new File(path);
-         if(f.isFile() && f.exists()) {
+         //if(f.isFile() && f.exists()) { 
+         	 assert f.isFile() == true;
+         	 assert f.exists() == true;
         	 FileInputStream fis = new FileInputStream(f);
         	 InputStreamReader read = new InputStreamReader(fis);
         	 BufferedReader br = new BufferedReader(read);
@@ -42,9 +44,9 @@ public class FileStorage extends StorageParser {
         		 objectList.add(createTaskFromInformation(lineText));
         	 }
         	 read.close();
-         } else {
-        	 System.out.println(MSG_WHEN_INVALID_FILENAME);
-         }
+        // } else {
+        	// System.out.println(MSG_WHEN_INVALID_FILENAME);
+        // }
 		return objectList;       
      }
 }
