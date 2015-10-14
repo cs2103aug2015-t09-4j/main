@@ -2,30 +2,32 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class CommandParser {
-	private static File file = new File("C:\\eclipse\\workspace\\main\\test.txt");
+	private static File file = new File("C:\\eclipse\\Your sdk your majesty\\main\\test.txt");
+	private static String path = "C:\\eclipse\\Your sdk your majesty\\main\\test.txt";
 	private TaskParser taskparser = new TaskParser();
 
 	// PRIORITY AND DESCRIPTION NOT DONE
 	public void parseAdd(String[] commandParts) throws Exception {
 		// assume floating first
 		Task newTask = taskparser.createNew(commandParts);
-		FileStorage.write(file, newTask);
+		FileStorage.write(path, newTask);
+		GUIConsole.successfulAdd(newTask.getTaskName());
 	}
 
 	public void parseEdit(String[] commandParts) throws Exception {
 		String initialTaskName = commandParts[1];
 		Task newTask = taskparser.createNew(commandParts);
 		// System.out.println(newTask);
-		ArrayList<Task> fullList = FileStorage.read(file);
+		ArrayList<Task> fullList = FileStorage.read(path);
 		FileStorage.clear(file);
 		
 		for (int j = 0; j < fullList.size(); j++) {
 			Task currentTask = fullList.get(j);
 
 			if (currentTask.getTaskName().equals(initialTaskName)) {
-				FileStorage.write(file, newTask);
+				FileStorage.write(path, newTask);
 			} else {
-				FileStorage.write(file, currentTask);
+				FileStorage.write(path, currentTask);
 			}
 		}
 	}
@@ -33,7 +35,7 @@ public class CommandParser {
 	public void parseDelete(String[] commandParts) throws Exception {
 		String taskType = commandParts[1];
 		String taskName = commandParts[2];
-		ArrayList<Task> array = FileStorage.read(file);
+		ArrayList<Task> array = FileStorage.read(path);
 		int i = 0;
 		int x = 0;
 		while (i < array.size()) {
@@ -51,7 +53,7 @@ public class CommandParser {
 		if (x == 1) {
 			int j = 0;
 			while (j < array.size()) {
-				FileStorage.write(file, array.get(j));
+				FileStorage.write(path, array.get(j));
 				j++;
 			}
 		}
@@ -89,10 +91,12 @@ public class CommandParser {
 		ArrayList<Task> fullList = new ArrayList<Task>();
 		Task currentTask;
 
-		fullList = FileStorage.read(file);
+		fullList = FileStorage.read(path);
 
 		for (int j = 0; j < fullList.size(); j++) {
 			currentTask = fullList.get(j);
+			
+			assert !currentTask.getTaskName().equals("");
 			// System.out.println(currentTask.getTaskName() + " " +
 			// currentTask.getTaskType());
 
@@ -135,7 +139,10 @@ public class CommandParser {
 		GUIConsole.displayErrorMessage(command);
 	}
 
-	public String[] splitCommand(String command) {
-		return command.split(" ");
+	public String[] splitCommand(String command){ 
+
+		
+		String[] commandParts = command.split(" ");
+		return commandParts;
 	}
 }
