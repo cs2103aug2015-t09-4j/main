@@ -1,20 +1,18 @@
 import java.io.BufferedReader;
-import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.OutputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FileStorage extends StorageParser {
 //	private static final long serialVersionUID = -769626947865283;
 	static ArrayList<Task> objectList = new ArrayList<Task>();
 	private static final String MSG_WHEN_INVALID_FILENAME = "cannot find targeted file"; 
+	private static Logger storageLog = Logger.getLogger("FileStorage");
 	
 	public static void clear(String path) throws IOException {
 		File f = new File(path);	
@@ -29,11 +27,19 @@ public class FileStorage extends StorageParser {
 		}
 	}
  
-    public static void write(String path, Object p) throws IOException {  
+    public static void write(String path, Object p) throws IOException{  
+    	storageLog.log(Level.ALL, "goint to start writing in an existing file");
     	File f = new File(path);
     	FileWriter fw = new FileWriter(f,true);
-    	String content = p.toString();
-    	fw.write(content);
+    	try {
+    		String content = p.toString();
+    		fw.write(content);
+    	} catch (IOException e) {
+    		storageLog.log(Level.WARNING, "writing error", e);
+    	} finally {
+    		fw.flush();
+    		storageLog.log(Level.INFO, "end of writing");
+    	}  
     }
 
      public static ArrayList<Task> read(String path) throws IOException, ClassNotFoundException {
