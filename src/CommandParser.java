@@ -36,6 +36,7 @@ public class CommandParser {
 		String taskType = commandParts[1];
 		String taskName = commandParts[2];
 		ArrayList<Task> array = FileStorage.read(path);
+		assert (array != null) : "unable to read from specified path";
 		int i = 0;
 		int x = 0;
 		while (i < array.size()) {
