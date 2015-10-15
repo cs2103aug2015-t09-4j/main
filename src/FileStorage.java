@@ -17,6 +17,7 @@ public class FileStorage extends StorageParser {
 	public static void clear(String path) throws IOException {
 		File f = new File(path);	
 		assert f.exists() == true;
+		assert f.isFile() == true;
 		FileWriter fw = new FileWriter(f);
 		try{
 			fw.write("");			
