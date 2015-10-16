@@ -18,45 +18,46 @@ public class CommandController {
 		logger.log(Level.INFO, "going to start processing");
 		
 		
-		CommandParser commandparser = new CommandParser();
+		CommandExecutor commandexecutor = new CommandExecutor();
 		
 		
-		String[] commandParts = commandparser.splitCommand(command);
+		String[] commandParts = commandexecutor.splitCommand(command);
 		
 		try {
 		switch (commandParts[0]) {
-
+		
+		//"add one from 3030, 404040 to 2020, 101010"
 		case COMMAND_ADD:
-			commandparser.parseAdd(commandParts);
+			commandexecutor.executeAdd(commandParts);
 			break;
 
 		case COMMAND_DELETE:
-			commandparser.parseDelete(commandParts);
+			commandexecutor.executeDelete(commandParts);
 			break;
 
 		case COMMAND_EDIT:
-			commandparser.parseEdit(commandParts);
+			commandexecutor.executeEdit(commandParts);
 			break;
 
 		case COMMAND_RECUR:
-			commandparser.parseRecur(commandParts);
+			commandexecutor.executeRecur(commandParts);
 			break;
 
 		case COMMAND_NAVIGATE:
-			commandparser.parseNavigate(commandParts);
+			commandexecutor.executeNavigate(commandParts);
 			break;
 			
 		case "display":
-			ArrayList<Task> dummy = commandparser.display();
+			ArrayList<Task> dummy = commandexecutor.display();
 			break;
 		
 		case COMMAND_HELP:
-			commandparser.parseHelp();
+			commandexecutor.executeHelp();
 			break;
 			
 		default:
 			//System.out.println(MESSAGE_INVALID);
-			commandparser.parseInvalidCommand(commandParts[0]);
+			commandexecutor.parseInvalidCommand(commandParts[0]);
 			break;
 		}
 		} catch (Exception e) {

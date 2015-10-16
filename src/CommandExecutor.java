@@ -1,38 +1,40 @@
 import java.io.File;
 import java.util.ArrayList;
 
-public class CommandParser {
-	private static File file = new File("C:\\eclipse\\Your sdk your majesty\\main\\test.txt");
-	private static String path = "C:\\eclipse\\Your sdk your majesty\\main\\test.txt";
-	private TaskParser taskparser = new TaskParser();
+public class CommandExecutor {
+	//private static File file = new File("C:\\eclipse\\Your sdk your majesty\\main\\test.txt");
+	private static String path = "C:\\Users\\user\\workspace\\main\\test.txt";
+	private Parser parser = new Parser();
 
 	// PRIORITY AND DESCRIPTION NOT DONE
-	public void parseAdd(String[] commandParts) throws Exception {
+	public void executeAdd(String[] commandParts) throws Exception {
 		// assume floating first
-		Task newTask = taskparser.createNew(commandParts);
+		Task newTask = parser.parseTask(commandParts);
 		FileStorage.write(path, newTask);
 		GUIConsole.successfulAdd(newTask.getTaskName());
 	}
 
-	public void parseEdit(String[] commandParts) throws Exception {
+	public void executeEdit(String[] commandParts) throws Exception {
 		String initialTaskName = commandParts[1];
-		Task newTask = taskparser.createNew(commandParts);
+		Task newTask = parser.parseTask(commandParts);
 		// System.out.println(newTask);
 		ArrayList<Task> fullList = FileStorage.read(path);
-		FileStorage.clear(file);
+		FileStorage.clear(path);
 		
 		for (int j = 0; j < fullList.size(); j++) {
 			Task currentTask = fullList.get(j);
 
 			if (currentTask.getTaskName().equals(initialTaskName)) {
+				newTask.merge(currentTask);
 				FileStorage.write(path, newTask);
 			} else {
+				
 				FileStorage.write(path, currentTask);
 			}
 		}
 	}
 
-	public void parseDelete(String[] commandParts) throws Exception {
+	public void executeDelete(String[] commandParts) throws Exception {
 		String taskType = commandParts[1];
 		String taskName = commandParts[2];
 		ArrayList<Task> array = FileStorage.read(path);
@@ -42,7 +44,7 @@ public class CommandParser {
 		while (i < array.size()) {
 			if (array.get(i).getTaskType().equals(taskType)) {
 				if (array.get(i).getTaskName().equals(taskName)) {
-					FileStorage.clear(file);
+					FileStorage.clear(path);
 					array.remove(i);
 					GUIConsole.successfulDelete(commandParts[2]);
 					x = 1;
@@ -63,7 +65,7 @@ public class CommandParser {
 		}
 	}
 
-	public void parseRecur(String[] commandParts) {
+	public void executeRecur(String[] commandParts) {
 		// TODO get startdate
 
 		/*
@@ -73,7 +75,7 @@ public class CommandParser {
 		 */
 	}
 
-	public void parseNavigate(String[] commandParts) {
+	public void executeNavigate(String[] commandParts) {
 		// TODO Auto-generated method stub
 
 		/*
@@ -81,7 +83,7 @@ public class CommandParser {
 		 */
 	}
 
-	public void parseHelp() {
+	public void executeHelp() {
 		GUIConsole.displayHelp();
 	}
 
