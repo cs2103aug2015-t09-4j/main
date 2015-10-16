@@ -2,13 +2,17 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class CommandExecutor {
-	//private static File file = new File("C:\\eclipse\\Your sdk your majesty\\main\\test.txt");
+	// private static File file = new File("C:\\eclipse\\Your sdk your
+	// majesty\\main\\test.txt");
 	private static String path = "C:\\Users\\user\\workspace\\main\\test.txt";
-	private Parser parser = new Parser();
+	private Parser parser;
 
 	// PRIORITY AND DESCRIPTION NOT DONE
 	public void executeAdd(String[] commandParts) throws Exception {
 		// assume floating first
+		if(parser==null){
+			parser = new Parser();
+		}
 		Task newTask = parser.parseTask(commandParts);
 		FileStorage.write(path, newTask);
 		GUIConsole.successfulAdd(newTask.getTaskName());
@@ -20,7 +24,7 @@ public class CommandExecutor {
 		// System.out.println(newTask);
 		ArrayList<Task> fullList = FileStorage.read(path);
 		FileStorage.clear(path);
-		
+
 		for (int j = 0; j < fullList.size(); j++) {
 			Task currentTask = fullList.get(j);
 
@@ -28,7 +32,7 @@ public class CommandExecutor {
 				newTask.merge(currentTask);
 				FileStorage.write(path, newTask);
 			} else {
-				
+
 				FileStorage.write(path, currentTask);
 			}
 		}
@@ -38,7 +42,7 @@ public class CommandExecutor {
 		String taskType = commandParts[1];
 		String taskName = commandParts[2];
 		ArrayList<Task> array = FileStorage.read(path);
-		assert (array != null) : "unable to read from specified path";
+		assert(array != null) : "unable to read from specified path";
 		int i = 0;
 		int x = 0;
 		while (i < array.size()) {
@@ -98,8 +102,8 @@ public class CommandExecutor {
 
 		for (int j = 0; j < fullList.size(); j++) {
 			currentTask = fullList.get(j);
-			
-			assert !currentTask.getTaskName().equals("");
+
+			assert!currentTask.getTaskName().equals("");
 			// System.out.println(currentTask.getTaskName() + " " +
 			// currentTask.getTaskType());
 
@@ -130,8 +134,9 @@ public class CommandExecutor {
 		GUIConsole.displayFloatingTask();
 		for (int j = 0; j < floatingTasks.size(); j++) {
 			currentTask = floatingTasks.get(j);
-			GUIConsole.displayTask(currentTask.getTaskName() + ": " +  currentTask.getTaskStartTime() +" "+ currentTask.getTaskStartDate() 
-			+ "-" + currentTask.getTaskEndTime() + " " +currentTask.getTaskEndDate());
+			GUIConsole.displayTask(currentTask.getTaskId() + ". " + currentTask.getTaskName() + ": " + currentTask.getTaskStartTime() + " "
+					+ currentTask.getTaskStartDate() + "-" + currentTask.getTaskEndTime() + " "
+					+ currentTask.getTaskEndDate());
 			// System.out.println(floatingTasks.get(j));
 		}
 
@@ -142,9 +147,8 @@ public class CommandExecutor {
 		GUIConsole.displayErrorMessage(command);
 	}
 
-	public String[] splitCommand(String command){ 
+	public String[] splitCommand(String command) {
 
-		
 		String[] commandParts = command.split(" ");
 		return commandParts;
 	}

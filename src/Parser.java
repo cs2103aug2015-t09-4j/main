@@ -1,12 +1,14 @@
 
 public class Parser {
+	private int taskIdCount = 1;
+	
 	public Task parseTask(String[] commandParts) {
 		Boolean floating = true;
 		Task newTask = new Task();
-
+		
 		int wordIndex = 1;
 		String taskName = "";
-
+		newTask.setTaskId(Integer.toString(taskIdCount++));
 		// this while loop gets task name
 		while (true) {
 			taskName = taskName + commandParts[wordIndex++];
@@ -39,6 +41,9 @@ public class Parser {
 		for(int i = 0; i < array.length; i++) {
 			String[] temp = array[i].split(":", 2);			
 			switch(temp[0]) {
+			case "taskId":
+				t.setTaskId(temp[1]);
+				break;
 			case "taskname":
 				t.setTaskName(temp[1]);
 				break;

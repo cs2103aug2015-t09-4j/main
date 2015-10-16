@@ -1,7 +1,7 @@
 import java.io.Serializable;
 
 public class Task implements Serializable {
-	private int taskId = 322;
+	private String taskId = "322";
 	private String taskName = "";
 	private String taskType = "";
 	private String taskStartDate = "";
@@ -27,7 +27,7 @@ public class Task implements Serializable {
 
 	public String toString() {
 		String temp = "";
-		temp = temp + "task id:" + taskId + ";";
+		temp = temp + "taskId:" + taskId + ";";
 		temp = temp + "taskname:" + taskName + ";";
 		temp = temp + "tasktype:" + taskType + ";";
 		temp = temp + "taskStartDate:" + taskStartDate + ";";
@@ -44,6 +44,7 @@ public class Task implements Serializable {
 	}
 
 	public Task merge(Task initialTask) {
+		this.taskId = initialTask.getTaskId();
 		
 		if (!this.taskStartDate.equals("")) {
 			initialTask.setTaskStartDate(this.taskStartDate);
@@ -57,7 +58,7 @@ public class Task implements Serializable {
 		return this;
 	}
 	
-	public void setTaskId(int taskId){
+	public void setTaskId(String taskId){
 		this.taskId = taskId;
 	}
 	
