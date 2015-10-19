@@ -25,7 +25,7 @@ public class CommandController {
 		try {
 			switch (commandParts[0]) {
 
-			// "add one task from 3030, 404040 to 2020, 101010"
+			// "add one task from 3030, 404040 to 2020, 101010 *high desc hue hue hue"
 			case COMMAND_ADD:
 				commandexecutor.executeAdd(commandParts);
 				break;

@@ -98,10 +98,11 @@ public class CommandExecutor {
 		GUIConsole.displayFloatingTask();
 		for (int j = 0; j < floatingTasks.size(); j++) {
 			currentTask = floatingTasks.get(j);
-			int taskIndex = j+1;
-			GUIConsole.displayTask(taskIndex + ". " + currentTask.getTaskName() + ": "
-					+ currentTask.getTaskStartTime() + " " + currentTask.getTaskStartDate() + "-"
-					+ currentTask.getTaskEndTime() + " " + currentTask.getTaskEndDate());
+			int taskIndex = j + 1;
+			GUIConsole.displayTask(taskIndex + ". " + currentTask.getTaskName() + ": " + currentTask.getTaskStartTime()
+					+ " " + currentTask.getTaskStartDate() + "-" + currentTask.getTaskEndTime() + " "
+					+ currentTask.getTaskEndDate() + " " + currentTask.getTaskPriority() + " "
+					+ currentTask.getTaskDescription());
 		}
 
 		return floatingTasks;

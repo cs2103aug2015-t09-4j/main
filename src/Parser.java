@@ -6,7 +6,6 @@ import java.util.Date;
 public class Parser {
 
 	public Task parseTask(String[] commandParts) {
-		Boolean floating = true;
 		Task newTask = new Task();
 
 		int wordIndex = 1;
@@ -17,25 +16,77 @@ public class Parser {
 			if (wordIndex >= commandParts.length) {
 				break;
 			}
-			if (commandParts[wordIndex].equals("on") || commandParts[wordIndex].equals("from")) {
+			if (commandParts[wordIndex].equals("on") || commandParts[wordIndex].equals("from")
+					|| commandParts[wordIndex].substring(0, 1).equals("*") || commandParts[wordIndex].equals("desc")) {
 				break;
 			}
 			taskName = taskName + " ";
 		}
-		// System.out.println(taskName);
 		newTask.setTaskName(taskName);
 
 		try {
+
+			wordIndex = parseDescription(commandParts, newTask, wordIndex);
+			wordIndex = parsePriority(commandParts, newTask, wordIndex);
 			wordIndex = parseTime(commandParts, newTask, wordIndex);
-		} catch (Exception e) {
+		} catch (
+
+		Exception e)
+
+		{
+			// System.out.println(commandParts[wordIndex]);
 			System.err.println("Invalid input: " + e.getMessage());
 		}
-		if (floating == true)
-			newTask.setTaskType("floating");
-		// else if (floating == false)
-		// newTask.setTaskType("deadline");
+
+		// HALP
+		newTask.setTaskType("floating");
 
 		return newTask;
+
+	}
+
+	/**
+	 * @param commandParts
+	 * @param newTask
+	 * @param wordIndex
+	 * @return
+	 */
+	private int parseDescription(String[] commandParts, Task newTask, int wordIndex) {
+		int initialIndex = wordIndex;
+		while (wordIndex < commandParts.length) {
+			if (commandParts[wordIndex].equals("desc")) {
+				String taskDesc = "";
+				wordIndex++;
+				while (true) {
+					System.out.println(commandParts[wordIndex]);
+					taskDesc = taskDesc + commandParts[wordIndex++];
+					if(wordIndex==commandParts.length){
+						break;
+					}
+					taskDesc = taskDesc + " ";
+				}
+				newTask.setTaskDescription(taskDesc);
+			}
+			wordIndex++;
+		}
+		return initialIndex;
+	}
+
+	/**
+	 * @param commandParts
+	 * @param newTask
+	 * @param wordIndex
+	 * @return
+	 */
+	private int parsePriority(String[] commandParts, Task newTask, int wordIndex) {
+		int initialIndex = wordIndex;
+		while (wordIndex < commandParts.length) {
+			if (commandParts[wordIndex].substring(0, 1).equals("*")) {
+				newTask.setTaskPriority(commandParts[wordIndex].substring(1));
+			}
+			wordIndex++;
+		}
+		return initialIndex;
 	}
 
 	public static Task createTaskFromInformation(String s) {
@@ -85,6 +136,7 @@ public class Parser {
 	}
 
 	private int parseTime(String[] commandParts, Task newTask, int wordIndex) throws Exception {
+		int detailIndex = wordIndex;
 		Boolean from = false;
 		Boolean to = false;
 		for (String part : commandParts) {
@@ -118,7 +170,7 @@ public class Parser {
 
 			}
 		}
-		return wordIndex;
+		return detailIndex;
 	}
 
 	public String getCurrentDate() {
