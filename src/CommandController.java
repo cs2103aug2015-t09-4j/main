@@ -27,7 +27,7 @@ public class CommandController {
 
 			switch (commandParts[0]) {
 
-			// "add one from 3030, 404040 to 2020, 101010"
+			// "add one task from 3030, 404040 to 2020, 101010"
 			case COMMAND_ADD:
 				commandexecutor.executeAdd(commandParts);
 				break;
@@ -57,7 +57,6 @@ public class CommandController {
 				break;
 
 			default:
-				// System.out.println(MESSAGE_INVALID);
 				commandexecutor.parseInvalidCommand(commandParts[0]);
 				break;
 			}

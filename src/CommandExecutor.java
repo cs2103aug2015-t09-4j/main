@@ -10,7 +10,7 @@ public class CommandExecutor {
 	// PRIORITY AND DESCRIPTION NOT DONE
 	public void executeAdd(String[] commandParts) throws Exception {
 		// assume floating first
-		if(parser==null){
+		if (parser == null) {
 			parser = new Parser();
 		}
 		Task newTask = parser.parseTask(commandParts);
@@ -39,33 +39,23 @@ public class CommandExecutor {
 	}
 
 	public void executeDelete(String[] commandParts) throws Exception {
-		String taskType = commandParts[1];
-		String taskName = commandParts[2];
+		int deleteIndex = Integer.valueOf(commandParts[1]) - 1;
 		ArrayList<Task> array = FileStorage.read(path);
 		assert(array != null) : "unable to read from specified path";
 		int i = 0;
-		int x = 0;
 		while (i < array.size()) {
-			if (array.get(i).getTaskType().equals(taskType)) {
-				if (array.get(i).getTaskName().equals(taskName)) {
-					FileStorage.clear(path);
-					array.remove(i);
-					GUIConsole.successfulDelete(commandParts[2]);
-					x = 1;
-					break;
-				}
+			if (i == deleteIndex) {
+				FileStorage.clear(path);
+				array.remove(i);
+				GUIConsole.successfulDelete(commandParts[1]);
+				break;
 			}
 			i++;
 		}
-		if (x == 1) {
-			int j = 0;
-			while (j < array.size()) {
-				FileStorage.write(path, array.get(j));
-				j++;
-			}
-		}
-		if (x == 0) {
-			GUIConsole.failDelete(taskName);
+		int j = 0;
+		while (j < array.size()) {
+			FileStorage.write(path, array.get(j));
+			j++;
 		}
 	}
 
@@ -92,9 +82,7 @@ public class CommandExecutor {
 	}
 
 	public static ArrayList<Task> display() throws Exception {
-		// public static void display() throws Exception {
 		ArrayList<Task> floatingTasks = new ArrayList<Task>();
-		ArrayList<Task> deadlineTasks = new ArrayList<Task>();
 		ArrayList<Task> fullList = new ArrayList<Task>();
 		Task currentTask;
 
@@ -102,30 +90,6 @@ public class CommandExecutor {
 
 		for (int j = 0; j < fullList.size(); j++) {
 			currentTask = fullList.get(j);
-
-			assert!currentTask.getTaskName().equals("");
-			// System.out.println(currentTask.getTaskName() + " " +
-			// currentTask.getTaskType());
-
-			if (currentTask.getTaskType().equals("deadline")) {
-				deadlineTasks.add(currentTask);
-			}
-		}
-
-		GUIConsole.displayDeadlineTask();
-		for (int j = 0; j < deadlineTasks.size(); j++) {
-			currentTask = deadlineTasks.get(j);
-			GUIConsole.displayTask(currentTask.getTaskName() + currentTask.getTaskStartTime().toString()
-					+ currentTask.getTaskEndTime().toString());
-			// System.out.println(deadlineTasks.get(j));
-		}
-
-		// transfer deadlineTasks and floatingTasks here
-		for (int j = 0; j < fullList.size(); j++) {
-			currentTask = fullList.get(j);
-			// System.out.println(currentTask.getTaskName() + " " +
-			// currentTask.getTaskType());
-
 			if (currentTask.getTaskType().equals("floating")) {
 				floatingTasks.add(currentTask);
 			}
@@ -134,10 +98,10 @@ public class CommandExecutor {
 		GUIConsole.displayFloatingTask();
 		for (int j = 0; j < floatingTasks.size(); j++) {
 			currentTask = floatingTasks.get(j);
-			GUIConsole.displayTask(currentTask.getTaskId() + ". " + currentTask.getTaskName() + ": " + currentTask.getTaskStartTime() + " "
-					+ currentTask.getTaskStartDate() + "-" + currentTask.getTaskEndTime() + " "
-					+ currentTask.getTaskEndDate());
-			// System.out.println(floatingTasks.get(j));
+			int taskIndex = j+1;
+			GUIConsole.displayTask(taskIndex + ". " + currentTask.getTaskName() + ": "
+					+ currentTask.getTaskStartTime() + " " + currentTask.getTaskStartDate() + "-"
+					+ currentTask.getTaskEndTime() + " " + currentTask.getTaskEndDate());
 		}
 
 		return floatingTasks;

@@ -1,7 +1,6 @@
 import java.io.Serializable;
 
 public class Task implements Serializable {
-	private String taskId = "322";
 	private String taskName = "";
 	private String taskType = "";
 	private String taskStartDate = "";
@@ -27,7 +26,6 @@ public class Task implements Serializable {
 
 	public String toString() {
 		String temp = "";
-		temp = temp + "taskId:" + taskId + ";";
 		temp = temp + "taskname:" + taskName + ";";
 		temp = temp + "tasktype:" + taskType + ";";
 		temp = temp + "taskStartDate:" + taskStartDate + ";";
@@ -44,7 +42,6 @@ public class Task implements Serializable {
 	}
 
 	public Task merge(Task initialTask) {
-		this.taskId = initialTask.getTaskId();
 		
 		if (!this.taskStartDate.equals("")) {
 			initialTask.setTaskStartDate(this.taskStartDate);
@@ -56,10 +53,6 @@ public class Task implements Serializable {
 		}
 
 		return this;
-	}
-	
-	public void setTaskId(String taskId){
-		this.taskId = taskId;
 	}
 	
 	public void setTaskName(String taskName) {
@@ -110,10 +103,6 @@ public class Task implements Serializable {
 	 * public void addDesc(String desc){ this.desc += desc; }
 	 */
 
-	public String getTaskId(){
-		StringBuffer buffer = new StringBuffer(this.taskId);
-		return buffer.toString();
-	}
 	public String getTaskName() {
 		StringBuffer buffer = new StringBuffer(this.taskName);
 		return buffer.toString();
