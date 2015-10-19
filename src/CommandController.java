@@ -22,9 +22,7 @@ public class CommandController {
 		}
 
 		String[] commandParts = commandexecutor.splitCommand(command);
-
 		try {
-
 			switch (commandParts[0]) {
 
 			// "add one task from 3030, 404040 to 2020, 101010"

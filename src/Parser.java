@@ -1,10 +1,14 @@
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Parser {
-	
+
 	public Task parseTask(String[] commandParts) {
 		Boolean floating = true;
 		Task newTask = new Task();
-		
+
 		int wordIndex = 1;
 		String taskName = "";
 		// this while loop gets task name
@@ -20,25 +24,26 @@ public class Parser {
 		}
 		// System.out.println(taskName);
 		newTask.setTaskName(taskName);
-		
-		try{
-		wordIndex = parseTime(commandParts, newTask, wordIndex);
-		}catch(Exception e){
+
+		try {
+			wordIndex = parseTime(commandParts, newTask, wordIndex);
+		} catch (Exception e) {
 			System.err.println("Invalid input: " + e.getMessage());
 		}
 		if (floating == true)
 			newTask.setTaskType("floating");
-		//else if (floating == false)
-		//	newTask.setTaskType("deadline");
+		// else if (floating == false)
+		// newTask.setTaskType("deadline");
 
 		return newTask;
 	}
+
 	public static Task createTaskFromInformation(String s) {
 		String[] array = s.split(";");
 		Task t = new Task();
-		for(int i = 0; i < array.length; i++) {
-			String[] temp = array[i].split(":", 2);			
-			switch(temp[0]) {
+		for (int i = 0; i < array.length; i++) {
+			String[] temp = array[i].split(":", 2);
+			switch (temp[0]) {
 			case "taskname":
 				t.setTaskName(temp[1]);
 				break;
@@ -76,27 +81,28 @@ public class Parser {
 				break;
 			}
 		}
-		return t;		
+		return t;
 	}
+
 	private int parseTime(String[] commandParts, Task newTask, int wordIndex) throws Exception {
 		Boolean from = false;
 		Boolean to = false;
-		for(String part:commandParts){
-			if(part.contains("from")){
+		for (String part : commandParts) {
+			if (part.contains("from")) {
 				from = true;
 			}
 		}
-		for(String part:commandParts){
-			if(part.contains("to")){
+		for (String part : commandParts) {
+			if (part.contains("to")) {
 				to = true;
 			}
 		}
-		if(from){
-			if(!to){
+		if (from) {
+			if (!to) {
 				throw new Exception("From has no to");
 			}
 		}
-		
+
 		while (wordIndex < commandParts.length) {
 			Boolean comma = false;
 			switch (commandParts[wordIndex++]) {
@@ -115,15 +121,30 @@ public class Parser {
 		return wordIndex;
 	}
 
+	public String getCurrentDate() {
+		DateFormat df = new SimpleDateFormat("ddMMyy");
+		Date dateobj = new Date();
+		String currentDate = df.format(dateobj);
+		System.out.println(currentDate);
+		return currentDate;
+	}
+
+	public String getCurrentTime() {
+		DateFormat df = new SimpleDateFormat("HHmm");
+		Calendar calobj = Calendar.getInstance();
+		String time = df.format(calobj.getTime());
+		return time;
+	}
+
 	private int splitCommaStart(String[] commandParts, Task newTask, int wordIndex, Boolean comma) throws Exception {
 		String taskOn = commandParts[wordIndex];
 		// trim and comma is present
-		if(commandParts[wordIndex].contains(",")){
-			if(!(commandParts[wordIndex].indexOf(",")==commandParts[wordIndex].length()-1)){
+		if (commandParts[wordIndex].contains(",")) {
+			if (!(commandParts[wordIndex].indexOf(",") == commandParts[wordIndex].length() - 1)) {
 				throw new Exception("Start comma has no spacing");
 			}
 		}
-		
+
 		if (commandParts[wordIndex].contains(",")) {
 			taskOn = commandParts[wordIndex].substring(0, commandParts[wordIndex].indexOf(","));
 			comma = true;
@@ -143,18 +164,18 @@ public class Parser {
 			} else if (taskOn.length() == 6) {
 				newTask.setTaskStartDate(taskOn);
 			}
-			wordIndex = wordIndex+1;
+			wordIndex = wordIndex + 1;
 		}
 		return wordIndex;
 	}
-	
-	private int splitCommaEnd(String[] commandParts, Task newTask, int wordIndex, Boolean comma)throws Exception {
-		if(commandParts[wordIndex].contains(",")){
-			if(!(commandParts[wordIndex].indexOf(",")==commandParts[wordIndex].length()-1)){
+
+	private int splitCommaEnd(String[] commandParts, Task newTask, int wordIndex, Boolean comma) throws Exception {
+		if (commandParts[wordIndex].contains(",")) {
+			if (!(commandParts[wordIndex].indexOf(",") == commandParts[wordIndex].length() - 1)) {
 				throw new Exception("End comma has no spacing");
 			}
 		}
-		
+
 		String taskOn = commandParts[wordIndex];
 		// trim and comma is present
 		if (commandParts[wordIndex].contains(",")) {
@@ -176,7 +197,7 @@ public class Parser {
 			} else if (taskOn.length() == 6) {
 				newTask.setTaskEndDate(taskOn);
 			}
-			wordIndex = wordIndex+1;
+			wordIndex = wordIndex + 1;
 		}
 		return wordIndex;
 	}
