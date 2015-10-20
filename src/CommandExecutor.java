@@ -2,9 +2,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class CommandExecutor {
-	// private static File file = new File("C:\\eclipse\\Your sdk your
-	// majesty\\main\\test.txt");
-	private static String path = "C:\\Users\\user\\workspace\\main\\test.txt";
+	 private static String path ="C:\\eclipse\\Your sdk your majesty\\main\\test.txt";
+	//private static String path = "C:\\Users\\user\\workspace\\main\\test.txt";
 	private Parser parser;
 
 	// PRIORITY AND DESCRIPTION NOT DONE
@@ -90,16 +89,16 @@ public class CommandExecutor {
 
 		for (int j = 0; j < fullList.size(); j++) {
 			currentTask = fullList.get(j);
-			if (currentTask.getTaskType().equals("floating")) {
+			//if (currentTask.getTaskType().equals("floating")) {
 				floatingTasks.add(currentTask);
-			}
+			//}
 		}
 
 		GUIConsole.displayFloatingTask();
 		for (int j = 0; j < floatingTasks.size(); j++) {
 			currentTask = floatingTasks.get(j);
 			int taskIndex = j + 1;
-			GUIConsole.displayTask(taskIndex + ". " + currentTask.getTaskName() + ": " + currentTask.getTaskStartTime()
+			GUIConsole.displayTask(taskIndex + ". " + currentTask.getTaskType() + " " + currentTask.getTaskName() + ": " + currentTask.getTaskStartTime()
 					+ " " + currentTask.getTaskStartDate() + "-" + currentTask.getTaskEndTime() + " "
 					+ currentTask.getTaskEndDate() + " " + currentTask.getTaskPriority() + " "
 					+ currentTask.getTaskDescription());

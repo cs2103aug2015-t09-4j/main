@@ -1,2 +1,3 @@
-taskname:one task;tasktype:floating;taskStartDate:404040;taskEndDate:101010;taskPriority:high;taskDescription:hue;taskStartTime:3030;taskEndTime:2020;recurType:;recurStartDate:;recurEndDate:;
-taskname:one task;tasktype:floating;taskStartDate:404040;taskEndDate:101010;taskPriority:high;taskDescription:hue hue hue;taskStartTime:3030;taskEndTime:2020;recurType:;recurStartDate:;recurEndDate:;
+taskname:one;tasktype:floating;taskStartDate:;taskEndDate:;taskPriority:;taskDescription:;taskStartTime:;taskEndTime:;recurType:;recurStartDate:;recurEndDate:;
+taskname:two;tasktype:event;taskStartDate:;taskEndDate:;taskPriority:;taskDescription:;taskStartTime:2020;taskEndTime:;recurType:;recurStartDate:;recurEndDate:;
+taskname:homework;tasktype:deadline;taskStartDate:;taskEndDate:404040;taskPriority:;taskDescription:;taskStartTime:;taskEndTime:3030;recurType:;recurStartDate:;recurEndDate:;

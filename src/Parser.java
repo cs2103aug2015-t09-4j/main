@@ -10,6 +10,7 @@ public class Parser {
 
 		int wordIndex = 1;
 		String taskName = "";
+		newTask.setTaskType("floating");
 		// this while loop gets task name
 		while (true) {
 			taskName = taskName + commandParts[wordIndex++];
@@ -17,7 +18,8 @@ public class Parser {
 				break;
 			}
 			if (commandParts[wordIndex].equals("on") || commandParts[wordIndex].equals("from")
-					|| commandParts[wordIndex].substring(0, 1).equals("*") || commandParts[wordIndex].equals("desc")) {
+					|| commandParts[wordIndex].substring(0, 1).equals("*") || commandParts[wordIndex].equals("desc")
+					||commandParts[wordIndex].equals("by")) {
 				break;
 			}
 			taskName = taskName + " ";
@@ -25,21 +27,16 @@ public class Parser {
 		newTask.setTaskName(taskName);
 
 		try {
-
 			wordIndex = parseDescription(commandParts, newTask, wordIndex);
 			wordIndex = parsePriority(commandParts, newTask, wordIndex);
 			wordIndex = parseTime(commandParts, newTask, wordIndex);
-		} catch (
-
-		Exception e)
+		} catch (Exception e)
 
 		{
 			// System.out.println(commandParts[wordIndex]);
 			System.err.println("Invalid input: " + e.getMessage());
 		}
 
-		// HALP
-		newTask.setTaskType("floating");
 
 		return newTask;
 
@@ -160,12 +157,17 @@ public class Parser {
 			switch (commandParts[wordIndex++]) {
 			case "on":
 				wordIndex = splitCommaStart(commandParts, newTask, wordIndex, comma);
+				newTask.setTaskType("event");
 				break;
-
+			case "by":
+				wordIndex = splitCommaEnd(commandParts, newTask, wordIndex, comma);
+				newTask.setTaskType("deadline");
+				break;
 			case "from":
 				wordIndex = splitCommaStart(commandParts, newTask, wordIndex, comma);
 				wordIndex++;
 				wordIndex = splitCommaEnd(commandParts, newTask, wordIndex, comma);
+				newTask.setTaskType("event");
 				break;
 
 			}
