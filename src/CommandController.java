@@ -4,7 +4,7 @@ import java.util.logging.Logger;
 
 public class CommandController {
 	private static Logger logger = Logger.getLogger("CommandController");
-	
+
 	private static final String COMMAND_ADD = "add";
 	private static final String COMMAND_DELETE = "delete";
 	private static final String COMMAND_EDIT = "edit";
@@ -12,58 +12,56 @@ public class CommandController {
 	private static final String COMMAND_NAVIGATE = "view";
 	private static final String COMMAND_HELP = "help";
 	private static final String MESSAGE_INVALID = "Invalid Command";
-	
-	
+	private static CommandExecutor commandexecutor;
+
 	public static void processCommand(String command) {
 		logger.log(Level.INFO, "going to start processing");
-		
-		
-		CommandParser commandparser = new CommandParser();
-		
-		
-		String[] commandParts = commandparser.splitCommand(command);
-		
-		try {
-		switch (commandParts[0]) {
 
-		case COMMAND_ADD:
-			commandparser.parseAdd(commandParts);
-			break;
-
-		case COMMAND_DELETE:
-			commandparser.parseDelete(commandParts);
-			break;
-
-		case COMMAND_EDIT:
-			commandparser.parseEdit(commandParts);
-			break;
-
-		case COMMAND_RECUR:
-			commandparser.parseRecur(commandParts);
-			break;
-
-		case COMMAND_NAVIGATE:
-			commandparser.parseNavigate(commandParts);
-			break;
-			
-		case "display":
-			ArrayList<Task> dummy = commandparser.display();
-			break;
-		
-		case COMMAND_HELP:
-			commandparser.parseHelp();
-			break;
-			
-		default:
-			//System.out.println(MESSAGE_INVALID);
-			commandparser.parseInvalidCommand(commandParts[0]);
-			break;
+		if (commandexecutor == null) {
+			commandexecutor = new CommandExecutor();
 		}
+
+		String[] commandParts = commandexecutor.splitCommand(command);
+		try {
+			switch (commandParts[0]) {
+
+			// "add one task from 3030, 404040 to 2020, 101010 *high desc hue hue hue"
+			case COMMAND_ADD:
+				commandexecutor.executeAdd(commandParts);
+				break;
+
+			case COMMAND_DELETE:
+				commandexecutor.executeDelete(commandParts);
+				break;
+
+			case COMMAND_EDIT:
+				commandexecutor.executeEdit(commandParts);
+				break;
+
+			case COMMAND_RECUR:
+				commandexecutor.executeRecur(commandParts);
+				break;
+
+			case COMMAND_NAVIGATE:
+				commandexecutor.executeNavigate(commandParts);
+				break;
+
+			case "display":
+				ArrayList<Task> dummy = commandexecutor.display();
+				break;
+
+			case COMMAND_HELP:
+				commandexecutor.executeHelp();
+				break;
+
+			default:
+				commandexecutor.parseInvalidCommand(commandParts[0]);
+				break;
+			}
 		} catch (Exception e) {
 			logger.log(Level.WARNING, "processing error", e);
 			e.printStackTrace();
 		}
 	}
 
-	
 }

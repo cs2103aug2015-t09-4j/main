@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class FileStorage extends StorageParser {
+public class FileStorage extends Parser {
 //	private static final long serialVersionUID = -769626947865283;
 	static ArrayList<Task> objectList = new ArrayList<Task>();
 	private static final String MSG_WHEN_INVALID_FILENAME = "cannot find targeted file"; 
@@ -44,7 +44,7 @@ public class FileStorage extends StorageParser {
     		storageLog.log(Level.INFO, "end of writing");
     	}  
     	String content = p.toString();
-    	fw.write(content);
+    	//fw.write(content);
     	fw.flush();
     }
 
@@ -68,6 +68,7 @@ public class FileStorage extends StorageParser {
 		return objectList;       
      }
      
+<<<<<<< HEAD
      public static void RetrieveFile(String path) throws IOException {
 		 FileInputStream input=new FileInputStream(filename);
 		 FileOutputStream output=new FileOutputStream(path);   	 
@@ -85,5 +86,8 @@ public class FileStorage extends StorageParser {
     	 }
      }    	 
 
+=======
+     
+>>>>>>> origin/master
 }
 
