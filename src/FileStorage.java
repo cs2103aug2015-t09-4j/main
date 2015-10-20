@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,9 +14,10 @@ public class FileStorage extends StorageParser {
 	static ArrayList<Task> objectList = new ArrayList<Task>();
 	private static final String MSG_WHEN_INVALID_FILENAME = "cannot find targeted file"; 
 	private static Logger storageLog = Logger.getLogger("FileStorage");
+	private static String filename = "default.txt";
 	
-	public static void clear(String path) throws IOException {
-		File f = new File(path);	
+	public static void clear() throws IOException {
+		File f = new File(filename);	
 		assert f.exists() == true;
 		assert f.isFile() == true;
 		FileWriter fw = new FileWriter(f);
@@ -28,9 +30,9 @@ public class FileStorage extends StorageParser {
 		}
 	}
  
-    public static void write(String path, Object p) throws IOException{  
+    public static void write(Object p) throws IOException{  
     	storageLog.log(Level.ALL, "goint to start writing in an existing file");
-    	File f = new File(path);
+    	File f = new File(filename);
     	FileWriter fw = new FileWriter(f,true);
     	try {
     		String content = p.toString();
@@ -48,7 +50,7 @@ public class FileStorage extends StorageParser {
 
      public static ArrayList<Task> read(String path) throws IOException, ClassNotFoundException {
     	 objectList = new ArrayList<Task>();
-         File f = new File(path);
+         File f = new File(filename);
          //if(f.isFile() && f.exists()) { 
          	 assert f.isFile() == true;
          	 assert f.exists() == true;
@@ -65,5 +67,23 @@ public class FileStorage extends StorageParser {
         // }
 		return objectList;       
      }
+     
+     public static void RetrieveFile(String path) throws IOException {
+		 FileInputStream input=new FileInputStream(filename);
+		 FileOutputStream output=new FileOutputStream(path);   	 
+    	 try {
+    		 int in = input.read();
+    		 while(in != -1) {
+    			 output.write(in);
+    			 in = input.read();
+    		 }
+    	 } catch (IOException e) {
+    		 System.out.println(e.toString());
+    	 } finally {
+    		 input.close();
+    		 output.close();
+    	 }
+     }    	 
+
 }
 
