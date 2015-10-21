@@ -41,7 +41,7 @@ public class PersonOverviewController {
 	}
 	
 	private String generateList() throws Exception {
-		ArrayList<Task> tasks = CommandExecutor.display();
+		ArrayList<Task> tasks = CommandExecutor.list();
 		String toList = "";
 		int a = 1;
 		while (a - 1 < tasks.size()) {
