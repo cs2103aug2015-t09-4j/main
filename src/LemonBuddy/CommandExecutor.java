@@ -83,7 +83,7 @@ public class CommandExecutor {
 		GUIConsole.displayHelp();
 	}
 
-	public static ArrayList<Task> display() throws Exception {
+	public static ArrayList<Task> list() throws Exception {
 		ArrayList<Task> floatingTasks = new ArrayList<Task>();
 		ArrayList<Task> fullList = new ArrayList<Task>();
 		Task currentTask;
@@ -108,6 +108,17 @@ public class CommandExecutor {
 		}
 
 		return floatingTasks;
+	}
+	
+		public static void display(String[] commandParts) throws Exception {
+		ArrayList<Task> fullList = new ArrayList<Task>();
+		Task currentTask;
+		
+		int id = Integer.parseInt(commandParts[1]);
+		fullList = FileStorage.read(path);
+		int x = 4;
+		currentTask = fullList.get(id - 1);
+		PersonOverviewController.taskSelected(currentTask, x);
 	}
 
 	public void parseInvalidCommand(String command) {
