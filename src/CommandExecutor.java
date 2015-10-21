@@ -13,7 +13,7 @@ public class CommandExecutor {
 			parser = new Parser();
 		}
 		Task newTask = parser.parseTask(commandParts);
-		FileStorage.write(path, newTask);
+		FileStorage.write(newTask);
 		GUIConsole.successfulAdd(newTask.getTaskName());
 	}
 
@@ -22,17 +22,17 @@ public class CommandExecutor {
 		Task newTask = parser.parseTask(commandParts);
 		// System.out.println(newTask);
 		ArrayList<Task> fullList = FileStorage.read(path);
-		FileStorage.clear(path);
+		FileStorage.clear();
 
 		for (int j = 0; j < fullList.size(); j++) {
 			Task currentTask = fullList.get(j);
 
 			if (currentTask.getTaskName().equals(initialTaskName)) {
 				newTask.merge(currentTask);
-				FileStorage.write(path, newTask);
+				FileStorage.write(newTask);
 			} else {
 
-				FileStorage.write(path, currentTask);
+				FileStorage.write(currentTask);
 			}
 		}
 	}
@@ -44,7 +44,7 @@ public class CommandExecutor {
 		int i = 0;
 		while (i < array.size()) {
 			if (i == deleteIndex) {
-				FileStorage.clear(path);
+				FileStorage.clear();
 				array.remove(i);
 				GUIConsole.successfulDelete(commandParts[1]);
 				break;
@@ -53,7 +53,7 @@ public class CommandExecutor {
 		}
 		int j = 0;
 		while (j < array.size()) {
-			FileStorage.write(path, array.get(j));
+			FileStorage.write(array.get(j));
 			j++;
 		}
 	}

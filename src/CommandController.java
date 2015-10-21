@@ -4,7 +4,7 @@ import java.util.logging.Logger;
 
 public class CommandController {
 	private static Logger logger = Logger.getLogger("CommandController");
-
+	
 	private static final String COMMAND_ADD = "add";
 	private static final String COMMAND_DELETE = "delete";
 	private static final String COMMAND_EDIT = "edit";
@@ -13,7 +13,7 @@ public class CommandController {
 	private static final String COMMAND_HELP = "help";
 	private static final String MESSAGE_INVALID = "Invalid Command";
 	private static CommandExecutor commandexecutor;
-
+	
 	public static void processCommand(String command) {
 		logger.log(Level.INFO, "going to start processing");
 
@@ -26,6 +26,7 @@ public class CommandController {
 			switch (commandParts[0]) {
 
 			// "add one task from 3030, 404040 to 2020, 101010 *high desc hue hue hue"
+			// deadline uses taskEndDate. Event On uses taskStartDate. 
 			case COMMAND_ADD:
 				commandexecutor.executeAdd(commandParts);
 				break;

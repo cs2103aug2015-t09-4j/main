@@ -1,0 +1,2 @@
+taskname:one;tasktype:floating;taskStartDate:;taskEndDate:;taskPriority:;taskDescription:;taskStartTime:;taskEndTime:;recurType:;recurStartDate:;recurEndDate:;
+taskname:one;tasktype:deadline;taskStartDate:;taskEndDate:;taskPriority:;taskDescription:;taskStartTime:;taskEndTime:2020;recurType:;recurStartDate:;recurEndDate:;

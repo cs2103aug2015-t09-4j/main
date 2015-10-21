@@ -68,7 +68,6 @@ public class FileStorage extends Parser {
 		return objectList;       
      }
      
-<<<<<<< HEAD
      public static void RetrieveFile(String path) throws IOException {
 		 FileInputStream input=new FileInputStream(filename);
 		 FileOutputStream output=new FileOutputStream(path);   	 
@@ -86,8 +85,5 @@ public class FileStorage extends Parser {
     	 }
      }    	 
 
-=======
-     
->>>>>>> origin/master
 }
 
