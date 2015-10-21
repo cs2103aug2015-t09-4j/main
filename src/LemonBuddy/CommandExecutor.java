@@ -41,6 +41,9 @@ public class CommandExecutor {
 		int deleteIndex = Integer.valueOf(commandParts[1]) - 1;
 		ArrayList<Task> array = FileStorage.read(path);
 		assert(array != null) : "unable to read from specified path";
+		if (deleteIndex > array.size() - 1) {
+			return;
+		}
 		int i = 0;
 		while (i < array.size()) {
 			if (i == deleteIndex) {
