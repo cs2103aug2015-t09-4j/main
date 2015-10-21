@@ -1,5 +1,8 @@
+//package LemonBuddy;
+
 import java.io.File;
 import java.util.ArrayList;
+import java.lang.Integer;
 
 public class CommandExecutor {
 	 private static String path ="C:\\eclipse\\Your sdk your majesty\\main\\test.txt";
@@ -81,6 +84,38 @@ public class CommandExecutor {
 
 	public void executeHelp() {
 		GUIConsole.displayHelp();
+	}
+	
+	public void executeUpdate() {
+		ArrayList<Task> array = FileStorage.read(path);
+		assert(array != null) : "unable to read from specified path";
+		
+		String currentDate = parser.getCurrentDate();
+		int currentDay = parser.parseInt(currentDate.substring(0,1));
+		int currentMonth = parser.parseInt(currentDate.substring(2,3));
+		int currentYear = parser.parseInt(currentDate.substring(4,5));
+		
+		int i = 0;
+		
+		for (i = 0; i<array.size(); i++) {
+			String endDate = array.get(i).getTaskEndDate();
+			int endDay = parser.parseInt(endDate.substring(0,1));
+			int endMonth = parser.parseInt(endDate.substring(2,3));
+			int endYear = parser.parseInt(endDate.substring(4,5));
+			
+			if (!(currentDate == endDate) && ((endDay <= currentDay) || (endMonth <= currentMonth) ||
+					(endYear <= currentYear)) && (endDate != "")) {
+				array.remove(i);
+			}
+			
+			int j = 0;
+			while (j < array.size()) {
+				FileStorage.write(array.get(j));
+				j++;
+			}
+			GUIConsole.successfulUpdate();
+		}
+		
 	}
 
 	public static ArrayList<Task> list() throws Exception {

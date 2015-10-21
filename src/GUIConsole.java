@@ -90,4 +90,8 @@ public class GUIConsole extends JPanel {
 	public static void failDelete(String content) {
         displayScreen.append("Unable to find \"" + content + "\" to delete.");
     }
+	
+	public static void successfulUpdate() {
+		displayScreen.append("List is updated.\n\n");
+	}
 }

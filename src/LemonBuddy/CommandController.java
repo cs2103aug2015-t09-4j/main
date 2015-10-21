@@ -1,3 +1,5 @@
+//package LemonBuddy;
+
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,6 +13,7 @@ public class CommandController {
 	private static final String COMMAND_RECUR = "recur";
 	private static final String COMMAND_NAVIGATE = "view";
 	private static final String COMMAND_HELP = "help";
+	private static final String COMMAND_UPDATE = "update";
 	private static final String MESSAGE_INVALID = "Invalid Command";
 	private static CommandExecutor commandexecutor;
 	
@@ -53,6 +56,10 @@ public class CommandController {
 
 			case COMMAND_HELP:
 				commandexecutor.executeHelp();
+				break;
+				
+			case COMMAND_UPDATE:
+				commandexecutor.executeUpdate();
 				break;
 
 			default:
