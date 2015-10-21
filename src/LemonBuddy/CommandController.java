@@ -48,7 +48,7 @@ public class CommandController {
 				break;
 
 			case "display":
-				ArrayList<Task> dummy = commandexecutor.display();
+				commandexecutor.display(commandParts);
 				break;
 
 			case COMMAND_HELP:
