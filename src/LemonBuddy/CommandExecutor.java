@@ -103,7 +103,7 @@ public class CommandExecutor {
 			int endMonth = parser.parseInt(endDate.substring(2,3));
 			int endYear = parser.parseInt(endDate.substring(4,5));
 			
-			if (!(currentDate == endDate) && ((endDay <= currentDay) || (endMonth <= currentMonth) ||
+			if (!(currentDate == endDate) && ((endDay <= currentDay) && (endMonth <= currentMonth) &&
 					(endYear <= currentYear)) && (endDate != "")) {
 				array.remove(i);
 			}
