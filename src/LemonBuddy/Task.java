@@ -124,7 +124,7 @@ public class Task implements Serializable {
 	}
 
 	public String getTaskEndDate() {
-		if (!this.taskStartDate.equals("")) {
+		if (!this.taskEndDate.equals("")) {
 			StringBuffer buffer = new StringBuffer(this.taskEndDate);
 			return buffer.toString();
 		} else
