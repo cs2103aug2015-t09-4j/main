@@ -1,4 +1,4 @@
-//package LemonBuddy;
+package LemonBuddy;
 
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -59,7 +59,7 @@ public class CommandController {
 				break;
 				
 			case COMMAND_UPDATE:
-				commandexecutor.executeUpdate();
+				//commandexecutor.executeUpdate();
 				break;
 
 			default:

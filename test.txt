@@ -1,3 +1,0 @@
-taskname:one;tasktype:floating;taskStartDate:;taskEndDate:;taskPriority:;taskDescription:;taskStartTime:;taskEndTime:;recurType:;recurStartDate:;recurEndDate:;
-taskname:two;tasktype:event;taskStartDate:;taskEndDate:;taskPriority:;taskDescription:;taskStartTime:2020;taskEndTime:;recurType:;recurStartDate:;recurEndDate:;
-taskname:homework;tasktype:deadline;taskStartDate:;taskEndDate:404040;taskPriority:;taskDescription:;taskStartTime:;taskEndTime:3030;recurType:;recurStartDate:;recurEndDate:;
