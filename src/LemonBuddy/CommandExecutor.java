@@ -1,8 +1,8 @@
-//package LemonBuddy;
+package LemonBuddy;
 
 import java.io.File;
+import LemonBuddy.view.*;
 import java.util.ArrayList;
-import java.lang.Integer;
 
 public class CommandExecutor {
 	 private static String path ="C:\\eclipse\\Your sdk your majesty\\main\\test.txt";
@@ -17,7 +17,9 @@ public class CommandExecutor {
 		}
 		Task newTask = parser.parseTask(commandParts);
 		FileStorage.write(newTask);
-		GUIConsole.successfulAdd(newTask.getTaskName());
+		//GUIConsole.successfulAdd(newTask.getTaskName());
+		int i = 1;
+		PersonOverviewController.taskSelected(newTask, i);
 	}
 
 	public void executeEdit(String[] commandParts) throws Exception {
@@ -33,6 +35,8 @@ public class CommandExecutor {
 			if (currentTask.getTaskName().equals(initialTaskName)) {
 				newTask.merge(currentTask);
 				FileStorage.write(newTask);
+				int i = 3;
+				PersonOverviewController.taskSelected(newTask, i);
 			} else {
 
 				FileStorage.write(currentTask);
@@ -51,8 +55,10 @@ public class CommandExecutor {
 		while (i < array.size()) {
 			if (i == deleteIndex) {
 				FileStorage.clear();
+				int x = 2;
+				PersonOverviewController.taskSelected(array.get(i), x);
 				array.remove(i);
-				GUIConsole.successfulDelete(commandParts[1]);
+				//GUIConsole.successfulDelete(commandParts[1]);
 				break;
 			}
 			i++;
@@ -83,41 +89,9 @@ public class CommandExecutor {
 	}
 
 	public void executeHelp() {
-		GUIConsole.displayHelp();
+		//GUIConsole.displayHelp();
 	}
 	
-	public void executeUpdate() {
-		ArrayList<Task> array = FileStorage.read(path);
-		assert(array != null) : "unable to read from specified path";
-		
-		String currentDate = parser.getCurrentDate();
-		int currentDay = parser.parseInt(currentDate.substring(0,1));
-		int currentMonth = parser.parseInt(currentDate.substring(2,3));
-		int currentYear = parser.parseInt(currentDate.substring(4,5));
-		
-		int i = 0;
-		
-		for (i = 0; i<array.size(); i++) {
-			String endDate = array.get(i).getTaskEndDate();
-			int endDay = parser.parseInt(endDate.substring(0,1));
-			int endMonth = parser.parseInt(endDate.substring(2,3));
-			int endYear = parser.parseInt(endDate.substring(4,5));
-			
-			if (!(currentDate == endDate) && ((endDay <= currentDay) && (endMonth <= currentMonth) &&
-					(endYear <= currentYear)) && (endDate != "")) {
-				array.remove(i);
-			}
-			
-			int j = 0;
-			while (j < array.size()) {
-				FileStorage.write(array.get(j));
-				j++;
-			}
-			GUIConsole.successfulUpdate();
-		}
-		
-	}
-
 	public static ArrayList<Task> list() throws Exception {
 		ArrayList<Task> floatingTasks = new ArrayList<Task>();
 		ArrayList<Task> fullList = new ArrayList<Task>();
@@ -132,20 +106,22 @@ public class CommandExecutor {
 			//}
 		}
 
-		GUIConsole.displayFloatingTask();
+		//GUIConsole.displayFloatingTask();
 		for (int j = 0; j < floatingTasks.size(); j++) {
 			currentTask = floatingTasks.get(j);
 			int taskIndex = j + 1;
-			GUIConsole.displayTask(taskIndex + ". " + currentTask.getTaskType() + " " + currentTask.getTaskName() + ": " + currentTask.getTaskStartTime()
-					+ " " + currentTask.getTaskStartDate() + "-" + currentTask.getTaskEndTime() + " "
-					+ currentTask.getTaskEndDate() + " " + currentTask.getTaskPriority() + " "
-					+ currentTask.getTaskDescription());
+			//int x = 4;
+			//PersonOverviewController.taskSelected(currentTask, x);
+			//GUIConsole.displayTask(taskIndex + ". " + currentTask.getTaskType() + " " + currentTask.getTaskName() + ": " + currentTask.getTaskStartTime()
+			//		+ " " + currentTask.getTaskStartDate() + "-" + currentTask.getTaskEndTime() + " "
+				//	+ currentTask.getTaskEndDate() + " " + currentTask.getTaskPriority() + " "
+					//+ currentTask.getTaskDescription());
 		}
 
 		return floatingTasks;
 	}
-	
-		public static void display(String[] commandParts) throws Exception {
+
+	public static void display(String[] commandParts) throws Exception {
 		ArrayList<Task> fullList = new ArrayList<Task>();
 		Task currentTask;
 		
@@ -157,7 +133,7 @@ public class CommandExecutor {
 	}
 
 	public void parseInvalidCommand(String command) {
-		GUIConsole.displayErrorMessage(command);
+		//GUIConsole.displayErrorMessage(command);
 	}
 
 	public String[] splitCommand(String command) {
