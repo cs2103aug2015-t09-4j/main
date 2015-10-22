@@ -1,4 +1,4 @@
-//package LemonBuddy;
+package LemonBuddy;
 
 import java.io.Serializable;
 

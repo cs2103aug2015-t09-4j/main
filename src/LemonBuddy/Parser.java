@@ -1,4 +1,4 @@
-//package LemonBuddy;
+package LemonBuddy;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -135,7 +135,7 @@ public class Parser {
 	}
 
 	private int parseTime(String[] commandParts, Task newTask, int wordIndex) throws Exception {
-		int detailIndex = wordIndex;
+		//int detailIndex = wordIndex;
 		Boolean from = false;
 		Boolean to = false;
 		for (String part : commandParts) {
@@ -168,13 +168,14 @@ public class Parser {
 			case "from":
 				wordIndex = splitCommaStart(commandParts, newTask, wordIndex, comma);
 				wordIndex++;
+				wordIndex++;
 				wordIndex = splitCommaEnd(commandParts, newTask, wordIndex, comma);
 				newTask.setTaskType("event");
 				break;
 
 			}
 		}
-		return detailIndex;
+		return wordIndex;
 	}
 
 	public String getCurrentDate() {
@@ -214,13 +215,12 @@ public class Parser {
 
 		if (comma) {
 			taskOn = commandParts[++wordIndex];
-			System.out.println(taskOn);
 			if (taskOn.length() == 4) {
 				newTask.setTaskStartTime(taskOn);
 			} else if (taskOn.length() == 6) {
 				newTask.setTaskStartDate(taskOn);
 			}
-			wordIndex = wordIndex + 1;
+			//wordIndex = wordIndex + 1;
 		}
 		return wordIndex;
 	}
@@ -232,26 +232,25 @@ public class Parser {
 			}
 		}
 
-		String taskOn = commandParts[wordIndex];
+		String taskTo = commandParts[wordIndex];
 		// trim and comma is present
 		if (commandParts[wordIndex].contains(",")) {
-			taskOn = commandParts[wordIndex].substring(0, commandParts[wordIndex].indexOf(","));
+			taskTo = commandParts[wordIndex].substring(0, commandParts[wordIndex].indexOf(","));
 			comma = true;
 		}
-
-		if (taskOn.length() == 4) {
-			newTask.setTaskEndTime(taskOn);
-		} else if (taskOn.length() == 6) {
-			newTask.setTaskEndDate(taskOn);
+		
+		if (taskTo.length() == 4) {
+			newTask.setTaskEndTime(taskTo);
+		} else if (taskTo.length() == 6) {
+			newTask.setTaskEndDate(taskTo);
 		}
 
 		if (comma) {
-			taskOn = commandParts[++wordIndex];
-			System.out.println(taskOn);
-			if (taskOn.length() == 4) {
-				newTask.setTaskEndTime(taskOn);
-			} else if (taskOn.length() == 6) {
-				newTask.setTaskEndDate(taskOn);
+			taskTo = commandParts[++wordIndex];
+			if (taskTo.length() == 4) {
+				newTask.setTaskEndTime(taskTo);
+			} else if (taskTo.length() == 6) {
+				newTask.setTaskEndDate(taskTo);
 			}
 			wordIndex = wordIndex + 1;
 		}
