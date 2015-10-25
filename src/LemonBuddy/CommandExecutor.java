@@ -104,19 +104,26 @@ public class CommandExecutor {
 	
 	public static ArrayList<Task> list() throws Exception {
 		ArrayList<Task> floatingTasks = new ArrayList<Task>();
-		//ArrayList<Task> deadlineTasks = new ArrayList<Task>();
-		//ArrayList<Task> eventTasks = new ArrayList<Task>();
+		ArrayList<Task> deadlineTasks = new ArrayList<Task>();
+		ArrayList<Task> eventTasks = new ArrayList<Task>();
 		
 		ArrayList<Task> fullList = new ArrayList<Task>();
 		Task currentTask;
 
 		fullList = FileStorage.read(path);
-
+		
+		//3 types of arraylist here
 		for (int j = 0; j < fullList.size(); j++) {
 			currentTask = fullList.get(j);
-			//if (currentTask.getTaskType().equals("floating")) {
+			if (currentTask.getTaskType().equals("floating")) {
 				floatingTasks.add(currentTask);
-			//}
+			}
+			if (currentTask.getTaskType().equals("deadline")) {
+				deadlineTasks.add(currentTask);
+			}
+			if (currentTask.getTaskType().equals("event")) {
+				eventTasks.add(currentTask);
+			}
 		}
 		
 		//GUIConsole.displayFloatingTask();
@@ -125,7 +132,7 @@ public class CommandExecutor {
 			int taskIndex = j + 1;
 			//int x = 4;
 		}
-		return floatingTasks;
+		return fullList;
 	}
 
 	public static void display(String[] commandParts) throws Exception {
@@ -147,5 +154,10 @@ public class CommandExecutor {
 
 		String[] commandParts = command.split(" ");
 		return commandParts;
+	}
+
+	public void executeUndo() {
+		// TODO Auto-generated method stub
+		
 	}
 }
