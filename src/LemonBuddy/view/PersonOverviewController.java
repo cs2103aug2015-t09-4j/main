@@ -80,9 +80,9 @@ public class PersonOverviewController {
 			display = display + "Start date " + task.getTaskStartDate() + "\n";
 		}
 		
-		//if (!task.getTaskEndDate().isEmpty()) {
+		if (!task.getTaskEndDate().isEmpty()) {
 			display = display + "End date " + task.getTaskEndDate() + "\n";
-		//}
+		}
 		
 		if (!task.getTaskStartTime().isEmpty()) {
 			display = display + "Start time " + task.getTaskStartTime() + "\n";

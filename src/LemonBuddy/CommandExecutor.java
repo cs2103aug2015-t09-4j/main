@@ -8,35 +8,45 @@ public class CommandExecutor {
 	 private static String path ="C:\\eclipse\\Your sdk your majesty\\main\\test.txt";
 	//private static String path = "C:\\Users\\user\\workspace\\main\\test.txt";
 	private Parser parser;
+	public CommandExecutor(){
+		if (parser == null) {
+			parser = new Parser();
+		}
+	}
 
 	// PRIORITY AND DESCRIPTION NOT DONE
 	public void executeAdd(String[] commandParts) throws Exception {
 		// assume floating first
-		if (parser == null) {
-			parser = new Parser();
-		}
+		
 		Task newTask = parser.parseTask(commandParts);
 		FileStorage.write(newTask);
-		//GUIConsole.successfulAdd(newTask.getTaskName());
 		int i = 1;
 		PersonOverviewController.taskSelected(newTask, i);
 	}
 
 	public void executeEdit(String[] commandParts) throws Exception {
-		String initialTaskName = commandParts[1];
+		String editType = commandParts[1];
+		String editId = commandParts[2];
+		int taskTypeIndex = 1;
 		Task newTask = parser.parseTask(commandParts);
-		// System.out.println(newTask);
+		System.out.println(newTask.getTaskType());
 		ArrayList<Task> fullList = FileStorage.read(path);
 		FileStorage.clear();
 
 		for (int j = 0; j < fullList.size(); j++) {
 			Task currentTask = fullList.get(j);
-
-			if (currentTask.getTaskName().equals(initialTaskName)) {
-				newTask.merge(currentTask);
-				FileStorage.write(newTask);
-				int i = 3;
-				PersonOverviewController.taskSelected(newTask, i);
+			if (currentTask.getTaskType().equals(editType)) {
+				if(editId.equals(String.valueOf(taskTypeIndex))){
+					newTask.merge(currentTask);
+					FileStorage.write(newTask);
+					int i = 3;
+					PersonOverviewController.taskSelected(newTask, i);
+					taskTypeIndex++;
+				}
+				else{
+					taskTypeIndex++;
+					FileStorage.write(currentTask);
+				}
 			} else {
 
 				FileStorage.write(currentTask);
@@ -94,6 +104,9 @@ public class CommandExecutor {
 	
 	public static ArrayList<Task> list() throws Exception {
 		ArrayList<Task> floatingTasks = new ArrayList<Task>();
+		//ArrayList<Task> deadlineTasks = new ArrayList<Task>();
+		//ArrayList<Task> eventTasks = new ArrayList<Task>();
+		
 		ArrayList<Task> fullList = new ArrayList<Task>();
 		Task currentTask;
 
@@ -105,19 +118,13 @@ public class CommandExecutor {
 				floatingTasks.add(currentTask);
 			//}
 		}
-
+		
 		//GUIConsole.displayFloatingTask();
 		for (int j = 0; j < floatingTasks.size(); j++) {
 			currentTask = floatingTasks.get(j);
 			int taskIndex = j + 1;
 			//int x = 4;
-			//PersonOverviewController.taskSelected(currentTask, x);
-			//GUIConsole.displayTask(taskIndex + ". " + currentTask.getTaskType() + " " + currentTask.getTaskName() + ": " + currentTask.getTaskStartTime()
-			//		+ " " + currentTask.getTaskStartDate() + "-" + currentTask.getTaskEndTime() + " "
-				//	+ currentTask.getTaskEndDate() + " " + currentTask.getTaskPriority() + " "
-					//+ currentTask.getTaskDescription());
 		}
-
 		return floatingTasks;
 	}
 

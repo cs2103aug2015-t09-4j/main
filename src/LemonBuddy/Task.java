@@ -44,16 +44,28 @@ public class Task implements Serializable {
 	}
 
 	public Task merge(Task initialTask) {
+		this.taskName = initialTask.getTaskName();
 		
-		if (!this.taskStartDate.equals("")) {
-			initialTask.setTaskStartDate(this.taskStartDate);
-			initialTask.setTaskEndDate(this.taskEndDate);
-		}
-		if (!this.taskStartTime.equals("")) {
-			initialTask.setTaskStartDate(this.taskStartTime);
-			initialTask.setTaskEndDate(this.taskEndTime);
-		}
+		if((this.taskStartDate.equals(""))&&(this.taskEndDate.equals(""))
+				&&(this.taskStartTime.equals(""))&&(this.taskEndTime.equals(""))){
 
+			this.taskType = initialTask.getTaskType();
+		}
+		
+		if ((this.taskStartDate.equals(""))&&(this.taskEndDate.equals(""))) {
+			this.taskStartDate= initialTask.getTaskStartDate();
+			this.taskEndDate= initialTask.getTaskEndDate();
+		}
+		if ((this.taskStartTime.equals(""))&&(this.taskEndTime.equals(""))) {
+			this.taskStartTime= initialTask.getTaskStartTime();
+			this.taskEndTime= initialTask.getTaskEndTime();
+		}
+		if(this.taskPriority.equals("")){
+			this.taskPriority = initialTask.getTaskPriority();
+		}
+		if(this.taskDescription.equals("")){
+			this.taskDescription = initialTask.getTaskDescription();
+		}
 		return this;
 	}
 	
