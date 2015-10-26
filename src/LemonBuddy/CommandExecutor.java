@@ -1,6 +1,8 @@
 package LemonBuddy;
 
 import java.io.File;
+import java.io.IOException;
+
 import LemonBuddy.view.*;
 import java.util.ArrayList;
 
@@ -101,10 +103,49 @@ public class CommandExecutor {
 		//GUIConsole.displayHelp();
 	}
 	
+<<<<<<< HEAD
 	public static void executeList(String[] commandParts) throws Exception {
 		String listType = commandParts[1];
 		LemonGUIController.setCommand(commandParts[0]);
 		LemonGUIController.setListType(listType);
+=======
+	public void executeUpdate() throws IOException, ClassNotFoundException {
+		ArrayList<Task> array = FileStorage.read(path);
+		assert(array != null) : "unable to read from specified path";
+		
+		String currentDate = parser.getCurrentDate();
+		int currentDay = parser.parseInt(currentDate.substring(0,2));
+		int currentMonth = parser.parseInt(currentDate.substring(2,4));
+		int currentYear = parser.parseInt(currentDate.substring(4,6));
+		
+		int i = 0;
+		
+		for (i = 0; i<array.size(); i++) {
+			String endDate = array.get(i).getTaskEndDate();
+			if (endDate.length() == 6) {
+				int endDay = parser.parseInt(endDate.substring(0,2));
+				int endMonth = parser.parseInt(endDate.substring(2,4));
+				int endYear = parser.parseInt(endDate.substring(4,6));
+			
+				if (!(currentDate == endDate) && ((endDay <= currentDay) || (endMonth <= currentMonth) ||
+						(endYear <= currentYear)) && (endDate != "")) {
+					FileStorage.clear();
+					array.remove(i);
+					i--;
+				}
+			
+				int j = 0;
+				while (j < array.size()) {
+					FileStorage.write(array.get(j));
+					j++;
+				}
+			}
+			//GUI?>>?.successfulUpdate();
+		}
+	}
+	
+	public static ArrayList<Task> list() throws Exception {
+>>>>>>> f45921241b008341a937a772572b0d968bb26e49
 		ArrayList<Task> floatingTasks = new ArrayList<Task>();
 		ArrayList<Task> deadlineTasks = new ArrayList<Task>();
 		ArrayList<Task> eventTasks = new ArrayList<Task>();
