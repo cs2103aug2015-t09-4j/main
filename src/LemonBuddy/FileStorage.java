@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class FileStorage {
+public class FileStorage extends Parser{
 //	private static final long serialVersionUID = -769626947865283;
 	static ArrayList<Task> objectList = new ArrayList<Task>();
 	private static final String MSG_WHEN_INVALID_FILENAME = "cannot find targeted file"; 
@@ -32,12 +32,11 @@ public class FileStorage {
 		}
 	}
  
-    public static void write(Object p) throws IOException{  
-    	storageLog.log(Level.ALL, "goint to start writing in an existing file");
+    public static void writeObjectAsString(Object p) throws IOException{
     	File f = new File(filename);
     	FileWriter fw = new FileWriter(f,true);
+		String content = p.toString();
     	try {
-    		String content = p.toString();
     		fw.write(content);
     	} catch (IOException e) {
     		storageLog.log(Level.WARNING, "writing error", e);
@@ -45,15 +44,29 @@ public class FileStorage {
     		fw.flush();
     		storageLog.log(Level.INFO, "end of writing");
     	}  
-    	String content = p.toString();
-    	//fw.write(content);
+    	fw.write(content);
+    	fw.flush();
+    }
+    
+    public static void writeStringAsString(String s) throws IOException{
+    	File f = new File(filename);
+    	FileWriter fw = new FileWriter(f,true);
+    	try {
+    		fw.write(s);
+    	} catch (IOException e) {
+    		storageLog.log(Level.WARNING, "writing error", e);
+    	} finally {
+    		fw.flush();
+    		storageLog.log(Level.INFO, "end of writing");
+    	}  
+    	fw.write(s);
     	fw.flush();
     }
 
-     public static ArrayList<Task> read(String path) throws IOException, ClassNotFoundException {
+     public static ArrayList<Task> readStringAsObject(String path) throws IOException, ClassNotFoundException {
     	 objectList = new ArrayList<Task>();
          File f = new File(filename);
-         //if(f.isFile() && f.exists()) { 
+         if(f.isFile() && f.exists()) { 
          	 assert f.isFile() == true;
          	 assert f.exists() == true;
         	 FileInputStream fis = new FileInputStream(f);
@@ -64,12 +77,32 @@ public class FileStorage {
         		 objectList.add(createTaskFromInformation(lineText));
         	 }
         	 read.close();
-        // } else {
-        	// System.out.println(MSG_WHEN_INVALID_FILENAME);
-        // }
+        } else {
+        	System.out.println(MSG_WHEN_INVALID_FILENAME);
+        }
 		return objectList;       
      }
      
+     public static String readStringAsString(String path) throws IOException, ClassNotFoundException {
+    	 String filecontent = "";
+         File f = new File(filename);
+         if(f.isFile() && f.exists()) { 
+         	 assert f.isFile() == true;
+         	 assert f.exists() == true;
+        	 FileInputStream fis = new FileInputStream(f);
+        	 InputStreamReader read = new InputStreamReader(fis);
+        	 BufferedReader br = new BufferedReader(read);
+        	 String lineText = null;
+        	 while((lineText = br.readLine()) != null) {
+        		 filecontent = filecontent + lineText;
+        	 }
+        	 read.close();
+        } else {
+        	System.out.println(MSG_WHEN_INVALID_FILENAME);
+        }
+		return filecontent;       
+     }
+
      public static void RetrieveFile(String path) throws IOException {
 		 FileInputStream input=new FileInputStream(filename);
 		 FileOutputStream output=new FileOutputStream(path);   	 
@@ -85,11 +118,7 @@ public class FileStorage {
     		 input.close();
     		 output.close();
     	 }
-<<<<<<< HEAD:src/FileStorage.java
      }
-=======
-     }    	 
-
->>>>>>> origin/master:src/LemonBuddy/FileStorage.java
 }
+    	
 
