@@ -112,36 +112,34 @@ public class CommandExecutor {
 	public void executeUpdate() throws IOException, ClassNotFoundException {
 		ArrayList<Task> array = FileStorage.read(path);
 		assert(array != null) : "unable to read from specified path";
-		
+	
 		String currentDate = parser.getCurrentDate();
-		int currentDay = parser.parseInt(currentDate.substring(0,2));
-		int currentMonth = parser.parseInt(currentDate.substring(2,4));
-		int currentYear = parser.parseInt(currentDate.substring(4,6));
-		
+		System.out.println(currentDate);
+	
 		int i = 0;
-		
+		boolean anythingRemoved = false;
+	
 		for (i = 0; i<array.size(); i++) {
 			String endDate = array.get(i).getTaskEndDate();
+			System.out.println(endDate);
 			if (endDate.length() == 6) {
-				int endDay = parser.parseInt(endDate.substring(0,2));
-				int endMonth = parser.parseInt(endDate.substring(2,4));
-				int endYear = parser.parseInt(endDate.substring(4,6));
-			
-				if (!(currentDate == endDate) && ((endDay <= currentDay) || (endMonth <= currentMonth) ||
-						(endYear <= currentYear)) && (endDate != "")) {
+				if (parser.endDatePassed(currentDate, endDate)) {
 					FileStorage.clear();
 					array.remove(i);
+					anythingRemoved = true;
 					i--;
 				}
-			
-				int j = 0;
-				while (j < array.size()) {
-					FileStorage.write(array.get(j));
-					j++;
-				}
 			}
-			//GUI?>>?.successfulUpdate();
 		}
+	
+		if (anythingRemoved) {
+			int j = 0;
+			while (j < array.size()) {
+				FileStorage.write(array.get(j));
+				j++;
+			}
+		}
+		//GUI?>>?.successfulUpdate();
 	}
 	
 	public static ArrayList<Task> list() throws Exception {

@@ -256,6 +256,25 @@ public class Parser {
 		}
 		return wordIndex;
 	}
+	public boolean endDatePassed(String currentDate, String endDate) {
+		
+		int currentDay = parseInt(getDay(currentDate));
+		int currentMonth = parseInt(getMonth(currentDate));
+		int currentYear = parseInt(getYear(currentDate));
+		int endDay = parseInt(getDay(endDate));
+		int endMonth = parseInt(getMonth(endDate));
+		int endYear = parseInt(getYear(endDate));
+		
+		if ((currentYear > endYear)) {
+			return true;
+		} else if ((currentMonth > currentMonth) && (currentYear == endYear)) {
+			return true;
+		} else if ((currentDay > endDay) && (currentMonth == endMonth) && (currentYear == endYear)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	
 	int parseInt(String str) {
 		int i = 0;
