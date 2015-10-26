@@ -5,7 +5,7 @@ import LemonBuddy.view.*;
 import java.util.ArrayList;
 
 public class CommandExecutor {
-	 private static String path ="C:\\eclipse\\Your sdk your majesty\\main\\test.txt";
+	private static String path ="C:\\eclipse\\Your sdk your majesty\\main\\test.txt";
 	//private static String path = "C:\\Users\\user\\workspace\\main\\test.txt";
 	private Parser parser;
 	public CommandExecutor(){
@@ -20,16 +20,17 @@ public class CommandExecutor {
 		
 		Task newTask = parser.parseTask(commandParts);
 		FileStorage.write(newTask);
-		int i = 1;
-		PersonOverviewController.taskSelected(newTask, i);
+		LemonGUIController.setTask(newTask);
+		LemonGUIController.setCommand(commandParts[0]);
 	}
 
 	public void executeEdit(String[] commandParts) throws Exception {
 		String editType = commandParts[1];
 		String editId = commandParts[2];
+		LemonGUIController.setCommand(commandParts[0]);
 		int taskTypeIndex = 1;
 		Task newTask = parser.parseTask(commandParts);
-		System.out.println(newTask.getTaskType());
+		//System.out.println(newTask.getTaskType());
 		ArrayList<Task> fullList = FileStorage.read(path);
 		FileStorage.clear();
 
@@ -39,8 +40,7 @@ public class CommandExecutor {
 				if(editId.equals(String.valueOf(taskTypeIndex))){
 					newTask.merge(currentTask);
 					FileStorage.write(newTask);
-					int i = 3;
-					PersonOverviewController.taskSelected(newTask, i);
+					LemonGUIController.setTask(newTask);
 					taskTypeIndex++;
 				}
 				else{
@@ -56,19 +56,18 @@ public class CommandExecutor {
 
 	public void executeDelete(String[] commandParts) throws Exception {
 		int deleteIndex = Integer.valueOf(commandParts[1]) - 1;
+		LemonGUIController.setCommand(commandParts[0]);
 		ArrayList<Task> array = FileStorage.read(path);
 		assert(array != null) : "unable to read from specified path";
-		if (deleteIndex > array.size() - 1) {
+		if (deleteIndex > array.size() - 1 || deleteIndex == -1) {
 			return;
 		}
 		int i = 0;
 		while (i < array.size()) {
 			if (i == deleteIndex) {
 				FileStorage.clear();
-				int x = 2;
-				PersonOverviewController.taskSelected(array.get(i), x);
+				LemonGUIController.setTask(array.get(i));
 				array.remove(i);
-				//GUIConsole.successfulDelete(commandParts[1]);
 				break;
 			}
 			i++;
@@ -102,7 +101,10 @@ public class CommandExecutor {
 		//GUIConsole.displayHelp();
 	}
 	
-	public static ArrayList<Task> list() throws Exception {
+	public static void executeList(String[] commandParts) throws Exception {
+		String listType = commandParts[1];
+		LemonGUIController.setCommand(commandParts[0]);
+		LemonGUIController.setListType(listType);
 		ArrayList<Task> floatingTasks = new ArrayList<Task>();
 		ArrayList<Task> deadlineTasks = new ArrayList<Task>();
 		ArrayList<Task> eventTasks = new ArrayList<Task>();
@@ -126,24 +128,26 @@ public class CommandExecutor {
 			}
 		}
 		
-		//GUIConsole.displayFloatingTask();
-		for (int j = 0; j < floatingTasks.size(); j++) {
-			currentTask = floatingTasks.get(j);
-			int taskIndex = j + 1;
-			//int x = 4;
+		if(listType.equals("floating")) {
+			LemonGUIController.setList(floatingTasks);
+		} else if(listType.equals("deadline")) {
+			LemonGUIController.setList(deadlineTasks);
+		} else if(listType.equals("event")) {
+			LemonGUIController.setList(eventTasks);
+		} else if(listType.equals("all")) {
+			LemonGUIController.setList(fullList);
 		}
-		return fullList;
 	}
 
-	public static void display(String[] commandParts) throws Exception {
+	public void executeDisplay(String[] commandParts) throws Exception {
 		ArrayList<Task> fullList = new ArrayList<Task>();
+		LemonGUIController.setCommand(commandParts[0]);
 		Task currentTask;
 		
 		int id = Integer.parseInt(commandParts[1]);
 		fullList = FileStorage.read(path);
-		int x = 4;
 		currentTask = fullList.get(id - 1);
-		PersonOverviewController.taskSelected(currentTask, x);
+		LemonGUIController.setTask(currentTask);
 	}
 
 	public void parseInvalidCommand(String command) {

@@ -118,44 +118,62 @@ public class Task implements Serializable {
 	 */
 
 	public String getTaskName() {
-		return this.taskName;
+		StringBuffer buffer = new StringBuffer(this.taskName);
+		return buffer.toString();
 	}
 
 	public String getTaskType() {
-		return this.taskType;
+		StringBuffer buffer = new StringBuffer(this.taskType);
+		return buffer.toString();
 	}
 
 	public String getTaskStartDate() {
-			return this.taskStartDate;
+		if (!this.taskStartDate.equals("")) {
+			StringBuffer buffer = new StringBuffer(this.taskStartDate);
+			return buffer.toString();
+		} else
+			return "";
 	}
 
 	public String getTaskEndDate() {
-		/*if (!this.taskEndDate.equals("")) {
+		if (!this.taskEndDate.equals("")) {
 			StringBuffer buffer = new StringBuffer(this.taskEndDate);
 			return buffer.toString();
 		} else
-			return "";*/
-		return this.taskStartDate;
+			return "";
 	}
 
 	public String getTaskPriority() {
-		return this.taskPriority;
+		StringBuffer buffer = new StringBuffer(this.taskPriority);
+		return buffer.toString();
 	}
 
 	public String getTaskDescription() {
-		return this.taskDescription;
+		StringBuffer buffer = new StringBuffer(this.taskDescription);
+		return buffer.toString();
 	}
 
 	public String getTaskStartTime() {
-			return this.taskStartTime;
+		if (!this.taskStartTime.equals("")) {
+			StringBuffer buffer = new StringBuffer(this.taskStartTime);
+			String buffer2 = buffer.toString();
+			return buffer2;
+		} else
+			return "";
 	}
 
 	public String getTaskEndTime() {
-			return this.taskEndTime;
+		if (!this.taskEndTime.equals("")) {
+			StringBuffer buffer = new StringBuffer(this.taskEndTime);
+			String buffer2 = buffer.toString();
+			return buffer2;
+		} else
+			return "";
 	}
 
 	public String getRecurType(String recurType) {
-		return this.recurType;
+		StringBuffer buffer = new StringBuffer(this.recurType);
+		return buffer.toString();
 	}
 
 	public Integer getRecurStartDate(Integer recurStartDate) {

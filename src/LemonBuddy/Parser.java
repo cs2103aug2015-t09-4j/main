@@ -222,8 +222,6 @@ public class Parser {
 			}
 			//wordIndex = wordIndex + 1;
 		}
-
-		System.out.println("start Name: " + newTask.getTaskName()+" date: "+newTask.getTaskEndDate());
 		return wordIndex;
 	}
 
@@ -256,8 +254,6 @@ public class Parser {
 			}
 			wordIndex = wordIndex + 1;
 		}
-
-		System.out.println("end Name: " + newTask.getTaskName()+" date: "+newTask.getTaskEndDate());
 		return wordIndex;
 	}
 	

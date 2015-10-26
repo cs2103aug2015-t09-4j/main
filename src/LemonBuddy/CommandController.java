@@ -12,6 +12,8 @@ public class CommandController {
 	private static final String COMMAND_EDIT = "edit";
 	private static final String COMMAND_RECUR = "recur";
 	private static final String COMMAND_NAVIGATE = "view";
+	private static final String COMMAND_LIST = "list";
+	private static final String COMMAND_DISPLAY = "display";
 	private static final String COMMAND_HELP = "help";
 	private static final String COMMAND_UPDATE = "update";
 	private static final String COMMAND_UNDO = "undo";
@@ -53,9 +55,13 @@ public class CommandController {
 			case COMMAND_NAVIGATE:
 				commandexecutor.executeNavigate(commandParts);
 				break;
+				
+			case COMMAND_LIST:
+				commandexecutor.executeList(commandParts);
+				break;
 
-			case "display":
-				commandexecutor.display(commandParts);
+			case COMMAND_DISPLAY:
+				commandexecutor.executeDisplay(commandParts);
 				break;
 
 			case COMMAND_HELP:
