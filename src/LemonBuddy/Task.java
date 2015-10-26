@@ -135,7 +135,7 @@ public class Task implements Serializable {
 			return buffer.toString();
 		} else
 			return "";*/
-		return this.taskStartDate;
+		return this.taskEndDate;
 	}
 
 	public String getTaskPriority() {
