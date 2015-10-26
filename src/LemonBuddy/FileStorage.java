@@ -1,3 +1,5 @@
+package LemonBuddy;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -83,6 +85,11 @@ public class FileStorage {
     		 input.close();
     		 output.close();
     	 }
+<<<<<<< HEAD:src/FileStorage.java
      }
+=======
+     }    	 
+
+>>>>>>> origin/master:src/LemonBuddy/FileStorage.java
 }
 

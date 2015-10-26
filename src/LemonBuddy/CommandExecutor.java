@@ -1,4 +1,7 @@
+package LemonBuddy;
+
 import java.io.File;
+import LemonBuddy.view.*;
 import java.util.ArrayList;
 
 public class CommandExecutor {
@@ -13,8 +16,10 @@ public class CommandExecutor {
 			parser = new Parser();
 		}
 		Task newTask = parser.parseTask(commandParts);
-		FileStorage.write(path, newTask);
-		GUIConsole.successfulAdd(newTask.getTaskName());
+		FileStorage.write(newTask);
+		//GUIConsole.successfulAdd(newTask.getTaskName());
+		int i = 1;
+		PersonOverviewController.taskSelected(newTask, i);
 	}
 
 	public void executeEdit(String[] commandParts) throws Exception {
@@ -22,17 +27,19 @@ public class CommandExecutor {
 		Task newTask = parser.parseTask(commandParts);
 		// System.out.println(newTask);
 		ArrayList<Task> fullList = FileStorage.read(path);
-		FileStorage.clear(path);
+		FileStorage.clear();
 
 		for (int j = 0; j < fullList.size(); j++) {
 			Task currentTask = fullList.get(j);
 
 			if (currentTask.getTaskName().equals(initialTaskName)) {
 				newTask.merge(currentTask);
-				FileStorage.write(path, newTask);
+				FileStorage.write(newTask);
+				int i = 3;
+				PersonOverviewController.taskSelected(newTask, i);
 			} else {
 
-				FileStorage.write(path, currentTask);
+				FileStorage.write(currentTask);
 			}
 		}
 	}
@@ -41,19 +48,24 @@ public class CommandExecutor {
 		int deleteIndex = Integer.valueOf(commandParts[1]) - 1;
 		ArrayList<Task> array = FileStorage.read(path);
 		assert(array != null) : "unable to read from specified path";
+		if (deleteIndex > array.size() - 1) {
+			return;
+		}
 		int i = 0;
 		while (i < array.size()) {
 			if (i == deleteIndex) {
-				FileStorage.clear(path);
+				FileStorage.clear();
+				int x = 2;
+				PersonOverviewController.taskSelected(array.get(i), x);
 				array.remove(i);
-				GUIConsole.successfulDelete(commandParts[1]);
+				//GUIConsole.successfulDelete(commandParts[1]);
 				break;
 			}
 			i++;
 		}
 		int j = 0;
 		while (j < array.size()) {
-			FileStorage.write(path, array.get(j));
+			FileStorage.write(array.get(j));
 			j++;
 		}
 	}
@@ -77,10 +89,10 @@ public class CommandExecutor {
 	}
 
 	public void executeHelp() {
-		GUIConsole.displayHelp();
+		//GUIConsole.displayHelp();
 	}
-
-	public static ArrayList<Task> display() throws Exception {
+	
+	public static ArrayList<Task> list() throws Exception {
 		ArrayList<Task> floatingTasks = new ArrayList<Task>();
 		ArrayList<Task> fullList = new ArrayList<Task>();
 		Task currentTask;
@@ -94,21 +106,34 @@ public class CommandExecutor {
 			//}
 		}
 
-		GUIConsole.displayFloatingTask();
+		//GUIConsole.displayFloatingTask();
 		for (int j = 0; j < floatingTasks.size(); j++) {
 			currentTask = floatingTasks.get(j);
 			int taskIndex = j + 1;
-			GUIConsole.displayTask(taskIndex + ". " + currentTask.getTaskType() + " " + currentTask.getTaskName() + ": " + currentTask.getTaskStartTime()
-					+ " " + currentTask.getTaskStartDate() + "-" + currentTask.getTaskEndTime() + " "
-					+ currentTask.getTaskEndDate() + " " + currentTask.getTaskPriority() + " "
-					+ currentTask.getTaskDescription());
+			//int x = 4;
+			//PersonOverviewController.taskSelected(currentTask, x);
+			//GUIConsole.displayTask(taskIndex + ". " + currentTask.getTaskType() + " " + currentTask.getTaskName() + ": " + currentTask.getTaskStartTime()
+			//		+ " " + currentTask.getTaskStartDate() + "-" + currentTask.getTaskEndTime() + " "
+				//	+ currentTask.getTaskEndDate() + " " + currentTask.getTaskPriority() + " "
+					//+ currentTask.getTaskDescription());
 		}
 
 		return floatingTasks;
 	}
 
+	public static void display(String[] commandParts) throws Exception {
+		ArrayList<Task> fullList = new ArrayList<Task>();
+		Task currentTask;
+		
+		int id = Integer.parseInt(commandParts[1]);
+		fullList = FileStorage.read(path);
+		int x = 4;
+		currentTask = fullList.get(id - 1);
+		PersonOverviewController.taskSelected(currentTask, x);
+	}
+
 	public void parseInvalidCommand(String command) {
-		GUIConsole.displayErrorMessage(command);
+		//GUIConsole.displayErrorMessage(command);
 	}
 
 	public String[] splitCommand(String command) {

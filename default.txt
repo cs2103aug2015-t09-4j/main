@@ -1,0 +1,4 @@
+taskname:one;tasktype:deadline;taskStartDate:;taskEndDate:;taskPriority:;taskDescription:;taskStartTime:;taskEndTime:2020;recurType:;recurStartDate:;recurEndDate:;
+taskname:one;tasktype:deadline;taskStartDate:;taskEndDate:303030;taskPriority:;taskDescription:;taskStartTime:;taskEndTime:;recurType:;recurStartDate:;recurEndDate:;
+taskname:one;tasktype:deadline;taskStartDate:;taskEndDate:303030;taskPriority:;taskDescription:;taskStartTime:;taskEndTime:;recurType:;recurStartDate:;recurEndDate:;
+taskname:one;tasktype:event;taskStartDate:;taskEndDate:;taskPriority:;taskDescription:;taskStartTime:2020;taskEndTime:3030;recurType:;recurStartDate:;recurEndDate:;

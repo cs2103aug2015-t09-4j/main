@@ -1,3 +1,5 @@
+package LemonBuddy;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -133,7 +135,7 @@ public class Parser {
 	}
 
 	private int parseTime(String[] commandParts, Task newTask, int wordIndex) throws Exception {
-		int detailIndex = wordIndex;
+		//int detailIndex = wordIndex;
 		Boolean from = false;
 		Boolean to = false;
 		for (String part : commandParts) {
@@ -166,13 +168,14 @@ public class Parser {
 			case "from":
 				wordIndex = splitCommaStart(commandParts, newTask, wordIndex, comma);
 				wordIndex++;
+				wordIndex++;
 				wordIndex = splitCommaEnd(commandParts, newTask, wordIndex, comma);
 				newTask.setTaskType("event");
 				break;
 
 			}
 		}
-		return detailIndex;
+		return wordIndex;
 	}
 
 	public String getCurrentDate() {
@@ -212,13 +215,12 @@ public class Parser {
 
 		if (comma) {
 			taskOn = commandParts[++wordIndex];
-			System.out.println(taskOn);
 			if (taskOn.length() == 4) {
 				newTask.setTaskStartTime(taskOn);
 			} else if (taskOn.length() == 6) {
 				newTask.setTaskStartDate(taskOn);
 			}
-			wordIndex = wordIndex + 1;
+			//wordIndex = wordIndex + 1;
 		}
 		return wordIndex;
 	}
@@ -230,29 +232,50 @@ public class Parser {
 			}
 		}
 
-		String taskOn = commandParts[wordIndex];
+		String taskTo = commandParts[wordIndex];
 		// trim and comma is present
 		if (commandParts[wordIndex].contains(",")) {
-			taskOn = commandParts[wordIndex].substring(0, commandParts[wordIndex].indexOf(","));
+			taskTo = commandParts[wordIndex].substring(0, commandParts[wordIndex].indexOf(","));
 			comma = true;
 		}
-
-		if (taskOn.length() == 4) {
-			newTask.setTaskEndTime(taskOn);
-		} else if (taskOn.length() == 6) {
-			newTask.setTaskEndDate(taskOn);
+		
+		if (taskTo.length() == 4) {
+			newTask.setTaskEndTime(taskTo);
+		} else if (taskTo.length() == 6) {
+			newTask.setTaskEndDate(taskTo);
 		}
 
 		if (comma) {
-			taskOn = commandParts[++wordIndex];
-			System.out.println(taskOn);
-			if (taskOn.length() == 4) {
-				newTask.setTaskEndTime(taskOn);
-			} else if (taskOn.length() == 6) {
-				newTask.setTaskEndDate(taskOn);
+			taskTo = commandParts[++wordIndex];
+			if (taskTo.length() == 4) {
+				newTask.setTaskEndTime(taskTo);
+			} else if (taskTo.length() == 6) {
+				newTask.setTaskEndDate(taskTo);
 			}
 			wordIndex = wordIndex + 1;
 		}
 		return wordIndex;
+	}
+	
+	int parseInt(String str) {
+		int i = 0;
+	    int num = 0;
+	    boolean isNeg = false;
+
+	    //Check for negative sign; if it's there, set the isNeg flag
+	    if (str.charAt(0) == '-') {
+	        isNeg = true;
+	        i = 1;
+	    }
+
+	    //Process each character of the string;
+	    while( i < str.length()) {
+	        num *= 10;
+	        num += str.charAt(i++) - '0'; //Minus the ASCII code of '0' to get the value of the charAt(i++).
+	    }
+
+	    if (isNeg)
+	        num = -num;
+	    return num;
 	}
 }
