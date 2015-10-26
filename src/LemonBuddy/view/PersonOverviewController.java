@@ -10,6 +10,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 public class PersonOverviewController {
 	
@@ -17,9 +20,10 @@ public class PersonOverviewController {
 	
 	private static Task task;
 	private static int type;
+	private ArrayList<Task> tasks;
 	
 	@FXML
-	private TextArea listView;
+	private TextFlow listView;
 	
 	@FXML
 	private TextArea mainConsole;
@@ -29,7 +33,7 @@ public class PersonOverviewController {
 	
 	@FXML
     private void initialize() throws Exception {
-        listView.setText(generateList());
+        generateSideList();
         mainConsole.setText("Welcome to LemonBuddy!!!!");
     }
 	
@@ -37,27 +41,38 @@ public class PersonOverviewController {
 	private void getInput() {
 		input = inputField.getText();
 		CommandController.processCommand(input);
-		inputField.setText("");
+		inputField.clear();
 	}
 	
-	private String generateList() throws Exception {
-		ArrayList<Task> tasks = CommandExecutor.list();
-		String toList = "";
+	@FXML
+	private void generateSideList() throws Exception {
+		listView.getChildren().clear();
+		tasks = CommandExecutor.list();
 		int a = 1;
-		while (a - 1 < tasks.size()) {
-			toList = toList + a + ". " + tasks.get(a - 1).getTaskName() + "\n";
+		while (a < tasks.size() + 1) {
+			Task temp = tasks.get(a - 1);
+			Text t = new Text(getTask(a));
+			if (temp.getTaskPriority().equals("high")) {
+				t.setFill(Color.RED);
+			}
+			listView.getChildren().add(t);
 			a++;
 		}
-		System.out.println(tasks);
+		
+	}
+	
+	private String getTask(int id) throws Exception {
+		String toList = "";
+		toList = toList + id + ". " + tasks.get(id - 1).getTaskName() + "\n";
 		return toList;
 	}
 	
 	@FXML
-	private void onEnter(KeyEvent event) throws Exception {
+	void onEnter(KeyEvent event) throws Exception {
 		if (event.getCode() == KeyCode.ENTER) {
 			getInput();
 			displayMain();
-			listView.setText(generateList());
+			generateSideList();
 		}
 	}
 	
@@ -72,17 +87,14 @@ public class PersonOverviewController {
 		if (!task.getTaskDescription().isEmpty()) {
 			display = display + "Description: " + task.getTaskDescription() + "\n";
 		}
-		//if (task.getTaskType().equals("deadline")) {
-			//display = display + "By " + task.getTaskEndDate();
-		//}
 		
 		if (!task.getTaskStartDate().isEmpty()) {
 			display = display + "Start date " + task.getTaskStartDate() + "\n";
 		}
 		
-		//if (!task.getTaskEndDate().isEmpty()) {
+		if (!task.getTaskEndDate().isEmpty()) {
 			display = display + "End date " + task.getTaskEndDate() + "\n";
-		//}
+		}
 		
 		if (!task.getTaskStartTime().isEmpty()) {
 			display = display + "Start time " + task.getTaskStartTime() + "\n";
@@ -91,6 +103,7 @@ public class PersonOverviewController {
 		if (!task.getTaskEndTime().isEmpty()) {
 			display = display + "End time " + task.getTaskEndTime() + "\n";
 		}
+
 		return display;
 	}
 	
@@ -110,6 +123,8 @@ public class PersonOverviewController {
 		if (type == 4) {
 			mainConsole.setText("Displaying\n" + displayTask(task));
 		}
+		
+		type = 0;
 		
 	}
 	

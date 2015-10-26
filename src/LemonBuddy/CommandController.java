@@ -14,6 +14,7 @@ public class CommandController {
 	private static final String COMMAND_NAVIGATE = "view";
 	private static final String COMMAND_HELP = "help";
 	private static final String COMMAND_UPDATE = "update";
+	private static final String COMMAND_UNDO = "undo";
 	private static final String MESSAGE_INVALID = "Invalid Command";
 	private static CommandExecutor commandexecutor;
 	
@@ -37,7 +38,7 @@ public class CommandController {
 			case COMMAND_DELETE:
 				commandexecutor.executeDelete(commandParts);
 				break;
-
+			//edit event 1 by 2020 *high desc huehuehue
 			case COMMAND_EDIT:
 				commandexecutor.executeEdit(commandParts);
 				break;
@@ -45,7 +46,10 @@ public class CommandController {
 			case COMMAND_RECUR:
 				commandexecutor.executeRecur(commandParts);
 				break;
-
+				
+			case COMMAND_UNDO:
+				commandexecutor.executeUndo();
+				
 			case COMMAND_NAVIGATE:
 				commandexecutor.executeNavigate(commandParts);
 				break;
@@ -61,7 +65,7 @@ public class CommandController {
 			case COMMAND_UPDATE:
 				//commandexecutor.executeUpdate();
 				break;
-
+			
 			default:
 				commandexecutor.parseInvalidCommand(commandParts[0]);
 				break;
