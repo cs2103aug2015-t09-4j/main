@@ -276,6 +276,31 @@ public class Parser {
 		}
 	}
 	
+	public String getDay(String date) {
+		return date.substring(0,2);
+	}
+	
+	public String getMonth(String date) {
+		return date.substring(2,4);
+	}
+	
+	public String getYear(String date) {
+		return date.substring(4,6);
+	}
+	
+	public String addOneYear(String date) {
+		int day = parseInt(getDay(date));
+		int month = parseInt(getMonth(date));
+		int year = parseInt(getYear(date)) + 1;
+		
+		String newDate = "";
+		newDate = newDate.concat(toTwoDigit(Integer.toString(day)));
+		newDate = newDate.concat(toTwoDigit(Integer.toString(month)));
+		newDate = newDate.concat((Integer.toString(year)));
+		
+		return newDate;
+	}
+	
 	int parseInt(String str) {
 		int i = 0;
 	    int num = 0;

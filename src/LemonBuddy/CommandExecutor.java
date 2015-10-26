@@ -81,15 +81,56 @@ public class CommandExecutor {
 		}
 	}
 
-	public void executeRecur(String[] commandParts) {
-		// TODO get startdate
+	public void executeRecur(String[] commandParts) throws IOException, ClassNotFoundException {
+		String recurType = commandParts[1];
+		String recurID = commandParts[2];
+		String recurFreq = commandParts[3];
+		String recurEndDate = commandParts[4];
+		
+		ArrayList<Task> fullList = FileStorage.read(path);
+		int taskTypeIndex = 1;
 
-		/*
-		 * get particular task retrieve taskDate get recurring frequency add
-		 * task to respective dates and time (our own calendar?) e.g. recur eat
-		 * daily
-		 */
-	}
+		for (int i = 0; i < fullList.size(); i++) {
+			Task currentTask = fullList.get(i);
+			System.out.println("1");
+			
+			if (currentTask.getTaskType().equals(recurType)) {
+				if(recurID.equals(String.valueOf(taskTypeIndex))){
+					taskTypeIndex++;
+					Task recurringTask = currentTask;
+						if (recurType.equals("deadline")) {
+							
+							String currentRecurringDate = currentTask.getTaskEndDate();
+							
+							if (recurFreq.equals("yearly")) {
+								currentRecurringDate = parser.addOneYear(currentRecurringDate);
+								while (!parser.endDatePassed(currentRecurringDate, recurEndDate)) {
+									currentRecurringDate = parser.addOneYear(currentRecurringDate);
+									recurringTask.setTaskEndDate(currentRecurringDate);
+									System.out.println(currentRecurringDate);
+									FileStorage.write(recurringTask);
+								}
+							}
+							
+							/* while (!parser.endDatePassed(currentRecurringDate, recurEndDate)) {
+								System.out.println("While loop entered");
+								if (recurFreq.equals("yearly")) {
+									currentRecurringDate = parser.addOneYear(currentRecurringDate);
+									recurringTask.setTaskEndDate(currentRecurringDate);
+									System.out.println(currentRecurringDate);
+									FileStorage.write(recurringTask);
+								}
+							} */
+							
+						} else if (recurType == "event") {
+							
+						}
+						
+				} else {
+					taskTypeIndex++;
+				}
+			}
+		}
 
 	public void executeNavigate(String[] commandParts) {
 		// TODO Auto-generated method stub
