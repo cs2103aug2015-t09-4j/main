@@ -267,7 +267,7 @@ public class Parser {
 		
 		if ((currentYear > endYear)) {
 			return true;
-		} else if ((currentMonth > currentMonth) && (currentYear == endYear)) {
+		} else if ((currentMonth > endMonth) && (currentYear == endYear)) {
 			return true;
 		} else if ((currentDay > endDay) && (currentMonth == endMonth) && (currentYear == endYear)) {
 			return true;
