@@ -63,7 +63,7 @@ public class CommandController {
 				break;
 				
 			case COMMAND_UPDATE:
-				//commandexecutor.executeUpdate();
+				commandexecutor.executeUpdate();
 				break;
 			
 			default:
