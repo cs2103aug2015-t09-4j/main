@@ -92,23 +92,19 @@ public class CommandExecutor {
 
 		for (int i = 0; i < fullList.size(); i++) {
 			Task currentTask = fullList.get(i);
-			System.out.println("1");
 			
 			if (currentTask.getTaskType().equals(recurType)) {
 				if(recurID.equals(String.valueOf(taskTypeIndex))){
 					taskTypeIndex++;
 					Task recurringTask = currentTask;
 						if (recurType.equals("deadline")) {
-							
 							String currentRecurringDate = currentTask.getTaskEndDate();
-							
 							if (recurFreq.equals("yearly")) {
 								currentRecurringDate = parser.addOneYear(currentRecurringDate);
 								while (!parser.endDatePassed(currentRecurringDate, recurEndDate)) {
-									currentRecurringDate = parser.addOneYear(currentRecurringDate);
 									recurringTask.setTaskEndDate(currentRecurringDate);
-									System.out.println(currentRecurringDate);
 									FileStorage.write(recurringTask);
+									currentRecurringDate = parser.addOneYear(currentRecurringDate);
 								}
 							}
 							
