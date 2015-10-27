@@ -1,3 +1,12 @@
+<<<<<<< HEAD
 taskname:one;tasktype:floating;taskStartDate:;taskEndDate:;taskPriority:;taskDescription:;taskStartTime:;taskEndTime:;recurType:;recurStartDate:;recurEndDate:;
 taskname:3;tasktype:floating;taskStartDate:;taskEndDate:;taskPriority:high;taskDescription:;taskStartTime:;taskEndTime:;recurType:;recurStartDate:;recurEndDate:;
 taskname:3;tasktype:floating;taskStartDate:;taskEndDate:;taskPriority:;taskDescription:;taskStartTime:;taskEndTime:;recurType:;recurStartDate:;recurEndDate:;
+=======
+taskname:one;tasktype:deadline;taskStartDate:;taskEndDate:;taskPriority:high;taskDescription:toto;taskStartTime:;taskEndTime:1070;recurType:;recurStartDate:;recurEndDate:;
+taskname:two;tasktype:event;taskStartDate:;taskEndDate:;taskPriority:;taskDescription:;taskStartTime:1010;taskEndTime:2020;recurType:;recurStartDate:;recurEndDate:;
+taskname:three;tasktype:event;taskStartDate:;taskEndDate:;taskPriority:;taskDescription:;taskStartTime:2020;taskEndTime:2020;recurType:;recurStartDate:;recurEndDate:;
+taskname:four;tasktype:deadline;taskStartDate:;taskEndDate:;taskPriority:;taskDescription:;taskStartTime:;taskEndTime:2020;recurType:;recurStartDate:;recurEndDate:;
+taskname:testing update;tasktype:event;taskStartDate:111015;taskEndDate:201015;taskPriority:;taskDescription:;taskStartTime:;taskEndTime:;recurType:;recurStartDate:;recurEndDate:;
+taskname:deadline;tasktype:deadline;taskStartDate:;taskEndDate:101015;taskPriority:;taskDescription:;taskStartTime:;taskEndTime:;recurType:;recurStartDate:;recurEndDate:;
+>>>>>>> f45921241b008341a937a772572b0d968bb26e49
