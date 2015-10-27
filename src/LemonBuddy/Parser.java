@@ -301,6 +301,14 @@ public class Parser {
 		return newDate;
 	}
 	
+	String toTwoDigit(String num) {
+		if (num.length() == 1) {
+			num = "0" + num;
+		}
+		
+		return num;
+	}
+	
 	int parseInt(String str) {
 		int i = 0;
 	    int num = 0;
