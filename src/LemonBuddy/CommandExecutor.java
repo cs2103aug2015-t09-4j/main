@@ -34,56 +34,60 @@ public class CommandExecutor {
 		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
 		FileStorage.clear();
 		
-		int taskTypeIndex = 1;
-		String editType = commandParts[1];
-		String editId = commandParts[2];
-		for (int j = 0; j < fullList.size(); j++) {
-			Task currentTask = fullList.get(j);
-			if (currentTask.getTaskType().equals(editType)) {
-				if (editId.equals(String.valueOf(taskTypeIndex))) {
-					newTask.merge(currentTask);
-					FileStorage.writeObjectAsString(newTask);
-					LemonGUIController.setTask(newTask);
-					taskTypeIndex++;
-				} else {
-					taskTypeIndex++;
-					FileStorage.writeObjectAsString(currentTask);
-				}
-			} else {
-
-				FileStorage.writeObjectAsString(currentTask);
-			}
-		}
+		int taskToEditIndex = writeUntilTaskIndex(commandParts, fullList);
+		Task taskToEdit = fullList.get(taskToEditIndex);	
+		FileStorage.writeObjectAsString(newTask.merge(taskToEdit));
+		LemonGUIController.setTask(newTask);
+		writeRestOfList(fullList, taskToEditIndex);
 	}
 
+	
+
+	
 	public void executeDelete(String[] commandParts) throws Exception {
-		LemonGUIController.setCommand(commandParts[0]);
-		String deleteType = commandParts[1];
 		String deleteId = commandParts[2];
 		ArrayList<Task> array = FileStorage.readStringAsObject(path);
 		assert(array != null) : "unable to read from specified path";
 		if (Integer.valueOf(deleteId) > array.size()  || Integer.valueOf(deleteId) <= 0) {
 			return;
 		}
-		int taskTypeIndex = 1;
+		LemonGUIController.setCommand(commandParts[0]);		
 		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
 		FileStorage.clear();
-		for (int j = 0; j < fullList.size(); j++) {
+		
+		int taskToDeleteIndex = writeUntilTaskIndex(commandParts, fullList);
+		Task taskToDelete = fullList.get(taskToDeleteIndex);	
+		LemonGUIController.setTask(taskToDelete);
+		System.out.println(taskToDeleteIndex);
+		writeRestOfList(fullList, taskToDeleteIndex);
+	}
+	private int writeUntilTaskIndex(String[] commandParts, ArrayList<Task> fullList) throws IOException {
+		int indexToReturn = 0;
+		int taskTypeIndex = 1;
+		String editType = commandParts[1];
+		String editId = commandParts[2];
+		int j=0;
+		for (j = 0; j < fullList.size(); j++) {
 			Task currentTask = fullList.get(j);
-			if (currentTask.getTaskType().equals(deleteType)) {
-				if (deleteId.equals(String.valueOf(taskTypeIndex))) {
-					LemonGUIController.setTask(currentTask);
-					taskTypeIndex++;
+			if (currentTask.getTaskType().equals(editType)) {
+				if (editId.equals(String.valueOf(taskTypeIndex))) {
+					break;
 				} else {
 					taskTypeIndex++;
 					FileStorage.writeObjectAsString(currentTask);
 				}
 			} else {
+
 				FileStorage.writeObjectAsString(currentTask);
 			}
 		}
+		return j;
 	}
-
+	private void writeRestOfList(ArrayList<Task> fullList, int taskToEditIndex) throws IOException {
+		for(int i=taskToEditIndex+1;i<fullList.size();i++){
+			FileStorage.writeObjectAsString(fullList.get(i));
+		}
+	}
 	public void executeRecur(String[] commandParts) throws IOException, ClassNotFoundException {
 		String recurType = commandParts[1];
 		String recurID = commandParts[2];
@@ -234,6 +238,7 @@ public class CommandExecutor {
 		// GUIConsole.displayErrorMessage(command);
 	}
 
+	
 	public void executeUndo() {
 		// TODO Auto-generated method stub
 
