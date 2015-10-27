@@ -1,2 +1,0 @@
-taskname:one;tasktype:floating;taskIsDone:true;taskIsOverdue:false;taskStartDate:;taskEndDate:;taskPriority:;taskDescription:;taskStartTime:;taskEndTime:;recurType:;recurStartDate:;recurEndDate:;
-taskname:three;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskStartDate:;taskEndDate:;taskPriority:;taskDescription:;taskStartTime:2020;taskEndTime:3030;recurType:;recurStartDate:;recurEndDate:;
