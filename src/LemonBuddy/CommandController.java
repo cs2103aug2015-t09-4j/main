@@ -17,17 +17,22 @@ public class CommandController {
 	private static final String COMMAND_HELP = "help";
 	private static final String COMMAND_UPDATE = "update";
 	private static final String COMMAND_UNDO = "undo";
+	private static final String COMMAND_DONE = "done";
 	private static final String MESSAGE_INVALID = "Invalid Command";
 	private static CommandExecutor commandexecutor;
+	private static CommandController commandcontroller;
 	
 	public static void processCommand(String command) {
 		logger.log(Level.INFO, "going to start processing");
-
+		if(commandcontroller == null){
+			commandcontroller = new CommandController();
+		}
+		
 		if (commandexecutor == null) {
 			commandexecutor = new CommandExecutor();
 		}
 
-		String[] commandParts = commandexecutor.splitCommand(command);
+		String[] commandParts = commandcontroller.splitCommand(command);
 		try {
 			switch (commandParts[0]) {
 
@@ -63,10 +68,15 @@ public class CommandController {
 			case COMMAND_DISPLAY:
 				commandexecutor.executeDisplay(commandParts);
 				break;
-
+				
+			case COMMAND_DONE:
+				commandexecutor.executeDone(commandParts);
+				break;
+				
 			case COMMAND_HELP:
 				commandexecutor.executeHelp();
 				break;
+				
 				
 			case COMMAND_UPDATE:
 				commandexecutor.executeUpdate();
@@ -80,6 +90,10 @@ public class CommandController {
 			logger.log(Level.WARNING, "processing error", e);
 			e.printStackTrace();
 		}
+	}
+	public String[] splitCommand(String command) {
+		String[] commandParts = command.split(" ");
+		return commandParts;
 	}
 
 }

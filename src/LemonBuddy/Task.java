@@ -9,6 +9,8 @@ public class Task implements Serializable {
 	private String taskEndDate = "";
 	private String taskPriority = "";
 	private String taskDescription = "";
+	private boolean taskIsDone = false;
+	private boolean taskIsOverdue = false;
 	private String taskStartTime = "";
 	private String taskEndTime = "";
 	// for recurring
@@ -30,6 +32,8 @@ public class Task implements Serializable {
 		String temp = "";
 		temp = temp + "taskname:" + taskName + ";";
 		temp = temp + "tasktype:" + taskType + ";";
+		temp = temp + "taskIsDone:" + taskIsDone + ";";
+		temp = temp + "taskIsOverdue:" + taskIsOverdue + ";";
 		temp = temp + "taskStartDate:" + taskStartDate + ";";
 		temp = temp + "taskEndDate:" + taskEndDate + ";";
 		temp = temp + "taskPriority:" + taskPriority + ";";
@@ -76,7 +80,15 @@ public class Task implements Serializable {
 	public void setTaskType(String taskType) {
 		this.taskType = taskType;
 	}
-
+	
+	public void setTaskIsDone(){
+		this.taskIsDone = true;
+	}
+	
+	public void setTaskIsOverdue(){
+		this.taskIsOverdue = true;
+	}
+	
 	public void setTaskStartDate(String taskStartDate) {
 		this.taskStartDate = taskStartDate;
 	}
@@ -126,7 +138,12 @@ public class Task implements Serializable {
 		StringBuffer buffer = new StringBuffer(this.taskType);
 		return buffer.toString();
 	}
-
+	public Boolean getTaskIsDone() {
+		return this.taskIsDone;
+		
+	}public Boolean getTaskIsOverdue() {
+		return this.taskIsOverdue;
+	}
 	public String getTaskStartDate() {
 		if (!this.taskStartDate.equals("")) {
 			StringBuffer buffer = new StringBuffer(this.taskStartDate);

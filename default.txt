@@ -1,1 +1,2 @@
-taskname:haha;tasktype:deadline;taskStartDate:;taskEndDate:212215;taskPriority:;taskDescription:;taskStartTime:;taskEndTime:;recurType:;recurStartDate:;recurEndDate:;
+taskname:one;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskStartDate:;taskEndDate:;taskPriority:;taskDescription:;taskStartTime:;taskEndTime:;recurType:;recurStartDate:;recurEndDate:;
+taskname:two;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskStartDate:;taskEndDate:;taskPriority:;taskDescription:;taskStartTime:;taskEndTime:;recurType:;recurStartDate:;recurEndDate:;

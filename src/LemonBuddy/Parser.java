@@ -21,7 +21,7 @@ public class Parser {
 			}
 			if (commandParts[wordIndex].equals("on") || commandParts[wordIndex].equals("from")
 					|| commandParts[wordIndex].substring(0, 1).equals("*") || commandParts[wordIndex].equals("desc")
-					||commandParts[wordIndex].equals("by")) {
+					|| commandParts[wordIndex].equals("by")) {
 				break;
 			}
 			taskName = taskName + " ";
@@ -38,7 +38,6 @@ public class Parser {
 			// System.out.println(commandParts[wordIndex]);
 			System.err.println("Invalid input: " + e.getMessage());
 		}
-
 
 		return newTask;
 
@@ -59,7 +58,7 @@ public class Parser {
 				while (true) {
 					System.out.println(commandParts[wordIndex]);
 					taskDesc = taskDesc + commandParts[wordIndex++];
-					if(wordIndex==commandParts.length){
+					if (wordIndex == commandParts.length) {
 						break;
 					}
 					taskDesc = taskDesc + " ";
@@ -100,6 +99,14 @@ public class Parser {
 			case "tasktype":
 				t.setTaskType(temp[1]);
 				break;
+			case "taskIsDone":
+				if(temp[1].equals("true"))
+				t.setTaskIsDone();
+				break;
+			case "taskIsOverdue":
+				if(temp[1].equals("true"))
+				t.setTaskIsOverdue();
+				break;
 			case "taskStartDate":
 				t.setTaskStartDate(temp[1]);
 				break;
@@ -135,7 +142,7 @@ public class Parser {
 	}
 
 	private int parseTime(String[] commandParts, Task newTask, int wordIndex) throws Exception {
-		//int detailIndex = wordIndex;
+		// int detailIndex = wordIndex;
 		Boolean from = false;
 		Boolean to = false;
 		for (String part : commandParts) {
@@ -220,7 +227,7 @@ public class Parser {
 			} else if (taskOn.length() == 6) {
 				newTask.setTaskStartDate(taskOn);
 			}
-			//wordIndex = wordIndex + 1;
+			// wordIndex = wordIndex + 1;
 		}
 		return wordIndex;
 	}
@@ -238,7 +245,7 @@ public class Parser {
 			taskTo = commandParts[wordIndex].substring(0, commandParts[wordIndex].indexOf(","));
 			comma = true;
 		}
-		
+
 		if (taskTo.length() == 4) {
 			newTask.setTaskEndTime(taskTo);
 		} else if (taskTo.length() == 6) {
@@ -256,15 +263,16 @@ public class Parser {
 		}
 		return wordIndex;
 	}
+
 	public boolean endDatePassed(String currentDate, String endDate) {
-		
+
 		int currentDay = parseInt(getDay(currentDate));
 		int currentMonth = parseInt(getMonth(currentDate));
 		int currentYear = parseInt(getYear(currentDate));
 		int endDay = parseInt(getDay(endDate));
 		int endMonth = parseInt(getMonth(endDate));
 		int endYear = parseInt(getYear(endDate));
-		
+
 		if ((currentYear > endYear)) {
 			return true;
 		} else if ((currentMonth > endMonth) && (currentYear == endYear)) {
@@ -275,59 +283,60 @@ public class Parser {
 			return false;
 		}
 	}
-	
+
 	public String getDay(String date) {
-		return date.substring(0,2);
+		return date.substring(0, 2);
 	}
-	
+
 	public String getMonth(String date) {
-		return date.substring(2,4);
+		return date.substring(2, 4);
 	}
-	
+
 	public String getYear(String date) {
-		return date.substring(4,6);
+		return date.substring(4, 6);
 	}
-	
+
 	public String addOneYear(String date) {
 		int day = parseInt(getDay(date));
 		int month = parseInt(getMonth(date));
 		int year = parseInt(getYear(date)) + 1;
-		
+
 		String newDate = "";
 		newDate = newDate.concat(toTwoDigit(Integer.toString(day)));
 		newDate = newDate.concat(toTwoDigit(Integer.toString(month)));
 		newDate = newDate.concat((Integer.toString(year)));
-		
+
 		return newDate;
 	}
-	
+
 	String toTwoDigit(String num) {
 		if (num.length() == 1) {
 			num = "0" + num;
 		}
-		
+
 		return num;
 	}
-	
+
 	int parseInt(String str) {
 		int i = 0;
-	    int num = 0;
-	    boolean isNeg = false;
+		int num = 0;
+		boolean isNeg = false;
 
-	    //Check for negative sign; if it's there, set the isNeg flag
-	    if (str.charAt(0) == '-') {
-	        isNeg = true;
-	        i = 1;
-	    }
+		// Check for negative sign; if it's there, set the isNeg flag
+		if (str.charAt(0) == '-') {
+			isNeg = true;
+			i = 1;
+		}
 
-	    //Process each character of the string;
-	    while( i < str.length()) {
-	        num *= 10;
-	        num += str.charAt(i++) - '0'; //Minus the ASCII code of '0' to get the value of the charAt(i++).
-	    }
+		// Process each character of the string;
+		while (i < str.length()) {
+			num *= 10;
+			num += str.charAt(i++) - '0'; // Minus the ASCII code of '0' to get
+											// the value of the charAt(i++).
+		}
 
-	    if (isNeg)
-	        num = -num;
-	    return num;
+		if (isNeg)
+			num = -num;
+		return num;
 	}
 }
