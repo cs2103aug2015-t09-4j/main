@@ -41,9 +41,6 @@ public class CommandExecutor {
 		writeRestOfList(fullList, taskToEditIndex);
 	}
 
-	
-
-	
 	public void executeDelete(String[] commandParts) throws Exception {
 		String deleteId = commandParts[2];
 		ArrayList<Task> array = FileStorage.readStringAsObject(path);
@@ -58,7 +55,6 @@ public class CommandExecutor {
 		int taskToDeleteIndex = writeUntilTaskIndex(commandParts, fullList);
 		Task taskToDelete = fullList.get(taskToDeleteIndex);	
 		LemonGUIController.setTask(taskToDelete);
-		System.out.println(taskToDeleteIndex);
 		writeRestOfList(fullList, taskToDeleteIndex);
 	}
 	private int writeUntilTaskIndex(String[] commandParts, ArrayList<Task> fullList) throws IOException {
@@ -244,8 +240,15 @@ public class CommandExecutor {
 
 	}
 
-	public void executeDone(String[] commandParts) {
-		// TODO Auto-generated method stub
+	public void executeDone(String[] commandParts) throws Exception, IOException {
+		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
+		
+		FileStorage.clear();
+		int taskDoneIndex = writeUntilTaskIndex(commandParts, fullList);
+		Task taskDone = fullList.get(taskDoneIndex);
+		taskDone.setTaskIsDone();
+		FileStorage.writeObjectAsString(taskDone);
+		writeRestOfList(fullList, taskDoneIndex);
 
 	}
 }
