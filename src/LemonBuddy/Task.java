@@ -136,16 +136,12 @@ public class Task implements Serializable {
 	}
 
 	public String getTaskEndDate() {
-		if (!this.taskEndDate.equals("")) {
+		/*if (!this.taskEndDate.equals("")) {
 			StringBuffer buffer = new StringBuffer(this.taskEndDate);
 			return buffer.toString();
 		} else
-<<<<<<< HEAD
-			return "";
-=======
 			return "";*/
 		return this.taskEndDate;
->>>>>>> f45921241b008341a937a772572b0d968bb26e49
 	}
 
 	public String getTaskPriority() {

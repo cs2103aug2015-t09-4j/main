@@ -21,7 +21,7 @@ public class CommandExecutor {
 		// assume floating first
 		
 		Task newTask = parser.parseTask(commandParts);
-		FileStorage.write(newTask);
+		FileStorage.writeObjectAsString(newTask);
 		LemonGUIController.setTask(newTask);
 		LemonGUIController.setCommand(commandParts[0]);
 	}
@@ -33,7 +33,7 @@ public class CommandExecutor {
 		int taskTypeIndex = 1;
 		Task newTask = parser.parseTask(commandParts);
 		//System.out.println(newTask.getTaskType());
-		ArrayList<Task> fullList = FileStorage.read(path);
+		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
 		FileStorage.clear();
 
 		for (int j = 0; j < fullList.size(); j++) {
@@ -41,17 +41,17 @@ public class CommandExecutor {
 			if (currentTask.getTaskType().equals(editType)) {
 				if(editId.equals(String.valueOf(taskTypeIndex))){
 					newTask.merge(currentTask);
-					FileStorage.write(newTask);
+					FileStorage.writeObjectAsString(newTask);
 					LemonGUIController.setTask(newTask);
 					taskTypeIndex++;
 				}
 				else{
 					taskTypeIndex++;
-					FileStorage.write(currentTask);
+					FileStorage.writeObjectAsString(currentTask);
 				}
 			} else {
 
-				FileStorage.write(currentTask);
+				FileStorage.writeObjectAsString(currentTask);
 			}
 		}
 	}
@@ -59,7 +59,7 @@ public class CommandExecutor {
 	public void executeDelete(String[] commandParts) throws Exception {
 		int deleteIndex = Integer.valueOf(commandParts[1]) - 1;
 		LemonGUIController.setCommand(commandParts[0]);
-		ArrayList<Task> array = FileStorage.read(path);
+		ArrayList<Task> array = FileStorage.readStringAsObject(path);
 		assert(array != null) : "unable to read from specified path";
 		if (deleteIndex > array.size() - 1 || deleteIndex == -1) {
 			return;
@@ -76,7 +76,7 @@ public class CommandExecutor {
 		}
 		int j = 0;
 		while (j < array.size()) {
-			FileStorage.write(array.get(j));
+			FileStorage.writeObjectAsString(array.get(j));
 			j++;
 		}
 	}
@@ -87,7 +87,7 @@ public class CommandExecutor {
 		String recurFreq = commandParts[3];
 		String recurEndDate = commandParts[4];
 		
-		ArrayList<Task> fullList = FileStorage.read(path);
+		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
 		int taskTypeIndex = 1;
 
 		for (int i = 0; i < fullList.size(); i++) {
@@ -103,7 +103,7 @@ public class CommandExecutor {
 								currentRecurringDate = parser.addOneYear(currentRecurringDate);
 								while (!parser.endDatePassed(currentRecurringDate, recurEndDate)) {
 									recurringTask.setTaskEndDate(currentRecurringDate);
-									FileStorage.write(recurringTask);
+									FileStorage.writeObjectAsString(recurringTask);
 									currentRecurringDate = parser.addOneYear(currentRecurringDate);
 								}
 							}
@@ -127,6 +127,7 @@ public class CommandExecutor {
 				}
 			}
 		}
+	}
 
 	public void executeNavigate(String[] commandParts) {
 		// TODO Auto-generated method stub
@@ -140,14 +141,11 @@ public class CommandExecutor {
 		//GUIConsole.displayHelp();
 	}
 	
-<<<<<<< HEAD
-	public static void executeList(String[] commandParts) throws Exception {
-		String listType = commandParts[1];
-		LemonGUIController.setCommand(commandParts[0]);
-		LemonGUIController.setListType(listType);
-=======
+//<<<<<<< HEAD
+
+//=======
 	public void executeUpdate() throws IOException, ClassNotFoundException {
-		ArrayList<Task> array = FileStorage.read(path);
+		ArrayList<Task> array = FileStorage.readStringAsObject(path);
 		assert(array != null) : "unable to read from specified path";
 	
 		String currentDate = parser.getCurrentDate();
@@ -172,15 +170,17 @@ public class CommandExecutor {
 		if (anythingRemoved) {
 			int j = 0;
 			while (j < array.size()) {
-				FileStorage.write(array.get(j));
+				FileStorage.writeObjectAsString(array.get(j));
 				j++;
 			}
 		}
 		//GUI?>>?.successfulUpdate();
 	}
 	
-	public static ArrayList<Task> list() throws Exception {
->>>>>>> f45921241b008341a937a772572b0d968bb26e49
+	public static void executeList(String[] commandParts) throws Exception {
+		String listType = commandParts[1];
+		LemonGUIController.setCommand(commandParts[0]);
+		LemonGUIController.setListType(listType);
 		ArrayList<Task> floatingTasks = new ArrayList<Task>();
 		ArrayList<Task> deadlineTasks = new ArrayList<Task>();
 		ArrayList<Task> eventTasks = new ArrayList<Task>();
@@ -188,7 +188,7 @@ public class CommandExecutor {
 		ArrayList<Task> fullList = new ArrayList<Task>();
 		Task currentTask;
 
-		fullList = FileStorage.read(path);
+		fullList = FileStorage.readStringAsObject(path);
 		
 		//3 types of arraylist here
 		for (int j = 0; j < fullList.size(); j++) {
@@ -221,7 +221,7 @@ public class CommandExecutor {
 		Task currentTask;
 		
 		int id = Integer.parseInt(commandParts[1]);
-		fullList = FileStorage.read(path);
+		fullList = FileStorage.readStringAsObject(path);
 		currentTask = fullList.get(id - 1);
 		LemonGUIController.setTask(currentTask);
 	}
