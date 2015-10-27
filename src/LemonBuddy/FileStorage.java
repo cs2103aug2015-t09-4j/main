@@ -44,7 +44,6 @@ public class FileStorage extends Parser{
     		fw.flush();
     		storageLog.log(Level.INFO, "end of writing");
     	}  
-    	fw.write(content);
     	fw.flush();
     }
     
@@ -59,7 +58,6 @@ public class FileStorage extends Parser{
     		fw.flush();
     		storageLog.log(Level.INFO, "end of writing");
     	}  
-    	fw.write(s);
     	fw.flush();
     }
 
