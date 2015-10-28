@@ -165,7 +165,8 @@ public class Parser {
 			Boolean comma = false;
 			switch (commandParts[wordIndex++]) {
 			case "on":
-				wordIndex = splitCommaStart(commandParts, newTask, wordIndex, comma);
+				wordIndex = splitCommaStart(commandParts, newTask, wordIndex, comma);			
+				addOneHourToEnd(newTask);
 				newTask.setTaskType("event");
 				break;
 			case "by":
@@ -177,7 +178,7 @@ public class Parser {
 				wordIndex++;
 				wordIndex++;
 				wordIndex = splitCommaEnd(commandParts, newTask, wordIndex, comma);
-				if (!newTask.getTaskStartDate().equals("") && newTask.getTaskEndDate().equals("")) {
+				if (!(newTask.getTaskStartDate()==-1) && newTask.getTaskEndDate()==-1) {
 					newTask.setTaskEndDate(newTask.getTaskStartDate());
 				}
 				newTask.setTaskType("event");
@@ -185,7 +186,7 @@ public class Parser {
 				break;
 
 			}
-			if (newTask.getTaskStartDate().equals("") && newTask.getTaskEndDate().equals("")) {
+			if (newTask.getTaskStartDate()==-1 && newTask.getTaskEndDate()==-1) {
 				if (newTask.getTaskType().equals("event")) {
 					newTask.setTaskStartDate(getCurrentDate());
 					newTask.setTaskEndDate(getCurrentDate());
@@ -196,6 +197,18 @@ public class Parser {
 			}
 		}
 		return wordIndex;
+	}
+
+	private void addOneHourToEnd(Task newTask) {
+		int date = newTask.getTaskStartDate();
+		int time = newTask.getTaskStartTime();
+		Calendar endTime = Calendar.getInstance();
+		endTime.set(((date%100)+2000),(date/100)%100 -1, (date/10000), time/100, time%100, 0);
+		endTime.add(Calendar.HOUR, 1);
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyy HHmm");
+		String[] timeInfo = dateFormatter.format(endTime.getTime()).split(" ");
+		newTask.setTaskEndDate(timeInfo[0]);
+		newTask.setTaskEndTime(timeInfo[1]);
 	}
 
 	public String getCurrentDate() {
