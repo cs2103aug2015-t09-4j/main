@@ -15,9 +15,8 @@ import java.util.logging.Logger;
 
 public class FileStorage extends Parser {
 //	private static final long serialVersionUID = -769626947865283;
-	static ArrayList<Task> objectList = new ArrayList<Task>();
+	private static ArrayList<Task> objectList = new ArrayList<Task>();
 	private static final String MSG_WHEN_INVALID_FILENAME = "cannot find targeted file"; 
-	private static Logger storageLog = Logger.getLogger("FileStorage");
 	private static String filename = "default.txt";
 	
 	protected static void clear() throws IOException {
@@ -34,29 +33,41 @@ public class FileStorage extends Parser {
 		}
 	}
 	
+	/*
 	protected static void writeObjectAsString(Task p) throws IOException{
     	File f = new File(filename);
-    	FileWriter fw = new FileWriter(f);
-    	BufferedWriter bw = new BufferedWriter(fw);    	
+    	FileWriter fw = new FileWriter(f); 
+    	Sort mysort = new Sort();
+    	try {
+    		objectList.add(p);
+    		Collections.sort(objectList, mysort);
+    		for(int i = 0; i < objectList.size(); i++) {
+    			String content = objectList.get(i).toString();
+    			fw.write(content);
+    		}
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	} finally {
+    		fw.flush();
+    	} 
+    }
+    */
+
+	
+	///*
+	protected static void writeObjectAsString(Task p) throws IOException{
+    	File f = new File(filename);
+    	FileWriter fw = new FileWriter(f,true);   	
 		String content = p.toString();
     	try {
-    		objectList = readStringAsObject(filename);
-    		objectList.add(p);
-    		Collections.sort(objectList, new Sort());
-    		for(int i = 0; i<objectList.size(); i++) {
-    			bw.write(objectList.get(i).toString() + "\n");    			
-    		} 
+    		fw.write(content);
     	} catch (IOException e) {
-    		storageLog.log(Level.WARNING, "writing error", e);
-    	} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
+    		e.printStackTrace();
+    	} finally {
     		fw.flush();
-    		storageLog.log(Level.INFO, "end of writing");
-    	}  
-    	fw.flush();
+    	}
     }
+   // */
     
 	protected static void writeStringAsString(String s) throws IOException{
     	File f = new File(filename);
@@ -64,13 +75,19 @@ public class FileStorage extends Parser {
     	try {
     		fw.write(s);
     	} catch (IOException e) {
-    		storageLog.log(Level.WARNING, "writing error", e);
+    		e.printStackTrace();
     	} finally {
     		fw.flush();
-    		storageLog.log(Level.INFO, "end of writing");
     	}  
     	fw.flush();
     }
+	
+	/*
+	protected static ArrayList<Task> readStringAsObject(String path) throws IOException, ClassNotFoundException {
+		return objectList;       
+    }	
+	*/
+
 
 	protected static ArrayList<Task> readStringAsObject(String path) throws IOException, ClassNotFoundException {
     	 objectList = new ArrayList<Task>();
@@ -91,6 +108,7 @@ public class FileStorage extends Parser {
         }
 		return objectList;       
      }
+
      
 	protected static String readStringAsString(String path) throws IOException, ClassNotFoundException {
     	 String filecontent = "";
