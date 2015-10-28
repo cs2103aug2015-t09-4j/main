@@ -198,12 +198,14 @@ public class CommandExecutor {
 		boolean anythingRemoved = false;
 
 		for (i = 0; i < array.size(); i++) {
-			//String endDate = Integer.valueOf(array.get(i).getTaskEndDate()).toString();
+			Task overdueTask = array.get(i);
 			String endDate = parser.toSixDigit(array.get(i).getTaskEndDate());
 			System.out.println(endDate);
 			if (endDate.length() == 6) {
-				if (parser.endDatePassed(currentDate, endDate)) {
+				if (parser.endDatePassed(currentDate, endDate) && (overdueTask.getTaskIsOverdue() == false)) {
 					FileStorage.clear();
+					overdueTask.setTaskIsOverdue();
+					array.add(overdueTask);
 					array.remove(i);
 					anythingRemoved = true;
 					i--;
