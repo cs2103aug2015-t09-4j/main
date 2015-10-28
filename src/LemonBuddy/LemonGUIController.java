@@ -1,11 +1,8 @@
 package LemonBuddy;
 
-
-
 import java.io.Serializable;
 
-public class Task implements Serializable {
-
+public class LemonGUIController implements Serializable {
 	private String taskName = "";
 	private String taskType = "";
 	private int taskStartDate = -1;
@@ -50,12 +47,11 @@ public class Task implements Serializable {
 		return temp;
 	}
 
-	public Task merge(Task initialTask) {
+	public LemonGUIController merge(LemonGUIController initialTask) {
 		this.taskName = initialTask.getTaskName();
 	/*	
 		if((this.taskStartDate.equals(""))&&(this.taskEndDate.equals(""))
 				&&(this.taskStartTime.equals(""))&&(this.taskEndTime.equals(""))){
-
 			this.taskType = initialTask.getTaskType();
 		}
 		

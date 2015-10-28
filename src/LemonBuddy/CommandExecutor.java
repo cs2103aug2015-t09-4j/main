@@ -1,313 +1,204 @@
-package LemonBuddy;
+package LemonBuddy.view;
 
-import java.io.File;
-import java.io.IOException;
-
-import LemonBuddy.view.*;
 import java.util.ArrayList;
-import java.util.Stack;
 
-public class CommandExecutor {
-	private static String path = "C:\\eclipse\\Your sdk your majesty\\main\\test.txt";
-	// private static String path =
-	// "C:\\Users\\user\\workspace\\main\\test.txt";
-	private Parser parser;
-	String lastState;
-	Stack<String> lastStates;
-	Stack<String> undoneStates;
+import LemonBuddy.CommandController;
+import LemonBuddy.CommandExecutor;
+import LemonBuddy.Task;
+import LemonBuddy.lemonGUI;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.text.TextFlow;
 
-	public CommandExecutor() {
-		if (parser == null) {
-			parser = new Parser();
+public class LemonGUIController {
+	
+	private String input = "";
+	
+	private static Task task;
+	static ArrayList<Task> tasks;
+	private static String commandType;
+	private static String[] listType = {"", "all"};
+	
+	private static String timeLineStandard = "________________________________________________";
+	
+	private lemonGUI mainApp;
+	
+	@FXML
+	private TextFlow timeLine;
+	
+	@FXML
+	private TextFlow listView;
+	
+	@FXML
+	private TextArea mainConsole;
+	
+	@FXML
+	private TextField inputField;
+	
+	@FXML
+    private void initialize() throws Exception {
+        generateSideList();
+        mainConsole.setText("Welcome to LemonBuddy!!!!");
+    }
+	
+	@FXML
+	private void getInput() {
+		input = inputField.getText();
+		CommandController.processCommand(input);
+		inputField.clear();
+	}
+	
+	@FXML
+	private void generateSideList() throws Exception {
+		listView.getChildren().clear();
+		CommandExecutor.executeList(listType);
+		Text t;
+		if (listType[1].equals("all")) {
+			t = new Text("All Tasks\n\n");
+			t.setStyle("-fx-font: 18 arial;");
+			listView.getChildren().add(t);
 		}
-		lastStates = new Stack<String>();
-		undoneStates = new Stack<String>();
-		lastState = "";
+		if (listType[1].equals("floating")) {
+			t = new Text("Floating Tasks\n\n");
+			t.setStyle("-fx-font: 18 arial;");
+			listView.getChildren().add(t);
+		}
+		if (listType[1].equals("deadline")) {
+			t = new Text("Deadlines\n\n");
+			t.setStyle("-fx-font: 18 arial;");
+			listView.getChildren().add(t);
+		}
+		if (listType[1].equals("event")) {
+			t = new Text("Events\n\n");
+			t.setStyle("-fx-font: 18 arial;");
+			listView.getChildren().add(t);
+		}
+
+		for (int counter = 1; counter < tasks.size() + 1; counter++) {
+			Task temp = tasks.get(counter - 1);
+			t = new Text(getTask(temp, counter));
+			if (temp.getTaskPriority().equals("high")) {
+				t.setFill(Color.RED);
+			}
+			listView.getChildren().add(t);
+		}
+		
 	}
-
-	// PRIORITY AND DESCRIPTION NOT DONE
-	public void executeAdd(String[] commandParts) throws Exception {
-		// assume floating first
-
-		Task newTask = parser.parseTask(commandParts);
-		FileStorage.writeObjectAsString(newTask);
-		LemonGUIController.setTask(newTask);
-		LemonGUIController.setCommand(commandParts[0]);
+	
+	private String getTask(Task temp, int id) throws Exception {
+		String toList = "";
+		toList = toList + id + ". " + temp.getTaskName() + "\n";
+		return toList;
 	}
-
-	public void executeEdit(String[] commandParts) throws Exception {
-		LemonGUIController.setCommand(commandParts[0]);
-		Task newTask = parser.parseTask(commandParts);
-		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
-		FileStorage.clear();
-
-		int taskToEditIndex = writeUntilTaskIndex(commandParts, fullList);
-		Task taskToEdit = fullList.get(taskToEditIndex);
-		FileStorage.writeObjectAsString(newTask.merge(taskToEdit));
-		LemonGUIController.setTask(newTask);
-		writeRestOfList(fullList, taskToEditIndex);
+	
+	@FXML
+	void onEnter(KeyEvent event) throws Exception {
+		if (event.getCode() == KeyCode.ENTER) {
+			getInput();
+			displayMain();
+			generateSideList();
+		}
 	}
+	
 
-	public void executeDelete(String[] commandParts) throws Exception {
-		String deleteId = commandParts[2];
-		ArrayList<Task> array = FileStorage.readStringAsObject(path);
-		assert(array != null) : "unable to read from specified path";
-		if (Integer.valueOf(deleteId) > array.size() || Integer.valueOf(deleteId) <= 0) {
+	private String displayTask(Task task) {
+		String display = "";
+		display = display + "Name: " + task.getTaskName() + "\n";
+		display = display + "Type: " + task.getTaskType()  + "\n";
+		if (!task.getTaskPriority().isEmpty()) {
+			display = display + "Priority: " + task.getTaskPriority() + "\n";
+		}
+		if (!task.getTaskDescription().isEmpty()) {
+			display = display + "Description: " + task.getTaskDescription() + "\n";
+		}
+		
+		//if (!task.getTaskStartDate().isEmpty()) {
+		if (!(task.getTaskStartDate()==-1)) {			
+			display = display + "Start date " + task.getTaskStartDate() + "\n";
+		}
+		
+		//if (!task.getTaskEndDate().isEmpty()) {
+		if (!(task.getTaskEndDate()==-1)) {
+			display = display + "End date " + task.getTaskEndDate() + "\n";
+		}
+		
+		//if (!task.getTaskStartTime().isEmpty()) {
+		if (!(task.getTaskStartTime()==-1)) {
+			display = display + "Start time " + task.getTaskStartTime() + "\n";
+		}
+		
+		//if (!task.getTaskEndTime().isEmpty()) {
+		if (!(task.getTaskEndTime()==-1)) {
+			display = display + "End time " + task.getTaskEndTime() + "\n";
+		}
+
+		return display;
+	}
+	
+	public void displayMain() {
+		if (task.getTaskName().equals("")){
 			return;
 		}
-		LemonGUIController.setCommand(commandParts[0]);
-		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
-		FileStorage.clear();
-
-		int taskToDeleteIndex = writeUntilTaskIndex(commandParts, fullList);
-		Task taskToDelete = fullList.get(taskToDeleteIndex);
-		LemonGUIController.setTask(taskToDelete);
-		writeRestOfList(fullList, taskToDeleteIndex);
-	}
-
-	private int writeUntilTaskIndex(String[] commandParts, ArrayList<Task> fullList) throws IOException {
-		int indexToReturn = 0;
-		int taskTypeIndex = 1;
-		String editType = commandParts[1];
-		String editId = commandParts[2];
-		int j = 0;
-		for (j = 0; j < fullList.size(); j++) {
-			Task currentTask = fullList.get(j);
-			if (currentTask.getTaskType().equals(editType)) {
-				if (editId.equals(String.valueOf(taskTypeIndex))) {
-					break;
-				} else {
-					taskTypeIndex++;
-					FileStorage.writeObjectAsString(currentTask);
-				}
-			} else {
-
-				FileStorage.writeObjectAsString(currentTask);
-			}
-		}
-		return j;
-	}
-
-	private void writeRestOfList(ArrayList<Task> fullList, int taskToEditIndex) throws IOException {
-		for (int i = taskToEditIndex + 1; i < fullList.size(); i++) {
-			FileStorage.writeObjectAsString(fullList.get(i));
-		}
-	}
-
-	public void executeRecur(String[] commandParts) throws IOException, ClassNotFoundException {
-		String recurType = commandParts[1];
-		String recurID = commandParts[2];
-		String recurFreq = commandParts[3];
-		String recurEndDate = commandParts[4];
-
-		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
-		int taskTypeIndex = 1;
-
-		for (int i = 0; i < fullList.size(); i++) {
-			Task currentTask = fullList.get(i);
-
-			if (currentTask.getTaskType().equals(recurType)) {
-				if (recurID.equals(String.valueOf(taskTypeIndex))) {
-					taskTypeIndex++;
-					Task recurringTask = currentTask;
-					if (recurType.equals("deadline")) {
-						// note: changed
-						String currentRecurringDate = Integer.toString(currentTask.getTaskEndDate());
-						if (recurFreq.equals("yearly")) {
-							currentRecurringDate = parser.addOneYear(currentRecurringDate);
-							while (!parser.endDatePassed(currentRecurringDate, recurEndDate)) {
-								recurringTask.setTaskEndDate(currentRecurringDate);
-								FileStorage.writeObjectAsString(recurringTask);
-								currentRecurringDate = parser.addOneYear(currentRecurringDate);
-							}
-						}
-
-						/*
-						 * while (!parser.endDatePassed(currentRecurringDate,
-						 * recurEndDate)) { System.out.println(
-						 * "While loop entered"); if
-						 * (recurFreq.equals("yearly")) { currentRecurringDate =
-						 * parser.addOneYear(currentRecurringDate);
-						 * recurringTask.setTaskEndDate(currentRecurringDate);
-						 * System.out.println(currentRecurringDate);
-						 * FileStorage.write(recurringTask); } }
-						 */
-
-					} else if (recurType == "event") {
-
-					}
-
-				} else {
-					taskTypeIndex++;
-				}
-			}
-		}
-	}
-
-	public void executeNavigate(String[] commandParts) throws ClassNotFoundException, IOException {
-		// get days related to day
-		int timelineDate = Integer.valueOf(commandParts[1]);
-
-		ArrayList<Task> deadlineTasks = new ArrayList<Task>();
-		ArrayList<Task> eventTasks = new ArrayList<Task>();
-		ArrayList<Task> fullList = new ArrayList<Task>();
-		Task currentTask;
-
-		fullList = FileStorage.readStringAsObject(path);
-		for (int j = 0; j < fullList.size(); j++) {
-			currentTask = fullList.get(j);
-			if (currentTask.getTaskType().equals("deadline")) {
-				if (currentTask.getTaskEndDate() == timelineDate) {
-					deadlineTasks.add(currentTask);
-					System.out.println("deadline: " + currentTask);
-				}
-			}
-			if (currentTask.getTaskType().equals("event")) {
-				if (currentTask.getTaskEndDate() >= timelineDate && currentTask.getTaskStartDate() <= timelineDate) {
-					eventTasks.add(currentTask);
-					System.out.println("event fromto: " + currentTask);
-				}
-				if(currentTask.getTaskEndDate() == -1 && currentTask.getTaskStartDate()==timelineDate){
-					eventTasks.add(currentTask);
-					System.out.println("event on: " + currentTask);
-				}
-			}
+		if (commandType.equals("add")) {
+			mainConsole.setText("Added\n" + displayTask(task));
+			mainConsole.setStyle("-fx-background-color: green");
 		}
 		
+		if (commandType.equals("delete")) {
+			mainConsole.setText("Deleted\n" + displayTask(task));
+			mainConsole.setStyle("-fx-background-color: red");
+		}
 		
-		/*
-		 * get what user wants to view date e.g. navigate 010101
-		 */
-	}
-
-	public void executeHelp() {
-		// GUIConsole.displayHelp();
-	}
-
-	// <<<<<<< HEAD
-
-	// =======
-	public void executeUpdate() throws IOException, ClassNotFoundException {
-		ArrayList<Task> array = FileStorage.readStringAsObject(path);
-		assert(array != null) : "unable to read from specified path";
-
-		String currentDate = parser.getCurrentDate();
-		System.out.println(currentDate);
-
-		int i = 0;
-		boolean anythingRemoved = false;
-
-		for (i = 0; i < array.size(); i++) {
-			String endDate = Integer.valueOf(array.get(i).getTaskEndDate()).toString();
-			System.out.println(endDate);
-			if (endDate.length() == 6) {
-				if (parser.endDatePassed(currentDate, endDate)) {
-					FileStorage.clear();
-					array.remove(i);
-					anythingRemoved = true;
-					i--;
-				}
-			}
+		if (commandType.equals("edit")) {
+			mainConsole.setText("Edited\n" + displayTask(task));
 		}
-
-		if (anythingRemoved) {
-			int j = 0;
-			while (j < array.size()) {
-				FileStorage.writeObjectAsString(array.get(j));
-				j++;
-			}
+		
+		if (commandType.equals("display")) {
+			mainConsole.setText("Displaying\n" + displayTask(task));
 		}
-		// GUI?>>?.successfulUpdate();
-	}
-
-	public static void executeList(String[] commandParts) throws Exception {
-		String listType = commandParts[1];
-		LemonGUIController.setCommand(commandParts[0]);
-		LemonGUIController.setListType(listType);
-		ArrayList<Task> floatingTasks = new ArrayList<Task>();
-		ArrayList<Task> deadlineTasks = new ArrayList<Task>();
-		ArrayList<Task> eventTasks = new ArrayList<Task>();
-
-		ArrayList<Task> fullList = new ArrayList<Task>();
-		Task currentTask;
-
-		fullList = FileStorage.readStringAsObject(path);
-
-		// 3 types of arraylist here
-		for (int j = 0; j < fullList.size(); j++) {
-			currentTask = fullList.get(j);
-			if (currentTask.getTaskType().equals("floating")) {
-				floatingTasks.add(currentTask);
-			}
-			if (currentTask.getTaskType().equals("deadline")) {
-				deadlineTasks.add(currentTask);
-			}
-			if (currentTask.getTaskType().equals("event")) {
-				eventTasks.add(currentTask);
-			}
+		
+		if (commandType.equals("list")) {
+			mainConsole.setText("Listing " + listType[1] + " tasks.");
 		}
-
-		if (listType.equals("floating")) {
-			LemonGUIController.setList(floatingTasks);
-		} else if (listType.equals("deadline")) {
-			LemonGUIController.setList(deadlineTasks);
-		} else if (listType.equals("event")) {
-			LemonGUIController.setList(eventTasks);
-		} else if (listType.equals("all")) {
-			LemonGUIController.setList(fullList);
-		}
+		
+		commandType = "";
+		task = new Task();
+		
+	}
+	
+    public static void setList(ArrayList<Task> list) {
+    	tasks = list;
+    }
+    
+	public static void setCommand(String command) {
+		commandType = command;
 	}
 
-	public void executeDisplay(String[] commandParts) throws Exception {
-		ArrayList<Task> fullList = new ArrayList<Task>();
-		LemonGUIController.setCommand(commandParts[0]);
-		Task currentTask;
-
-		int id = Integer.parseInt(commandParts[1]);
-		fullList = FileStorage.readStringAsObject(path);
-		currentTask = fullList.get(id - 1);
-		LemonGUIController.setTask(currentTask);
+	public static void setTask(Task newTask) {
+		task = newTask;
 	}
 
-	public void parseInvalidCommand(String command) {
-		// GUIConsole.displayErrorMessage(command);
+	public void setMainApp(lemonGUI mainApp) {
+        this.mainApp = mainApp;
+    }
+
+	public static void setListType(String type) {
+		listType[1] = type;
+		
 	}
-
-	public void executeUndo() throws IOException, Exception {
-		// System.out.println(FileStorage.readStringAsString(path));
-		undoneStates.push(FileStorage.readStringAsString(path));
-		FileStorage.clear();
-		FileStorage.writeStringAsString(lastStates.pop());
-	}
-
-	public void executeDone(String[] commandParts) throws Exception, IOException {
-		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
-
-		FileStorage.clear();
-		int taskDoneIndex = writeUntilTaskIndex(commandParts, fullList);
-		Task taskDone = fullList.get(taskDoneIndex);
-		taskDone.setTaskIsDone();
-		FileStorage.writeObjectAsString(taskDone);
-		writeRestOfList(fullList, taskDoneIndex);
-
-	}
-
-	public void saveLastState() throws Exception, IOException {
-		String currentState = FileStorage.readStringAsString(path);
-
-		// System.out.println(currentState);
-		lastStates.push(currentState);
-		lastState = currentState;
-		undoneStates = new Stack<String>();
-	}
-
-	public void executeRedo() throws IOException, Exception {
-		if (!undoneStates.isEmpty()) {
-			lastStates.push(FileStorage.readStringAsString(path));
-			FileStorage.clear();
-			FileStorage.writeStringAsString(undoneStates.pop());
-		} else {
-			System.out.println("Already at current");
-		}
+	
+	public void createTimeLine() {
+		Text space = new Text("\n");
+		Text timeline = new Text(timeLineStandard);
+		timeline.setTextAlignment(TextAlignment.CENTER);
+		timeLine.getChildren().add(space);
+		timeLine.getChildren().add(space);
+		timeLine.getChildren().add(timeline);
 	}
 }
