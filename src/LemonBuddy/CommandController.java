@@ -48,6 +48,8 @@ public class CommandController {
 			// deadline uses taskEndDate. Event On uses taskStartDate.
 			case COMMAND_ADD:
 				commandexecutor.executeAdd(commandParts);
+				commandexecutor.executeSort();
+				commandexecutor.executeSortFloating();
 				break;
 
 			case COMMAND_DELETE:
@@ -56,6 +58,8 @@ public class CommandController {
 			// edit event 1 by 2020 *high desc huehuehue
 			case COMMAND_EDIT:
 				commandexecutor.executeEdit(commandParts);
+				commandexecutor.executeSort();
+				commandexecutor.executeSortFloating();
 				break;
 
 			case COMMAND_RECUR:

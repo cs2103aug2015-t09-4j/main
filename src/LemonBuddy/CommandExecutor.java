@@ -308,6 +308,125 @@ public class CommandExecutor {
 		writeRestOfList(fullList, taskDoneIndex);
 
 	}
+	
+	public void executeSortFloating () throws ClassNotFoundException, IOException {
+		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
+		System.out.println("Hello");
+			int sizeToCheck = fullList.size();
+			for (int i = 0; i < sizeToCheck; i++) {
+				Task currentTask = fullList.get(i);
+				System.out.println("tasktype: " + currentTask.getTaskType());
+				if (currentTask.getTaskType().equals("floating")) {
+					System.out.println("Entered if");
+					fullList.add(fullList.remove(i));
+					i--;
+					sizeToCheck--;
+				} 
+			}
+			
+			FileStorage.clear();
+			for (int j = 0; j < fullList.size(); j++) {
+				FileStorage.writeObjectAsString(fullList.get(j));
+			}
+	}
+	
+	public void executeSort () throws ClassNotFoundException, IOException {
+		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
+		for (int i = 0; i < fullList.size() - 1; i++) {
+			Task currentTask = fullList.get(i);
+				for (int j = i + 1; j < fullList.size(); j++) {
+					Task nextTask = fullList.get(j);
+					if (currentTask.getTaskType().equals("deadline")) {
+						String currentDate = parser.toSixDigit(currentTask.getTaskEndDate());
+						if (nextTask.getTaskType().equals("deadline")) {
+							String nextDate = parser.toSixDigit(nextTask.getTaskEndDate());
+							if (parser.endDatePassed(currentDate, nextDate)) {
+								//fullList.add(j, fullList.remove(i));
+								fullList.add(i, nextTask);
+								fullList.add(j+1, currentTask);
+								fullList.remove(i+1);
+								fullList.remove(j+1);
+							} else if (currentDate.equals(nextDate)) {
+								String currentPriority = currentTask.getTaskPriority();
+								String nextPriority = nextTask.getTaskPriority();
+								if (parser.nextPriorityIsHigher(currentPriority, nextPriority)) {
+									//fullList.add(j, fullList.remove(i));
+									fullList.add(i, nextTask);
+									fullList.add(j+1, currentTask);
+									fullList.remove(i+1);
+									fullList.remove(j+1);
+								}
+							}
+						} else if (nextTask.getTaskType().equals("event")) {
+							String nextDate = parser.toSixDigit(nextTask.getTaskStartDate());
+							if (parser.endDatePassed(currentDate, nextDate)) {
+								//fullList.add(j, fullList.remove(i));
+								fullList.add(i, nextTask);
+								fullList.add(j+1, currentTask);
+								fullList.remove(i+1);
+								fullList.remove(j+1);
+							} else if (currentDate.equals(nextDate)) {
+								String currentPriority = currentTask.getTaskPriority();
+								String nextPriority = nextTask.getTaskPriority();
+								if (parser.nextPriorityIsHigher(currentPriority, nextPriority)) {
+									//fullList.add(j, fullList.remove(i));
+									fullList.add(i, nextTask);
+									fullList.add(j+1, currentTask);
+									fullList.remove(i+1);
+									fullList.remove(j+1);
+								}
+							}
+						}
+					} else if (currentTask.getTaskType().equals("event")) {
+						String currentDate = parser.toSixDigit(currentTask.getTaskStartDate());
+						if (nextTask.getTaskType().equals("event")) {
+							String nextDate = parser.toSixDigit(nextTask.getTaskStartDate());
+							if (parser.endDatePassed(currentDate, nextDate)) {
+								//fullList.add(j, fullList.remove(i));
+								fullList.add(i, nextTask);
+								fullList.add(j+1, currentTask);
+								fullList.remove(i+1);
+								fullList.remove(j+1);
+							} else if (currentDate.equals(nextDate)) {
+								String currentPriority = currentTask.getTaskPriority();
+								String nextPriority = nextTask.getTaskPriority();
+								if (parser.nextPriorityIsHigher(currentPriority, nextPriority)) {
+									//fullList.add(j, fullList.remove(i));
+									fullList.add(i, nextTask);
+									fullList.add(j+1, currentTask);
+									fullList.remove(i+1);
+									fullList.remove(j+1);
+								}
+							}
+						} else if (nextTask.getTaskType().equals("deadline")) {
+							String nextDate = parser.toSixDigit(nextTask.getTaskEndDate());
+							if (parser.endDatePassed(currentDate, nextDate)) {
+								//fullList.add(j, fullList.remove(i));
+								fullList.add(i, nextTask);
+								fullList.add(j+1, currentTask);
+								fullList.remove(i+1);
+								fullList.remove(j+1);
+							} else if (currentDate.equals(nextDate)) {
+								String currentPriority = currentTask.getTaskPriority();
+								String nextPriority = nextTask.getTaskPriority();
+								if (parser.nextPriorityIsHigher(currentPriority, nextPriority)) {
+									//fullList.add(j, fullList.remove(i));
+									fullList.add(i, nextTask);
+									fullList.add(j+1, currentTask);
+									fullList.remove(i+1);
+									fullList.remove(j+1);
+								}
+							}
+						}
+					}
+				}
+			}
+			
+			FileStorage.clear();
+			for (int j = 0; j < fullList.size(); j++) {
+				FileStorage.writeObjectAsString(fullList.get(j));
+			}
+	}
 
 	public void saveLastState() throws Exception, IOException {
 		String currentState = FileStorage.readStringAsString(path);
