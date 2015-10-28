@@ -162,6 +162,7 @@ public class CommandExecutor {
 					System.out.println("deadline: " + currentTask);
 				}
 			}
+<<<<<<< HEAD
 			if (currentTask.getTaskType().equals("event")) {
 				if (currentTask.getTaskEndDate() >= timelineDate && currentTask.getTaskStartDate() <= timelineDate) {
 					eventTasks.add(currentTask);
@@ -171,6 +172,66 @@ public class CommandExecutor {
 					eventTasks.add(currentTask);
 					System.out.println("event on: " + currentTask);
 				}
+=======
+			switch (commandParts[0]) {
+
+			// "add one task from 3030, 404040 to 2020, 101010 *high desc hue
+			// hue hue"
+			// deadline uses taskEndDate. Event On uses taskStartDate.
+			case COMMAND_ADD:
+				commandexecutor.executeAdd(commandParts);
+				commandexecutor.executeSort();
+				commandexecutor.executeSortFloating();
+				break;
+
+			case COMMAND_DELETE:
+				commandexecutor.executeDelete(commandParts);
+				break;
+			// edit event 1 by 2020 *high desc huehuehue
+			case COMMAND_EDIT:
+				commandexecutor.executeEdit(commandParts);
+				commandexecutor.executeSort();
+				commandexecutor.executeSortFloating();
+				break;
+
+			case COMMAND_RECUR:
+				commandexecutor.executeRecur(commandParts);
+				break;
+
+			case COMMAND_UNDO:
+				commandexecutor.executeUndo();
+				break;
+			case COMMAND_REDO:
+				commandexecutor.executeRedo();
+				break;
+			case COMMAND_NAVIGATE:
+				commandexecutor.executeNavigate(commandParts);
+				break;
+
+			case COMMAND_LIST:
+				commandexecutor.executeList(commandParts);
+				break;
+
+			case COMMAND_DISPLAY:
+				commandexecutor.executeDisplay(commandParts);
+				break;
+
+			case COMMAND_DONE:
+				commandexecutor.executeDone(commandParts);
+				break;
+
+			case COMMAND_HELP:
+				commandexecutor.executeHelp();
+				break;
+
+			case COMMAND_UPDATE:
+				commandexecutor.executeUpdate();
+				break;
+
+			default:
+				commandexecutor.parseInvalidCommand(commandParts[0]);
+				break;
+>>>>>>> f01c5874dd0710235d2995f5c3606cff4b381346
 			}
 		}
 		

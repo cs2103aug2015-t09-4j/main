@@ -130,7 +130,12 @@ public class LemonGUIController {
 		// get days related to day
 		LemonGUIController.setTimeLineDate(commandParts[1]);
 		int timelineDate = Integer.valueOf(commandParts[1]);
-
+		
+		int dayTimeLine = timelineDate / 10000;
+		int monthTimeLine = (timelineDate / 100) % 100;
+		int yearTimeLine = timelineDate % 100;
+		int comparedTimeline = dayTimeLine + monthTimeLine * 100 + yearTimeLine * 10000;
+		
 		ArrayList<Task> deadlineTasks = new ArrayList<Task>();
 		ArrayList<Task> eventTasks = new ArrayList<Task>();
 		ArrayList<Task> fullList = new ArrayList<Task>();
@@ -139,6 +144,18 @@ public class LemonGUIController {
 		fullList = FileStorage.readStringAsObject(path);
 		for (int j = 0; j < fullList.size(); j++) {
 			currentTask = fullList.get(j);
+			int dateStart = currentTask.getTaskStartDate();
+			int dateEnd = currentTask.getTaskEndDate();
+
+			int dayStart = dateStart / 10000;
+			int monthStart = (dateStart / 100) % 100;
+			int yearStart = dateStart % 100;
+			int comparedStartDate = dayStart + monthStart * 100 + yearStart * 10000;
+
+			int dayEnd = dateEnd / 10000;
+			int monthEnd = (dateEnd / 100) % 100;
+			int yearEnd = dateEnd % 100;
+			int comparedEndDate = dayEnd + monthEnd * 100 + yearEnd * 10000;
 			if (currentTask.getTaskType().equals("deadline")) {
 				if (currentTask.getTaskEndDate() == timelineDate) {
 					deadlineTasks.add(currentTask);
@@ -146,13 +163,9 @@ public class LemonGUIController {
 				}
 			}
 			if (currentTask.getTaskType().equals("event")) {
-				if (currentTask.getTaskEndDate() >= timelineDate && currentTask.getTaskStartDate() <= timelineDate) {
+				if (comparedEndDate >= comparedTimeline && comparedStartDate <= comparedTimeline) {
 					eventTasks.add(currentTask);
 					System.out.println("event fromto: " + currentTask);
-				}
-				if(currentTask.getTaskEndDate() == -1 && currentTask.getTaskStartDate()==timelineDate){
-					eventTasks.add(currentTask);
-					System.out.println("event on: " + currentTask);
 				}
 			}
 		}
@@ -237,6 +250,7 @@ public class LemonGUIController {
 		task = new Task();
 		
 	}
+<<<<<<< HEAD
 	
     public static void setList(ArrayList<Task> list) {
     	tasks = list;
@@ -244,10 +258,153 @@ public class LemonGUIController {
     
 	public static void setCommand(String command) {
 		commandType = command;
+=======
+
+	public void executeDisplay(String[] commandParts) throws Exception {
+		ArrayList<Task> fullList = new ArrayList<Task>();
+		LemonGUIController.setCommand(commandParts[0]);
+		Task currentTask;
+
+		int id = Integer.parseInt(commandParts[1]);
+		fullList = FileStorage.readStringAsObject(path);
+		currentTask = fullList.get(id - 1);
+		LemonGUIController.setTask(currentTask);
+	}
+
+	public void parseInvalidCommand(String command) {
+		// GUIConsole.displayErrorMessage(command);
+	}
+
+	public void executeUndo() throws IOException, Exception {
+		// System.out.println(FileStorage.readStringAsString(path));
+		undoneStates.push(FileStorage.readStringAsString(path));
+		FileStorage.clear();
+		FileStorage.writeStringAsString(lastStates.pop());
+		LemonGUIController.setCommand("undo");
+>>>>>>> f01c5874dd0710235d2995f5c3606cff4b381346
 	}
 
 	public static void setTask(Task newTask) {
 		task = newTask;
+	}
+	
+	public void executeSortFloating () throws ClassNotFoundException, IOException {
+		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
+		System.out.println("Hello");
+			int sizeToCheck = fullList.size();
+			for (int i = 0; i < sizeToCheck; i++) {
+				Task currentTask = fullList.get(i);
+				System.out.println("tasktype: " + currentTask.getTaskType());
+				if (currentTask.getTaskType().equals("floating")) {
+					System.out.println("Entered if");
+					fullList.add(fullList.remove(i));
+					i--;
+					sizeToCheck--;
+				} 
+			}
+			
+			FileStorage.clear();
+			for (int j = 0; j < fullList.size(); j++) {
+				FileStorage.writeObjectAsString(fullList.get(j));
+			}
+	}
+	
+	public void executeSort () throws ClassNotFoundException, IOException {
+		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
+		for (int i = 0; i < fullList.size() - 1; i++) {
+			Task currentTask = fullList.get(i);
+				for (int j = i + 1; j < fullList.size(); j++) {
+					Task nextTask = fullList.get(j);
+					if (currentTask.getTaskType().equals("deadline")) {
+						String currentDate = parser.toSixDigit(currentTask.getTaskEndDate());
+						if (nextTask.getTaskType().equals("deadline")) {
+							String nextDate = parser.toSixDigit(nextTask.getTaskEndDate());
+							if (parser.endDatePassed(currentDate, nextDate)) {
+								//fullList.add(j, fullList.remove(i));
+								fullList.add(i, nextTask);
+								fullList.add(j+1, currentTask);
+								fullList.remove(i+1);
+								fullList.remove(j+1);
+							} else if (currentDate.equals(nextDate)) {
+								String currentPriority = currentTask.getTaskPriority();
+								String nextPriority = nextTask.getTaskPriority();
+								if (parser.nextPriorityIsHigher(currentPriority, nextPriority)) {
+									//fullList.add(j, fullList.remove(i));
+									fullList.add(i, nextTask);
+									fullList.add(j+1, currentTask);
+									fullList.remove(i+1);
+									fullList.remove(j+1);
+								}
+							}
+						} else if (nextTask.getTaskType().equals("event")) {
+							String nextDate = parser.toSixDigit(nextTask.getTaskStartDate());
+							if (parser.endDatePassed(currentDate, nextDate)) {
+								//fullList.add(j, fullList.remove(i));
+								fullList.add(i, nextTask);
+								fullList.add(j+1, currentTask);
+								fullList.remove(i+1);
+								fullList.remove(j+1);
+							} else if (currentDate.equals(nextDate)) {
+								String currentPriority = currentTask.getTaskPriority();
+								String nextPriority = nextTask.getTaskPriority();
+								if (parser.nextPriorityIsHigher(currentPriority, nextPriority)) {
+									//fullList.add(j, fullList.remove(i));
+									fullList.add(i, nextTask);
+									fullList.add(j+1, currentTask);
+									fullList.remove(i+1);
+									fullList.remove(j+1);
+								}
+							}
+						}
+					} else if (currentTask.getTaskType().equals("event")) {
+						String currentDate = parser.toSixDigit(currentTask.getTaskStartDate());
+						if (nextTask.getTaskType().equals("event")) {
+							String nextDate = parser.toSixDigit(nextTask.getTaskStartDate());
+							if (parser.endDatePassed(currentDate, nextDate)) {
+								//fullList.add(j, fullList.remove(i));
+								fullList.add(i, nextTask);
+								fullList.add(j+1, currentTask);
+								fullList.remove(i+1);
+								fullList.remove(j+1);
+							} else if (currentDate.equals(nextDate)) {
+								String currentPriority = currentTask.getTaskPriority();
+								String nextPriority = nextTask.getTaskPriority();
+								if (parser.nextPriorityIsHigher(currentPriority, nextPriority)) {
+									//fullList.add(j, fullList.remove(i));
+									fullList.add(i, nextTask);
+									fullList.add(j+1, currentTask);
+									fullList.remove(i+1);
+									fullList.remove(j+1);
+								}
+							}
+						} else if (nextTask.getTaskType().equals("deadline")) {
+							String nextDate = parser.toSixDigit(nextTask.getTaskEndDate());
+							if (parser.endDatePassed(currentDate, nextDate)) {
+								//fullList.add(j, fullList.remove(i));
+								fullList.add(i, nextTask);
+								fullList.add(j+1, currentTask);
+								fullList.remove(i+1);
+								fullList.remove(j+1);
+							} else if (currentDate.equals(nextDate)) {
+								String currentPriority = currentTask.getTaskPriority();
+								String nextPriority = nextTask.getTaskPriority();
+								if (parser.nextPriorityIsHigher(currentPriority, nextPriority)) {
+									//fullList.add(j, fullList.remove(i));
+									fullList.add(i, nextTask);
+									fullList.add(j+1, currentTask);
+									fullList.remove(i+1);
+									fullList.remove(j+1);
+								}
+							}
+						}
+					}
+				}
+			}
+			
+			FileStorage.clear();
+			for (int j = 0; j < fullList.size(); j++) {
+				FileStorage.writeObjectAsString(fullList.get(j));
+			}
 	}
 
 	public void setMainApp(lemonGUI mainApp) {
@@ -258,6 +415,7 @@ public class LemonGUIController {
 		listType[1] = type;
 		
 	}
+<<<<<<< HEAD
 	
 	public void createTimeLine() {
 		Text space = new Text("\n");
@@ -266,5 +424,18 @@ public class LemonGUIController {
 		timeLine.getChildren().add(space);
 		timeLine.getChildren().add(space);
 		timeLine.getChildren().add(timeline);
+=======
+
+	public void executeRedo() throws IOException, Exception {
+		if (!undoneStates.isEmpty()) {
+			lastStates.push(FileStorage.readStringAsString(path));
+			FileStorage.clear();
+			FileStorage.writeStringAsString(undoneStates.pop());
+			LemonGUIController.setCommand("redo");
+		} else {
+			System.out.println("Already at current");
+			LemonGUIController.setCommand("redo maxed");
+		}
+>>>>>>> f01c5874dd0710235d2995f5c3606cff4b381346
 	}
 }
