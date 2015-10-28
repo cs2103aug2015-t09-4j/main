@@ -364,6 +364,16 @@ public class Parser {
 
 		return numString;
 	}
+	
+	public boolean nextPriorityIsHigher(String currentPriority, String nextPriority) {
+		if (nextPriority.equals("high") && !currentPriority.equals("high")) {
+			return true;
+		} else if (nextPriority.equals("medium") && !currentPriority.equals("high") && !currentPriority.equals("medium")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	int parseInt(String str) {
 		int i = 0;
