@@ -100,12 +100,12 @@ public class Parser {
 				t.setTaskType(temp[1]);
 				break;
 			case "taskIsDone":
-				if(temp[1].equals("true"))
-				t.setTaskIsDone();
+				if (temp[1].equals("true"))
+					t.setTaskIsDone();
 				break;
 			case "taskIsOverdue":
-				if(temp[1].equals("true"))
-				t.setTaskIsOverdue();
+				if (temp[1].equals("true"))
+					t.setTaskIsOverdue();
 				break;
 			case "taskStartDate":
 				t.setTaskStartDate(temp[1]);
@@ -177,9 +177,22 @@ public class Parser {
 				wordIndex++;
 				wordIndex++;
 				wordIndex = splitCommaEnd(commandParts, newTask, wordIndex, comma);
+				if (!newTask.getTaskStartDate().equals("") && newTask.getTaskEndDate().equals("")) {
+					newTask.setTaskEndDate(newTask.getTaskStartDate());
+				}
 				newTask.setTaskType("event");
+
 				break;
 
+			}
+			if (newTask.getTaskStartDate().equals("") && newTask.getTaskEndDate().equals("")) {
+				if (newTask.getTaskType().equals("event")) {
+					newTask.setTaskStartDate(getCurrentDate());
+					newTask.setTaskEndDate(getCurrentDate());
+				}
+				if (newTask.getTaskType().equals("deadline")){
+					newTask.setTaskEndDate(getCurrentDate());
+				}
 			}
 		}
 		return wordIndex;
