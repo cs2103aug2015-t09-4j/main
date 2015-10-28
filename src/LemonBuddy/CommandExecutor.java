@@ -245,6 +245,7 @@ public class CommandExecutor {
 	}
 
 	public void executeUndo() throws IOException, Exception {
+		System.out.println(FileStorage.readStringAsString(path));
 		undoneStates.push(FileStorage.readStringAsString(path));
 		FileStorage.clear();
 		FileStorage.writeStringAsString(lastStates.pop());
@@ -272,10 +273,13 @@ public class CommandExecutor {
 	}
 
 	public void executeRedo() throws IOException, Exception {
-
+		if(!lastStates.isEmpty()){
 		lastStates.push(FileStorage.readStringAsString(path));
 		FileStorage.clear();
 		FileStorage.writeStringAsString(undoneStates.pop());
-
+		}
+		else{
+			System.out.println("Already at current");
+		}
 	}
 }
