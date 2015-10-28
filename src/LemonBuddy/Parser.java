@@ -177,7 +177,7 @@ public class Parser {
 				wordIndex++;
 				wordIndex++;
 				wordIndex = splitCommaEnd(commandParts, newTask, wordIndex, comma);
-				if (!newTask.getTaskStartDate().equals("") && newTask.getTaskEndDate().equals("")) {
+				if (!(newTask.getTaskStartDate()==-1) && newTask.getTaskEndDate()==-1) {
 					newTask.setTaskEndDate(newTask.getTaskStartDate());
 				}
 				newTask.setTaskType("event");
@@ -185,7 +185,7 @@ public class Parser {
 				break;
 
 			}
-			if (newTask.getTaskStartDate().equals("") && newTask.getTaskEndDate().equals("")) {
+			if (newTask.getTaskStartDate()==-1 && newTask.getTaskEndDate()==-1) {
 				if (newTask.getTaskType().equals("event")) {
 					newTask.setTaskStartDate(getCurrentDate());
 					newTask.setTaskEndDate(getCurrentDate());

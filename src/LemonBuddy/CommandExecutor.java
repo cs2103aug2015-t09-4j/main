@@ -111,7 +111,8 @@ public class CommandExecutor {
 					taskTypeIndex++;
 					Task recurringTask = currentTask;
 					if (recurType.equals("deadline")) {
-						String currentRecurringDate = currentTask.getTaskEndDate();
+						// note: changed
+						String currentRecurringDate = Integer.toString(currentTask.getTaskEndDate());
 						if (recurFreq.equals("yearly")) {
 							currentRecurringDate = parser.addOneYear(currentRecurringDate);
 							while (!parser.endDatePassed(currentRecurringDate, recurEndDate)) {
@@ -143,11 +144,39 @@ public class CommandExecutor {
 		}
 	}
 
-	public void executeNavigate(String[] commandParts) {
-		// TODO Auto-generated method stub
+	public void executeNavigate(String[] commandParts) throws ClassNotFoundException, IOException {
+		// get days related to day
+		int timelineDate = Integer.valueOf(commandParts[1]);
 
+		ArrayList<Task> deadlineTasks = new ArrayList<Task>();
+		ArrayList<Task> eventTasks = new ArrayList<Task>();
+		ArrayList<Task> fullList = new ArrayList<Task>();
+		Task currentTask;
+
+		fullList = FileStorage.readStringAsObject(path);
+		for (int j = 0; j < fullList.size(); j++) {
+			currentTask = fullList.get(j);
+			if (currentTask.getTaskType().equals("deadline")) {
+				if (currentTask.getTaskEndDate() == timelineDate) {
+					deadlineTasks.add(currentTask);
+					System.out.println("deadline: " + currentTask);
+				}
+			}
+			if (currentTask.getTaskType().equals("event")) {
+				if (currentTask.getTaskEndDate() >= timelineDate && currentTask.getTaskStartDate() <= timelineDate) {
+					eventTasks.add(currentTask);
+					System.out.println("event fromto: " + currentTask);
+				}
+				if(currentTask.getTaskEndDate() == -1 && currentTask.getTaskStartDate()==timelineDate){
+					eventTasks.add(currentTask);
+					System.out.println("event on: " + currentTask);
+				}
+			}
+		}
+		
+		
 		/*
-		 * get what user wants to view date e.g. navigate 01012001
+		 * get what user wants to view date e.g. navigate 010101
 		 */
 	}
 
@@ -169,7 +198,7 @@ public class CommandExecutor {
 		boolean anythingRemoved = false;
 
 		for (i = 0; i < array.size(); i++) {
-			String endDate = array.get(i).getTaskEndDate();
+			String endDate = Integer.valueOf(array.get(i).getTaskEndDate()).toString();
 			System.out.println(endDate);
 			if (endDate.length() == 6) {
 				if (parser.endDatePassed(currentDate, endDate)) {
@@ -209,15 +238,12 @@ public class CommandExecutor {
 			currentTask = fullList.get(j);
 			if (currentTask.getTaskType().equals("floating")) {
 				floatingTasks.add(currentTask);
-				System.out.println("Floating: " + currentTask);
 			}
 			if (currentTask.getTaskType().equals("deadline")) {
 				deadlineTasks.add(currentTask);
-				System.out.println("Deadline: " + currentTask);
 			}
 			if (currentTask.getTaskType().equals("event")) {
 				eventTasks.add(currentTask);
-				System.out.println("Event: " + currentTask);
 			}
 		}
 
@@ -248,7 +274,7 @@ public class CommandExecutor {
 	}
 
 	public void executeUndo() throws IOException, Exception {
-		//System.out.println(FileStorage.readStringAsString(path));
+		// System.out.println(FileStorage.readStringAsString(path));
 		undoneStates.push(FileStorage.readStringAsString(path));
 		FileStorage.clear();
 		FileStorage.writeStringAsString(lastStates.pop());
@@ -269,19 +295,18 @@ public class CommandExecutor {
 	public void saveLastState() throws Exception, IOException {
 		String currentState = FileStorage.readStringAsString(path);
 
-		//System.out.println(currentState);
+		// System.out.println(currentState);
 		lastStates.push(currentState);
 		lastState = currentState;
 		undoneStates = new Stack<String>();
 	}
 
 	public void executeRedo() throws IOException, Exception {
-		if(!undoneStates.isEmpty()){
-		lastStates.push(FileStorage.readStringAsString(path));
-		FileStorage.clear();
-		FileStorage.writeStringAsString(undoneStates.pop());
-		}
-		else{
+		if (!undoneStates.isEmpty()) {
+			lastStates.push(FileStorage.readStringAsString(path));
+			FileStorage.clear();
+			FileStorage.writeStringAsString(undoneStates.pop());
+		} else {
 			System.out.println("Already at current");
 		}
 	}

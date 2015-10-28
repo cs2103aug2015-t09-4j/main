@@ -118,19 +118,23 @@ public class LemonGUIController {
 			display = display + "Description: " + task.getTaskDescription() + "\n";
 		}
 		
-		if (!task.getTaskStartDate().isEmpty()) {
+		//if (!task.getTaskStartDate().isEmpty()) {
+		if (!(task.getTaskStartDate()==-1)) {			
 			display = display + "Start date " + task.getTaskStartDate() + "\n";
 		}
 		
-		if (!task.getTaskEndDate().isEmpty()) {
+		//if (!task.getTaskEndDate().isEmpty()) {
+		if (!(task.getTaskEndDate()==-1)) {
 			display = display + "End date " + task.getTaskEndDate() + "\n";
 		}
 		
-		if (!task.getTaskStartTime().isEmpty()) {
+		//if (!task.getTaskStartTime().isEmpty()) {
+		if (!(task.getTaskStartTime()==-1)) {
 			display = display + "Start time " + task.getTaskStartTime() + "\n";
 		}
 		
-		if (!task.getTaskEndTime().isEmpty()) {
+		//if (!task.getTaskEndTime().isEmpty()) {
+		if (!(task.getTaskEndTime()==-1)) {
 			display = display + "End time " + task.getTaskEndTime() + "\n";
 		}
 

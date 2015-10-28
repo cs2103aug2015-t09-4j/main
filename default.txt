@@ -1,6 +1,8 @@
-taskname:one;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskStartDate:;taskEndDate:;taskPriority:;taskDescription:;taskStartTime:;taskEndTime:;recurType:;recurStartDate:;recurEndDate:;
-taskname:two;tasktype:deadline;taskIsDone:false;taskIsOverdue:false;taskStartDate:281015;taskEndDate:281015;taskPriority:;taskDescription:;taskStartTime:;taskEndTime:3030;recurType:;recurStartDate:;recurEndDate:;
-taskname:one;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskStartDate:;taskEndDate:;taskPriority:;taskDescription:;taskStartTime:2020;taskEndTime:3030;recurType:;recurStartDate:;recurEndDate:;
-taskname:one;tasktype:deadline;taskIsDone:false;taskIsOverdue:false;taskStartDate:;taskEndDate:281015;taskPriority:;taskDescription:;taskStartTime:;taskEndTime:2020;recurType:;recurStartDate:;recurEndDate:;
-taskname:two;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskStartDate:281015;taskEndDate:281015;taskPriority:;taskDescription:;taskStartTime:2020;taskEndTime:3030;recurType:;recurStartDate:;recurEndDate:;
-taskname:five;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskStartDate:;taskEndDate:;taskPriority:;taskDescription:;taskStartTime:;taskEndTime:;recurType:;recurStartDate:;recurEndDate:;
+taskname:one;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskStartDate:281015;taskEndDate:281015;taskPriority:;taskDescription:;taskStartTime:2020;taskEndTime:3030;recurType:;recurStartDate:;recurEndDate:;
+taskname:two;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskStartDate:101010;taskEndDate:101010;taskPriority:;taskDescription:;taskStartTime:3030;taskEndTime:4040;recurType:;recurStartDate:;recurEndDate:;
+taskname:two+;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskStartDate:100910;taskEndDate:100910;taskPriority:;taskDescription:;taskStartTime:3030;taskEndTime:4040;recurType:;recurStartDate:;recurEndDate:;
+taskname:two++;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskStartDate:100910;taskEndDate:111010;taskPriority:;taskDescription:;taskStartTime:4040;taskEndTime:5050;recurType:;recurStartDate:;recurEndDate:;
+taskname:two+++;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskStartDate:111010;taskEndDate:111010;taskPriority:;taskDescription:;taskStartTime:2020;taskEndTime:4040;recurType:;recurStartDate:;recurEndDate:;
+taskname:three;tasktype:deadline;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:101010;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;recurType:;recurStartDate:;recurEndDate:;
+taskname:three;tasktype:deadline;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:111010;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;recurType:;recurStartDate:;recurEndDate:;
+taskname:four;tasktype:deadline;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:101009;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;recurType:;recurStartDate:;recurEndDate:;

@@ -5,14 +5,14 @@ import java.io.Serializable;
 public class Task implements Serializable {
 	private String taskName = "";
 	private String taskType = "";
-	private String taskStartDate = "";
-	private String taskEndDate = "";
+	private int taskStartDate = -1;
+	private int taskEndDate = -1;
 	private String taskPriority = "";
 	private String taskDescription = "";
 	private boolean taskIsDone = false;
 	private boolean taskIsOverdue = false;
-	private String taskStartTime = "";
-	private String taskEndTime = "";
+	private int taskStartTime = -1;
+	private int taskEndTime = -1;
 	// for recurring
 	private String recurType = "";
 	private String recurStartDate = "";
@@ -49,7 +49,7 @@ public class Task implements Serializable {
 
 	public Task merge(Task initialTask) {
 		this.taskName = initialTask.getTaskName();
-		
+	/*	
 		if((this.taskStartDate.equals(""))&&(this.taskEndDate.equals(""))
 				&&(this.taskStartTime.equals(""))&&(this.taskEndTime.equals(""))){
 
@@ -69,7 +69,7 @@ public class Task implements Serializable {
 		}
 		if(this.taskDescription.equals("")){
 			this.taskDescription = initialTask.getTaskDescription();
-		}
+		}*/
 		return this;
 	}
 	
@@ -89,12 +89,35 @@ public class Task implements Serializable {
 		this.taskIsOverdue = true;
 	}
 	
-	public void setTaskStartDate(String taskStartDate) {
+	public void setTaskStartDate(int taskStartDate){
 		this.taskStartDate = taskStartDate;
 	}
-
-	public void setTaskEndDate(String taskEndDate) {
+	
+	public void setTaskStartDate(String taskStartDate) {
+		this.taskStartDate = Integer.valueOf(taskStartDate);
+	}
+	
+	public void setTaskEndDate(int taskEndDate){
 		this.taskEndDate = taskEndDate;
+	}
+	public void setTaskEndDate(String taskEndDate) {
+		this.taskEndDate = Integer.valueOf(taskEndDate);
+	}
+		
+	public void setTaskStartTime(int taskStartTime) {
+		this.taskStartTime = taskStartTime;
+	}
+	
+	public void setTaskStartTime(String taskStartTime) {
+		this.taskStartTime = Integer.valueOf(taskStartTime);
+	}
+	
+	public void setTaskEndTime(int taskEndTime) {
+		this.taskEndTime = taskEndTime;
+	}
+	
+	public void setTaskEndTime(String taskEndTime) {
+		this.taskEndTime = Integer.valueOf(taskEndTime);
 	}
 
 	public void setTaskPriority(String taskPriority) {
@@ -105,14 +128,6 @@ public class Task implements Serializable {
 		this.taskDescription = taskDescription;
 	}
 
-	public void setTaskStartTime(String taskStartTime) {
-
-		this.taskStartTime = taskStartTime;
-	}
-
-	public void setTaskEndTime(String taskEndTime) {
-		this.taskEndTime = taskEndTime;
-	}
 
 	public void setRecurType(String recurType) {
 		this.recurType = recurType;
@@ -144,21 +159,20 @@ public class Task implements Serializable {
 	}public Boolean getTaskIsOverdue() {
 		return this.taskIsOverdue;
 	}
-	public String getTaskStartDate() {
-		if (!this.taskStartDate.equals("")) {
-			StringBuffer buffer = new StringBuffer(this.taskStartDate);
-			return buffer.toString();
-		} else
-			return "";
+	public int getTaskStartDate() {
+		return this.taskStartDate;
 	}
 
-	public String getTaskEndDate() {
-		/*if (!this.taskEndDate.equals("")) {
-			StringBuffer buffer = new StringBuffer(this.taskEndDate);
-			return buffer.toString();
-		} else
-			return "";*/
+	public int getTaskEndDate() {
 		return this.taskEndDate;
+	}
+	
+	public int getTaskStartTime() {
+		return this.taskStartTime;
+	}
+
+	public int getTaskEndTime() {
+		return this.taskEndTime;
 	}
 
 	public String getTaskPriority() {
@@ -171,23 +185,7 @@ public class Task implements Serializable {
 		return buffer.toString();
 	}
 
-	public String getTaskStartTime() {
-		if (!this.taskStartTime.equals("")) {
-			StringBuffer buffer = new StringBuffer(this.taskStartTime);
-			String buffer2 = buffer.toString();
-			return buffer2;
-		} else
-			return "";
-	}
 
-	public String getTaskEndTime() {
-		if (!this.taskEndTime.equals("")) {
-			StringBuffer buffer = new StringBuffer(this.taskEndTime);
-			String buffer2 = buffer.toString();
-			return buffer2;
-		} else
-			return "";
-	}
 
 	public String getRecurType(String recurType) {
 		StringBuffer buffer = new StringBuffer(this.recurType);
