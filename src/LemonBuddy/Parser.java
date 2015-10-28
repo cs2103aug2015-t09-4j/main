@@ -342,6 +342,15 @@ public class Parser {
 
 		return num;
 	}
+	
+	String toSixDigit(int num) {
+		String numString = Integer.toString(num);
+		if (numString.length() == 5) {
+			numString = "0" + numString;
+		}
+
+		return numString;
+	}
 
 	int parseInt(String str) {
 		int i = 0;

@@ -198,7 +198,8 @@ public class CommandExecutor {
 		boolean anythingRemoved = false;
 
 		for (i = 0; i < array.size(); i++) {
-			String endDate = Integer.valueOf(array.get(i).getTaskEndDate()).toString();
+			//String endDate = Integer.valueOf(array.get(i).getTaskEndDate()).toString();
+			String endDate = parser.toSixDigit(array.get(i).getTaskEndDate());
 			System.out.println(endDate);
 			if (endDate.length() == 6) {
 				if (parser.endDatePassed(currentDate, endDate)) {
