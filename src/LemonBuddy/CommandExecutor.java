@@ -144,8 +144,9 @@ public class CommandExecutor {
 		}
 	}
 
-	public void executeNavigate(String[] commandParts) throws ClassNotFoundException, IOException {
+	public static void executeNavigate(String[] commandParts) throws ClassNotFoundException, IOException {
 		// get days related to day
+		LemonGUIController.setTimeLineDate(commandParts[1]);
 		int timelineDate = Integer.valueOf(commandParts[1]);
 
 		ArrayList<Task> deadlineTasks = new ArrayList<Task>();
@@ -174,6 +175,8 @@ public class CommandExecutor {
 			}
 		}
 		
+		LemonGUIController.setTimeLineDeadlineList(deadlineTasks);
+		LemonGUIController.setTimeLineEventList(eventTasks);
 		
 		/*
 		 * get what user wants to view date e.g. navigate 010101
@@ -184,9 +187,6 @@ public class CommandExecutor {
 		// GUIConsole.displayHelp();
 	}
 
-	// <<<<<<< HEAD
-
-	// =======
 	public void executeUpdate() throws IOException, ClassNotFoundException {
 		ArrayList<Task> array = FileStorage.readStringAsObject(path);
 		assert(array != null) : "unable to read from specified path";
