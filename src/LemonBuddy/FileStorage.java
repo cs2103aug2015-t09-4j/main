@@ -1,6 +1,7 @@
 package LemonBuddy;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -8,10 +9,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class FileStorage extends Parser{
+public class FileStorage extends Parser {
 //	private static final long serialVersionUID = -769626947865283;
 	static ArrayList<Task> objectList = new ArrayList<Task>();
 	private static final String MSG_WHEN_INVALID_FILENAME = "cannot find targeted file"; 
@@ -31,16 +33,25 @@ public class FileStorage extends Parser{
 			fw.close();			
 		}
 	}
- 
+	
 	protected static void writeObjectAsString(Task p) throws IOException{
     	File f = new File(filename);
-    	FileWriter fw = new FileWriter(f,true);
+    	FileWriter fw = new FileWriter(f);
+    	BufferedWriter bw = new BufferedWriter(fw);    	
 		String content = p.toString();
     	try {
-    		fw.write(content);
+    		objectList = readStringAsObject(filename);
+    		objectList.add(p);
+    		Collections.sort(objectList, new Sort());
+    		for(int i = 0; i<objectList.size(); i++) {
+    			bw.write(objectList.get(i).toString() + "\n");    			
+    		} 
     	} catch (IOException e) {
     		storageLog.log(Level.WARNING, "writing error", e);
-    	} finally {
+    	} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
     		fw.flush();
     		storageLog.log(Level.INFO, "end of writing");
     	}  
