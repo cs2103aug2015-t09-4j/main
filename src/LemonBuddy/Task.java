@@ -188,8 +188,6 @@ public class Task implements Serializable {
 		return buffer.toString();
 	}
 
-
-
 	public String getRecurType(String recurType) {
 		StringBuffer buffer = new StringBuffer(this.recurType);
 		return buffer.toString();

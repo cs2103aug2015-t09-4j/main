@@ -114,6 +114,7 @@ public class LemonGUIController {
 		if (!task.getTaskPriority().isEmpty()) {
 			display = display + "Priority: " + task.getTaskPriority() + "\n";
 		}
+<<<<<<< HEAD
 		if (!task.getTaskDescription().isEmpty()) {
 			display = display + "Description: " + task.getTaskDescription() + "\n";
 		}
@@ -122,6 +123,43 @@ public class LemonGUIController {
 		if (!(task.getTaskStartDate()==-1)) {			
 			display = display + "Start date " + task.getTaskStartDate() + "\n";
 		}
+=======
+	}
+
+	public static void executeNavigate(String[] commandParts) throws ClassNotFoundException, IOException {
+		// get days related to day
+		LemonGUIController.setTimeLineDate(commandParts[1]);
+		int timelineDate = Integer.valueOf(commandParts[1]);
+
+		ArrayList<Task> deadlineTasks = new ArrayList<Task>();
+		ArrayList<Task> eventTasks = new ArrayList<Task>();
+		ArrayList<Task> fullList = new ArrayList<Task>();
+		Task currentTask;
+
+		fullList = FileStorage.readStringAsObject(path);
+		for (int j = 0; j < fullList.size(); j++) {
+			currentTask = fullList.get(j);
+			if (currentTask.getTaskType().equals("deadline")) {
+				if (currentTask.getTaskEndDate() == timelineDate) {
+					deadlineTasks.add(currentTask);
+					System.out.println("deadline: " + currentTask);
+				}
+			}
+			if (currentTask.getTaskType().equals("event")) {
+				if (currentTask.getTaskEndDate() >= timelineDate && currentTask.getTaskStartDate() <= timelineDate) {
+					eventTasks.add(currentTask);
+					System.out.println("event fromto: " + currentTask);
+				}
+				if(currentTask.getTaskEndDate() == -1 && currentTask.getTaskStartDate()==timelineDate){
+					eventTasks.add(currentTask);
+					System.out.println("event on: " + currentTask);
+				}
+			}
+		}
+		
+		LemonGUIController.setTimeLineDeadlineList(deadlineTasks);
+		LemonGUIController.setTimeLineEventList(eventTasks);
+>>>>>>> origin/master
 		
 		//if (!task.getTaskEndDate().isEmpty()) {
 		if (!(task.getTaskEndDate()==-1)) {
@@ -140,10 +178,38 @@ public class LemonGUIController {
 
 		return display;
 	}
+<<<<<<< HEAD
 	
 	public void displayMain() {
 		if (task.getTaskName().equals("")){
 			return;
+=======
+
+	public void executeUpdate() throws IOException, ClassNotFoundException {
+		ArrayList<Task> array = FileStorage.readStringAsObject(path);
+		assert(array != null) : "unable to read from specified path";
+
+		String currentDate = parser.getCurrentDate();
+		System.out.println(currentDate);
+
+		int i = 0;
+		boolean anythingRemoved = false;
+
+		for (i = 0; i < array.size(); i++) {
+			Task overdueTask = array.get(i);
+			String endDate = parser.toSixDigit(array.get(i).getTaskEndDate());
+			System.out.println(endDate);
+			if (endDate.length() == 6) {
+				if (parser.endDatePassed(currentDate, endDate) && (overdueTask.getTaskIsOverdue() == false)) {
+					FileStorage.clear();
+					overdueTask.setTaskIsOverdue();
+					array.add(overdueTask);
+					array.remove(i);
+					anythingRemoved = true;
+					i--;
+				}
+			}
+>>>>>>> origin/master
 		}
 		if (commandType.equals("add")) {
 			mainConsole.setText("Added\n" + displayTask(task));
