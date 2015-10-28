@@ -159,6 +159,18 @@ public class LemonGUIController {
 	}
 	
 	public void displayMain() {
+		
+		if (commandType.equals("undo")) {
+			mainConsole.setText("Undo successful");
+		}
+		
+		if (commandType.equals("redo")) {
+			mainConsole.setText("Redo successful");
+		}
+		
+		if (commandType.equals("redo maxed")) {
+			mainConsole.setText("Already at current");
+		}
 		if (task.getTaskName().equals("")){
 			return;
 		}
@@ -233,6 +245,7 @@ public class LemonGUIController {
 		num.setFill(Color.TRANSPARENT);
 		timeLine.setTextAlignment(TextAlignment.CENTER);
 		timeLine.getChildren().add(space);
+		//createTimeLineDeadLine();
 		timeLine.getChildren().add(num);
 		timeLine.getChildren().add(timeline);
 		int counter = 0;
@@ -260,6 +273,27 @@ public class LemonGUIController {
 			timeLine.getChildren().add(timeline);
 			counter++;
 		}
+	}
+	
+	public void createTimeLineDeadLine() {
+		Text dash = new Text("_");
+		int time = 0;
+		for (int counter = 0; counter < 48; counter ++) {
+			dash.setFill(Color.TRANSPARENT);
+			for (int counter1 = 0; counter1 < timeLineDeadLineList.size(); counter1++) {
+				if (roundDown(timeLineDeadLineList.get(counter1).getTaskEndDate()) == time) {
+					dash.setFill(Color.RED);
+				}
+			}
+			if(time % 100 == 0) {
+				time = time + 30;
+			} else {
+				time = time - 30 + 100;
+			}
+			timeLine.getChildren().add(dash);
+		}
+		Text space = new Text("\n");
+		timeLine.getChildren().add(space);
 	}
 	
 	public Text[] createTimeLineEvent(Task task) {

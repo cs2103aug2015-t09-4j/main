@@ -294,6 +294,7 @@ public class CommandExecutor {
 		undoneStates.push(FileStorage.readStringAsString(path));
 		FileStorage.clear();
 		FileStorage.writeStringAsString(lastStates.pop());
+		LemonGUIController.setCommand("undo");
 	}
 
 	public void executeDone(String[] commandParts) throws Exception, IOException {
@@ -322,8 +323,10 @@ public class CommandExecutor {
 			lastStates.push(FileStorage.readStringAsString(path));
 			FileStorage.clear();
 			FileStorage.writeStringAsString(undoneStates.pop());
+			LemonGUIController.setCommand("redo");
 		} else {
 			System.out.println("Already at current");
+			LemonGUIController.setCommand("redo maxed");
 		}
 	}
 }
