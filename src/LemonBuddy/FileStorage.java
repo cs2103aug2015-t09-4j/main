@@ -18,7 +18,7 @@ public class FileStorage extends Parser{
 	private static Logger storageLog = Logger.getLogger("FileStorage");
 	private static String filename = "default.txt";
 	
-	public static void clear() throws IOException {
+	protected static void clear() throws IOException {
 		File f = new File(filename);	
 		assert f.exists() == true;
 		assert f.isFile() == true;
@@ -32,7 +32,7 @@ public class FileStorage extends Parser{
 		}
 	}
  
-    public static void writeObjectAsString(Object p) throws IOException{
+	protected static void writeObjectAsString(Task p) throws IOException{
     	File f = new File(filename);
     	FileWriter fw = new FileWriter(f,true);
 		String content = p.toString();
@@ -47,7 +47,7 @@ public class FileStorage extends Parser{
     	fw.flush();
     }
     
-    public static void writeStringAsString(String s) throws IOException{
+	protected static void writeStringAsString(String s) throws IOException{
     	File f = new File(filename);
     	FileWriter fw = new FileWriter(f,true);
     	try {
@@ -61,7 +61,7 @@ public class FileStorage extends Parser{
     	fw.flush();
     }
 
-     public static ArrayList<Task> readStringAsObject(String path) throws IOException, ClassNotFoundException {
+	protected static ArrayList<Task> readStringAsObject(String path) throws IOException, ClassNotFoundException {
     	 objectList = new ArrayList<Task>();
          File f = new File(filename);
          if(f.isFile() && f.exists()) { 
@@ -81,7 +81,7 @@ public class FileStorage extends Parser{
 		return objectList;       
      }
      
-     public static String readStringAsString(String path) throws IOException, ClassNotFoundException {
+	protected static String readStringAsString(String path) throws IOException, ClassNotFoundException {
     	 String filecontent = "";
          File f = new File(filename);
          if(f.isFile() && f.exists()) { 
@@ -101,7 +101,7 @@ public class FileStorage extends Parser{
 		return filecontent;       
      }
 
-     public static void RetrieveFile(String path) throws IOException {
+	protected static void RetrieveFile(String path) throws IOException {
 		 FileInputStream input=new FileInputStream(filename);
 		 FileOutputStream output=new FileOutputStream(path);   	 
     	 try {
