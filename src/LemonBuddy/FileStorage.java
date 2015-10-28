@@ -92,7 +92,7 @@ public class FileStorage extends Parser{
         	 BufferedReader br = new BufferedReader(read);
         	 String lineText = null;
         	 while((lineText = br.readLine()) != null) {
-        		 filecontent = filecontent + lineText;
+        		 filecontent = filecontent + lineText + System.getProperty("line.separator");
         	 }
         	 read.close();
         } else {

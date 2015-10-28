@@ -209,12 +209,15 @@ public class CommandExecutor {
 			currentTask = fullList.get(j);
 			if (currentTask.getTaskType().equals("floating")) {
 				floatingTasks.add(currentTask);
+				System.out.println("Floating: " + currentTask);
 			}
 			if (currentTask.getTaskType().equals("deadline")) {
 				deadlineTasks.add(currentTask);
+				System.out.println("Deadline: " + currentTask);
 			}
 			if (currentTask.getTaskType().equals("event")) {
 				eventTasks.add(currentTask);
+				System.out.println("Event: " + currentTask);
 			}
 		}
 
@@ -245,7 +248,7 @@ public class CommandExecutor {
 	}
 
 	public void executeUndo() throws IOException, Exception {
-		System.out.println(FileStorage.readStringAsString(path));
+		//System.out.println(FileStorage.readStringAsString(path));
 		undoneStates.push(FileStorage.readStringAsString(path));
 		FileStorage.clear();
 		FileStorage.writeStringAsString(lastStates.pop());
@@ -266,14 +269,14 @@ public class CommandExecutor {
 	public void saveLastState() throws Exception, IOException {
 		String currentState = FileStorage.readStringAsString(path);
 
-		System.out.println(currentState);
+		//System.out.println(currentState);
 		lastStates.push(currentState);
 		lastState = currentState;
 		undoneStates = new Stack<String>();
 	}
 
 	public void executeRedo() throws IOException, Exception {
-		if(!lastStates.isEmpty()){
+		if(!undoneStates.isEmpty()){
 		lastStates.push(FileStorage.readStringAsString(path));
 		FileStorage.clear();
 		FileStorage.writeStringAsString(undoneStates.pop());
