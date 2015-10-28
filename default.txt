@@ -35,3 +35,6 @@ taskname:test5;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskStartDate
 taskname:new;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskStartDate:291015;taskEndDate:291015;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:59;recurType:;recurStartDate:;recurEndDate:;
 taskname:new;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskStartDate:291015;taskEndDate:291015;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:59;recurType:;recurStartDate:;recurEndDate:;
 taskname:new;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;recurType:;recurStartDate:;recurEndDate:;
+taskname:one;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskStartDate:291015;taskEndDate:291015;taskPriority:;taskDescription:;taskStartTime:1010;taskEndTime:1110;recurType:;recurStartDate:;recurEndDate:;
+taskname:one;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskStartDate:291010;taskEndDate:291010;taskPriority:;taskDescription:;taskStartTime:0;taskEndTime:59;recurType:;recurStartDate:;recurEndDate:;
+taskname:two;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskStartDate:291010;taskEndDate:291010;taskPriority:;taskDescription:;taskStartTime:100;taskEndTime:200;recurType:;recurStartDate:;recurEndDate:;

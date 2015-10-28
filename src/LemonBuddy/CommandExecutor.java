@@ -148,7 +148,12 @@ public class CommandExecutor {
 		// get days related to day
 		LemonGUIController.setTimeLineDate(commandParts[1]);
 		int timelineDate = Integer.valueOf(commandParts[1]);
-
+		
+		int dayTimeLine = timelineDate / 10000;
+		int monthTimeLine = (timelineDate / 100) % 100;
+		int yearTimeLine = timelineDate % 100;
+		int comparedTimeline = dayTimeLine + monthTimeLine * 100 + yearTimeLine * 10000;
+		
 		ArrayList<Task> deadlineTasks = new ArrayList<Task>();
 		ArrayList<Task> eventTasks = new ArrayList<Task>();
 		ArrayList<Task> fullList = new ArrayList<Task>();
@@ -157,6 +162,18 @@ public class CommandExecutor {
 		fullList = FileStorage.readStringAsObject(path);
 		for (int j = 0; j < fullList.size(); j++) {
 			currentTask = fullList.get(j);
+			int dateStart = currentTask.getTaskStartDate();
+			int dateEnd = currentTask.getTaskEndDate();
+
+			int dayStart = dateStart / 10000;
+			int monthStart = (dateStart / 100) % 100;
+			int yearStart = dateStart % 100;
+			int comparedStartDate = dayStart + monthStart * 100 + yearStart * 10000;
+
+			int dayEnd = dateEnd / 10000;
+			int monthEnd = (dateEnd / 100) % 100;
+			int yearEnd = dateEnd % 100;
+			int comparedEndDate = dayEnd + monthEnd * 100 + yearEnd * 10000;
 			if (currentTask.getTaskType().equals("deadline")) {
 				if (currentTask.getTaskEndDate() == timelineDate) {
 					deadlineTasks.add(currentTask);
@@ -164,13 +181,9 @@ public class CommandExecutor {
 				}
 			}
 			if (currentTask.getTaskType().equals("event")) {
-				if (currentTask.getTaskEndDate() >= timelineDate && currentTask.getTaskStartDate() <= timelineDate) {
+				if (comparedEndDate >= comparedTimeline && comparedStartDate <= comparedTimeline) {
 					eventTasks.add(currentTask);
 					System.out.println("event fromto: " + currentTask);
-				}
-				if(currentTask.getTaskEndDate() == -1 && currentTask.getTaskStartDate()==timelineDate){
-					eventTasks.add(currentTask);
-					System.out.println("event on: " + currentTask);
 				}
 			}
 		}

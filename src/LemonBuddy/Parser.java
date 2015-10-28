@@ -165,9 +165,16 @@ public class Parser {
 			Boolean comma = false;
 			switch (commandParts[wordIndex++]) {
 			case "on":
-				wordIndex = splitCommaStart(commandParts, newTask, wordIndex, comma);			
+				wordIndex = splitCommaStart(commandParts, newTask, wordIndex, comma);
 				addOneHourToEnd(newTask);
 				newTask.setTaskType("event");
+				if (newTask.getTaskStartDate() == -1 && !(newTask.getTaskEndDate() == -1)) {
+					newTask.setTaskStartDate(getCurrentDate());
+					newTask.setTaskEndDate(getCurrentDate());
+				}
+				if (newTask.getTaskStartTime() == -1 && !(newTask.getTaskEndTime() == -1)) {
+					newTask.setTaskStartTime(0);
+				}
 				break;
 			case "by":
 				wordIndex = splitCommaEnd(commandParts, newTask, wordIndex, comma);
@@ -178,7 +185,7 @@ public class Parser {
 				wordIndex++;
 				wordIndex++;
 				wordIndex = splitCommaEnd(commandParts, newTask, wordIndex, comma);
-				if (!(newTask.getTaskStartDate()==-1) && newTask.getTaskEndDate()==-1) {
+				if (!(newTask.getTaskStartDate() == -1) && newTask.getTaskEndDate() == -1) {
 					newTask.setTaskEndDate(newTask.getTaskStartDate());
 				}
 				newTask.setTaskType("event");
@@ -186,13 +193,19 @@ public class Parser {
 				break;
 
 			}
-			if (newTask.getTaskStartDate()==-1 && newTask.getTaskEndDate()==-1) {
+			if (newTask.getTaskStartDate() == -1 && newTask.getTaskEndDate() == -1) {
 				if (newTask.getTaskType().equals("event")) {
 					newTask.setTaskStartDate(getCurrentDate());
 					newTask.setTaskEndDate(getCurrentDate());
 				}
-				if (newTask.getTaskType().equals("deadline")){
+				if (newTask.getTaskType().equals("deadline")) {
 					newTask.setTaskEndDate(getCurrentDate());
+				}
+			}
+			if (newTask.getTaskStartTime() == -1 && newTask.getTaskEndTime() == -1) {
+				if (newTask.getTaskType().equals("event")) {
+					newTask.setTaskStartTime(0);
+					newTask.setTaskEndTime(2359);
 				}
 			}
 		}
@@ -203,7 +216,7 @@ public class Parser {
 		int date = newTask.getTaskStartDate();
 		int time = newTask.getTaskStartTime();
 		Calendar endTime = Calendar.getInstance();
-		endTime.set(((date%100)+2000),(date/100)%100 -1, (date/10000), time/100, time%100, 0);
+		endTime.set(((date % 100) + 2000), (date / 100) % 100 - 1, (date / 10000), time / 100, time % 100, 0);
 		endTime.add(Calendar.HOUR, 1);
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyy HHmm");
 		String[] timeInfo = dateFormatter.format(endTime.getTime()).split(" ");
