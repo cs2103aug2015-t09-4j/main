@@ -299,7 +299,6 @@ public class CommandExecutor {
 
 	public void executeDone(String[] commandParts) throws Exception, IOException {
 		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
-
 		FileStorage.clear();
 		int taskDoneIndex = writeUntilTaskIndex(commandParts, fullList);
 		Task taskDone = fullList.get(taskDoneIndex);

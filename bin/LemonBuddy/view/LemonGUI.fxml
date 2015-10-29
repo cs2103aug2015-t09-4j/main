@@ -41,9 +41,13 @@
                                                       </ScrollPane>
                                                    </children>
                                                 </AnchorPane>
-                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="218.0" prefWidth="242.0">
                                                    <children>
-                                                      <TextFlow layoutX="-10.0" prefHeight="218.0" prefWidth="242.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                      <ScrollPane prefHeight="211.0" prefViewportHeight="211.0" prefViewportWidth="242.0" prefWidth="242.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                         <content>
+                                                            <TextFlow fx:id="completeView" layoutX="-10.0" prefHeight="218.0" prefWidth="242.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                         </content>
+                                                      </ScrollPane>
                                                    </children>
                                                 </AnchorPane>
                                             </items>
