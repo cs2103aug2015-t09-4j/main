@@ -284,8 +284,20 @@ public class LemonGUIController {
 >>>>>>> f01c5874dd0710235d2995f5c3606cff4b381346
 	}
 
+<<<<<<< HEAD
 	public static void setTask(Task newTask) {
 		task = newTask;
+=======
+	public void executeDone(String[] commandParts) throws Exception, IOException {
+		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
+		FileStorage.clear();
+		int taskDoneIndex = writeUntilTaskIndex(commandParts, fullList);
+		Task taskDone = fullList.get(taskDoneIndex);
+		taskDone.setTaskIsDone();
+		FileStorage.writeObjectAsString(taskDone);
+		writeRestOfList(fullList, taskDoneIndex);
+
+>>>>>>> origin/master
 	}
 	
 	public void executeSortFloating () throws ClassNotFoundException, IOException {

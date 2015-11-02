@@ -124,9 +124,17 @@ public class LemonGUIController {
 		this.taskType = taskType;
 	}
 	
+<<<<<<< HEAD
 	public void setTaskIsDone(){
 		this.taskIsDone = true;
 	}
+=======
+	@FXML
+	private TextFlow completeView;
+	
+	@FXML
+	private TextArea mainConsole;
+>>>>>>> origin/master
 	
 	public void setTaskIsOverdue(){
 		this.taskIsOverdue = true;
@@ -145,6 +153,7 @@ public class LemonGUIController {
 		date = parser.getCurrentDate();
 		timeLineDate[1] = date;
         generateSideList();
+        generateCompleteList();
         mainConsole.setText("Welcome to LemonBuddy!!!!");
         createTimeLine();
     }
@@ -154,19 +163,106 @@ public class LemonGUIController {
 		this.taskStartDate = Integer.valueOf(taskStartDate);
 	}
 	
+<<<<<<< HEAD
 	public void setTaskEndDate(int taskEndDate){
 		this.taskEndDate = taskEndDate;
 	}
 	public void setTaskEndDate(String taskEndDate) {
 		this.taskEndDate = Integer.valueOf(taskEndDate);
 	}
+=======
+	@FXML
+	private void generateSideList() throws Exception {
+		listView.getChildren().clear();
+		CommandExecutor.executeList(listType);
+		Text t;
+		if (listType[1].equals("all")) {
+			t = new Text("All Tasks\n\n");
+			t.setStyle("-fx-font: 18 arial;");
+			listView.getChildren().add(t);
+		}
+		if (listType[1].equals("floating")) {
+			t = new Text("Floating Tasks\n\n");
+			t.setStyle("-fx-font: 18 arial;");
+			listView.getChildren().add(t);
+		}
+		if (listType[1].equals("deadline")) {
+			t = new Text("Deadlines\n\n");
+			t.setStyle("-fx-font: 18 arial;");
+			listView.getChildren().add(t);
+		}
+		if (listType[1].equals("event")) {
+			t = new Text("Events\n\n");
+			t.setStyle("-fx-font: 18 arial;");
+			listView.getChildren().add(t);
+		}
+		
+		int counter3 = 1;
+		for (int counter = 1; counter < tasks.size() + 1; counter++) {
+			Task temp = tasks.get(counter - 1);
+			t = new Text(getTask(temp, counter3));
+			if (temp.getTaskPriority().equals("high")) {
+				t.setFill(Color.RED);
+			}
+			if (temp.getTaskIsDone() == false) {
+				if (temp.getTaskIsOverdue() == false) {
+					listView.getChildren().add(t);
+					counter3++;
+					System.out.println(temp.getTaskIsDone());					
+				}
+			}
+		}
+>>>>>>> origin/master
 		
 	public void setTaskStartTime(int taskStartTime) {
 		this.taskStartTime = taskStartTime;
 	}
 	
+<<<<<<< HEAD
 	public void setTaskStartTime(String taskStartTime) {
 		this.taskStartTime = Integer.valueOf(taskStartTime);
+=======
+	private void generateCompleteList() throws Exception {
+		completeView.getChildren().clear();
+		Text t = new Text("Overdue Tasks\n\n");
+		t.setStyle("-fx-font: 18 arial;");
+		completeView.getChildren().add(t);
+		int counter1 = 1;
+		for (int counter = 1; counter < tasks.size() + 1; counter++) {
+			Task temp = tasks.get(counter - 1);
+			t = new Text(counter1 + ". "+ temp.getTaskName() + "\n");
+			if (temp.getTaskPriority().equals("high")) {
+				t.setFill(Color.RED);
+			}
+			if (temp.getTaskIsOverdue() == true) {
+				completeView.getChildren().add(t);
+				counter1++;
+			}
+		}
+		Text space = new Text("\n");
+		completeView.getChildren().add(space);
+		t = new Text("Done Tasks\n\n");
+		t.setStyle("-fx-font: 18 arial;");
+		completeView.getChildren().add(t);
+		int counter2 = 1;
+		for (int counter = 1; counter < tasks.size() + 1; counter++) {
+			Task temp = tasks.get(counter - 1);
+			t = new Text(counter2 + ". "+ temp.getTaskName() + "\n");
+			if (temp.getTaskPriority().equals("high")) {
+				t.setFill(Color.RED);
+			}
+			if (temp.getTaskIsDone() == true) {
+				completeView.getChildren().add(t);
+				counter2++;
+			}
+		}
+	}
+	
+	private String getTask(Task temp, int id) throws Exception {
+		String toList = "";
+		toList = toList + id + ". " + temp.getTaskName() + "\n";
+		return toList;
+>>>>>>> origin/master
 	}
 	
 <<<<<<< HEAD
@@ -179,6 +275,7 @@ public class LemonGUIController {
 			getInput();
 			displayMain();
 			generateSideList();
+			generateCompleteList();
 			createTimeLine();
 		}
 >>>>>>> origin/master
@@ -339,9 +436,14 @@ public class LemonGUIController {
 		Text num = new Text("99. ");
 		num.setFont(Font.font ("Arial", 15));
 		num.setFill(Color.TRANSPARENT);
+		Text num1 = new Text("99. ");
+		num1.setFont(Font.font ("Arial", 15));
+		num1.setFill(Color.TRANSPARENT);
 		timeLine.setTextAlignment(TextAlignment.CENTER);
 		timeLine.getChildren().add(space);
-		//createTimeLineDeadLine();
+		timeLine.getChildren().add(num1);
+		ArrayList<String> timeLineDeadLines = createTimeLineDeadLine();
+		displayTimeLineDeadLine(timeLineDeadLines);
 		timeLine.getChildren().add(num);
 		timeLine.getChildren().add(timeline);
 		int counter = 0;
@@ -371,14 +473,39 @@ public class LemonGUIController {
 		}
 	}
 	
-	public void createTimeLineDeadLine() {
-		Text dash = new Text("_");
+	public void displayTimeLineDeadLine(ArrayList<String> deadlines) {
+		String finish = "";
+		for (int counter = 0; counter < 48; counter ++) {
+			if (deadlines.get(counter).equals("d")) {
+				Text blank = new Text(finish);
+				blank.setFont(Font.font ("Arial", 15));
+				blank.setFill(Color.TRANSPARENT);
+				timeLine.getChildren().add(blank);
+				finish = "";
+				Text dash = new Text("_");
+				dash.setFont(Font.font ("Arial", 15));
+				dash.setFill(Color.RED);
+				timeLine.getChildren().add(dash);
+			} else {
+				finish = finish + deadlines.get(counter);
+			}
+		}
+		Text blank = new Text(finish + "\n");
+		blank.setFont(Font.font ("Arial", 15));
+		blank.setFill(Color.TRANSPARENT);
+		timeLine.getChildren().add(blank);
+	}
+	
+	public ArrayList<String> createTimeLineDeadLine() {
+		ArrayList<String> ans = new ArrayList<String>();
+		String dash = "_";
+		String finish = "";
 		int time = 0;
 		for (int counter = 0; counter < 48; counter ++) {
-			dash.setFill(Color.TRANSPARENT);
+			dash = "_";
 			for (int counter1 = 0; counter1 < timeLineDeadLineList.size(); counter1++) {
-				if (roundDown(timeLineDeadLineList.get(counter1).getTaskEndDate()) == time) {
-					dash.setFill(Color.RED);
+				if (roundDown(timeLineDeadLineList.get(counter1).getTaskEndTime()) == time) {
+					dash = "d";
 				}
 			}
 			if(time % 100 == 0) {
@@ -386,10 +513,13 @@ public class LemonGUIController {
 			} else {
 				time = time - 30 + 100;
 			}
-			timeLine.getChildren().add(dash);
+			finish = finish + dash;
+			ans.add(dash);
 		}
 		Text space = new Text("\n");
-		timeLine.getChildren().add(space);
+		ans.add("\n");
+		System.out.println(finish);
+		return ans;
 	}
 	
 	public Text[] createTimeLineEvent(Task task) {
