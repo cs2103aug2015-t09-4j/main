@@ -467,4 +467,29 @@ public class CommandExecutor {
 			LemonGUIController.setCommand("redo maxed");
 		}
 	}
+	
+	public void executeSearch(String[] commandParts) throws ClassNotFoundException, IOException {
+		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
+		ArrayList<Task> searchResult = new ArrayList<Task>();
+		
+		int phraseSize = commandParts.length - 1;
+		String searchKeyword = commandParts[1];
+		System.out.println("phrase size: " + phraseSize);
+		
+		if (phraseSize > 1) {
+			for (int i = 2; i < phraseSize + 1; i++) {
+				searchKeyword += " ";
+				searchKeyword += commandParts[i];
+				System.out.println("key phrase: " + searchKeyword);
+			}
+		}
+		
+		for (int j = 0; j < fullList.size(); j++) {
+			Task searchedTask = fullList.get(j);
+			if (searchedTask.getTaskName().contains(searchKeyword) || searchedTask.getTaskDescription().contains(searchKeyword)) {
+				searchResult.add(searchedTask);
+				System.out.println("result: " + searchedTask);
+			}
+		}
+	}
 }

@@ -19,6 +19,7 @@ public class CommandController {
 	private static final String COMMAND_UNDO = "undo";
 	private static final String COMMAND_REDO = "redo";
 	private static final String COMMAND_DONE = "done";
+	private static final String COMMAND_SEARCH = "search";
 	private static final String MESSAGE_INVALID = "Invalid Command";
 	private static final String COMMAND_CLEAR = "clear";
 	private static CommandExecutor commandexecutor;
@@ -99,6 +100,10 @@ public class CommandController {
 
 			case COMMAND_UPDATE:
 				commandexecutor.executeUpdate();
+				break;
+				
+			case COMMAND_SEARCH:
+				commandexecutor.executeSearch(commandParts);
 				break;
 
 			default:
