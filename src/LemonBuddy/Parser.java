@@ -217,6 +217,28 @@ public class Parser {
 		return date;
 	}
 	
+	private void addOneDayToStart(Task newTask){
+		int date = newTask.getTaskStartDate();
+		int time = newTask.getTaskStartTime();
+		Calendar endTime = Calendar.getInstance();
+		endTime.set(((date % 100) + 2000), (date / 100) % 100 - 1, (date / 10000), time / 100, time % 100, 0);
+		endTime.add(Calendar.DATE, 1);
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyy HHmm");
+		String[] timeInfo = dateFormatter.format(endTime.getTime()).split(" ");
+		newTask.setTaskStartDate(timeInfo[0]);
+	}
+	
+	private void addOneDayToEnd(Task newTask){
+		int date = newTask.getTaskStartDate();
+		int time = newTask.getTaskStartTime();
+		Calendar endTime = Calendar.getInstance();
+		endTime.set(((date % 100) + 2000), (date / 100) % 100 - 1, (date / 10000), time / 100, time % 100, 0);
+		endTime.add(Calendar.DATE, 1);
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyy HHmm");
+		String[] timeInfo = dateFormatter.format(endTime.getTime()).split(" ");
+		newTask.setTaskEndDate(timeInfo[0]);
+	}
+	
 	private void addOneHourToEnd(Task newTask) {
 		int date = newTask.getTaskStartDate();
 		int time = newTask.getTaskStartTime();
@@ -293,8 +315,10 @@ public class Parser {
 			newTask.setTaskEndTime(taskTo);
 		} else if (taskTo.length() == 6) {
 			newTask.setTaskEndDate(taskTo);
-		}
-
+		} //else if(taskTo.equals("tomorrow")){
+		//	addOneDayToEnd(newTask);
+	//	}
+		
 		if (comma) {
 			taskTo = commandParts[++wordIndex];
 			if (taskTo.length() == 4) {

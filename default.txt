@@ -1,5 +1,9 @@
 taskname:three;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskStartDate:101010;taskEndDate:101010;taskPriority:;taskDescription:;taskStartTime:0;taskEndTime:59;recurType:;recurStartDate:;recurEndDate:;
 taskname:four;tasktype:deadline;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:101010;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;recurType:;recurStartDate:;recurEndDate:;
+taskname:six;tasktype:deadline;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:101010;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;recurType:;recurStartDate:;recurEndDate:;
+taskname:seven;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskStartDate:101010;taskEndDate:101110;taskPriority:;taskDescription:;taskStartTime:2020;taskEndTime:2020;recurType:;recurStartDate:;recurEndDate:;
+taskname:more;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskStartDate:41115;taskEndDate:41115;taskPriority:;taskDescription:;taskStartTime:1010;taskEndTime:1110;recurType:;recurStartDate:;recurEndDate:;
+taskname:eight;tasktype:deadline;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:301198;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;recurType:;recurStartDate:;recurEndDate:;
 taskname:two;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;recurType:;recurStartDate:;recurEndDate:;
 taskname:three;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;recurType:;recurStartDate:;recurEndDate:;
 taskname:one;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;recurType:;recurStartDate:;recurEndDate:;
