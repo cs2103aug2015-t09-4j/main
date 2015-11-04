@@ -1,78 +1,5 @@
 package LemonBuddy.view;
 
-<<<<<<< HEAD
-import java.io.Serializable;
-
-public class LemonGUIController implements Serializable {
-	private String taskName = "";
-	private String taskType = "";
-	private int taskStartDate = -1;
-	private int taskEndDate = -1;
-	private String taskPriority = "";
-	private String taskDescription = "";
-	private boolean taskIsDone = false;
-	private boolean taskIsOverdue = false;
-	private int taskStartTime = -1;
-	private int taskEndTime = -1;
-	// for recurring
-	private String recurType = "";
-	private String recurStartDate = "";
-	private String recurEndDate = "";
-	// private String desc= "";
-	/*
-	 * public void Task(){ this.taskName = ""; this.taskType = "";
-	 * this.taskStartDate = ""; this.taskEndDate = ""; this.taskPriority = "";
-	 * this.taskDescription = ""; this.taskStartTime = ""; this.taskEndTime =
-	 * ""; // for recurring this.recurType = ""; this.recurStartDate = "";
-	 * this.recurEndDate = "";
-	 * 
-	 * // private String desc= ""; }
-	 */
-
-	public String toString() {
-		String temp = "";
-		temp = temp + "taskname:" + taskName + ";";
-		temp = temp + "tasktype:" + taskType + ";";
-		temp = temp + "taskIsDone:" + taskIsDone + ";";
-		temp = temp + "taskIsOverdue:" + taskIsOverdue + ";";
-		temp = temp + "taskStartDate:" + taskStartDate + ";";
-		temp = temp + "taskEndDate:" + taskEndDate + ";";
-		temp = temp + "taskPriority:" + taskPriority + ";";
-		temp = temp + "taskDescription:" + taskDescription + ";";
-		temp = temp + "taskStartTime:" + taskStartTime + ";";
-		temp = temp + "taskEndTime:" + taskEndTime + ";";
-		temp = temp + "recurType:" + recurType + ";";
-		temp = temp + "recurStartDate:" + recurStartDate + ";";
-		temp = temp + "recurEndDate:" + recurEndDate + ";";
-		temp = temp + "\n";
-		return temp;
-	}
-
-	public LemonGUIController merge(LemonGUIController initialTask) {
-		this.taskName = initialTask.getTaskName();
-	/*	
-		if((this.taskStartDate.equals(""))&&(this.taskEndDate.equals(""))
-				&&(this.taskStartTime.equals(""))&&(this.taskEndTime.equals(""))){
-			this.taskType = initialTask.getTaskType();
-		}
-		
-		if ((this.taskStartDate.equals(""))&&(this.taskEndDate.equals(""))) {
-			this.taskStartDate= initialTask.getTaskStartDate();
-			this.taskEndDate= initialTask.getTaskEndDate();
-		}
-		if ((this.taskStartTime.equals(""))&&(this.taskEndTime.equals(""))) {
-			this.taskStartTime= initialTask.getTaskStartTime();
-			this.taskEndTime= initialTask.getTaskEndTime();
-		}
-		if(this.taskPriority.equals("")){
-			this.taskPriority = initialTask.getTaskPriority();
-		}
-		if(this.taskDescription.equals("")){
-			this.taskDescription = initialTask.getTaskDescription();
-		}*/
-		return this;
-	}
-=======
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -114,37 +41,19 @@ public class LemonGUIController {
 	
 	@FXML
 	private TextFlow timeLine;
->>>>>>> origin/master
 	
-	public void setTaskName(String taskName) {
-		this.taskName = taskName;
-	}
-
-	public void setTaskType(String taskType) {
-		this.taskType = taskType;
-	}
+	@FXML
+	private TextFlow listView;
 	
-<<<<<<< HEAD
-	public void setTaskIsDone(){
-		this.taskIsDone = true;
-	}
-=======
 	@FXML
 	private TextFlow completeView;
 	
 	@FXML
 	private TextArea mainConsole;
->>>>>>> origin/master
 	
-	public void setTaskIsOverdue(){
-		this.taskIsOverdue = true;
-	}
+	@FXML
+	private TextField inputField;
 	
-<<<<<<< HEAD
-	public void setTaskStartDate(int taskStartDate){
-		this.taskStartDate = taskStartDate;
-	}
-=======
 	@FXML
     private void initialize() throws Exception {
 		if (parser == null) {
@@ -157,20 +66,14 @@ public class LemonGUIController {
         mainConsole.setText("Welcome to LemonBuddy!!!!");
         createTimeLine();
     }
->>>>>>> origin/master
 	
-	public void setTaskStartDate(String taskStartDate) {
-		this.taskStartDate = Integer.valueOf(taskStartDate);
+	@FXML
+	private void getInput() {
+		input = inputField.getText();
+		CommandController.processCommand(input);
+		inputField.clear();
 	}
 	
-<<<<<<< HEAD
-	public void setTaskEndDate(int taskEndDate){
-		this.taskEndDate = taskEndDate;
-	}
-	public void setTaskEndDate(String taskEndDate) {
-		this.taskEndDate = Integer.valueOf(taskEndDate);
-	}
-=======
 	@FXML
 	private void generateSideList() throws Exception {
 		listView.getChildren().clear();
@@ -212,16 +115,9 @@ public class LemonGUIController {
 				}
 			}
 		}
->>>>>>> origin/master
 		
-	public void setTaskStartTime(int taskStartTime) {
-		this.taskStartTime = taskStartTime;
 	}
 	
-<<<<<<< HEAD
-	public void setTaskStartTime(String taskStartTime) {
-		this.taskStartTime = Integer.valueOf(taskStartTime);
-=======
 	private void generateCompleteList() throws Exception {
 		completeView.getChildren().clear();
 		Text t = new Text("Overdue Tasks\n\n");
@@ -262,13 +158,8 @@ public class LemonGUIController {
 		String toList = "";
 		toList = toList + id + ". " + temp.getTaskName() + "\n";
 		return toList;
->>>>>>> origin/master
 	}
 	
-<<<<<<< HEAD
-	public void setTaskEndTime(int taskEndTime) {
-		this.taskEndTime = taskEndTime;
-=======
 	@FXML
 	void onEnter(KeyEvent event) throws Exception {
 		if (event.getCode() == KeyCode.ENTER) {
@@ -278,26 +169,42 @@ public class LemonGUIController {
 			generateCompleteList();
 			createTimeLine();
 		}
->>>>>>> origin/master
 	}
 	
-	public void setTaskEndTime(String taskEndTime) {
-		this.taskEndTime = Integer.valueOf(taskEndTime);
+
+	private String displayTask(Task task) {
+		String display = "";
+		display = display + "Name: " + task.getTaskName() + "\n";
+		display = display + "Type: " + task.getTaskType()  + "\n";
+		if (!task.getTaskPriority().isEmpty()) {
+			display = display + "Priority: " + task.getTaskPriority() + "\n";
+		}
+		if (!task.getTaskDescription().isEmpty()) {
+			display = display + "Description: " + task.getTaskDescription() + "\n";
+		}
+		
+		//if (!task.getTaskStartDate().isEmpty()) {
+		if (!(task.getTaskStartDate()==-1)) {			
+			display = display + "Start date " + task.getTaskStartDate() + "\n";
+		}
+		
+		//if (!task.getTaskEndDate().isEmpty()) {
+		if (!(task.getTaskEndDate()==-1)) {
+			display = display + "End date " + task.getTaskEndDate() + "\n";
+		}
+		
+		//if (!task.getTaskStartTime().isEmpty()) {
+		if (!(task.getTaskStartTime()==-1)) {
+			display = display + "Start time " + task.getTaskStartTime() + "\n";
+		}
+		
+		//if (!task.getTaskEndTime().isEmpty()) {
+		if (!(task.getTaskEndTime()==-1)) {
+			display = display + "End time " + task.getTaskEndTime() + "\n";
+		}
+
+		return display;
 	}
-
-	public void setTaskPriority(String taskPriority) {
-		this.taskPriority = taskPriority;
-	}
-
-	public void setTaskDescription(String taskDescription) {
-		this.taskDescription = taskDescription;
-	}
-<<<<<<< HEAD
-
-
-	public void setRecurType(String recurType) {
-		this.recurType = recurType;
-=======
 	
 	public void displayMain() {
 		
@@ -340,81 +247,29 @@ public class LemonGUIController {
 		commandType = "";
 		task = new Task();
 		
->>>>>>> f01c5874dd0710235d2995f5c3606cff4b381346
-	}
-
-	public void setRecurStartDate(String recurStartDate) {
-		this.recurStartDate = recurStartDate;
-	}
-
-	public void setRecurEndDate(String recurEndDate) {
-		this.recurEndDate = recurEndDate;
-	}
-	/*
-	 * public void addDesc(String desc){ this.desc += desc; }
-	 */
-
-	public String getTaskName() {
-		StringBuffer buffer = new StringBuffer(this.taskName);
-		return buffer.toString();
-	}
-
-	public String getTaskType() {
-		StringBuffer buffer = new StringBuffer(this.taskType);
-		return buffer.toString();
-	}
-	public Boolean getTaskIsDone() {
-		return this.taskIsDone;
-		
-	}public Boolean getTaskIsOverdue() {
-		return this.taskIsOverdue;
-	}
-	public int getTaskStartDate() {
-		return this.taskStartDate;
-	}
-
-	public int getTaskEndDate() {
-		return this.taskEndDate;
 	}
 	
-<<<<<<< HEAD
-	public int getTaskStartTime() {
-		return this.taskStartTime;
+    public static void setList(ArrayList<Task> list) {
+    	tasks = list;
+    }
+    
+	public static void setCommand(String command) {
+		commandType = command;
 	}
 
-	public int getTaskEndTime() {
-		return this.taskEndTime;
+	public static void setTask(Task newTask) {
+		task = newTask;
 	}
 
-	public String getTaskPriority() {
-		StringBuffer buffer = new StringBuffer(this.taskPriority);
-		return buffer.toString();
+	public void setMainApp(lemonGUI mainApp) {
+        this.mainApp = mainApp;
+    }
+
+	public static void setListType(String type) {
+		listType[1] = type;
+		
 	}
-
-	public String getTaskDescription() {
-		StringBuffer buffer = new StringBuffer(this.taskDescription);
-		return buffer.toString();
-	}
-
-
-
-	public String getRecurType(String recurType) {
-		StringBuffer buffer = new StringBuffer(this.recurType);
-		return buffer.toString();
-	}
-
-	public Integer getRecurStartDate(Integer recurStartDate) {
-		StringBuffer buffer = new StringBuffer(this.recurStartDate);
-		return Integer.valueOf(buffer.toString());
-	}
-
-	public Integer getRecurEndDate(Integer recurEndDate) {
-		StringBuffer buffer = new StringBuffer(this.recurEndDate);
-		return Integer.valueOf(buffer.toString());
-	}
-
-}
-=======
+	
 	public static void setTimeLineDate(String date) {
 		timeLineDate[1] = date;
 	}
@@ -607,4 +462,3 @@ public class LemonGUIController {
 	}
 	
 }
->>>>>>> origin/master

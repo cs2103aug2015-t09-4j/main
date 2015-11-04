@@ -1,11 +1,8 @@
 package LemonBuddy;
 
-
-
 import java.io.Serializable;
 
 public class Task implements Serializable {
-
 	private String taskName = "";
 	private String taskType = "";
 	private int taskStartDate = -1;
