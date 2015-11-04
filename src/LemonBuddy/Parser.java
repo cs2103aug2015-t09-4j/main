@@ -38,7 +38,6 @@ public class Parser {
 			// System.out.println(commandParts[wordIndex]);
 			System.err.println("Invalid input: " + e.getMessage());
 		}
-
 		return newTask;
 
 	}
@@ -221,26 +220,31 @@ public class Parser {
 	}
 
 	private void addOneDayToStart(Task newTask) {
-		int date = newTask.getTaskStartDate();
-		int time = newTask.getTaskStartTime();
-		Calendar startDate = Calendar.getInstance();
-		startDate.set(((date % 100) + 2000) + 17, (date / 100) % 100 - 1, (date / 10000) - 26, time / 100, time % 100, 0);
-		startDate.add(Calendar.DATE, 1);
+		int date = Integer.valueOf(getCurrentDate());
+		int time = Integer.valueOf(getCurrentTime());
+		Calendar endDate = Calendar.getInstance();
+
+		
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyy HHmm");
-		String[] timeInfo = dateFormatter.format(startDate.getTime()).split(" ");
+		endDate.set((date % 100) + 2000, (date / 100) % 100 - 1, (date / 10000), time / 100, time % 100, 0);
+		endDate.add(Calendar.HOUR, 24);
+		String[] timeInfo = dateFormatter.format(endDate.getTime()).split(" ");
 		newTask.setTaskStartDate(timeInfo[0]);
 		
 	}
 
 	private void addOneDayToEnd(Task newTask) {
-		int date = newTask.getTaskStartDate();
-		int time = newTask.getTaskStartTime();
+		int date = Integer.valueOf(getCurrentDate());
+		int time = Integer.valueOf(getCurrentTime());
 		Calendar endDate = Calendar.getInstance();
-		endDate.set(((date % 100) + 2000) + 17, (date / 100) % 100 - 1, (date / 10000) - 25, time / 100, time % 100, 0);
-		endDate.add(Calendar.DATE, 1);
+
+		
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyy HHmm");
+		endDate.set((date % 100) + 2000, (date / 100) % 100 - 1, (date / 10000), time / 100, time % 100, 0);
+		endDate.add(Calendar.HOUR, 24);
 		String[] timeInfo = dateFormatter.format(endDate.getTime()).split(" ");
 		newTask.setTaskEndDate(timeInfo[0]);
+		
 	}
 
 	private void addOneHourToEnd(Task newTask) {
@@ -259,7 +263,6 @@ public class Parser {
 		DateFormat df = new SimpleDateFormat("ddMMyy");
 		Date dateobj = new Date();
 		String currentDate = df.format(dateobj);
-		System.out.println(currentDate);
 		return currentDate;
 	}
 
@@ -283,12 +286,15 @@ public class Parser {
 			comma = true;
 		}
 		taskOn = removeSlashes(taskOn);
+
 		if (taskOn.length() == 4) {
 			newTask.setTaskStartTime(taskOn);
 		} else if (taskOn.length() == 6) {
 			newTask.setTaskStartDate(taskOn);
+		}else if (taskOn.equals("tomorrow")) {
+			addOneDayToStart(newTask);
+			addOneDayToEnd(newTask);			
 		}
-
 		if (comma) {
 			taskOn = commandParts[++wordIndex];
 			if (taskOn.length() == 4) {
