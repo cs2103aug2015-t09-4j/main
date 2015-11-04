@@ -189,56 +189,60 @@ public class Parser {
 					newTask.setTaskEndDate(newTask.getTaskStartDate());
 				}
 				newTask.setTaskType("event");
-
 				break;
 
 			}
-			if (newTask.getTaskStartDate() == -1 && newTask.getTaskEndDate() == -1) {
-				if (newTask.getTaskType().equals("event")) {
+			if (newTask.getTaskType().equals("event")) {
+				if (newTask.getTaskStartDate() == -1 && newTask.getTaskEndDate() == -1) {
 					newTask.setTaskStartDate(getCurrentDate());
 					newTask.setTaskEndDate(getCurrentDate());
 				}
-				if (newTask.getTaskType().equals("deadline")) {
-					newTask.setTaskEndDate(getCurrentDate());
-				}
-			}
-			if (newTask.getTaskStartTime() == -1 && newTask.getTaskEndTime() == -1) {
-				if (newTask.getTaskType().equals("event")) {
+				if (newTask.getTaskStartTime() == -1 && newTask.getTaskEndTime() == -1) {
 					newTask.setTaskStartTime(0);
 					newTask.setTaskEndTime(2359);
 				}
 			}
+			if (newTask.getTaskType().equals("deadline")) {
+				if (newTask.getTaskStartDate() == -1 && newTask.getTaskEndDate() == -1) {
+					newTask.setTaskEndDate(getCurrentDate());
+				}
+				if (newTask.getTaskStartTime() == -1 && newTask.getTaskEndTime() == -1) {
+					newTask.setTaskEndTime(getCurrentTime());
+				}
+			}
+
 		}
 		return wordIndex;
 	}
-	
-	private String removeSlashes(String date){
+
+	private String removeSlashes(String date) {
 		date = date.replaceAll("/", "");
 		return date;
 	}
-	
-	private void addOneDayToStart(Task newTask){
+
+	private void addOneDayToStart(Task newTask) {
 		int date = newTask.getTaskStartDate();
 		int time = newTask.getTaskStartTime();
-		Calendar endTime = Calendar.getInstance();
-		endTime.set(((date % 100) + 2000), (date / 100) % 100 - 1, (date / 10000), time / 100, time % 100, 0);
-		endTime.add(Calendar.DATE, 1);
+		Calendar startDate = Calendar.getInstance();
+		startDate.set(((date % 100) + 2000) + 17, (date / 100) % 100 - 1, (date / 10000) - 26, time / 100, time % 100, 0);
+		startDate.add(Calendar.DATE, 1);
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyy HHmm");
-		String[] timeInfo = dateFormatter.format(endTime.getTime()).split(" ");
+		String[] timeInfo = dateFormatter.format(startDate.getTime()).split(" ");
 		newTask.setTaskStartDate(timeInfo[0]);
+		
 	}
-	
-	private void addOneDayToEnd(Task newTask){
+
+	private void addOneDayToEnd(Task newTask) {
 		int date = newTask.getTaskStartDate();
 		int time = newTask.getTaskStartTime();
-		Calendar endTime = Calendar.getInstance();
-		endTime.set(((date % 100) + 2000), (date / 100) % 100 - 1, (date / 10000), time / 100, time % 100, 0);
-		endTime.add(Calendar.DATE, 1);
+		Calendar endDate = Calendar.getInstance();
+		endDate.set(((date % 100) + 2000) + 17, (date / 100) % 100 - 1, (date / 10000) - 25, time / 100, time % 100, 0);
+		endDate.add(Calendar.DATE, 1);
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyy HHmm");
-		String[] timeInfo = dateFormatter.format(endTime.getTime()).split(" ");
+		String[] timeInfo = dateFormatter.format(endDate.getTime()).split(" ");
 		newTask.setTaskEndDate(timeInfo[0]);
 	}
-	
+
 	private void addOneHourToEnd(Task newTask) {
 		int date = newTask.getTaskStartDate();
 		int time = newTask.getTaskStartTime();
@@ -292,6 +296,10 @@ public class Parser {
 			} else if (taskOn.length() == 6) {
 				newTask.setTaskStartDate(taskOn);
 			}
+			else if (taskOn.equals("tomorrow")) {
+				addOneDayToStart(newTask);
+				addOneDayToEnd(newTask);			
+			}
 			// wordIndex = wordIndex + 1;
 		}
 		return wordIndex;
@@ -315,16 +323,23 @@ public class Parser {
 			newTask.setTaskEndTime(taskTo);
 		} else if (taskTo.length() == 6) {
 			newTask.setTaskEndDate(taskTo);
-		} //else if(taskTo.equals("tomorrow")){
-		//	addOneDayToEnd(newTask);
-	//	}
-		
+		}
+
+		else if (taskTo.equals("tomorrow")) {
+			addOneDayToEnd(newTask);
+			
+		}
+
 		if (comma) {
 			taskTo = commandParts[++wordIndex];
 			if (taskTo.length() == 4) {
 				newTask.setTaskEndTime(taskTo);
 			} else if (taskTo.length() == 6) {
 				newTask.setTaskEndDate(taskTo);
+			}
+			else if (taskTo.equals("tomorrow")) {
+				addOneDayToEnd(newTask);
+				
 			}
 			wordIndex = wordIndex + 1;
 		}
@@ -383,7 +398,7 @@ public class Parser {
 
 		return num;
 	}
-	
+
 	String toSixDigit(int num) {
 		String numString = Integer.toString(num);
 		if (numString.length() == 5) {
@@ -392,11 +407,12 @@ public class Parser {
 
 		return numString;
 	}
-	
+
 	public boolean nextPriorityIsHigher(String currentPriority, String nextPriority) {
 		if (nextPriority.equals("high") && !currentPriority.equals("high")) {
 			return true;
-		} else if (nextPriority.equals("medium") && !currentPriority.equals("high") && !currentPriority.equals("medium")) {
+		} else
+			if (nextPriority.equals("medium") && !currentPriority.equals("high") && !currentPriority.equals("medium")) {
 			return true;
 		} else {
 			return false;
