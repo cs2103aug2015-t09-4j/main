@@ -484,9 +484,11 @@ public class CommandExecutor {
 			}
 		}
 		
+		searchKeyword.toLowerCase();
+		
 		for (int j = 0; j < fullList.size(); j++) {
 			Task searchedTask = fullList.get(j);
-			if (searchedTask.getTaskName().contains(searchKeyword) || searchedTask.getTaskDescription().contains(searchKeyword)) {
+			if (searchedTask.getTaskName().toLowerCase().contains(searchKeyword) || searchedTask.getTaskDescription().toLowerCase().contains(searchKeyword)) {
 				searchResult.add(searchedTask);
 				System.out.println("result: " + searchedTask);
 			}
