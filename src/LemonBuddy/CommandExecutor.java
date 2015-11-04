@@ -178,13 +178,11 @@ public class CommandExecutor {
 			if (currentTask.getTaskType().equals("deadline")) {
 				if (currentTask.getTaskEndDate() == timelineDate) {
 					deadlineTasks.add(currentTask);
-					System.out.println("deadline: " + currentTask);
 				}
 			}
 			if (currentTask.getTaskType().equals("event")) {
 				if (comparedEndDate >= comparedTimeline && comparedStartDate <= comparedTimeline) {
 					eventTasks.add(currentTask);
-					System.out.println("event fromto: " + currentTask);
 				}
 			}
 		}

@@ -211,7 +211,12 @@ public class Parser {
 		}
 		return wordIndex;
 	}
-
+	
+	private String removeSlashes(String date){
+		date = date.replaceAll("/", "");
+		return date;
+	}
+	
 	private void addOneHourToEnd(Task newTask) {
 		int date = newTask.getTaskStartDate();
 		int time = newTask.getTaskStartTime();
@@ -247,12 +252,11 @@ public class Parser {
 				throw new Exception("Start comma has no spacing");
 			}
 		}
-
 		if (commandParts[wordIndex].contains(",")) {
 			taskOn = commandParts[wordIndex].substring(0, commandParts[wordIndex].indexOf(","));
 			comma = true;
 		}
-
+		taskOn = removeSlashes(taskOn);
 		if (taskOn.length() == 4) {
 			newTask.setTaskStartTime(taskOn);
 		} else if (taskOn.length() == 6) {
@@ -284,7 +288,7 @@ public class Parser {
 			taskTo = commandParts[wordIndex].substring(0, commandParts[wordIndex].indexOf(","));
 			comma = true;
 		}
-
+		taskTo = removeSlashes(taskTo);
 		if (taskTo.length() == 4) {
 			newTask.setTaskEndTime(taskTo);
 		} else if (taskTo.length() == 6) {

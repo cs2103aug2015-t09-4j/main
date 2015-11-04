@@ -167,6 +167,19 @@ public class Task implements Serializable {
 		return this.taskEndDate;
 	}
 	
+	public String getTaskStartDateString(){
+		String dateString = Integer.toString(this.taskStartDate);
+		String newDate = dateString.substring(0,2) + "/" + dateString.substring(2,4) + "/" + dateString.substring(4,6);
+		return newDate;
+		
+	}
+	
+	public String getTaskEndDateString(){
+		String dateString = Integer.toString(this.taskEndDate);
+		String newDate = dateString.substring(0,2) + "/" + dateString.substring(2,4) + "/" + dateString.substring(4,6);
+		return newDate;
+	}
+	
 	public int getTaskStartTime() {
 		return this.taskStartTime;
 	}
