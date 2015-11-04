@@ -171,7 +171,6 @@ public class LemonGUIController {
 		}
 	}
 	
-
 	private String displayTask(Task task) {
 		String display = "";
 		display = display + "Name: " + task.getTaskName() + "\n";
