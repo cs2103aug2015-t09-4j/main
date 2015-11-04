@@ -20,6 +20,7 @@ public class CommandController {
 	private static final String COMMAND_REDO = "redo";
 	private static final String COMMAND_DONE = "done";
 	private static final String MESSAGE_INVALID = "Invalid Command";
+	private static final String COMMAND_CLEAR = "clear";
 	private static CommandExecutor commandexecutor;
 	private static CommandController commandcontroller;
 
@@ -87,7 +88,11 @@ public class CommandController {
 			case COMMAND_DONE:
 				commandexecutor.executeDone(commandParts);
 				break;
-
+			
+			case COMMAND_CLEAR:
+				commandexecutor.executeClear(commandParts);
+				break;
+			
 			case COMMAND_HELP:
 				commandexecutor.executeHelp();
 				break;

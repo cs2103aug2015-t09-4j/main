@@ -1,4 +1,2 @@
-taskname:four;tasktype:deadline;taskIsDone:true;taskIsOverdue:false;taskStartDate:-1;taskEndDate:41115;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:2020;recurType:;recurStartDate:;recurEndDate:;
-taskname:one;tasktype:floating;taskIsDone:true;taskIsOverdue:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;recurType:;recurStartDate:;recurEndDate:;
 taskname:two;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;recurType:;recurStartDate:;recurEndDate:;
 taskname:three;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;recurType:;recurStartDate:;recurEndDate:;
