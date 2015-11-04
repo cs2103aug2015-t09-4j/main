@@ -55,10 +55,17 @@ public class CommandController {
 				break;
 
 			case COMMAND_DELETE:
+				if (!commandcontroller.isValidTaskType(commandParts[1])) {
+					throw new Exception("Invalid task type");
+				}
 				commandexecutor.executeDelete(commandParts);
 				break;
 			// edit event 1 by 2020 *high desc huehuehue
 			case COMMAND_EDIT:
+				if (!commandcontroller.isValidTaskType(commandParts[1])) {
+					throw new Exception("Invalid task type");
+				}
+				commandexecutor.executeDelete(commandParts);
 				commandexecutor.executeEdit(commandParts);
 				commandexecutor.executeSort();
 				commandexecutor.executeSortFloating();
@@ -87,13 +94,19 @@ public class CommandController {
 				break;
 
 			case COMMAND_DONE:
+				if (!commandcontroller.isValidTaskType(commandParts[1])) {
+					throw new Exception("Invalid task type");
+				}
 				commandexecutor.executeDone(commandParts);
 				break;
-			
+
 			case COMMAND_CLEAR:
+				if(!commandcontroller.isValidClearType(commandParts[1])){
+					throw new Exception("Invalid clear type");
+				}
 				commandexecutor.executeClear(commandParts);
 				break;
-			
+
 			case COMMAND_HELP:
 				commandexecutor.executeHelp();
 				break;
@@ -101,7 +114,7 @@ public class CommandController {
 			case COMMAND_UPDATE:
 				commandexecutor.executeUpdate();
 				break;
-				
+
 			case COMMAND_SEARCH:
 				commandexecutor.executeSearch(commandParts);
 				break;
@@ -121,4 +134,17 @@ public class CommandController {
 		return commandParts;
 	}
 
+	private boolean isValidTaskType(String taskType) {
+		if (taskType.equals("floating") || taskType.equals("deadline") || taskType.equals("event")) {
+			return true;
+		} else
+			return false;
+	}
+
+	private boolean isValidClearType(String clearType){
+		if(clearType.equals("overdue")||clearType.equals("done")){
+			return true;
+		}else
+			return false;
+	}
 }
