@@ -1,6 +1,7 @@
 package LemonBuddy;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -160,7 +161,7 @@ public class Parser {
 		}
 		if (from) {
 			if (!to) {
-				throw new Exception("From has no to");
+				throw new Exception("Missing \"to\" from command");
 			}
 		}
 
@@ -169,6 +170,7 @@ public class Parser {
 			switch (commandParts[wordIndex++]) {
 			case "on":
 				wordIndex = splitCommaStart(commandParts, newTask, wordIndex, comma);
+
 				addOneHourToEnd(newTask);
 				newTask.setTaskType("event");
 				if (newTask.getTaskStartDate() == -1 && !(newTask.getTaskEndDate() == -1)) {
@@ -185,9 +187,11 @@ public class Parser {
 				break;
 			case "from":
 				wordIndex = splitCommaStart(commandParts, newTask, wordIndex, comma);
+
 				wordIndex++;
 				wordIndex++;
 				wordIndex = splitCommaEnd(commandParts, newTask, wordIndex, comma);
+
 				if (!(newTask.getTaskStartDate() == -1) && newTask.getTaskEndDate() == -1) {
 					newTask.setTaskEndDate(newTask.getTaskStartDate());
 				}
@@ -228,13 +232,12 @@ public class Parser {
 		int time = Integer.valueOf(getCurrentTime());
 		Calendar endDate = Calendar.getInstance();
 
-		
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyy HHmm");
 		endDate.set((date % 100) + 2000, (date / 100) % 100 - 1, (date / 10000), time / 100, time % 100, 0);
 		endDate.add(Calendar.HOUR, 24);
 		String[] timeInfo = dateFormatter.format(endDate.getTime()).split(" ");
 		newTask.setTaskStartDate(timeInfo[0]);
-		
+
 	}
 
 	private void addOneDayToEnd(Task newTask) {
@@ -242,13 +245,12 @@ public class Parser {
 		int time = Integer.valueOf(getCurrentTime());
 		Calendar endDate = Calendar.getInstance();
 
-		
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyy HHmm");
 		endDate.set((date % 100) + 2000, (date / 100) % 100 - 1, (date / 10000), time / 100, time % 100, 0);
 		endDate.add(Calendar.HOUR, 24);
 		String[] timeInfo = dateFormatter.format(endDate.getTime()).split(" ");
 		newTask.setTaskEndDate(timeInfo[0]);
-		
+
 	}
 
 	private void addOneHourToEnd(Task newTask) {
@@ -292,23 +294,36 @@ public class Parser {
 		taskOn = removeSlashes(taskOn);
 
 		if (taskOn.length() == 4) {
+			int taskOnInt = Integer.valueOf(taskOn);
+			if (taskOnInt > 2400 || taskOnInt < 0) {
+				throw new Exception("Time out of range");
+			}
 			newTask.setTaskStartTime(taskOn);
 		} else if (taskOn.length() == 6) {
+			if(!isDateValid(taskOn)){
+				throw new Exception("Invalid Date");
+			}
 			newTask.setTaskStartDate(taskOn);
-		}else if (taskOn.equals("tomorrow")) {
+		} else if (taskOn.equals("tomorrow")) {
 			addOneDayToStart(newTask);
-			addOneDayToEnd(newTask);			
+			addOneDayToEnd(newTask);
 		}
 		if (comma) {
 			taskOn = commandParts[++wordIndex];
 			if (taskOn.length() == 4) {
+				int taskOnInt = Integer.valueOf(taskOn);
+				if (taskOnInt > 2400 || taskOnInt < 0) {
+					throw new Exception("Time out of range");
+				}
 				newTask.setTaskStartTime(taskOn);
 			} else if (taskOn.length() == 6) {
+				if(!isDateValid(taskOn)){
+					throw new Exception("Invalid Date");
+				}
 				newTask.setTaskStartDate(taskOn);
-			}
-			else if (taskOn.equals("tomorrow")) {
+			} else if (taskOn.equals("tomorrow")) {
 				addOneDayToStart(newTask);
-				addOneDayToEnd(newTask);			
+				addOneDayToEnd(newTask);
 			}
 			// wordIndex = wordIndex + 1;
 		}
@@ -330,26 +345,39 @@ public class Parser {
 		}
 		taskTo = removeSlashes(taskTo);
 		if (taskTo.length() == 4) {
+			int taskToInt = Integer.valueOf(taskTo);
+			if (taskToInt > 2400 || taskToInt < 0) {
+				throw new Exception("Time out of range");
+			}
 			newTask.setTaskEndTime(taskTo);
 		} else if (taskTo.length() == 6) {
+			if(!isDateValid(taskTo)){
+				throw new Exception("Invalid Date");
+			}
 			newTask.setTaskEndDate(taskTo);
 		}
 
 		else if (taskTo.equals("tomorrow")) {
 			addOneDayToEnd(newTask);
-			
+
 		}
 
 		if (comma) {
 			taskTo = commandParts[++wordIndex];
 			if (taskTo.length() == 4) {
+				int taskToInt = Integer.valueOf(taskTo);
+				if (taskToInt > 2400 || taskToInt < 0) {
+					throw new Exception("Time out of range");
+				}
 				newTask.setTaskEndTime(taskTo);
 			} else if (taskTo.length() == 6) {
+				if(!isDateValid(taskTo)){
+					throw new Exception("Invalid Date");
+				}
 				newTask.setTaskEndDate(taskTo);
-			}
-			else if (taskTo.equals("tomorrow")) {
+			} else if (taskTo.equals("tomorrow")) {
 				addOneDayToEnd(newTask);
-				
+
 			}
 			wordIndex = wordIndex + 1;
 		}
@@ -450,5 +478,16 @@ public class Parser {
 		if (isNeg)
 			num = -num;
 		return num;
+	}
+
+	public static boolean isDateValid(String date) {
+		try {
+			DateFormat df = new SimpleDateFormat("ddMMyy");
+			df.setLenient(false);
+			df.parse(date);
+			return true;
+		} catch (ParseException e) {
+			return false;
+		}
 	}
 }
