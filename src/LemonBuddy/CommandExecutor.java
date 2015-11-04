@@ -73,7 +73,7 @@ public class CommandExecutor {
 		int j = 0;
 		for (j = 0; j < fullList.size(); j++) {
 			Task currentTask = fullList.get(j);
-			if (currentTask.getTaskType().equals(editType)) {
+			if (currentTask.getTaskType().equals(editType)&&!currentTask.getTaskIsDone()) {
 				if (editId.equals(String.valueOf(taskTypeIndex))) {
 					break;
 				} else {
