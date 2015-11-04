@@ -38,7 +38,6 @@ public class Parser {
 			// System.out.println(commandParts[wordIndex]);
 			System.err.println("Invalid input: " + e.getMessage());
 		}
-
 		return newTask;
 
 	}
@@ -189,27 +188,63 @@ public class Parser {
 					newTask.setTaskEndDate(newTask.getTaskStartDate());
 				}
 				newTask.setTaskType("event");
-
 				break;
 
 			}
-			if (newTask.getTaskStartDate() == -1 && newTask.getTaskEndDate() == -1) {
-				if (newTask.getTaskType().equals("event")) {
+			if (newTask.getTaskType().equals("event")) {
+				if (newTask.getTaskStartDate() == -1 && newTask.getTaskEndDate() == -1) {
 					newTask.setTaskStartDate(getCurrentDate());
 					newTask.setTaskEndDate(getCurrentDate());
 				}
-				if (newTask.getTaskType().equals("deadline")) {
-					newTask.setTaskEndDate(getCurrentDate());
-				}
-			}
-			if (newTask.getTaskStartTime() == -1 && newTask.getTaskEndTime() == -1) {
-				if (newTask.getTaskType().equals("event")) {
+				if (newTask.getTaskStartTime() == -1 && newTask.getTaskEndTime() == -1) {
 					newTask.setTaskStartTime(0);
 					newTask.setTaskEndTime(2359);
 				}
 			}
+			if (newTask.getTaskType().equals("deadline")) {
+				if (newTask.getTaskStartDate() == -1 && newTask.getTaskEndDate() == -1) {
+					newTask.setTaskEndDate(getCurrentDate());
+				}
+				if (newTask.getTaskStartTime() == -1 && newTask.getTaskEndTime() == -1) {
+					newTask.setTaskEndTime(getCurrentTime());
+				}
+			}
+
 		}
 		return wordIndex;
+	}
+
+	private String removeSlashes(String date) {
+		date = date.replaceAll("/", "");
+		return date;
+	}
+
+	private void addOneDayToStart(Task newTask) {
+		int date = Integer.valueOf(getCurrentDate());
+		int time = Integer.valueOf(getCurrentTime());
+		Calendar endDate = Calendar.getInstance();
+
+		
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyy HHmm");
+		endDate.set((date % 100) + 2000, (date / 100) % 100 - 1, (date / 10000), time / 100, time % 100, 0);
+		endDate.add(Calendar.HOUR, 24);
+		String[] timeInfo = dateFormatter.format(endDate.getTime()).split(" ");
+		newTask.setTaskStartDate(timeInfo[0]);
+		
+	}
+
+	private void addOneDayToEnd(Task newTask) {
+		int date = Integer.valueOf(getCurrentDate());
+		int time = Integer.valueOf(getCurrentTime());
+		Calendar endDate = Calendar.getInstance();
+
+		
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyy HHmm");
+		endDate.set((date % 100) + 2000, (date / 100) % 100 - 1, (date / 10000), time / 100, time % 100, 0);
+		endDate.add(Calendar.HOUR, 24);
+		String[] timeInfo = dateFormatter.format(endDate.getTime()).split(" ");
+		newTask.setTaskEndDate(timeInfo[0]);
+		
 	}
 
 	private void addOneHourToEnd(Task newTask) {
@@ -228,7 +263,6 @@ public class Parser {
 		DateFormat df = new SimpleDateFormat("ddMMyy");
 		Date dateobj = new Date();
 		String currentDate = df.format(dateobj);
-		System.out.println(currentDate);
 		return currentDate;
 	}
 
@@ -247,24 +281,30 @@ public class Parser {
 				throw new Exception("Start comma has no spacing");
 			}
 		}
-
 		if (commandParts[wordIndex].contains(",")) {
 			taskOn = commandParts[wordIndex].substring(0, commandParts[wordIndex].indexOf(","));
 			comma = true;
 		}
+		taskOn = removeSlashes(taskOn);
 
 		if (taskOn.length() == 4) {
 			newTask.setTaskStartTime(taskOn);
 		} else if (taskOn.length() == 6) {
 			newTask.setTaskStartDate(taskOn);
+		}else if (taskOn.equals("tomorrow")) {
+			addOneDayToStart(newTask);
+			addOneDayToEnd(newTask);			
 		}
-
 		if (comma) {
 			taskOn = commandParts[++wordIndex];
 			if (taskOn.length() == 4) {
 				newTask.setTaskStartTime(taskOn);
 			} else if (taskOn.length() == 6) {
 				newTask.setTaskStartDate(taskOn);
+			}
+			else if (taskOn.equals("tomorrow")) {
+				addOneDayToStart(newTask);
+				addOneDayToEnd(newTask);			
 			}
 			// wordIndex = wordIndex + 1;
 		}
@@ -284,11 +324,16 @@ public class Parser {
 			taskTo = commandParts[wordIndex].substring(0, commandParts[wordIndex].indexOf(","));
 			comma = true;
 		}
-
+		taskTo = removeSlashes(taskTo);
 		if (taskTo.length() == 4) {
 			newTask.setTaskEndTime(taskTo);
 		} else if (taskTo.length() == 6) {
 			newTask.setTaskEndDate(taskTo);
+		}
+
+		else if (taskTo.equals("tomorrow")) {
+			addOneDayToEnd(newTask);
+			
 		}
 
 		if (comma) {
@@ -297,6 +342,10 @@ public class Parser {
 				newTask.setTaskEndTime(taskTo);
 			} else if (taskTo.length() == 6) {
 				newTask.setTaskEndDate(taskTo);
+			}
+			else if (taskTo.equals("tomorrow")) {
+				addOneDayToEnd(newTask);
+				
 			}
 			wordIndex = wordIndex + 1;
 		}
@@ -355,7 +404,7 @@ public class Parser {
 
 		return num;
 	}
-	
+
 	String toSixDigit(int num) {
 		String numString = Integer.toString(num);
 		if (numString.length() == 5) {
@@ -364,11 +413,12 @@ public class Parser {
 
 		return numString;
 	}
-	
+
 	public boolean nextPriorityIsHigher(String currentPriority, String nextPriority) {
 		if (nextPriority.equals("high") && !currentPriority.equals("high")) {
 			return true;
-		} else if (nextPriority.equals("medium") && !currentPriority.equals("high") && !currentPriority.equals("medium")) {
+		} else
+			if (nextPriority.equals("medium") && !currentPriority.equals("high") && !currentPriority.equals("medium")) {
 			return true;
 		} else {
 			return false;
