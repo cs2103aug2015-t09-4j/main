@@ -1,6 +1,7 @@
 package LemonBuddy;
 
 import java.io.File;
+
 import java.io.IOException;
 
 import LemonBuddy.view.*;
@@ -30,6 +31,7 @@ public class CommandExecutor {
 		// assume floating first
 
 		Task newTask = parser.parseTask(commandParts);
+		newTask.setTaskIsNewest();
 		FileStorage.writeObjectAsString(newTask);
 		LemonGUIController.setTask(newTask);
 		LemonGUIController.setCommand(commandParts[0]);
@@ -145,9 +147,10 @@ public class CommandExecutor {
 		}
 	}
 
-	public static void executeNavigate(String[] commandParts) throws ClassNotFoundException, IOException {
+	public void executeNavigate(String[] commandParts) throws ClassNotFoundException, IOException {
 		// get days related to day
 		LemonGUIController.setTimeLineDate(commandParts[1]);
+		LemonGUIController.setCommand(commandParts[0]);
 		int timelineDate = Integer.valueOf(commandParts[1]);
 
 		int dayTimeLine = timelineDate / 10000;
@@ -186,9 +189,9 @@ public class CommandExecutor {
 				}
 			}
 		}
-
-		LemonGUIController.setTimeLineDeadlineList(deadlineTasks);
-		LemonGUIController.setTimeLineEventList(eventTasks);
+		deadlineTasks.addAll(eventTasks);
+//		deadlineTasks.sort(SortByTime);
+		LemonGUIController.setTimelineList(deadlineTasks);
 
 		/*
 		 * get what user wants to view date e.g. navigate 010101
@@ -204,7 +207,7 @@ public class CommandExecutor {
 		assert(array != null) : "unable to read from specified path";
 
 		String currentDate = parser.getCurrentDate();
-		System.out.println(currentDate);
+		//System.out.println(currentDate);
 
 		int i = 0;
 		boolean anythingRemoved = false;
@@ -212,20 +215,18 @@ public class CommandExecutor {
 		for (i = 0; i < array.size(); i++) {
 			Task overdueTask = array.get(i);
 			String endDate = parser.toSixDigit(array.get(i).getTaskEndDate());
-			System.out.println(endDate);
+			//System.out.println(endDate);
 			if (endDate.length() == 6) {
 				if (parser.endDatePassed(currentDate, endDate) && (overdueTask.getTaskIsOverdue() == false)) {
-					FileStorage.clear();
 					overdueTask.setTaskIsOverdue();
-					array.add(overdueTask);
-					array.remove(i);
+					array.set(i, overdueTask);
 					anythingRemoved = true;
-					i--;
 				}
 			}
 		}
 
 		if (anythingRemoved) {
+			FileStorage.clear();
 			int j = 0;
 			while (j < array.size()) {
 				FileStorage.writeObjectAsString(array.get(j));
@@ -234,14 +235,33 @@ public class CommandExecutor {
 		}
 		// GUI?>>?.successfulUpdate();
 	}
+	
+	public void executeRemoveNewest() throws IOException, ClassNotFoundException {
+		ArrayList<Task> array = FileStorage.readStringAsObject(path);
+		assert(array != null) : "unable to read from specified path";
+		for (int counter = 0; counter < array.size(); counter++) {
+			Task task = array.get(counter);
+			if (task.getTaskIsNewest()) {
+				task.removeTaskIsNewest();
+			}
+		}
+		FileStorage.clear();
+		int j = 0;
+		while (j < array.size()) {
+			FileStorage.writeObjectAsString(array.get(j));
+			j++;
+		}
+	}
 
-	public static void executeList(String[] commandParts) throws Exception {
+	public void executeList(String[] commandParts) throws Exception {
 		String listType = commandParts[1];
 		LemonGUIController.setCommand(commandParts[0]);
 		LemonGUIController.setListType(listType);
 		ArrayList<Task> floatingTasks = new ArrayList<Task>();
 		ArrayList<Task> deadlineTasks = new ArrayList<Task>();
 		ArrayList<Task> eventTasks = new ArrayList<Task>();
+		ArrayList<Task> overdueTasks = new ArrayList<Task>();
+		ArrayList<Task> doneTasks = new ArrayList<Task>();
 
 		ArrayList<Task> fullList = new ArrayList<Task>();
 		Task currentTask;
@@ -251,14 +271,21 @@ public class CommandExecutor {
 		// 3 types of arraylist here
 		for (int j = 0; j < fullList.size(); j++) {
 			currentTask = fullList.get(j);
-			if (currentTask.getTaskType().equals("floating")) {
-				floatingTasks.add(currentTask);
-			}
-			if (currentTask.getTaskType().equals("deadline")) {
-				deadlineTasks.add(currentTask);
-			}
-			if (currentTask.getTaskType().equals("event")) {
-				eventTasks.add(currentTask);
+			if (currentTask.getTaskIsDone() == false) {
+				if (currentTask.getTaskType().equals("floating")) {
+					floatingTasks.add(currentTask);
+				}
+				if (currentTask.getTaskType().equals("deadline")) {
+					deadlineTasks.add(currentTask);
+				}
+				if (currentTask.getTaskType().equals("event")) {
+					eventTasks.add(currentTask);
+				}
+				if (currentTask.getTaskIsOverdue() == true) {
+					overdueTasks.add(currentTask);
+				}
+			} else {
+				doneTasks.add(currentTask);
 			}
 		}
 
@@ -270,6 +297,10 @@ public class CommandExecutor {
 			LemonGUIController.setList(eventTasks);
 		} else if (listType.equals("all")) {
 			LemonGUIController.setList(fullList);
+		} else if (listType.equals("overdue")) {
+			LemonGUIController.setList(overdueTasks);
+		} else if (listType.equals("done")) {
+			LemonGUIController.setList(doneTasks);
 		}
 	}
 
@@ -281,7 +312,7 @@ public class CommandExecutor {
 		int id = Integer.parseInt(commandParts[1]);
 		fullList = FileStorage.readStringAsObject(path);
 		currentTask = fullList.get(id - 1);
-		LemonGUIController.setTask(currentTask);
+		//LemonGUIController.setTask(currentTask);
 	}
 
 	public void parseInvalidCommand(String command) {
@@ -297,6 +328,7 @@ public class CommandExecutor {
 	}
 
 	public void executeDone(String[] commandParts) throws Exception, IOException {
+		LemonGUIController.setCommand("done");
 		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
 		FileStorage.clear();
 		int taskDoneIndex = writeUntilTaskIndex(commandParts, fullList);
@@ -309,7 +341,7 @@ public class CommandExecutor {
 
 	public void executeSortFloating() throws ClassNotFoundException, IOException {
 		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
-		System.out.println("Hello");
+		//System.out.println("Hello");
 		int sizeToCheck = fullList.size();
 		for (int i = 0; i < sizeToCheck; i++) {
 			Task currentTask = fullList.get(i);
@@ -463,18 +495,20 @@ public class CommandExecutor {
 			FileStorage.writeStringAsString(undoneStates.pop());
 			LemonGUIController.setCommand("redo");
 		} else {
-			System.out.println("Already at current");
+			//System.out.println("Already at current");
 			LemonGUIController.setCommand("redo maxed");
 		}
 	}
 	
 	public void executeSearch(String[] commandParts) throws ClassNotFoundException, IOException {
+		LemonGUIController.setCommand("search");
+		LemonGUIController.setListType(commandParts[0]);
 		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
 		ArrayList<Task> searchResult = new ArrayList<Task>();
 		
 		int phraseSize = commandParts.length - 1;
 		String searchKeyword = commandParts[1];
-		System.out.println("phrase size: " + phraseSize);
+		//System.out.println("phrase size: " + phraseSize);
 		
 		if (phraseSize > 1) {
 			for (int i = 2; i < phraseSize + 1; i++) {
@@ -490,8 +524,9 @@ public class CommandExecutor {
 			Task searchedTask = fullList.get(j);
 			if (searchedTask.getTaskName().toLowerCase().contains(searchKeyword) || searchedTask.getTaskDescription().toLowerCase().contains(searchKeyword)) {
 				searchResult.add(searchedTask);
-				System.out.println("result: " + searchedTask);
+				//System.out.println("result: " + searchedTask);
 			}
-		}
+		}	
+		LemonGUIController.setList(searchResult);
 	}
 }

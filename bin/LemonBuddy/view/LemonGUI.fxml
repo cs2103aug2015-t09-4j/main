@@ -7,51 +7,193 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LemonBuddy.view.LemonGUIController">
+<AnchorPane prefHeight="550.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LemonBuddy.view.LemonGUIController">
    <children>
       <SplitPane dividerPositions="0.9417670682730924" layoutX="220.0" layoutY="79.0" orientation="VERTICAL" prefHeight="600.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <SplitPane dividerPositions="0.714902807775378" layoutX="146.0" layoutY="48.0" orientation="VERTICAL" prefHeight="295.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <SplitPane dividerPositions="0.8855291576673866" layoutX="146.0" layoutY="48.0" orientation="VERTICAL" prefHeight="295.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                            <children>
-                              <SplitPane dividerPositions="0.3333333333333333" layoutX="88.0" layoutY="29.0" orientation="VERTICAL" prefHeight="341.0" prefWidth="496.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <SplitPane dividerPositions="0.46472019464720193" layoutX="88.0" layoutY="29.0" orientation="VERTICAL" prefHeight="341.0" prefWidth="496.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <items>
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="104.0" prefWidth="494.0">
                                        <children>
-                                          <ScrollPane prefHeight="104.0" prefViewportHeight="104.0" prefViewportWidth="494.0" prefWidth="494.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                             <content>
-                                                <TextFlow fx:id="timeLine" layoutX="14.0" layoutY="-55.0" prefHeight="104.0" prefWidth="494.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                             </content>
-                                          </ScrollPane>
+                                          <TableView fx:id="timeline" layoutX="842.0" layoutY="-18.0" prefHeight="164.0" prefWidth="1094.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <columns>
+                                              <TableColumn fx:id="columnHeader" prefWidth="75.0" text="Date:">
+                                                   <columns>
+                                                    <TableColumn fx:id="columnName" minWidth="0.0" prefWidth="110.0" text="Event Name" />
+                                                      <TableColumn editable="false" minWidth="0.0" prefWidth="0.0" sortable="false" text="0000">
+                                                         <columns>
+                                                            <TableColumn fx:id="column0000" prefWidth="20.0" />
+                                                            <TableColumn fx:id="column0030" prefWidth="20.0" />
+                                                         </columns>
+                                                      </TableColumn>
+                                                      <TableColumn editable="false" minWidth="0.0" prefWidth="0.0" sortable="false" text="0100">
+                                                         <columns>
+                                                            <TableColumn fx:id="column0100" prefWidth="20.0" />
+                                                            <TableColumn fx:id="column0130" prefWidth="20.0" />
+                                                         </columns>
+                                                      </TableColumn>
+                                                      <TableColumn editable="false" minWidth="0.0" prefWidth="0.0" sortable="false" text="0200">
+                                                         <columns>
+                                                            <TableColumn fx:id="column0200" prefWidth="20.0" />
+                                                            <TableColumn fx:id="column0230" prefWidth="20.0" />
+                                                         </columns>
+                                                      </TableColumn>
+                                                      <TableColumn editable="false" minWidth="0.0" prefWidth="0.0" sortable="false" text="0300">
+                                                         <columns>
+                                                            <TableColumn fx:id="column0300" prefWidth="20.0" />
+                                                            <TableColumn fx:id="column0330" prefWidth="20.0" />
+                                                         </columns>
+                                                      </TableColumn>
+                                                      <TableColumn editable="false" minWidth="0.0" prefWidth="0.0" sortable="false" text="0400">
+                                                         <columns>
+                                                            <TableColumn fx:id="column0400" prefWidth="20.0" />
+                                                            <TableColumn fx:id="column0430" prefWidth="20.0" />
+                                                         </columns>
+                                                      </TableColumn>
+                                                      <TableColumn editable="false" minWidth="0.0" prefWidth="0.0" sortable="false" text="0500">
+                                                         <columns>
+                                                            <TableColumn fx:id="column0500" prefWidth="20.0" />
+                                                            <TableColumn fx:id="column0530" prefWidth="20.0" />
+                                                         </columns>
+                                                      </TableColumn>
+                                                      <TableColumn editable="false" minWidth="0.0" prefWidth="0.0" sortable="false" text="0600">
+                                                         <columns>
+                                                            <TableColumn fx:id="column0600" prefWidth="20.0" />
+                                                            <TableColumn fx:id="column0630" prefWidth="20.0" />
+                                                         </columns>
+                                                      </TableColumn>
+                                                      <TableColumn editable="false" minWidth="0.0" prefWidth="0.0" sortable="false" text="0700">
+                                                         <columns>
+                                                            <TableColumn fx:id="column0700" prefWidth="20.0" />
+                                                            <TableColumn fx:id="column0730" prefWidth="20.0" />
+                                                         </columns>
+                                                      </TableColumn>
+                                                      <TableColumn editable="false" minWidth="0.0" prefWidth="0.0" sortable="false" text="0800">
+                                                         <columns>
+                                                            <TableColumn fx:id="column0800" prefWidth="20.0" />
+                                                            <TableColumn fx:id="column0830" prefWidth="20.0" />
+                                                         </columns>
+                                                      </TableColumn>
+                                                      <TableColumn editable="false" minWidth="0.0" prefWidth="0.0" sortable="false" text="0900">
+                                                         <columns>
+                                                            <TableColumn fx:id="column0900" prefWidth="20.0" />
+                                                            <TableColumn fx:id="column0930" prefWidth="20.0" />
+                                                         </columns>
+                                                      </TableColumn>
+                                                      <TableColumn editable="false" minWidth="0.0" prefWidth="0.0" sortable="false" text="1000">
+                                                         <columns>
+                                                            <TableColumn fx:id="column1000" prefWidth="20.0" />
+                                                            <TableColumn fx:id="column1030" prefWidth="20.0" />
+                                                         </columns>
+                                                      </TableColumn>
+                                                      <TableColumn editable="false" minWidth="0.0" prefWidth="0.0" sortable="false" text="1100">
+                                                         <columns>
+                                                            <TableColumn fx:id="column1100" prefWidth="20.0" />
+                                                            <TableColumn fx:id="column1130" prefWidth="20.0" />
+                                                         </columns>
+                                                      </TableColumn>
+                                                      <TableColumn editable="false" minWidth="0.0" prefWidth="0.0" sortable="false" text="1200">
+                                                         <columns>
+                                                            <TableColumn fx:id="column1200" prefWidth="20.0" />
+                                                            <TableColumn fx:id="column1230" prefWidth="20.0" />
+                                                         </columns>
+                                                      </TableColumn>
+                                                      <TableColumn editable="false" minWidth="0.0" prefWidth="0.0" sortable="false" text="1300">
+                                                         <columns>
+                                                            <TableColumn fx:id="column1300" prefWidth="20.0" />
+                                                            <TableColumn fx:id="column1330" prefWidth="20.0" />
+                                                         </columns>
+                                                      </TableColumn>
+                                                      <TableColumn editable="false" minWidth="0.0" prefWidth="0.0" sortable="false" text="1400">
+                                                         <columns>
+                                                            <TableColumn fx:id="column1400" prefWidth="20.0" />
+                                                            <TableColumn fx:id="column1430" prefWidth="20.0" />
+                                                         </columns>
+                                                      </TableColumn>
+                                                      <TableColumn editable="false" minWidth="0.0" prefWidth="0.0" sortable="false" text="1500">
+                                                         <columns>
+                                                            <TableColumn fx:id="column1500" prefWidth="20.0" />
+                                                            <TableColumn fx:id="column1530" prefWidth="20.0" />
+                                                         </columns>
+                                                      </TableColumn>
+                                                      <TableColumn editable="false" minWidth="0.0" prefWidth="0.0" sortable="false" text="1600">
+                                                         <columns>
+                                                            <TableColumn fx:id="column1600" prefWidth="20.0" />
+                                                            <TableColumn fx:id="column1630" prefWidth="20.0" />
+                                                         </columns>
+                                                      </TableColumn>
+                                                      <TableColumn editable="false" minWidth="0.0" prefWidth="0.0" sortable="false" text="1700">
+                                                         <columns>
+                                                            <TableColumn fx:id="column1700" prefWidth="20.0" />
+                                                            <TableColumn fx:id="column1730" prefWidth="20.0" />
+                                                         </columns>
+                                                      </TableColumn>
+                                                      <TableColumn editable="false" minWidth="0.0" prefWidth="0.0" sortable="false" text="1800">
+                                                         <columns>
+                                                            <TableColumn fx:id="column1800" prefWidth="20.0" />
+                                                            <TableColumn fx:id="column1830" prefWidth="20.0" />
+                                                         </columns>
+                                                      </TableColumn>
+                                                      <TableColumn editable="false" minWidth="0.0" prefWidth="0.0" sortable="false" text="1900">
+                                                         <columns>
+                                                            <TableColumn fx:id="column1900" prefWidth="20.0" />
+                                                            <TableColumn fx:id="column1930" prefWidth="20.0" />
+                                                         </columns>
+                                                      </TableColumn>
+                                                      <TableColumn editable="false" minWidth="0.0" prefWidth="0.0" sortable="false" text="2000">
+                                                         <columns>
+                                                            <TableColumn fx:id="column2000" prefWidth="20.0" />
+                                                            <TableColumn fx:id="column2030" prefWidth="20.0" />
+                                                         </columns>
+                                                      </TableColumn>
+                                                      <TableColumn editable="false" minWidth="0.0" prefWidth="0.0" sortable="false" text="2100">
+                                                         <columns>
+                                                            <TableColumn fx:id="column2100" prefWidth="20.0" />
+                                                            <TableColumn fx:id="column2130" prefWidth="20.0" />
+                                                         </columns>
+                                                      </TableColumn>
+                                                      <TableColumn editable="false" minWidth="0.0" prefWidth="0.0" sortable="false" text="2200">
+                                                         <columns>
+                                                            <TableColumn fx:id="column2200" prefWidth="20.0" />
+                                                            <TableColumn fx:id="column2230" prefWidth="20.0" />
+                                                         </columns>
+                                                      </TableColumn>
+                                                      <TableColumn editable="false" minWidth="0.0" prefWidth="43.0" sortable="false" text="2300">
+                                                         <columns>
+                                                            <TableColumn fx:id="column2300" prefWidth="20.0" />
+                                                            <TableColumn fx:id="column2330" prefWidth="20.0" />
+                                                         </columns>
+                                                      </TableColumn>
+                                                   </columns>
+                                                </TableColumn>
+                                            </columns>
+                                          </TableView>
                                        </children>
                                     </AnchorPane>
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <SplitPane dividerPositions="0.5" layoutX="106.0" prefHeight="165.0" prefWidth="494.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                            <items>
-                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="211.0" prefWidth="242.0">
-                                                   <children>
-                                                      <ScrollPane prefHeight="211.0" prefViewportHeight="211.0" prefViewportWidth="242.0" prefWidth="242.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                         <content>
-                                                            <TextFlow fx:id="listView" layoutY="-13.0" prefHeight="211.0" prefWidth="242.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                                         </content>
-                                                      </ScrollPane>
-                                                   </children>
-                                                </AnchorPane>
-                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="218.0" prefWidth="242.0">
-                                                   <children>
-                                                      <ScrollPane prefHeight="211.0" prefViewportHeight="211.0" prefViewportWidth="242.0" prefWidth="242.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                         <content>
-                                                            <TextFlow fx:id="completeView" layoutX="-10.0" prefHeight="218.0" prefWidth="242.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                                         </content>
-                                                      </ScrollPane>
-                                                   </children>
-                                                </AnchorPane>
-                                            </items>
-                                          </SplitPane>
+                                          <TableView fx:id="mainDisplay" prefHeight="239.0" prefWidth="1074.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" GridPane.rowIndex="1">
+                                            <columns>
+                                                <TableColumn fx:id="mainDisplayHeader" editable="false" maxWidth="1.7976931348623157E308" prefWidth="1043.0" resizable="false" sortable="false" text="Overdue Tasks">
+                                                   <columns>
+                                                    <TableColumn fx:id="idColumn" prefWidth="32.0" text="Id" />
+                                                    <TableColumn fx:id="nameColumn" minWidth="0.0" prefWidth="222.0" text="Name" />
+                                                      <TableColumn fx:id="startDateColumn" minWidth="0.0" prefWidth="87.0" text="Start Date" />
+                                                      <TableColumn fx:id="endDateColumn" prefWidth="84.0" text="End Date" />
+                                                      <TableColumn fx:id="startTimeColumn" prefWidth="76.0" text="Start Time" />
+                                                      <TableColumn fx:id="endTimeColumn" prefWidth="74.0" text="End Time" />
+                                                      <TableColumn fx:id="priorityColumn" prefWidth="69.0" text="Priority" />
+                                                      <TableColumn fx:id="descriptionColumn" minWidth="0.0" prefWidth="427.0" text="Description" />
+                                                   </columns>
+                                                </TableColumn>
+                                            </columns>
+                                          </TableView>
                                        </children>
                                     </AnchorPane>
                                 </items>
@@ -60,7 +202,7 @@
                         </AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="114.0" prefWidth="496.0">
                            <children>
-                              <TextArea fx:id="mainConsole" editable="false" layoutX="87.0" layoutY="-50.0" prefHeight="117.0" prefWidth="496.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <TextArea fx:id="notificationBar" editable="false" layoutX="87.0" layoutY="-50.0" prefHeight="42.0" prefWidth="1076.0" text="Welcome to LemonBuddy!!!" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children>
                         </AnchorPane>
                     </items>
@@ -69,7 +211,7 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <TextField fx:id="inputField" layoutX="111.0" onKeyPressed="#onEnter" prefHeight="25.0" prefWidth="498.0" promptText="Enter Commands Here" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <TextField fx:id="inputField" layoutX="111.0" onKeyPressed="#onEnter" prefHeight="25.0" prefWidth="1078.0" promptText="Enter Commands Here" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
         </items>

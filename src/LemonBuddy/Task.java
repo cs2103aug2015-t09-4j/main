@@ -11,6 +11,7 @@ public class Task implements Serializable {
 	private String taskDescription = "";
 	private boolean taskIsDone = false;
 	private boolean taskIsOverdue = false;
+	private boolean taskIsNewest = false;
 	private int taskStartTime = -1;
 	private int taskEndTime = -1;
 	// for recurring
@@ -34,6 +35,7 @@ public class Task implements Serializable {
 		temp = temp + "tasktype:" + taskType + ";";
 		temp = temp + "taskIsDone:" + taskIsDone + ";";
 		temp = temp + "taskIsOverdue:" + taskIsOverdue + ";";
+		temp = temp + "taskIsNewest:" + taskIsNewest + ";";
 		temp = temp + "taskStartDate:" + taskStartDate + ";";
 		temp = temp + "taskEndDate:" + taskEndDate + ";";
 		temp = temp + "taskPriority:" + taskPriority + ";";
@@ -87,6 +89,14 @@ public class Task implements Serializable {
 	
 	public void setTaskIsOverdue(){
 		this.taskIsOverdue = true;
+	}
+	
+	public void setTaskIsNewest(){
+		this.taskIsNewest = true;
+	}
+	
+	public void removeTaskIsNewest(){
+		this.taskIsNewest = false;
 	}
 	
 	public void setTaskStartDate(int taskStartDate){
@@ -159,6 +169,11 @@ public class Task implements Serializable {
 	}public Boolean getTaskIsOverdue() {
 		return this.taskIsOverdue;
 	}
+	
+	public Boolean getTaskIsNewest() {
+		return this.taskIsNewest;
+	}
+	
 	public int getTaskStartDate() {
 		return this.taskStartDate;
 	}

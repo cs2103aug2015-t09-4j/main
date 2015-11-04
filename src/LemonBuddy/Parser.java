@@ -106,6 +106,10 @@ public class Parser {
 				if (temp[1].equals("true"))
 					t.setTaskIsOverdue();
 				break;
+			case "taskIsNewest":
+				if (temp[1].equals("true"))
+					t.setTaskIsNewest();
+				break;
 			case "taskStartDate":
 				t.setTaskStartDate(temp[1]);
 				break;
