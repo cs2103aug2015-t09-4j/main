@@ -29,8 +29,7 @@ public class CommandExecutor {
 	// PRIORITY AND DESCRIPTION NOT DONE
 	public void executeAdd(String[] commandParts) throws Exception {
 		// assume floating first
-		
-		
+
 		Task newTask = parser.parseTask(commandParts);
 		newTask.setTaskIsNewest();
 		FileStorage.writeObjectAsString(newTask);
@@ -41,8 +40,8 @@ public class CommandExecutor {
 	public void executeEdit(String[] commandParts) throws Exception {
 		LemonGUIController.setCommand(commandParts[0]);
 		String[] stringToParse = new String[commandParts.length - 2];
-		for(int i=2;i<commandParts.length;i++){
-			stringToParse[i-2] = commandParts[i];
+		for (int i = 2; i < commandParts.length; i++) {
+			stringToParse[i - 2] = commandParts[i];
 		}
 		stringToParse[0] = "";
 		Task newTask = parser.parseTask(stringToParse);
@@ -213,7 +212,7 @@ public class CommandExecutor {
 		assert(array != null) : "unable to read from specified path";
 
 		String currentDate = parser.getCurrentDate();
-		//System.out.println(currentDate);
+		// System.out.println(currentDate);
 
 		int i = 0;
 		boolean anythingRemoved = false;
@@ -221,7 +220,7 @@ public class CommandExecutor {
 		for (i = 0; i < array.size(); i++) {
 			Task overdueTask = array.get(i);
 			String endDate = parser.toSixDigit(array.get(i).getTaskEndDate());
-			//System.out.println(endDate);
+			// System.out.println(endDate);
 			if (endDate.length() == 6) {
 				if (parser.endDatePassed(currentDate, endDate) && (overdueTask.getTaskIsOverdue() == false)) {
 					overdueTask.setTaskIsOverdue();
@@ -241,7 +240,7 @@ public class CommandExecutor {
 		}
 		// GUI?>>?.successfulUpdate();
 	}
-	
+
 	public void executeRemoveNewest() throws IOException, ClassNotFoundException {
 		ArrayList<Task> array = FileStorage.readStringAsObject(path);
 		assert(array != null) : "unable to read from specified path";
@@ -318,7 +317,7 @@ public class CommandExecutor {
 		int id = Integer.parseInt(commandParts[1]);
 		fullList = FileStorage.readStringAsObject(path);
 		currentTask = fullList.get(id - 1);
-		//LemonGUIController.setTask(currentTask);
+		// LemonGUIController.setTask(currentTask);
 	}
 
 	public void parseInvalidCommand(String command) {
@@ -327,6 +326,9 @@ public class CommandExecutor {
 
 	public void executeUndo() throws IOException, Exception {
 		// System.out.println(FileStorage.readStringAsString(path));
+		if(lastStates.isEmpty()){
+			throw new Exception("Already at last undo");
+		}
 		undoneStates.push(FileStorage.readStringAsString(path));
 		FileStorage.clear();
 		FileStorage.writeStringAsString(lastStates.pop());
@@ -347,7 +349,7 @@ public class CommandExecutor {
 
 	public void executeSortFloating() throws ClassNotFoundException, IOException {
 		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
-		//System.out.println("Hello");
+		// System.out.println("Hello");
 		int sizeToCheck = fullList.size();
 		for (int i = 0; i < sizeToCheck; i++) {
 			Task currentTask = fullList.get(i);
@@ -374,12 +376,11 @@ public class CommandExecutor {
 		for (int j = 0; j < fullList.size(); j++) {
 			currentTask = fullList.get(j);
 			if (commandParts[1].equals("done")) {
-				if(currentTask.getTaskIsDone()){
+				if (currentTask.getTaskIsDone()) {
 					continue;
 				}
-			}
-			else if (commandParts[1].equals("overdue")){
-				if(currentTask.getTaskIsOverdue()){
+			} else if (commandParts[1].equals("overdue")) {
+				if (currentTask.getTaskIsOverdue()) {
 					continue;
 				}
 			}
@@ -488,10 +489,11 @@ public class CommandExecutor {
 	public void saveLastState() throws Exception, IOException {
 		String currentState = FileStorage.readStringAsString(path);
 
-		// System.out.println(currentState);
-		lastStates.push(currentState);
-		lastState = currentState;
-		undoneStates = new Stack<String>();
+		if (!currentState.equals(lastState)) {
+			lastStates.push(currentState);
+			lastState = currentState;
+			undoneStates = new Stack<String>();
+		}
 	}
 
 	public void executeRedo() throws IOException, Exception {
@@ -501,21 +503,21 @@ public class CommandExecutor {
 			FileStorage.writeStringAsString(undoneStates.pop());
 			LemonGUIController.setCommand("redo");
 		} else {
-			//System.out.println("Already at current");
+			// System.out.println("Already at current");
 			LemonGUIController.setCommand("redo maxed");
 		}
 	}
-	
+
 	public void executeSearch(String[] commandParts) throws ClassNotFoundException, IOException {
 		LemonGUIController.setCommand("search");
 		LemonGUIController.setListType(commandParts[0]);
 		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
 		ArrayList<Task> searchResult = new ArrayList<Task>();
-		
+
 		int phraseSize = commandParts.length - 1;
 		String searchKeyword = commandParts[1];
-		//System.out.println("phrase size: " + phraseSize);
-		
+		// System.out.println("phrase size: " + phraseSize);
+
 		if (phraseSize > 1) {
 			for (int i = 2; i < phraseSize + 1; i++) {
 				searchKeyword += " ";
@@ -523,16 +525,17 @@ public class CommandExecutor {
 				System.out.println("key phrase: " + searchKeyword);
 			}
 		}
-		
+
 		searchKeyword.toLowerCase();
-		
+
 		for (int j = 0; j < fullList.size(); j++) {
 			Task searchedTask = fullList.get(j);
-			if (searchedTask.getTaskName().toLowerCase().contains(searchKeyword) || searchedTask.getTaskDescription().toLowerCase().contains(searchKeyword)) {
+			if (searchedTask.getTaskName().toLowerCase().contains(searchKeyword)
+					|| searchedTask.getTaskDescription().toLowerCase().contains(searchKeyword)) {
 				searchResult.add(searchedTask);
-				//System.out.println("result: " + searchedTask);
+				// System.out.println("result: " + searchedTask);
 			}
-		}	
+		}
 		LemonGUIController.setList(searchResult);
 	}
 }

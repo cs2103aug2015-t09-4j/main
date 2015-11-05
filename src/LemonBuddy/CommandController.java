@@ -1,5 +1,6 @@
 package LemonBuddy;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,20 +25,27 @@ public class CommandController {
 	private static final String COMMAND_CLEAR = "clear";
 	private static CommandExecutor commandexecutor;
 	private static CommandController commandcontroller;
-
-	public static void processCommand(String command) {
-		logger.log(Level.INFO, "going to start processing");
-		if (commandcontroller == null) {
-			commandcontroller = new CommandController();
-		}
-
+	
+	public CommandController() throws IOException, Exception{
 		if (commandexecutor == null) {
 			commandexecutor = new CommandExecutor();
 		}
 
+		commandexecutor.saveLastState();
+	}
+	
+	public static void processCommand(String command) {
+		logger.log(Level.INFO, "going to start processing");
+		try {
+		if (commandcontroller == null) {
+			commandcontroller = new CommandController();
+		}
+
+		
+
 		String[] commandParts = commandcontroller.splitCommand(command);
 		String lastCommandType = commandParts[0];
-		try {
+		
 			if (commandParts[0].equals(COMMAND_ADD) || commandParts[0].equals(COMMAND_DELETE)
 					|| commandParts[0].equals(COMMAND_EDIT) || commandParts[0].equals(COMMAND_RECUR)
 					|| commandParts[0].equals(COMMAND_DONE)) {
