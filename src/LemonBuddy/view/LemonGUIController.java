@@ -283,7 +283,12 @@ public class LemonGUIController {
 			            	setTextFill(Color.BLACK);
 			            	setStyle("-fx-background-color: lightgreen; -fx-border-color: lightgreen;"
 			            			+ "-fx-alignment: center;");            	
-		            } else {
+		            } else if (item.startsWith("^")) {
+	            		setText(item.substring(1));
+		            	setTextFill(Color.BLACK);
+		            	setStyle("-fx-background-color: red; -fx-border-color: red;"
+		            			+ "-fx-alignment: center;");            	
+		            }else {
 		            	setText(item);
 	                    setTextFill(Color.BLACK);
 	                    setStyle(" -fx-alignment: center");
@@ -305,6 +310,10 @@ public class LemonGUIController {
 		            		setText(item.substring(1));
 			            	setTextFill(Color.BLACK);
 			            	setStyle("-fx-background-color: lightgreen; -fx-border-color: lightgreen;");      	
+		            } else if (item.startsWith("^")) {
+	            		setText(item.substring(1));
+		            	setTextFill(Color.BLACK);
+		            	setStyle("-fx-background-color: red; -fx-border-color: red;");      	
 		            } else {
 		            	setText(item);
 	                    setTextFill(Color.BLACK);
@@ -339,7 +348,19 @@ public class LemonGUIController {
 				            			+ "-fx-alignment: center;");
 			            	}
 			            	
-			            } else {
+			            } else if (item.startsWith("^")) {
+			            	if (item.endsWith("-1")) {
+			            		setText("");
+				            	setStyle("-fx-background-color: red; -fx-border-color: red;"
+				            			+ "-fx-alignment: center;");
+			            	} else {
+			            		setText(item.substring(1));
+				            	setTextFill(Color.BLACK);
+				            	setStyle("-fx-background-color: red; -fx-border-color: red;"
+				            			+ "-fx-alignment: center;");
+			            	}
+			            	
+			            }else {
 			            	setText(item);
 		                    setTextFill(Color.BLACK);
 		                    setStyle(" -fx-alignment: center");
@@ -368,6 +389,9 @@ public class LemonGUIController {
 			            } else if (item.equals("#")) {
 			            	setStyle("-fx-background-color: lightgreen; -fx-border-color: lightgreen;"
 			            			+ "-fx-alignment: center;");
+			            }  else if (item.equals("^")) {
+			            	setStyle("-fx-background-color: red; -fx-border-color: red;"
+			            			+ "-fx-alignment: center;");
 			            } else {
 			            	setText(null);
 		                    setStyle("");
@@ -389,6 +413,10 @@ public class LemonGUIController {
 			            		setText(item.substring(1));
 				            	setTextFill(Color.BLACK);
 				            	setStyle("-fx-background-color: lightgreen; -fx-border-color: lightgreen;");         	
+			            } else if (item.startsWith("^")) {
+		            		setText(item.substring(1));
+			            	setTextFill(Color.BLACK);
+			            	setStyle("-fx-background-color: red; -fx-border-color: red;");         	
 			            } else {
 			            	setText(item);
 		                    setTextFill(Color.BLACK);
@@ -575,7 +603,6 @@ public class LemonGUIController {
 		MainDisplayTask temp = new MainDisplayTask();
 		int id = num + 1;
 		if (newTask.getTaskIsNewest()) {
-			System.out.println(newTask.getTaskIsNewest());
 			temp.setTaskId("#" + id);
 			temp.setTaskName("#" + newTask.getTaskName());
 			temp.setTaskStartDate("#" + newTask.getTaskStartDateString());
@@ -587,6 +614,19 @@ public class LemonGUIController {
 			mainDisplayIndex = num;
 			return temp;
 		}
+		
+		if (newTask.getTaskIsOverdue() && !listType[1].equals("overdue")) {
+			temp.setTaskId("^" + id);
+			temp.setTaskName("^" + newTask.getTaskName());
+			temp.setTaskStartDate("^" + newTask.getTaskStartDateString());
+			temp.setTaskEndDate("^" + newTask.getTaskEndDateString());
+			temp.setTaskStartTime("^" + newTask.getTaskStartTimeString());
+			temp.setTaskEndTime("^" + newTask.getTaskEndTimeString());
+			temp.setTaskPriority("^" + newTask.getTaskPriority());
+			temp.setTaskDescription("^" + newTask.getTaskDescription());
+			return temp;
+		}
+		
 		
 		temp.setTaskId("" + id);
 		temp.setTaskName(newTask.getTaskName());
@@ -741,12 +781,12 @@ public class LemonGUIController {
 			if (selectedTask.getTaskType().equals("event")) {
 				swap = true;
 				timelineDate[1] = "" + selectedTask.getTaskStartDate();
-				displayHeader = "Displaying tasks on: " + selectedTask.getTaskStartDate();
+				displayHeader = "Displaying tasks on: " + selectedTask.getTaskStartDateString();
 				listType[1] = "date";
 			} else if (selectedTask.getTaskType().equals("deadline")) {
 				swap = true;
 				timelineDate[1] = "" + selectedTask.getTaskEndDate();
-				displayHeader = "Displaying tasks on: " + selectedTask.getTaskEndDate();
+				displayHeader = "Displaying tasks on: " + selectedTask.getTaskEndDateString();
 				listType[1] = "date";
 			} else {
 				swap = false;
@@ -759,12 +799,12 @@ public class LemonGUIController {
 			if (selectedTask.getTaskType().equals("event")) {
 				swap = true;
 				timelineDate[1] = "" + selectedTask.getTaskStartDate();
-				displayHeader = "Displaying tasks on: " + selectedTask.getTaskStartDate();
+				displayHeader = "Displaying tasks on: " + selectedTask.getTaskStartDateString();
 				listType[1] = "date";
 			} else if (selectedTask.getTaskType().equals("deadline")) {
 				swap = true;
 				timelineDate[1] = "" + selectedTask.getTaskEndDate();
-				displayHeader = "Displaying tasks on: " + selectedTask.getTaskEndDate();
+				displayHeader = "Displaying tasks on: " + selectedTask.getTaskEndDateString();
 				listType[1] = "date";
 			} else {
 				swap = false;
@@ -777,12 +817,12 @@ public class LemonGUIController {
 			if (selectedTask.getTaskType().equals("event")) {
 				swap = true;
 				timelineDate[1] = "" + selectedTask.getTaskStartDate();
-				displayHeader = "Displaying tasks on: " + selectedTask.getTaskStartDate();
+				displayHeader = "Displaying tasks on: " + selectedTask.getTaskStartDateString();
 				listType[1] = "date";
 			} else if (selectedTask.getTaskType().equals("deadline")) {
 				swap = true;
 				timelineDate[1] = "" + selectedTask.getTaskEndDate();
-				displayHeader = "Displaying tasks on: " + selectedTask.getTaskEndDate();
+				displayHeader = "Displaying tasks on: " + selectedTask.getTaskEndDateString();
 				listType[1] = "date";
 			} else {
 				swap = false;
