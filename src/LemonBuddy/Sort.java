@@ -9,31 +9,41 @@ class Sort {
 		Comparator<Task> comparator = new Comparator<Task>(){
 			public int compare(Task t1, Task t2) {
 				
-				String type1, type2;
-				Integer time1, time2;
-				type1 = t1.getTaskType();
-				type2 = t2.getTaskType();
+				String deadline = "deadline";
+				String event = "event";
 				
-				if(type1 == "deadline") {
+				String type1, type2;
+				int time1, time2;
+				type1 = t1.getTaskType();
+				type2 = t2.getTaskType();	
+					
+				if(type1.equals(deadline)) {
 					time1 = t1.getTaskEndTime();
-				} else if(type1 == "event") {
+				} else if(type1.equals(event)) {
 					time1 = t1.getTaskStartTime();
 				} else {
-					time1 = null;
+					time1 = 0;
 				}
 		 
-				if(type2 == "deadline") {
+				if(type2.equals(deadline)) {
 					time2 = t2.getTaskEndTime();
-				} else if(type2 == "event") {
+				} else if(type2.equals(event)) {
 					time2 = t2.getTaskStartTime();
 				} else {
-					time2 = null;
+					time2 = 0;
 				}
-				
-				return time1.compareTo(time2);
+
+				if(time1 > time2){
+					return 1;
+				} else if (time1 == time2) {
+					return 0;
+				} else {
+					return -1;
+				}
 			 
 			}
-		};		
+		};	
+		
 		Collections.sort(sortList, comparator);
 		return sortList;
 	}
