@@ -65,7 +65,6 @@ public class CommandController {
 				if (!commandcontroller.isValidTaskType(commandParts[1])) {
 					throw new Exception("Invalid task type");
 				}
-				commandexecutor.executeDelete(commandParts);
 				commandexecutor.executeEdit(commandParts);
 				commandexecutor.executeSort();
 				commandexecutor.executeSortFloating();
