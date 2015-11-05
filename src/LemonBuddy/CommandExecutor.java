@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 public class CommandExecutor {
+	private static final String TYPE_EVENT = "event";
+	private static final String TYPE_DEADLINE = "deadline";
+	private static final String TYPE_OVERDUE = "overdue";
+	private static final String TYPE_DONE = "done";
 	private static String path = "C:\\eclipse\\Your sdk your majesty\\main\\test.txt";
 	// private static String path =
 	// "C:\\Users\\user\\workspace\\main\\test.txt";
@@ -16,7 +20,9 @@ public class CommandExecutor {
 	String lastState;
 	Stack<String> lastStates;
 	Stack<String> undoneStates;
-
+	
+	private static final String TYPE_FLOATING = "floating";
+	
 	public CommandExecutor() {
 		if (parser == null) {
 			parser = new Parser();
@@ -118,7 +124,7 @@ public class CommandExecutor {
 				if (recurID.equals(String.valueOf(taskTypeIndex))) {
 					taskTypeIndex++;
 					Task recurringTask = currentTask;
-					if (recurType.equals("deadline")) {
+					if (recurType.equals(TYPE_DEADLINE)) {
 						// note: changed
 						String currentRecurringDate = Integer.toString(currentTask.getTaskEndDate());
 						if (recurFreq.equals("yearly")) {
@@ -141,7 +147,7 @@ public class CommandExecutor {
 						 * FileStorage.write(recurringTask); } }
 						 */
 
-					} else if (recurType == "event") {
+					} else if (recurType == TYPE_EVENT) {
 
 					}
 
@@ -183,12 +189,12 @@ public class CommandExecutor {
 			int monthEnd = (dateEnd / 100) % 100;
 			int yearEnd = dateEnd % 100;
 			int comparedEndDate = dayEnd + monthEnd * 100 + yearEnd * 10000;
-			if (currentTask.getTaskType().equals("deadline")) {
+			if (currentTask.getTaskType().equals(TYPE_DEADLINE)) {
 				if (currentTask.getTaskEndDate() == timelineDate) {
 					deadlineTasks.add(currentTask);
 				}
 			}
-			if (currentTask.getTaskType().equals("event")) {
+			if (currentTask.getTaskType().equals(TYPE_EVENT)) {
 				if (comparedEndDate >= comparedTimeline && comparedStartDate <= comparedTimeline) {
 					eventTasks.add(currentTask);
 				}
@@ -277,13 +283,13 @@ public class CommandExecutor {
 		for (int j = 0; j < fullList.size(); j++) {
 			currentTask = fullList.get(j);
 			if (currentTask.getTaskIsDone() == false) {
-				if (currentTask.getTaskType().equals("floating")) {
+				if (currentTask.getTaskType().equals(TYPE_FLOATING)) {
 					floatingTasks.add(currentTask);
 				}
-				if (currentTask.getTaskType().equals("deadline")) {
+				if (currentTask.getTaskType().equals(TYPE_DEADLINE)) {
 					deadlineTasks.add(currentTask);
 				}
-				if (currentTask.getTaskType().equals("event")) {
+				if (currentTask.getTaskType().equals(TYPE_EVENT)) {
 					eventTasks.add(currentTask);
 				}
 				if (currentTask.getTaskIsOverdue() == true) {
@@ -294,17 +300,17 @@ public class CommandExecutor {
 			}
 		}
 
-		if (listType.equals("floating")) {
+		if (listType.equals(TYPE_FLOATING)) {
 			LemonGUIController.setList(floatingTasks);
-		} else if (listType.equals("deadline")) {
+		} else if (listType.equals(TYPE_DEADLINE)) {
 			LemonGUIController.setList(deadlineTasks);
-		} else if (listType.equals("event")) {
+		} else if (listType.equals(TYPE_EVENT)) {
 			LemonGUIController.setList(eventTasks);
 		} else if (listType.equals("all")) {
 			LemonGUIController.setList(fullList);
-		} else if (listType.equals("overdue")) {
+		} else if (listType.equals(TYPE_OVERDUE)) {
 			LemonGUIController.setList(overdueTasks);
-		} else if (listType.equals("done")) {
+		} else if (listType.equals(TYPE_DONE)) {
 			LemonGUIController.setList(doneTasks);
 		}
 	}
@@ -336,7 +342,7 @@ public class CommandExecutor {
 	}
 
 	public void executeDone(String[] commandParts) throws Exception, IOException {
-		LemonGUIController.setCommand("done");
+		LemonGUIController.setCommand(TYPE_DONE);
 		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
 		FileStorage.clear();
 		int taskDoneIndex = writeUntilTaskIndex(commandParts, fullList);
@@ -354,7 +360,7 @@ public class CommandExecutor {
 		for (int i = 0; i < sizeToCheck; i++) {
 			Task currentTask = fullList.get(i);
 			System.out.println("tasktype: " + currentTask.getTaskType());
-			if (currentTask.getTaskType().equals("floating")) {
+			if (currentTask.getTaskType().equals(TYPE_FLOATING)) {
 				System.out.println("Entered if");
 				fullList.add(fullList.remove(i));
 				i--;
@@ -375,11 +381,11 @@ public class CommandExecutor {
 		FileStorage.clear();
 		for (int j = 0; j < fullList.size(); j++) {
 			currentTask = fullList.get(j);
-			if (commandParts[1].equals("done")) {
+			if (commandParts[1].equals(TYPE_DONE)) {
 				if (currentTask.getTaskIsDone()) {
 					continue;
 				}
-			} else if (commandParts[1].equals("overdue")) {
+			} else if (commandParts[1].equals(TYPE_OVERDUE)) {
 				if (currentTask.getTaskIsOverdue()) {
 					continue;
 				}
@@ -394,9 +400,9 @@ public class CommandExecutor {
 			Task currentTask = fullList.get(i);
 			for (int j = i + 1; j < fullList.size(); j++) {
 				Task nextTask = fullList.get(j);
-				if (currentTask.getTaskType().equals("deadline")) {
+				if (currentTask.getTaskType().equals(TYPE_DEADLINE)) {
 					String currentDate = parser.toSixDigit(currentTask.getTaskEndDate());
-					if (nextTask.getTaskType().equals("deadline")) {
+					if (nextTask.getTaskType().equals(TYPE_DEADLINE)) {
 						String nextDate = parser.toSixDigit(nextTask.getTaskEndDate());
 						if (parser.endDatePassed(currentDate, nextDate)) {
 							// fullList.add(j, fullList.remove(i));
@@ -415,7 +421,7 @@ public class CommandExecutor {
 								fullList.remove(j + 1);
 							}
 						}
-					} else if (nextTask.getTaskType().equals("event")) {
+					} else if (nextTask.getTaskType().equals(TYPE_EVENT)) {
 						String nextDate = parser.toSixDigit(nextTask.getTaskStartDate());
 						if (parser.endDatePassed(currentDate, nextDate)) {
 							// fullList.add(j, fullList.remove(i));
@@ -435,9 +441,9 @@ public class CommandExecutor {
 							}
 						}
 					}
-				} else if (currentTask.getTaskType().equals("event")) {
+				} else if (currentTask.getTaskType().equals(TYPE_EVENT)) {
 					String currentDate = parser.toSixDigit(currentTask.getTaskStartDate());
-					if (nextTask.getTaskType().equals("event")) {
+					if (nextTask.getTaskType().equals(TYPE_EVENT)) {
 						String nextDate = parser.toSixDigit(nextTask.getTaskStartDate());
 						if (parser.endDatePassed(currentDate, nextDate)) {
 							// fullList.add(j, fullList.remove(i));
@@ -456,7 +462,7 @@ public class CommandExecutor {
 								fullList.remove(j + 1);
 							}
 						}
-					} else if (nextTask.getTaskType().equals("deadline")) {
+					} else if (nextTask.getTaskType().equals(TYPE_DEADLINE)) {
 						String nextDate = parser.toSixDigit(nextTask.getTaskEndDate());
 						if (parser.endDatePassed(currentDate, nextDate)) {
 							// fullList.add(j, fullList.remove(i));
