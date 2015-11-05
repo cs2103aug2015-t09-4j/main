@@ -40,7 +40,11 @@ public class CommandExecutor {
 
 	public void executeEdit(String[] commandParts) throws Exception {
 		LemonGUIController.setCommand(commandParts[0]);
-		Task newTask = parser.parseTask(commandParts);
+		String[] stringToParse = new String[commandParts.length - 2];
+		for(int i=2;i<commandParts.length;i++){
+			stringToParse[i-2] = commandParts[i];
+		}
+		Task newTask = parser.parseTask(stringToParse);
 		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
 		FileStorage.clear();
 

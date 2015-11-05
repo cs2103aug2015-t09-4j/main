@@ -2,7 +2,7 @@ package LemonBuddy;
 
 import java.io.Serializable;
 
-public class Task implements Serializable{
+public class Task implements Serializable {
 	private String taskName = "";
 	private String taskType = "";
 	private int taskStartDate = -1;
@@ -50,31 +50,25 @@ public class Task implements Serializable{
 	}
 
 	public Task merge(Task initialTask) {
-		this.taskName = initialTask.getTaskName();
-	/*	
-		if((this.taskStartDate.equals(""))&&(this.taskEndDate.equals(""))
-				&&(this.taskStartTime.equals(""))&&(this.taskEndTime.equals(""))){
-
+		if (this.taskName.equals("")) {
+			this.taskName = initialTask.getTaskName();
+		}
+		if (this.taskType.equals("floating")) {
 			this.taskType = initialTask.getTaskType();
+			this.taskStartDate = initialTask.getTaskStartDate();
+			this.taskEndDate = initialTask.getTaskEndDate();
+			this.taskStartTime = initialTask.getTaskStartTime();
+			this.taskEndTime = initialTask.getTaskEndTime();
 		}
-		
-		if ((this.taskStartDate.equals(""))&&(this.taskEndDate.equals(""))) {
-			this.taskStartDate= initialTask.getTaskStartDate();
-			this.taskEndDate= initialTask.getTaskEndDate();
-		}
-		if ((this.taskStartTime.equals(""))&&(this.taskEndTime.equals(""))) {
-			this.taskStartTime= initialTask.getTaskStartTime();
-			this.taskEndTime= initialTask.getTaskEndTime();
-		}
-		if(this.taskPriority.equals("")){
+		if (this.taskPriority.equals("")) {
 			this.taskPriority = initialTask.getTaskPriority();
 		}
-		if(this.taskDescription.equals("")){
+		if (this.taskDescription.equals("")) {
 			this.taskDescription = initialTask.getTaskDescription();
-		}*/
+		}
 		return this;
 	}
-	
+
 	public void setTaskName(String taskName) {
 		this.taskName = taskName;
 	}
@@ -82,50 +76,51 @@ public class Task implements Serializable{
 	public void setTaskType(String taskType) {
 		this.taskType = taskType;
 	}
-	
-	public void setTaskIsDone(){
+
+	public void setTaskIsDone() {
 		this.taskIsDone = true;
 	}
-	
-	public void setTaskIsOverdue(){
+
+	public void setTaskIsOverdue() {
 		this.taskIsOverdue = true;
 	}
-	
-	public void setTaskIsNewest(){
+
+	public void setTaskIsNewest() {
 		this.taskIsNewest = true;
 	}
-	
-	public void removeTaskIsNewest(){
+
+	public void removeTaskIsNewest() {
 		this.taskIsNewest = false;
 	}
-	
-	public void setTaskStartDate(int taskStartDate){
+
+	public void setTaskStartDate(int taskStartDate) {
 		this.taskStartDate = taskStartDate;
 	}
-	
+
 	public void setTaskStartDate(String taskStartDate) {
 		this.taskStartDate = Integer.valueOf(taskStartDate);
 	}
-	
-	public void setTaskEndDate(int taskEndDate){
+
+	public void setTaskEndDate(int taskEndDate) {
 		this.taskEndDate = taskEndDate;
 	}
+
 	public void setTaskEndDate(String taskEndDate) {
 		this.taskEndDate = Integer.valueOf(taskEndDate);
 	}
-		
+
 	public void setTaskStartTime(int taskStartTime) {
 		this.taskStartTime = taskStartTime;
 	}
-	
+
 	public void setTaskStartTime(String taskStartTime) {
 		this.taskStartTime = Integer.valueOf(taskStartTime);
 	}
-	
+
 	public void setTaskEndTime(int taskEndTime) {
 		this.taskEndTime = taskEndTime;
 	}
-	
+
 	public void setTaskEndTime(String taskEndTime) {
 		this.taskEndTime = Integer.valueOf(taskEndTime);
 	}
@@ -137,7 +132,6 @@ public class Task implements Serializable{
 	public void setTaskDescription(String taskDescription) {
 		this.taskDescription = taskDescription;
 	}
-
 
 	public void setRecurType(String recurType) {
 		this.recurType = recurType;
@@ -163,17 +157,20 @@ public class Task implements Serializable{
 		StringBuffer buffer = new StringBuffer(this.taskType);
 		return buffer.toString();
 	}
+
 	public Boolean getTaskIsDone() {
 		return this.taskIsDone;
-		
-	}public Boolean getTaskIsOverdue() {
+
+	}
+
+	public Boolean getTaskIsOverdue() {
 		return this.taskIsOverdue;
 	}
-	
+
 	public Boolean getTaskIsNewest() {
 		return this.taskIsNewest;
 	}
-	
+
 	public int getTaskStartDate() {
 		return this.taskStartDate;
 	}
@@ -181,32 +178,34 @@ public class Task implements Serializable{
 	public int getTaskEndDate() {
 		return this.taskEndDate;
 	}
-	
-	public String getTaskStartDateString(){
+
+	public String getTaskStartDateString() {
 		if (this.taskStartDate == -1) {
 			return "-1";
 		}
 		String dateString = Integer.toString(this.taskStartDate);
-		if(dateString.length()==5){
+		if (dateString.length() == 5) {
 			dateString = "0" + dateString;
 		}
-		String newDate = dateString.substring(0,2) + "/" + dateString.substring(2,4) + "/" + dateString.substring(4,6);
+		String newDate = dateString.substring(0, 2) + "/" + dateString.substring(2, 4) + "/"
+				+ dateString.substring(4, 6);
 		return newDate;
-		
+
 	}
-	
-	public String getTaskEndDateString(){
+
+	public String getTaskEndDateString() {
 		if (this.taskEndDate == -1) {
 			return "-1";
 		}
 		String dateString = Integer.toString(this.taskEndDate);
-		if(dateString.length()==5){
+		if (dateString.length() == 5) {
 			dateString = "0" + dateString;
 		}
-		String newDate = dateString.substring(0,2) + "/" + dateString.substring(2,4) + "/" + dateString.substring(4,6);
+		String newDate = dateString.substring(0, 2) + "/" + dateString.substring(2, 4) + "/"
+				+ dateString.substring(4, 6);
 		return newDate;
 	}
-	
+
 	public int getTaskStartTime() {
 		return this.taskStartTime;
 	}
