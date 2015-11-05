@@ -13,15 +13,14 @@ public class CommandExecutor {
 	private static final String TYPE_DEADLINE = "deadline";
 	private static final String TYPE_OVERDUE = "overdue";
 	private static final String TYPE_DONE = "done";
-	private static String path = "C:\\eclipse\\Your sdk your majesty\\main\\test.txt";
-	// private static String path =
-	// "C:\\Users\\user\\workspace\\main\\test.txt";
+	private static final String TYPE_FLOATING = "floating";
+	private static String path = "";
 	private Parser parser;
 	String lastState;
 	Stack<String> lastStates;
 	Stack<String> undoneStates;
 	
-	private static final String TYPE_FLOATING = "floating";
+	
 	
 	public CommandExecutor() {
 		if (parser == null) {
@@ -34,8 +33,6 @@ public class CommandExecutor {
 
 	// PRIORITY AND DESCRIPTION NOT DONE
 	public void executeAdd(String[] commandParts) throws Exception {
-		// assume floating first
-
 		Task newTask = parser.parseTask(commandParts);
 		newTask.setTaskIsNewest();
 		FileStorage.writeObjectAsString(newTask);
@@ -79,7 +76,6 @@ public class CommandExecutor {
 	}
 
 	private int writeUntilTaskIndex(String[] commandParts, ArrayList<Task> fullList) throws IOException {
-		int indexToReturn = 0;
 		int taskTypeIndex = 1;
 		String editType = commandParts[1];
 		String editId = commandParts[2];

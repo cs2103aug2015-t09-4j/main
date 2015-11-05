@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class Parser {
 
-	public Task parseTask(String[] commandParts) {
+	public Task parseTask(String[] commandParts) throws Exception {
 		Task newTask = new Task();
 
 		int wordIndex = 1;
@@ -29,17 +29,11 @@ public class Parser {
 			taskName = taskName + " ";
 		}
 		newTask.setTaskName(taskName);
+		wordIndex = parseDescription(commandParts, newTask, wordIndex);
+		wordIndex = parsePriority(commandParts, newTask, wordIndex);
+		wordIndex = parseTime(commandParts, newTask, wordIndex);
 
-		try {
-			wordIndex = parseDescription(commandParts, newTask, wordIndex);
-			wordIndex = parsePriority(commandParts, newTask, wordIndex);
-			wordIndex = parseTime(commandParts, newTask, wordIndex);
-		} catch (Exception e)
-
-		{
-			// System.out.println(commandParts[wordIndex]);
-			System.err.println("Invalid input: " + e.getMessage());
-		}
+		// System.out.println(commandParts[wordIndex]);
 		return newTask;
 
 	}
@@ -57,7 +51,6 @@ public class Parser {
 				String taskDesc = "";
 				wordIndex++;
 				while (true) {
-					System.out.println(commandParts[wordIndex]);
 					taskDesc = taskDesc + commandParts[wordIndex++];
 					if (wordIndex == commandParts.length) {
 						break;
@@ -310,7 +303,10 @@ public class Parser {
 			addOneDayToEnd(newTask);
 		}
 		if (comma) {
-			taskOn = commandParts[++wordIndex];
+			if (++wordIndex >= commandParts.length) {
+				throw new Exception("No time specified after comma");
+			}
+			taskOn = commandParts[wordIndex];
 			if (taskOn.length() == 4) {
 				int taskOnInt = Integer.valueOf(taskOn);
 				if (taskOnInt > 2400 || taskOnInt < 0) {
@@ -364,7 +360,10 @@ public class Parser {
 		}
 
 		if (comma) {
-			taskTo = commandParts[++wordIndex];
+			if (++wordIndex >= commandParts.length) {
+				throw new Exception("No time specified after comma");
+			}
+			taskTo = commandParts[wordIndex];
 			if (taskTo.length() == 4) {
 				int taskToInt = Integer.valueOf(taskTo);
 				if (taskToInt > 2400 || taskToInt < 0) {

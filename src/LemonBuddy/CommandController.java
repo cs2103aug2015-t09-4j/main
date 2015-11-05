@@ -25,37 +25,33 @@ public class CommandController {
 	private static final String COMMAND_CLEAR = "clear";
 	private static CommandExecutor commandexecutor;
 	private static CommandController commandcontroller;
-	
-	public CommandController() throws IOException, Exception{
+
+	public CommandController() throws IOException, Exception {
+
 		if (commandexecutor == null) {
 			commandexecutor = new CommandExecutor();
 		}
-
 		commandexecutor.saveLastState();
 	}
-	
+
 	public static void processCommand(String command) {
 		logger.log(Level.INFO, "going to start processing");
 		try {
-		if (commandcontroller == null) {
-			commandcontroller = new CommandController();
-		}
-
-		
-
-		String[] commandParts = commandcontroller.splitCommand(command);
-		String lastCommandType = commandParts[0];
-		
-			if (commandParts[0].equals(COMMAND_ADD) || commandParts[0].equals(COMMAND_DELETE)
-					|| commandParts[0].equals(COMMAND_EDIT) || commandParts[0].equals(COMMAND_RECUR)
-					|| commandParts[0].equals(COMMAND_DONE)) {
+			if (commandcontroller == null) {
+				commandcontroller = new CommandController();
+			}
+			
+			String[] commandParts = commandcontroller.splitCommand(command);
+			String commandType = commandParts[0];
+			
+			
+			if (commandType.equals(COMMAND_ADD) || commandType.equals(COMMAND_DELETE)
+					|| commandType.equals(COMMAND_EDIT) || commandType.equals(COMMAND_RECUR)
+					|| commandType.equals(COMMAND_DONE)) {
 				commandexecutor.saveLastState();
 			}
-			switch (commandParts[0]) {
-
-			// "add one task from 3030, 404040 to 2020, 101010 *high desc hue
-			// hue hue"
-			// deadline uses taskEndDate. Event On uses taskStartDate.
+			
+			switch (commandType) {
 			case COMMAND_ADD:
 				commandexecutor.executeAdd(commandParts);
 				commandexecutor.executeSort();
@@ -68,7 +64,7 @@ public class CommandController {
 				}
 				commandexecutor.executeDelete(commandParts);
 				break;
-			// edit event 1 by 2020 *high desc huehuehue
+				
 			case COMMAND_EDIT:
 				if (!commandcontroller.isValidTaskType(commandParts[1])) {
 					throw new Exception("Invalid task type");
@@ -85,9 +81,11 @@ public class CommandController {
 			case COMMAND_UNDO:
 				commandexecutor.executeUndo();
 				break;
+				
 			case COMMAND_REDO:
 				commandexecutor.executeRedo();
 				break;
+				
 			case COMMAND_NAVIGATE:
 				commandexecutor.executeNavigate(commandParts);
 				break;
@@ -108,7 +106,7 @@ public class CommandController {
 				break;
 
 			case COMMAND_CLEAR:
-				if(!commandcontroller.isValidClearType(commandParts[1])){
+				if (!commandcontroller.isValidClearType(commandParts[1])) {
 					throw new Exception("Invalid clear type");
 				}
 				commandexecutor.executeClear(commandParts);
@@ -127,7 +125,7 @@ public class CommandController {
 				break;
 
 			default:
-				commandexecutor.parseInvalidCommand(commandParts[0]);
+				commandexecutor.parseInvalidCommand(commandType);
 				break;
 			}
 		} catch (Exception e) {
@@ -148,10 +146,10 @@ public class CommandController {
 			return false;
 	}
 
-	private boolean isValidClearType(String clearType){
-		if(clearType.equals("overdue")||clearType.equals("done")){
+	private boolean isValidClearType(String clearType) {
+		if (clearType.equals("overdue") || clearType.equals("done")) {
 			return true;
-		}else
+		} else
 			return false;
 	}
 }
