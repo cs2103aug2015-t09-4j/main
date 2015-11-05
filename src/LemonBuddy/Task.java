@@ -183,6 +183,9 @@ public class Task implements Serializable {
 	}
 	
 	public String getTaskStartDateString(){
+		if (this.taskStartDate == -1) {
+			return "-1";
+		}
 		String dateString = Integer.toString(this.taskStartDate);
 		if(dateString.length()==5){
 			dateString = "0" + dateString;
@@ -193,6 +196,9 @@ public class Task implements Serializable {
 	}
 	
 	public String getTaskEndDateString(){
+		if (this.taskEndDate == -1) {
+			return "-1";
+		}
 		String dateString = Integer.toString(this.taskEndDate);
 		if(dateString.length()==5){
 			dateString = "0" + dateString;

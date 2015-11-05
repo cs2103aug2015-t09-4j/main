@@ -171,7 +171,7 @@ public class LemonGUIController {
 	ArrayList<TableColumn<MainDisplayTask, String>> mainDisplayColumns = new ArrayList<TableColumn<MainDisplayTask, String>>();
 	
 	@FXML
-	private TextArea notificationBar;
+	private TextFlow notificationBar;
 	
 	private static Task selectedTask = new Task();
 	private static ArrayList<Task> tasks;
@@ -205,12 +205,18 @@ public class LemonGUIController {
 		if (commandExecutor == null) {
 			commandExecutor = new CommandExecutor();
 		}
+		
+		Text temp = new Text("Welcome to LemonBuddy!!!!");
+		temp.setStyle("-fx-font-size: 18pt;");
+		notificationBar.getChildren().add(temp);
+		notificationBar.setTextAlignment(TextAlignment.CENTER);
 		date = parser.getCurrentDate();
 		timelineDate[1] = date;
 		formatMainDisplay();
 		generateMainDisplay();
 		formatTimeline();
-		generateTimeline(timelineDate[1]);
+		String newDate = timelineDate[1].substring(0,2) + "/" + timelineDate[1].substring(2,4) + "/" + timelineDate[1].substring(4,6);
+		generateTimeline(newDate);
 	}
 	
 	public void setMainApp(lemonGUI mainApp) {
@@ -223,7 +229,11 @@ public class LemonGUIController {
 			getInput();
 			modifyNotificationBar();
 			commandExecutor.executeUpdate();
-			generateTimeline(timelineDate[1]);
+			if (timelineDate[1].length() == 5) {
+				timelineDate[1] = "0" + timelineDate[1];
+			}
+			String newDate = timelineDate[1].substring(0,2) + "/" + timelineDate[1].substring(2,4) + "/" + timelineDate[1].substring(4,6);
+			generateTimeline(newDate);
 			generateMainDisplay();
 			commandExecutor.executeRemoveNewest();
 			selectedTask = new Task();
@@ -580,8 +590,8 @@ public class LemonGUIController {
 		
 		temp.setTaskId("" + id);
 		temp.setTaskName(newTask.getTaskName());
-		temp.setTaskStartDate("" + newTask.getTaskStartDate());
-		temp.setTaskEndDate("" + newTask.getTaskEndDate());
+		temp.setTaskStartDate(newTask.getTaskStartDateString());
+		temp.setTaskEndDate(newTask.getTaskEndDateString());
 		temp.setTaskStartTime("" + newTask.getTaskStartTime());
 		temp.setTaskEndTime("" + newTask.getTaskEndTime());
 		temp.setTaskPriority(newTask.getTaskPriority());
@@ -723,9 +733,11 @@ public class LemonGUIController {
 	
 	public void modifyNotificationBar() {
 		swap = false;
+		String toPrint = "";
+		int style = 0;
 		if (userCommand.equals("add")) {
-			notificationBar.setText(selectedTask.getTaskName() + " added!");
-			notificationBar.setStyle("-fx-background-color: green;");
+			toPrint  = (selectedTask.getTaskName() + " added!");
+			style = 1;
 			if (selectedTask.getTaskType().equals("event")) {
 				swap = true;
 				timelineDate[1] = "" + selectedTask.getTaskStartDate();
@@ -742,8 +754,8 @@ public class LemonGUIController {
 			}
 		}
 		if (userCommand.equals("delete")) {
-			notificationBar.setText(selectedTask.getTaskName() + " deleted!");
-			notificationBar.setStyle("-fx-background-color: green;");
+			toPrint = (selectedTask.getTaskName() + " deleted!");
+			style = 1;
 			if (selectedTask.getTaskType().equals("event")) {
 				swap = true;
 				timelineDate[1] = "" + selectedTask.getTaskStartDate();
@@ -760,8 +772,8 @@ public class LemonGUIController {
 			}
 		}
 		if (userCommand.equals("edit")) {
-			notificationBar.setText(selectedTask.getTaskName() + " edited!");
-			notificationBar.setStyle("-fx-background-color: green;");
+			toPrint = (selectedTask.getTaskName() + " edited!");
+			style = 1;
 			if (selectedTask.getTaskType().equals("event")) {
 				swap = true;
 				timelineDate[1] = "" + selectedTask.getTaskStartDate();
@@ -778,36 +790,52 @@ public class LemonGUIController {
 			}
 		}
 		if (userCommand.equals("list")) {
-			notificationBar.setText("Displaying tasks");
-			notificationBar.setStyle("-fx-background-color: green;");
+			toPrint = ("Displaying tasks");
+			style = 1;
 		}
 		if (userCommand.equals("view")) {
-			notificationBar.setText("Displaying tasks on " + timelineDate[1]);
-			notificationBar.setStyle("-fx-background-color: green;");
+			toPrint = ("Displaying tasks on " + timelineDate[1]);
+			style = 1;
 			swap = true;
 			listType[1] = "date";
 			displayHeader = "Displaying tasks on: " + timelineDate[1];
 		}
 		if (userCommand.equals("undo")) {
-			notificationBar.setText("Undo successful");
-			notificationBar.setStyle("-fx-background-color: green;");
+			toPrint = ("Undo successful");
+			style = 1;
 		}
 		if (userCommand.equals("redo")) {
-			notificationBar.setText("Redo successful");
-			notificationBar.setStyle("-fx-background-color: green;");
+			toPrint = ("Redo successful");
+			style = 1;
 		}
-		if (userCommand.equals("redo max")) {
-			notificationBar.setText("Redo unsuccessful, no more actions to redo.");
-			notificationBar.setStyle("-fx-background-color: red;");
+		if (userCommand.equals("redo maxed")) {
+			toPrint = ("Redo unsuccessful, no more actions to redo.");
+			style = 2;
 		}
 		if (userCommand.equals("done")) {
-			notificationBar.setText("Task set as done.");
-			notificationBar.setStyle("-fx-background-color: green;");
+			toPrint = ("Task set as done.");
+			style = 1;
 		}
 		if (userCommand.equals("search")) {
-			notificationBar.setText("Search successful");
-			notificationBar.setStyle("-fx-background-color: green;");
+			toPrint = ("Search successful");
+			style = 1;
 		}
+		
+		Text temp = new Text(toPrint);
+		temp.setStyle("-fx-font-size: 18pt;");
+		notificationBar.getChildren().clear();
+		notificationBar.getChildren().add(temp);
+		notificationBar.setTextAlignment(TextAlignment.CENTER);
+		
+		if (style == 1) {
+			notificationBar.setStyle("-fx-background-color: lightgreen;");
+		}
+		
+		if (style == 2) {
+			notificationBar.setStyle("-fx-background-color: red;");
+		}
+		
+		style = 0;
 	}
 
 }

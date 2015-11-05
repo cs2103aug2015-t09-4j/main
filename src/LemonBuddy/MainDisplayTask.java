@@ -32,6 +32,10 @@ public class MainDisplayTask implements Serializable {
 	}
 
 	public void setTaskStartTime(String startTime) {
+		String temp = startTime;
+		if (startTime.length() == 3) {
+			temp = "0" + temp;
+		}
 		this.taskStartTime = new SimpleStringProperty(startTime);
 	}
 
