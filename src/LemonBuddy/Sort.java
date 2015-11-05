@@ -30,13 +30,8 @@ class Sort {
 					time2 = null;
 				}
 				
-				if(time1 > time2) {
-					return 1;
-				} else if(time1 == time2) {
-					return 0;
-				} else {
-					return -1;
-				}
+				return time1.compareTo(time2);
+			 
 			}
 		};		
 		Collections.sort(sortList, comparator);

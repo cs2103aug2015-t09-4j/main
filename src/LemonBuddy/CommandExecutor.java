@@ -191,8 +191,8 @@ public class CommandExecutor {
 			}
 		}
 		deadlineTasks.addAll(eventTasks);
-//		deadlineTasks.sort(SortByTime);
-		LemonGUIController.setTimelineList(deadlineTasks);
+		ArrayList<Task> temp = Sort.sortByTime(deadlineTasks);
+		LemonGUIController.setTimelineList(temp);
 
 		/*
 		 * get what user wants to view date e.g. navigate 010101
