@@ -8,6 +8,7 @@ class Sort {
 	public static ArrayList<Task> sortByTime(ArrayList<Task> sortList) {
 		Comparator<Task> comparator = new Comparator<Task>(){
 			public int compare(Task t1, Task t2) {
+				
 				String type1, type2;
 				Integer time1, time2;
 				type1 = t1.getTaskType();
