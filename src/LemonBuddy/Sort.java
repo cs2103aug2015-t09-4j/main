@@ -37,8 +37,7 @@ class Sort {
 					return -1;
 				}
 			}
-		};
-		
+		};		
 		Collections.sort(sortList, comparator);
 		return sortList;
 	}
