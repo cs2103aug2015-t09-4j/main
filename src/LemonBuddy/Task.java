@@ -210,6 +210,9 @@ public class Task implements Serializable {
 		return this.taskStartTime;
 	}
 	public String getTaskStartTimeString(){
+		if (this.taskStartTime == -1) {
+			return "" + this.taskStartTime;
+		}
 		String startTime = Integer.toString(this.taskStartTime);
 		while(startTime.length()<4){
 			startTime = "0"+startTime;
@@ -221,6 +224,9 @@ public class Task implements Serializable {
 	}
 
 	public String getTaskEndTimeString(){
+		if (this.taskEndTime == -1) {
+			return "" + this.taskEndTime;
+		}
 		String endTime = Integer.toString(this.taskEndTime);
 		while(endTime.length()<4){
 			endTime = "0"+endTime;

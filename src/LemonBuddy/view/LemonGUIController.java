@@ -578,10 +578,10 @@ public class LemonGUIController {
 			System.out.println(newTask.getTaskIsNewest());
 			temp.setTaskId("#" + id);
 			temp.setTaskName("#" + newTask.getTaskName());
-			temp.setTaskStartDate("#" + newTask.getTaskStartDate());
-			temp.setTaskEndDate("#" + newTask.getTaskEndDate());
-			temp.setTaskStartTime("#" + newTask.getTaskStartTime());
-			temp.setTaskEndTime("#" + newTask.getTaskEndTime());
+			temp.setTaskStartDate("#" + newTask.getTaskStartDateString());
+			temp.setTaskEndDate("#" + newTask.getTaskEndDateString());
+			temp.setTaskStartTime("#" + newTask.getTaskStartTimeString());
+			temp.setTaskEndTime("#" + newTask.getTaskEndTimeString());
 			temp.setTaskPriority("#" + newTask.getTaskPriority());
 			temp.setTaskDescription("#" + newTask.getTaskDescription());
 			mainDisplayIndex = num;
@@ -592,8 +592,8 @@ public class LemonGUIController {
 		temp.setTaskName(newTask.getTaskName());
 		temp.setTaskStartDate(newTask.getTaskStartDateString());
 		temp.setTaskEndDate(newTask.getTaskEndDateString());
-		temp.setTaskStartTime("" + newTask.getTaskStartTime());
-		temp.setTaskEndTime("" + newTask.getTaskEndTime());
+		temp.setTaskStartTime("" + newTask.getTaskStartTimeString());
+		temp.setTaskEndTime("" + newTask.getTaskEndTimeString());
 		temp.setTaskPriority(newTask.getTaskPriority());
 		temp.setTaskDescription(newTask.getTaskDescription());
 		System.out.println(newTask.getTaskIsNewest());
@@ -794,11 +794,12 @@ public class LemonGUIController {
 			style = 1;
 		}
 		if (userCommand.equals("view")) {
-			toPrint = ("Displaying tasks on " + timelineDate[1]);
 			style = 1;
 			swap = true;
 			listType[1] = "date";
-			displayHeader = "Displaying tasks on: " + timelineDate[1];
+			String newDate = timelineDate[1].substring(0,2) + "/" + timelineDate[1].substring(2,4) + "/" + timelineDate[1].substring(4,6);
+			displayHeader = "Displaying tasks on: " + newDate;
+			toPrint = ("Displaying tasks on " + newDate);
 		}
 		if (userCommand.equals("undo")) {
 			toPrint = ("Undo successful");
