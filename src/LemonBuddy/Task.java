@@ -209,11 +209,25 @@ public class Task implements Serializable {
 	public int getTaskStartTime() {
 		return this.taskStartTime;
 	}
-
+	public String getTaskStartTimeString(){
+		String startTime = Integer.toString(this.taskStartTime);
+		while(startTime.length()<4){
+			startTime = "0"+startTime;
+		}
+		return startTime;
+	}
 	public int getTaskEndTime() {
 		return this.taskEndTime;
 	}
 
+	public String getTaskEndTimeString(){
+		String endTime = Integer.toString(this.taskEndTime);
+		while(endTime.length()<4){
+			endTime = "0"+endTime;
+		}
+		return endTime;
+	}
+	
 	public String getTaskPriority() {
 		StringBuffer buffer = new StringBuffer(this.taskPriority);
 		return buffer.toString();
