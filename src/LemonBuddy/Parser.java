@@ -16,13 +16,14 @@ public class Parser {
 		newTask.setTaskType("floating");
 		// this while loop gets task name
 		while (true) {
-			taskName = taskName + commandParts[wordIndex++];
-			if (wordIndex >= commandParts.length) {
-				break;
-			}
+
 			if (commandParts[wordIndex].equals("on") || commandParts[wordIndex].equals("from")
 					|| commandParts[wordIndex].substring(0, 1).equals("*") || commandParts[wordIndex].equals("desc")
 					|| commandParts[wordIndex].equals("by")) {
+				break;
+			}
+			taskName = taskName + commandParts[wordIndex++];
+			if (wordIndex >= commandParts.length) {
 				break;
 			}
 			taskName = taskName + " ";
@@ -300,7 +301,7 @@ public class Parser {
 			}
 			newTask.setTaskStartTime(taskOn);
 		} else if (taskOn.length() == 6) {
-			if(!isDateValid(taskOn)){
+			if (!isDateValid(taskOn)) {
 				throw new Exception("Invalid Date");
 			}
 			newTask.setTaskStartDate(taskOn);
@@ -317,7 +318,7 @@ public class Parser {
 				}
 				newTask.setTaskStartTime(taskOn);
 			} else if (taskOn.length() == 6) {
-				if(!isDateValid(taskOn)){
+				if (!isDateValid(taskOn)) {
 					throw new Exception("Invalid Date");
 				}
 				newTask.setTaskStartDate(taskOn);
@@ -351,7 +352,7 @@ public class Parser {
 			}
 			newTask.setTaskEndTime(taskTo);
 		} else if (taskTo.length() == 6) {
-			if(!isDateValid(taskTo)){
+			if (!isDateValid(taskTo)) {
 				throw new Exception("Invalid Date");
 			}
 			newTask.setTaskEndDate(taskTo);
@@ -371,7 +372,7 @@ public class Parser {
 				}
 				newTask.setTaskEndTime(taskTo);
 			} else if (taskTo.length() == 6) {
-				if(!isDateValid(taskTo)){
+				if (!isDateValid(taskTo)) {
 					throw new Exception("Invalid Date");
 				}
 				newTask.setTaskEndDate(taskTo);

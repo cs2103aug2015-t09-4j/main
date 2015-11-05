@@ -44,6 +44,7 @@ public class CommandExecutor {
 		for(int i=2;i<commandParts.length;i++){
 			stringToParse[i-2] = commandParts[i];
 		}
+		stringToParse[0] = "";
 		Task newTask = parser.parseTask(stringToParse);
 		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
 		FileStorage.clear();
