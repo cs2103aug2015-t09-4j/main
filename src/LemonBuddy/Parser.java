@@ -28,6 +28,7 @@ public class Parser {
 			}
 			taskName = taskName + " ";
 		}
+		taskName = taskName.trim();
 		newTask.setTaskName(taskName);
 		wordIndex = parseDescription(commandParts, newTask, wordIndex);
 		wordIndex = parsePriority(commandParts, newTask, wordIndex);
@@ -186,32 +187,42 @@ public class Parser {
 				wordIndex++;
 				wordIndex = splitCommaEnd(commandParts, newTask, wordIndex, comma);
 
-				if (!(newTask.getTaskStartDate() == -1) && newTask.getTaskEndDate() == -1) {
-					newTask.setTaskEndDate(newTask.getTaskStartDate());
-				}
+				
+				
 				newTask.setTaskType("event");
 				break;
 
+			}			
+		}
+		if (newTask.getTaskType().equals("event")) {
+			if (newTask.getTaskStartDate() == -1 && newTask.getTaskEndDate() == -1) {
+				newTask.setTaskStartDate(getCurrentDate());
+				newTask.setTaskEndDate(getCurrentDate());
 			}
-			if (newTask.getTaskType().equals("event")) {
-				if (newTask.getTaskStartDate() == -1 && newTask.getTaskEndDate() == -1) {
-					newTask.setTaskStartDate(getCurrentDate());
-					newTask.setTaskEndDate(getCurrentDate());
-				}
-				if (newTask.getTaskStartTime() == -1 && newTask.getTaskEndTime() == -1) {
-					newTask.setTaskStartTime(0);
-					newTask.setTaskEndTime(2359);
-				}
+			if (newTask.getTaskStartDate() == -1 && newTask.getTaskEndDate() != -1) {
+				newTask.setTaskStartDate(newTask.getTaskEndDate());
 			}
-			if (newTask.getTaskType().equals("deadline")) {
-				if (newTask.getTaskStartDate() == -1 && newTask.getTaskEndDate() == -1) {
-					newTask.setTaskEndDate(getCurrentDate());
-				}
-				if (newTask.getTaskStartTime() == -1 && newTask.getTaskEndTime() == -1) {
-					newTask.setTaskEndTime(getCurrentTime());
-				}
+			if (newTask.getTaskStartDate() != -1 && newTask.getTaskEndDate() == -1) {
+				newTask.setTaskEndDate(newTask.getTaskStartDate());
 			}
-
+			if (newTask.getTaskStartTime() == -1 && newTask.getTaskEndTime() == -1) {
+				newTask.setTaskStartTime(0);
+				newTask.setTaskEndTime(2359);
+			}
+			if (newTask.getTaskStartTime() == -1 && newTask.getTaskEndTime() != -1) {
+				newTask.setTaskStartTime(newTask.getTaskEndTime());
+			}
+			if (newTask.getTaskStartTime() != -1 && newTask.getTaskEndTime() == -1) {
+				newTask.setTaskEndTime(newTask.getTaskStartTime());
+			}
+		}
+		if (newTask.getTaskType().equals("deadline")) {
+			if (newTask.getTaskStartDate() == -1 && newTask.getTaskEndDate() == -1) {
+				newTask.setTaskEndDate(getCurrentDate());
+			}
+			if (newTask.getTaskStartTime() == -1 && newTask.getTaskEndTime() == -1) {
+				newTask.setTaskEndTime(getCurrentTime());
+			}
 		}
 		return wordIndex;
 	}
@@ -286,7 +297,6 @@ public class Parser {
 			comma = true;
 		}
 		taskOn = removeSlashes(taskOn);
-
 		if (taskOn.length() == 4) {
 			int taskOnInt = Integer.valueOf(taskOn);
 			if (taskOnInt > 2400 || taskOnInt < 0) {
@@ -307,6 +317,7 @@ public class Parser {
 				throw new Exception("No time specified after comma");
 			}
 			taskOn = commandParts[wordIndex];
+			taskOn = removeSlashes(taskOn);
 			if (taskOn.length() == 4) {
 				int taskOnInt = Integer.valueOf(taskOn);
 				if (taskOnInt > 2400 || taskOnInt < 0) {
@@ -364,6 +375,7 @@ public class Parser {
 				throw new Exception("No time specified after comma");
 			}
 			taskTo = commandParts[wordIndex];
+			taskTo = removeSlashes(taskTo);
 			if (taskTo.length() == 4) {
 				int taskToInt = Integer.valueOf(taskTo);
 				if (taskToInt > 2400 || taskToInt < 0) {
