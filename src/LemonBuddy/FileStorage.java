@@ -53,7 +53,7 @@ public class FileStorage extends Parser {
 		return content;
 	}
 	
-	private static ArrayList<ArrayList<Task>> separateTaskList(ArrayList<Task> taskList) {
+	protected static ArrayList<ArrayList<Task>> separateTaskList(ArrayList<Task> taskList) {
 		
 		ArrayList<ArrayList<Task>> separateList = new  ArrayList<ArrayList<Task>>();
 		ArrayList<Task> floatingList = new ArrayList<Task>();

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Stack;
 
-public class CommandExecutor {
+public class CommandExecutor extends FileStorage{
 	private static final String TASKTYPE_EVENT = "event";
 	private static final String TASKTYPE_DEADLINE = "deadline";
 	private static final String TASKTYPE_OVERDUE = "overdue";
@@ -48,7 +48,21 @@ public class CommandExecutor {
 		overdueTasks = new ArrayList<Task>();
 		lastListType = "overdue";
 	}
-
+	
+	public void updateLists(){
+		ArrayList<Task> newList = new ArrayList<Task>();
+		newList.addAll(floatingTasks);
+		newList.addAll(deadlineTasks);
+		newList.addAll(eventTasks);
+		//sort?
+		ArrayList<ArrayList<Task>> updatedLists = FileStorage.separateTaskList(newList);
+		floatingTasks = updatedLists.get(0);
+		deadlineTasks = updatedLists.get(1);
+		eventTasks = updatedLists.get(2);
+		doneTasks = updatedLists.get(3);
+		overdueTasks = updatedLists.get(4);
+	}
+	
 	// PRIORITY AND DESCRIPTION NOT DONE
 	public void executeAdd(String[] commandParts) throws Exception {
 		String commandType = commandParts[0];
@@ -58,6 +72,7 @@ public class CommandExecutor {
 		addTaskToList(newTask);
 		LemonGUIController.setTask(newTask);
 		LemonGUIController.setCommand(commandType);
+		
 	}
 
 	public void executeEdit(String[] commandParts) throws Exception {
@@ -153,46 +168,6 @@ public class CommandExecutor {
 		LemonGUIController.setTask(taskToDelete);
 		return taskToDelete;
 	}
-	// private void removeTaskFromFile(String[] commandParts) throws
-	// IOException, ClassNotFoundException {
-	// ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
-	// FileStorage.clear();
-	// int taskToDeleteIndex = writeUntilTaskIndex(commandParts, fullList);
-	// Task taskToDelete = fullList.get(taskToDeleteIndex);
-	// LemonGUIController.setTask(taskToDelete);
-	// writeRestOfList(fullList, taskToDeleteIndex);
-	// }
-
-	// private int writeUntilTaskIndex(String[] commandParts, ArrayList<Task>
-	// fullList) throws IOException {
-	// int taskTypeIndex = 1;
-	// String editType = commandParts[1];
-	// String editId = commandParts[2];
-	// int j = 0;
-	// for (j = 0; j < fullList.size(); j++) {
-	// Task currentTask = fullList.get(j);
-	// if (currentTask.getTaskType().equals(editType)
-	// && !currentTask.getTaskIsDone()) {
-	// if (editId.equals(String.valueOf(taskTypeIndex))) {
-	// break;
-	// } else {
-	// taskTypeIndex++;
-	// FileStorage.writeObjectAsString(currentTask);
-	// }
-	// } else {
-	//
-	// FileStorage.writeObjectAsString(currentTask);
-	// }
-	// }
-	// return j;
-	// }
-
-	// private void writeRestOfList(ArrayList<Task> fullList, int
-	// taskToEditIndex) throws IOException {
-	// for (int i = taskToEditIndex + 1; i < fullList.size(); i++) {
-	// FileStorage.writeObjectAsString(fullList.get(i));
-	// }
-	// }
 
 	public void executeRecur(String[] commandParts) throws IOException, ClassNotFoundException {
 		String recurType = commandParts[1];
@@ -347,7 +322,7 @@ public class CommandExecutor {
 		ArrayList<Task> fullList = new ArrayList<Task>();
 		Task currentTask;
 
-		fullList = FileStorage.readStringAsObject(path);
+		//fullList = FileStorage.readStringAsObject(path);
 
 		// 3 types of arraylist here
 		for (int j = 0; j < fullList.size(); j++) {

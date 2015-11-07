@@ -185,8 +185,11 @@ public class Parser {
 
 	private void setInputTime(String[] commandParts, Task newTask, int wordIndex) throws Exception {
 		while (wordIndex < commandParts.length) {
+//			if(commandParts[wordIndex++].equals("desc")){
+//				break;
+//			}
 			Boolean comma = false;
-			switch (commandParts[wordIndex++]) {
+			switch (commandParts[wordIndex]) {
 			case KEYWORD_ON:
 				wordIndex = splitCommaStart(commandParts, newTask, wordIndex, comma);
 				// qSystem.out.println("time = " + newTask.getTaskStartTime());
