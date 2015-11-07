@@ -39,17 +39,17 @@ class Sort {
 				type2 = t2.getTaskType();	
 					
 				if(type1.equals(deadline)) {
-					time1 = t1.getTaskEndTime();
+					time1 = Integer.parseInt(t1.getTaskEndTime());
 				} else if(type1.equals(event)) {
-					time1 = t1.getTaskStartTime();
+					time1 = Integer.parseInt(t1.getTaskStartTime());
 				} else {
 					time1 = 0;
 				}
 		 
 				if(type2.equals(deadline)) {
-					time2 = t2.getTaskEndTime();
+					time2 = Integer.parseInt(t2.getTaskEndTime());
 				} else if(type2.equals(event)) {
-					time2 = t2.getTaskStartTime();
+					time2 = Integer.parseInt(t2.getTaskStartTime());
 				} else {
 					time2 = 0;
 				}
