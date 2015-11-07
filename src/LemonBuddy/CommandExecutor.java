@@ -137,7 +137,7 @@ public class CommandExecutor {
 					Task recurringTask = currentTask;
 					if (recurType.equals(TYPE_DEADLINE)) {
 						// note: changed
-						String currentRecurringDate = Integer.toString(currentTask.getTaskEndDate());
+						String currentRecurringDate = currentTask.getTaskEndDate();
 						if (recurFreq.equals("yearly")) {
 							currentRecurringDate = parser.addOneYear(currentRecurringDate);
 							while (!parser.endDatePassed(currentRecurringDate, recurEndDate)) {
@@ -188,8 +188,8 @@ public class CommandExecutor {
 		fullList = FileStorage.readStringAsObject(path);
 		for (int j = 0; j < fullList.size(); j++) {
 			currentTask = fullList.get(j);
-			int dateStart = currentTask.getTaskStartDate();
-			int dateEnd = currentTask.getTaskEndDate();
+			int dateStart = Integer.parseInt(currentTask.getTaskStartDate());
+			int dateEnd = Integer.parseInt(currentTask.getTaskEndDate());
 
 			int dayStart = dateStart / 10000;
 			int monthStart = (dateStart / 100) % 100;
@@ -201,7 +201,7 @@ public class CommandExecutor {
 			int yearEnd = dateEnd % 100;
 			int comparedEndDate = dayEnd + monthEnd * 100 + yearEnd * 10000;
 			if (currentTask.getTaskType().equals(TYPE_DEADLINE)) {
-				if (currentTask.getTaskEndDate() == timelineDate) {
+				if (Integer.parseInt(currentTask.getTaskEndDate()) == timelineDate) {
 					deadlineTasks.add(currentTask);
 				}
 			}
@@ -236,7 +236,7 @@ public class CommandExecutor {
 
 		for (i = 0; i < array.size(); i++) {
 			Task overdueTask = array.get(i);
-			String endDate = parser.toSixDigit(array.get(i).getTaskEndDate());
+			String endDate = array.get(i).getTaskEndDate();
 			// System.out.println(endDate);
 			if (endDate.length() == 6) {
 				if (parser.endDatePassed(currentDate, endDate) && (overdueTask.getTaskIsOverdue() == false)) {
@@ -412,9 +412,9 @@ public class CommandExecutor {
 			for (int j = i + 1; j < fullList.size(); j++) {
 				Task nextTask = fullList.get(j);
 				if (currentTask.getTaskType().equals(TYPE_DEADLINE)) {
-					String currentDate = parser.toSixDigit(currentTask.getTaskEndDate());
+					String currentDate = currentTask.getTaskEndDate();
 					if (nextTask.getTaskType().equals(TYPE_DEADLINE)) {
-						String nextDate = parser.toSixDigit(nextTask.getTaskEndDate());
+						String nextDate = nextTask.getTaskEndDate();
 						if (parser.endDatePassed(currentDate, nextDate)) {
 							// fullList.add(j, fullList.remove(i));
 							fullList.add(i, nextTask);
@@ -433,7 +433,7 @@ public class CommandExecutor {
 							}
 						}
 					} else if (nextTask.getTaskType().equals(TYPE_EVENT)) {
-						String nextDate = parser.toSixDigit(nextTask.getTaskStartDate());
+						String nextDate = nextTask.getTaskStartDate();
 						if (parser.endDatePassed(currentDate, nextDate)) {
 							// fullList.add(j, fullList.remove(i));
 							fullList.add(i, nextTask);
@@ -453,9 +453,9 @@ public class CommandExecutor {
 						}
 					}
 				} else if (currentTask.getTaskType().equals(TYPE_EVENT)) {
-					String currentDate = parser.toSixDigit(currentTask.getTaskStartDate());
+					String currentDate = currentTask.getTaskStartDate();
 					if (nextTask.getTaskType().equals(TYPE_EVENT)) {
-						String nextDate = parser.toSixDigit(nextTask.getTaskStartDate());
+						String nextDate = nextTask.getTaskStartDate();
 						if (parser.endDatePassed(currentDate, nextDate)) {
 							// fullList.add(j, fullList.remove(i));
 							fullList.add(i, nextTask);
@@ -474,7 +474,7 @@ public class CommandExecutor {
 							}
 						}
 					} else if (nextTask.getTaskType().equals(TYPE_DEADLINE)) {
-						String nextDate = parser.toSixDigit(nextTask.getTaskEndDate());
+						String nextDate = nextTask.getTaskEndDate();
 						if (parser.endDatePassed(currentDate, nextDate)) {
 							// fullList.add(j, fullList.remove(i));
 							fullList.add(i, nextTask);

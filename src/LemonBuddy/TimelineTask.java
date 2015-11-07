@@ -8,8 +8,8 @@ import javafx.beans.property.SimpleStringProperty;
 public class TimelineTask implements Serializable {
 	private SimpleStringProperty taskName;
 	private String taskType = "";
-	private int taskStartDate = -1;
-	private int taskEndDate = -1;
+	private String taskStartDate = "";
+	private String taskEndDate = "";
 	
 	private ArrayList<SimpleStringProperty> timmings = new ArrayList<SimpleStringProperty>(48);
 
@@ -25,11 +25,11 @@ public class TimelineTask implements Serializable {
 		return this.taskName;
 	}
 	
-	public void setTaskStartDate(int taskStartDate){
+	public void setTaskStartDate(String taskStartDate){
 		this.taskStartDate = taskStartDate;
 	}
 	
-	public void setTaskEndDate(int taskEndDate){
+	public void setTaskEndDate(String taskEndDate){
 		this.taskEndDate = taskEndDate;
 	}
 	

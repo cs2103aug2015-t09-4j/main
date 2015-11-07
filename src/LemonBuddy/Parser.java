@@ -168,15 +168,15 @@ public class Parser {
 	private void checkValidDateTimeInput(Task newTask) throws ParseException, Exception {
 		if (newTask.getTaskType().equals(TASKTYPE_EVENT)) {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
-			Date date1 = sdf.parse(newTask.getTaskStartDateString());
-			Date date2 = sdf.parse(newTask.getTaskEndDateString());
+			Date date1 = sdf.parse(newTask.getTaskStartDate());
+			Date date2 = sdf.parse(newTask.getTaskEndDate());
 			if (date1.after(date2)) {
 				System.out.println("Date1 is after Date2");
 				throw new Exception("Start date after end date");
 			}
 			
 			if(newTask.getTaskStartDate()==newTask.getTaskEndDate()){
-				if(newTask.getTaskStartTime()>newTask.getTaskEndTime()){
+				if(Integer.parseInt(newTask.getTaskStartTime()) > Integer.parseInt(newTask.getTaskEndTime())) {
 					throw new Exception("Start time is after end time");
 				}
 			}
@@ -272,8 +272,8 @@ public class Parser {
 				newTask.setTaskEndDate(newTask.getTaskStartDate());
 			}
 			if (newTask.taskStartTimeIsEmpty() && newTask.taskEndTimeIsEmpty()) {
-				newTask.setTaskStartTime(0);
-				newTask.setTaskEndTime(2359);
+				newTask.setTaskStartTime("0000");
+				newTask.setTaskEndTime("2359");
 			}
 			if (newTask.taskStartTimeIsEmpty() && !newTask.taskEndTimeIsEmpty()) {
 				newTask.setTaskStartTime(newTask.getTaskEndTime());
@@ -331,8 +331,8 @@ public class Parser {
 	}
 
 	private void retrieveStartTimeCalendar(Task newTask, Calendar endTime) {
-		int date = newTask.getTaskStartDate();
-		int time = newTask.getTaskStartTime();
+		int date = Integer.parseInt(newTask.getTaskStartDate());
+		int time = Integer.parseInt(newTask.getTaskStartTime());
 		endTime.set(((date % 100) + 2000), (date / 100) % 100 - 1, (date / 10000), time / 100, time % 100, 0);
 	}
 

@@ -5,15 +5,15 @@ import java.io.Serializable;
 public class Task implements Serializable {
 	private String taskName;
 	private String taskType;
-	private int taskStartDate;
-	private int taskEndDate;
+	private String taskStartDate;
+	private String taskEndDate;
 	private String taskPriority;
 	private String taskDescription;
 	private boolean taskIsDone;
 	private boolean taskIsOverdue;
 	private boolean taskIsNewest;
-	private int taskStartTime;
-	private int taskEndTime;
+	private String taskStartTime;
+	private String taskEndTime;
 	// for recurring
 	private String recurType;
 	private String recurStartDate;
@@ -53,15 +53,15 @@ public class Task implements Serializable {
 	public Task(){
 		taskName = "";
 		taskType = "";
-		taskStartDate = -1;
-		taskEndDate = -1;
+		taskStartDate = "-1";
+		taskEndDate = "-1";
 		taskPriority = "";
 		taskDescription = "";
 		taskIsDone = false;
 		taskIsOverdue = false;
 		taskIsNewest = false;
-		taskStartTime = -1;
-		taskEndTime = -1;
+		taskStartTime = "-1";
+		taskEndTime = "-1";
 		// for recurring
 		recurType = "";
 		recurStartDate = "";
@@ -114,36 +114,20 @@ public class Task implements Serializable {
 		this.taskIsNewest = false;
 	}
 
-	public void setTaskStartDate(int taskStartDate) {
-		this.taskStartDate = taskStartDate;
-	}
-
 	public void setTaskStartDate(String taskStartDate) {
-		this.taskStartDate = Integer.valueOf(taskStartDate);
-	}
-
-	public void setTaskEndDate(int taskEndDate) {
-		this.taskEndDate = taskEndDate;
+		this.taskStartDate = taskStartDate.replaceAll("[^\\d-]", "");
 	}
 
 	public void setTaskEndDate(String taskEndDate) {
-		this.taskEndDate = Integer.valueOf(taskEndDate);
-	}
-
-	public void setTaskStartTime(int taskStartTime) {
-		this.taskStartTime = taskStartTime;
+		this.taskEndDate = taskEndDate.replaceAll("[^\\d-]", "");
 	}
 
 	public void setTaskStartTime(String taskStartTime) {
-		this.taskStartTime = Integer.valueOf(taskStartTime);
-	}
-
-	public void setTaskEndTime(int taskEndTime) {
-		this.taskEndTime = taskEndTime;
+		this.taskStartTime = taskStartTime.replaceAll("[^\\d-]", "");
 	}
 
 	public void setTaskEndTime(String taskEndTime) {
-		this.taskEndTime = Integer.valueOf(taskEndTime);
+		this.taskEndTime = taskEndTime.replaceAll("[^\\d-]", "");
 	}
 
 	public void setTaskPriority(String taskPriority) {
@@ -196,97 +180,48 @@ public class Task implements Serializable {
 		return this.taskIsNewest;
 	}
 
-	public int getTaskStartDate() {
+	public String getTaskStartDate() {
 		return this.taskStartDate;
-	}
-	
-	public String getTaskStartDateString() {
-		if (this.taskStartDate == -1) {
-			return "-1";
-		}
-		String dateString = Integer.toString(this.taskStartDate);
-		if (dateString.length() == 5) {
-			dateString = "0" + dateString;
-		}
-		String newDate = dateString.substring(0, 2) + "/" + dateString.substring(2, 4) + "/"
-				+ dateString.substring(4, 6);
-		return newDate;
-
 	}
 
 	public Boolean taskStartDateIsEmpty() {
-		if (this.taskStartDate == -1) {
+		if (this.taskStartDate == "-1") {
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	public int getTaskEndDate() {
+	public String getTaskEndDate() {
 		return this.taskEndDate;
 	}
 
-	public String getTaskEndDateString() {
-		if (this.taskEndDate == -1) {
-			return "-1";
-		}
-		String dateString = Integer.toString(this.taskEndDate);
-		if (dateString.length() == 5) {
-			dateString = "0" + dateString;
-		}
-		String newDate = dateString.substring(0, 2) + "/" + dateString.substring(2, 4) + "/"
-				+ dateString.substring(4, 6);
-		return newDate;
-	}
-
 	public Boolean taskEndDateIsEmpty() {
-		if (this.taskEndDate == -1) {
+		if (this.taskEndDate == "-1") {
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	public int getTaskStartTime() {
+	public String getTaskStartTime() {
 		return this.taskStartTime;
-	}
-
-	public String getTaskStartTimeString() {
-		if (this.taskStartTime == -1) {
-			return "" + this.taskStartTime;
-		}
-		String startTime = Integer.toString(this.taskStartTime);
-		while (startTime.length() < 4) {
-			startTime = "0" + startTime;
-		}
-		return startTime;
 	}
 	
 	public Boolean taskStartTimeIsEmpty(){
-		if (this.taskStartTime == -1) {
+		if (this.taskStartTime == "-1") {
 			return true;
 		} else {
 			return false;
 		}
 	}
 	
-	public int getTaskEndTime() {
+	public String getTaskEndTime() {
 		return this.taskEndTime;
 	}
 
-	public String getTaskEndTimeString() {
-		if (this.taskEndTime == -1) {
-			return "" + this.taskEndTime;
-		}
-		String endTime = Integer.toString(this.taskEndTime);
-		while (endTime.length() < 4) {
-			endTime = "0" + endTime;
-		}
-		return endTime;
-	}
-
 	public Boolean taskEndTimeIsEmpty(){
-		if (this.taskEndTime == -1) {
+		if (this.taskEndTime == "-1") {
 			return true;
 		} else {
 			return false;
