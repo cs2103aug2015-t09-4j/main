@@ -14,12 +14,20 @@ class Sort {
 					 end2 = Integer.valueOf(t2.getTaskEndDate()).intValue();
 					 p1 = Integer.valueOf(t1.getTaskPriority()).intValue();
 					 p2 = Integer.valueOf(t2.getTaskPriority()).intValue();
-					 int flag = end1.compareTo(end2);
-					 if(flag == 0) {
-						 return p1.compareTo(p2);
-					 } else {
-						 return flag;
-					 }				 
+
+					if(end1 > end2){
+						return 1;
+					} else if (end1 == end2) {
+						if(p1 > p2){
+							return 1;
+						} else if (p1 == p2) {
+							return 0;
+						} else {
+							return -1;
+						}
+					} else {
+						return -1;
+				    }					
 				}
 			};				
 			Collections.sort(list, comparator);
