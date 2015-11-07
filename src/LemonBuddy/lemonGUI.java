@@ -49,7 +49,7 @@ public class lemonGUI extends Application {
             e.printStackTrace();
         }
     }
-
+    
     /**
      * Shows the person overview inside the root layout.
      */

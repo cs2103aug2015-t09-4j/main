@@ -8,39 +8,49 @@ import java.util.Date;
 
 public class Parser {
 
-	public Task parseTask(String[] commandParts) {
-		Task newTask = new Task();
+	private static final String KEYWORD_TOMORROW = "tomorrow";
+	private static final String KEYWORD_BY = "by";
+	private static final String KEYWORD_DESCRIPTION = "desc";
+	private static final String KEYWORD_PRIORITY = "*";
+	private static final String KEYWORD_FROM = "from";
+	private static final String KEYWORD_ON = "on";
+	private static final String TASKTYPE_FLOATING = "floating";
+	private static final String TASKTYPE_DEADLINE = "deadline";
+	private static final String TASKTYPE_EVENT = "event";
 
+	public Task parseTask(String[] commandParts) throws Exception {
+		Task newTask = new Task();
 		int wordIndex = 1;
 		String taskName = "";
-		newTask.setTaskType("floating");
-		// this while loop gets task name
+		newTask.setTaskType(TASKTYPE_FLOATING);
+
+		wordIndex = parseTaskName(commandParts, newTask, wordIndex, taskName);
+		wordIndex = parseDescription(commandParts, newTask, wordIndex);
+		wordIndex = parsePriority(commandParts, newTask, wordIndex);
+		wordIndex = parseTime(commandParts, newTask, wordIndex);
+
+		return newTask;
+
+	}
+
+	private int parseTaskName(String[] commandParts, Task newTask, int wordIndex, String taskName) {
 		while (true) {
+
+			if (commandParts[wordIndex].equals(KEYWORD_ON) || commandParts[wordIndex].equals(KEYWORD_FROM)
+					|| commandParts[wordIndex].substring(0, 1).equals(KEYWORD_PRIORITY)
+					|| commandParts[wordIndex].equals(KEYWORD_DESCRIPTION)
+					|| commandParts[wordIndex].equals(KEYWORD_BY)) {
+				break;
+			}
 			taskName = taskName + commandParts[wordIndex++];
 			if (wordIndex >= commandParts.length) {
 				break;
 			}
-			if (commandParts[wordIndex].equals("on") || commandParts[wordIndex].equals("from")
-					|| commandParts[wordIndex].substring(0, 1).equals("*") || commandParts[wordIndex].equals("desc")
-					|| commandParts[wordIndex].equals("by")) {
-				break;
-			}
 			taskName = taskName + " ";
 		}
+		taskName = taskName.trim();
 		newTask.setTaskName(taskName);
-
-		try {
-			wordIndex = parseDescription(commandParts, newTask, wordIndex);
-			wordIndex = parsePriority(commandParts, newTask, wordIndex);
-			wordIndex = parseTime(commandParts, newTask, wordIndex);
-		} catch (Exception e)
-
-		{
-			// System.out.println(commandParts[wordIndex]);
-			System.err.println("Invalid input: " + e.getMessage());
-		}
-		return newTask;
-
+		return wordIndex;
 	}
 
 	/**
@@ -52,11 +62,10 @@ public class Parser {
 	private int parseDescription(String[] commandParts, Task newTask, int wordIndex) {
 		int initialIndex = wordIndex;
 		while (wordIndex < commandParts.length) {
-			if (commandParts[wordIndex].equals("desc")) {
+			if (commandParts[wordIndex].equals(KEYWORD_DESCRIPTION)) {
 				String taskDesc = "";
 				wordIndex++;
 				while (true) {
-					System.out.println(commandParts[wordIndex]);
 					taskDesc = taskDesc + commandParts[wordIndex++];
 					if (wordIndex == commandParts.length) {
 						break;
@@ -79,7 +88,7 @@ public class Parser {
 	private int parsePriority(String[] commandParts, Task newTask, int wordIndex) {
 		int initialIndex = wordIndex;
 		while (wordIndex < commandParts.length) {
-			if (commandParts[wordIndex].substring(0, 1).equals("*")) {
+			if (commandParts[wordIndex].substring(0, 1).equals(KEYWORD_PRIORITY)) {
 				newTask.setTaskPriority(commandParts[wordIndex].substring(1));
 			}
 			wordIndex++;
@@ -146,11 +155,84 @@ public class Parser {
 	}
 
 	private int parseTime(String[] commandParts, Task newTask, int wordIndex) throws Exception {
-		// int detailIndex = wordIndex;
+
+		detectFromToFormat(commandParts);
+		setInputTime(commandParts, newTask, wordIndex);
+		setFromToDefaultTime(newTask);
+		setDeadlineDefaultTime(newTask);
+		
+		checkValidDateTimeInput(newTask);
+		return wordIndex;
+	}
+
+	private void checkValidDateTimeInput(Task newTask) throws ParseException, Exception {
+		if (newTask.getTaskType().equals(TASKTYPE_EVENT)) {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+			Date date1 = sdf.parse(newTask.getTaskStartDateString());
+			Date date2 = sdf.parse(newTask.getTaskEndDateString());
+			if (date1.after(date2)) {
+				System.out.println("Date1 is after Date2");
+				throw new Exception("Start date after end date");
+			}
+			
+			if(newTask.getTaskStartDate()==newTask.getTaskEndDate()){
+				if(newTask.getTaskStartTime()>newTask.getTaskEndTime()){
+					throw new Exception("Start time is after end time");
+				}
+			}
+		}
+	}
+
+	private void setInputTime(String[] commandParts, Task newTask, int wordIndex) throws Exception {
+		while (wordIndex < commandParts.length) {
+			Boolean comma = false;
+			switch (commandParts[wordIndex++]) {
+			case KEYWORD_ON:
+				wordIndex = splitCommaStart(commandParts, newTask, wordIndex, comma);
+				// qSystem.out.println("time = " + newTask.getTaskStartTime());
+				setOnDefaultTime(newTask);
+				addOneHourToEnd(newTask);
+				newTask.setTaskType(TASKTYPE_EVENT);
+				break;
+			case KEYWORD_BY:
+				wordIndex = splitCommaEnd(commandParts, newTask, wordIndex, comma);
+				newTask.setTaskType(TASKTYPE_DEADLINE);
+				break;
+			case KEYWORD_FROM:
+				wordIndex = splitCommaStart(commandParts, newTask, wordIndex, comma);
+
+				wordIndex++;
+				wordIndex++;
+				wordIndex = splitCommaEnd(commandParts, newTask, wordIndex, comma);
+
+				newTask.setTaskType(TASKTYPE_EVENT);
+				break;
+			}
+		}
+	}
+
+	private void setOnDefaultTime(Task newTask) {
+		if (newTask.taskStartDateIsEmpty() && newTask.taskEndDateIsEmpty()) {
+			newTask.setTaskStartDate(getCurrentDate());
+			newTask.setTaskEndDate(getCurrentDate());
+		}
+		if (newTask.taskStartDateIsEmpty() && !newTask.taskEndDateIsEmpty()) {
+			newTask.setTaskStartDate(newTask.getTaskEndDate());
+		}
+		if (!newTask.taskStartDateIsEmpty() && newTask.taskEndDateIsEmpty()) {
+			newTask.setTaskEndDate(newTask.getTaskStartDate());
+		}
+		if (newTask.taskStartTimeIsEmpty() && newTask.taskEndTimeIsEmpty()) {
+			newTask.setTaskStartTime(getCurrentTime());
+			newTask.setTaskEndTime(getCurrentTime());
+		}
+	}
+
+	private void detectFromToFormat(String[] commandParts) throws Exception {
 		Boolean from = false;
 		Boolean to = false;
 		for (String part : commandParts) {
-			if (part.contains("from")) {
+			if (part.contains(KEYWORD_FROM)) {
 				from = true;
 			}
 		}
@@ -164,62 +246,42 @@ public class Parser {
 				throw new Exception("Missing \"to\" from command");
 			}
 		}
+	}
 
-		while (wordIndex < commandParts.length) {
-			Boolean comma = false;
-			switch (commandParts[wordIndex++]) {
-			case "on":
-				wordIndex = splitCommaStart(commandParts, newTask, wordIndex, comma);
-
-				addOneHourToEnd(newTask);
-				newTask.setTaskType("event");
-				if (newTask.getTaskStartDate() == -1 && !(newTask.getTaskEndDate() == -1)) {
-					newTask.setTaskStartDate(getCurrentDate());
-					newTask.setTaskEndDate(getCurrentDate());
-				}
-				if (newTask.getTaskStartTime() == -1 && !(newTask.getTaskEndTime() == -1)) {
-					newTask.setTaskStartTime(0);
-				}
-				break;
-			case "by":
-				wordIndex = splitCommaEnd(commandParts, newTask, wordIndex, comma);
-				newTask.setTaskType("deadline");
-				break;
-			case "from":
-				wordIndex = splitCommaStart(commandParts, newTask, wordIndex, comma);
-
-				wordIndex++;
-				wordIndex++;
-				wordIndex = splitCommaEnd(commandParts, newTask, wordIndex, comma);
-
-				if (!(newTask.getTaskStartDate() == -1) && newTask.getTaskEndDate() == -1) {
-					newTask.setTaskEndDate(newTask.getTaskStartDate());
-				}
-				newTask.setTaskType("event");
-				break;
-
+	private void setDeadlineDefaultTime(Task newTask) {
+		if (newTask.getTaskType().equals(TASKTYPE_DEADLINE)) {
+			if (newTask.taskStartDateIsEmpty() && newTask.taskEndDateIsEmpty()) {
+				newTask.setTaskEndDate(getCurrentDate());
 			}
-			if (newTask.getTaskType().equals("event")) {
-				if (newTask.getTaskStartDate() == -1 && newTask.getTaskEndDate() == -1) {
-					newTask.setTaskStartDate(getCurrentDate());
-					newTask.setTaskEndDate(getCurrentDate());
-				}
-				if (newTask.getTaskStartTime() == -1 && newTask.getTaskEndTime() == -1) {
-					newTask.setTaskStartTime(0);
-					newTask.setTaskEndTime(2359);
-				}
+			if (newTask.taskStartTimeIsEmpty() && newTask.taskEndTimeIsEmpty()) {
+				newTask.setTaskEndTime(getCurrentTime());
 			}
-			if (newTask.getTaskType().equals("deadline")) {
-				if (newTask.getTaskStartDate() == -1 && newTask.getTaskEndDate() == -1) {
-					newTask.setTaskEndDate(getCurrentDate());
-				}
-				if (newTask.getTaskStartTime() == -1 && newTask.getTaskEndTime() == -1) {
-					newTask.setTaskEndTime(getCurrentTime());
-				}
-			}
-
 		}
-		return wordIndex;
+	}
+
+	private void setFromToDefaultTime(Task newTask) {
+		if (newTask.getTaskType().equals(TASKTYPE_EVENT)) {
+			if (newTask.taskStartDateIsEmpty() && newTask.taskEndDateIsEmpty()) {
+				newTask.setTaskStartDate(getCurrentDate());
+				newTask.setTaskEndDate(getCurrentDate());
+			}
+			if (newTask.taskStartDateIsEmpty() && !newTask.taskEndDateIsEmpty()) {
+				newTask.setTaskStartDate(newTask.getTaskEndDate());
+			}
+			if (!newTask.taskStartDateIsEmpty() && newTask.taskEndDateIsEmpty()) {
+				newTask.setTaskEndDate(newTask.getTaskStartDate());
+			}
+			if (newTask.taskStartTimeIsEmpty() && newTask.taskEndTimeIsEmpty()) {
+				newTask.setTaskStartTime(0);
+				newTask.setTaskEndTime(2359);
+			}
+			if (newTask.taskStartTimeIsEmpty() && !newTask.taskEndTimeIsEmpty()) {
+				newTask.setTaskStartTime(newTask.getTaskEndTime());
+			}
+			if (!newTask.taskStartTimeIsEmpty() && newTask.taskEndTimeIsEmpty()) {
+				newTask.setTaskEndTime(newTask.getTaskStartTime());
+			}
+		}
 	}
 
 	private String removeSlashes(String date) {
@@ -228,25 +290,26 @@ public class Parser {
 	}
 
 	private void addOneDayToStart(Task newTask) {
-		int date = Integer.valueOf(getCurrentDate());
-		int time = Integer.valueOf(getCurrentTime());
-		Calendar endDate = Calendar.getInstance();
-
+		Calendar startDate = Calendar.getInstance();
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyy HHmm");
-		endDate.set((date % 100) + 2000, (date / 100) % 100 - 1, (date / 10000), time / 100, time % 100, 0);
-		endDate.add(Calendar.HOUR, 24);
-		String[] timeInfo = dateFormatter.format(endDate.getTime()).split(" ");
+
+		retrieveCurrentCalendar(startDate);
+		startDate.add(Calendar.HOUR, 24);
+		String[] timeInfo = dateFormatter.format(startDate.getTime()).split(" ");
 		newTask.setTaskStartDate(timeInfo[0]);
 
 	}
 
-	private void addOneDayToEnd(Task newTask) {
+	private void retrieveCurrentCalendar(Calendar startDate) {
 		int date = Integer.valueOf(getCurrentDate());
 		int time = Integer.valueOf(getCurrentTime());
-		Calendar endDate = Calendar.getInstance();
+		startDate.set((date % 100) + 2000, (date / 100) % 100 - 1, (date / 10000), time / 100, time % 100, 0);
+	}
 
+	private void addOneDayToEnd(Task newTask) {
+		Calendar endDate = Calendar.getInstance();
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyy HHmm");
-		endDate.set((date % 100) + 2000, (date / 100) % 100 - 1, (date / 10000), time / 100, time % 100, 0);
+		retrieveCurrentCalendar(endDate);
 		endDate.add(Calendar.HOUR, 24);
 		String[] timeInfo = dateFormatter.format(endDate.getTime()).split(" ");
 		newTask.setTaskEndDate(timeInfo[0]);
@@ -254,15 +317,23 @@ public class Parser {
 	}
 
 	private void addOneHourToEnd(Task newTask) {
-		int date = newTask.getTaskStartDate();
-		int time = newTask.getTaskStartTime();
 		Calendar endTime = Calendar.getInstance();
-		endTime.set(((date % 100) + 2000), (date / 100) % 100 - 1, (date / 10000), time / 100, time % 100, 0);
+		retrieveStartTimeCalendar(newTask, endTime);
 		endTime.add(Calendar.HOUR, 1);
+		setNewEndTime(newTask, endTime);
+	}
+
+	private void setNewEndTime(Task newTask, Calendar endTime) {
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyy HHmm");
 		String[] timeInfo = dateFormatter.format(endTime.getTime()).split(" ");
 		newTask.setTaskEndDate(timeInfo[0]);
 		newTask.setTaskEndTime(timeInfo[1]);
+	}
+
+	private void retrieveStartTimeCalendar(Task newTask, Calendar endTime) {
+		int date = newTask.getTaskStartDate();
+		int time = newTask.getTaskStartTime();
+		endTime.set(((date % 100) + 2000), (date / 100) % 100 - 1, (date / 10000), time / 100, time % 100, 0);
 	}
 
 	public String getCurrentDate() {
@@ -292,7 +363,6 @@ public class Parser {
 			comma = true;
 		}
 		taskOn = removeSlashes(taskOn);
-
 		if (taskOn.length() == 4) {
 			int taskOnInt = Integer.valueOf(taskOn);
 			if (taskOnInt > 2400 || taskOnInt < 0) {
@@ -300,16 +370,20 @@ public class Parser {
 			}
 			newTask.setTaskStartTime(taskOn);
 		} else if (taskOn.length() == 6) {
-			if(!isDateValid(taskOn)){
+			if (!isDateValid(taskOn)) {
 				throw new Exception("Invalid Date");
 			}
 			newTask.setTaskStartDate(taskOn);
-		} else if (taskOn.equals("tomorrow")) {
+		} else if (taskOn.equals(KEYWORD_TOMORROW)) {
 			addOneDayToStart(newTask);
 			addOneDayToEnd(newTask);
 		}
 		if (comma) {
-			taskOn = commandParts[++wordIndex];
+			if (++wordIndex >= commandParts.length) {
+				throw new Exception("No time specified after comma");
+			}
+			taskOn = commandParts[wordIndex];
+			taskOn = removeSlashes(taskOn);
 			if (taskOn.length() == 4) {
 				int taskOnInt = Integer.valueOf(taskOn);
 				if (taskOnInt > 2400 || taskOnInt < 0) {
@@ -317,11 +391,11 @@ public class Parser {
 				}
 				newTask.setTaskStartTime(taskOn);
 			} else if (taskOn.length() == 6) {
-				if(!isDateValid(taskOn)){
+				if (!isDateValid(taskOn)) {
 					throw new Exception("Invalid Date");
 				}
 				newTask.setTaskStartDate(taskOn);
-			} else if (taskOn.equals("tomorrow")) {
+			} else if (taskOn.equals(KEYWORD_TOMORROW)) {
 				addOneDayToStart(newTask);
 				addOneDayToEnd(newTask);
 			}
@@ -351,19 +425,23 @@ public class Parser {
 			}
 			newTask.setTaskEndTime(taskTo);
 		} else if (taskTo.length() == 6) {
-			if(!isDateValid(taskTo)){
+			if (!isDateValid(taskTo)) {
 				throw new Exception("Invalid Date");
 			}
 			newTask.setTaskEndDate(taskTo);
 		}
 
-		else if (taskTo.equals("tomorrow")) {
+		else if (taskTo.equals(KEYWORD_TOMORROW)) {
 			addOneDayToEnd(newTask);
 
 		}
 
 		if (comma) {
-			taskTo = commandParts[++wordIndex];
+			if (++wordIndex >= commandParts.length) {
+				throw new Exception("No time specified after comma");
+			}
+			taskTo = commandParts[wordIndex];
+			taskTo = removeSlashes(taskTo);
 			if (taskTo.length() == 4) {
 				int taskToInt = Integer.valueOf(taskTo);
 				if (taskToInt > 2400 || taskToInt < 0) {
@@ -371,11 +449,11 @@ public class Parser {
 				}
 				newTask.setTaskEndTime(taskTo);
 			} else if (taskTo.length() == 6) {
-				if(!isDateValid(taskTo)){
+				if (!isDateValid(taskTo)) {
 					throw new Exception("Invalid Date");
 				}
 				newTask.setTaskEndDate(taskTo);
-			} else if (taskTo.equals("tomorrow")) {
+			} else if (taskTo.equals(KEYWORD_TOMORROW)) {
 				addOneDayToEnd(newTask);
 
 			}
