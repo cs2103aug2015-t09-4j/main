@@ -151,7 +151,7 @@ public class Parser {
 		setDeadlineDefaultTime(newTask);
 		return wordIndex;
 	}
-
+	
 	private void classifyTaskType(String[] commandParts, Task newTask, int wordIndex) throws Exception {
 		while (wordIndex < commandParts.length) {
 			Boolean comma = false;
@@ -159,29 +159,21 @@ public class Parser {
 			case "on":
 				wordIndex = splitCommaStart(commandParts, newTask, wordIndex, comma);
 				//qSystem.out.println("time = " + newTask.getTaskStartTime());
-				if (newTask.getTaskStartDate() == -1 && newTask.getTaskEndDate() == -1) {
+				if (newTask.taskStartDateIsEmpty() && newTask.taskEndDateIsEmpty()) {
 					newTask.setTaskStartDate(getCurrentDate());
 					newTask.setTaskEndDate(getCurrentDate());
 				}
-				if (newTask.getTaskStartDate() == -1 && newTask.getTaskEndDate() != -1) {
+				if (newTask.taskStartDateIsEmpty() && !newTask.taskEndDateIsEmpty()) {
 					newTask.setTaskStartDate(newTask.getTaskEndDate());
 				}
-				if (newTask.getTaskStartDate() != -1 && newTask.getTaskEndDate() == -1) {
+				if (!newTask.taskStartDateIsEmpty() && newTask.taskEndDateIsEmpty()) {
 					newTask.setTaskEndDate(newTask.getTaskStartDate());
 				}
-				if (newTask.getTaskStartTime() == -1 && newTask.getTaskEndTime() == -1) {
+				if (newTask.taskStartTimeIsEmpty() && newTask.taskEndTimeIsEmpty()) {
 					newTask.setTaskStartTime(getCurrentTime());
 					newTask.setTaskEndTime(getCurrentTime());
 				}
 				addOneHourToEnd(newTask);
-//				if (!(newTask.getTaskStartDate() == -1) && newTask.getTaskEndDate() == -1) {
-//					newTask.setTaskStartDate(getCurrentDate());
-//					newTask.setTaskEndDate(getCurrentDate());
-//				}
-//				if (newTask.getTaskStartTime() == -1 && !(newTask.getTaskEndTime() == -1)) {
-//					newTask.setTaskStartTime(getCurrentTime());
-//				}
-				
 				newTask.setTaskType(TASKTYPE_EVENT);		
 				break;
 			case "by":
@@ -223,10 +215,10 @@ public class Parser {
 
 	private void setDeadlineDefaultTime(Task newTask) {
 		if (newTask.getTaskType().equals(TASKTYPE_DEADLINE)) {
-			if (newTask.getTaskStartDate() == -1 && newTask.getTaskEndDate() == -1) {
+			if (newTask.taskStartDateIsEmpty() && newTask.taskEndDateIsEmpty()) {
 				newTask.setTaskEndDate(getCurrentDate());
 			}
-			if (newTask.getTaskStartTime() == -1 && newTask.getTaskEndTime() == -1) {
+			if (newTask.taskStartTimeIsEmpty() && newTask.taskEndTimeIsEmpty()) {
 				newTask.setTaskEndTime(getCurrentTime());
 			}
 		}
@@ -234,24 +226,24 @@ public class Parser {
 
 	private void setFromToDefaultTime(Task newTask) {
 		if (newTask.getTaskType().equals(TASKTYPE_EVENT)) {
-			if (newTask.getTaskStartDate() == -1 && newTask.getTaskEndDate() == -1) {
+			if (newTask.taskStartDateIsEmpty() && newTask.taskEndDateIsEmpty()) {
 				newTask.setTaskStartDate(getCurrentDate());
 				newTask.setTaskEndDate(getCurrentDate());
 			}
-			if (newTask.getTaskStartDate() == -1 && newTask.getTaskEndDate() != -1) {
+			if (newTask.taskStartDateIsEmpty() && !newTask.taskEndDateIsEmpty()) {
 				newTask.setTaskStartDate(newTask.getTaskEndDate());
 			}
-			if (newTask.getTaskStartDate() != -1 && newTask.getTaskEndDate() == -1) {
+			if (!newTask.taskStartDateIsEmpty()&& newTask.taskEndDateIsEmpty()) {
 				newTask.setTaskEndDate(newTask.getTaskStartDate());
 			}
-			if (newTask.getTaskStartTime() == -1 && newTask.getTaskEndTime() == -1) {
+			if (newTask.taskStartTimeIsEmpty() && newTask.taskEndTimeIsEmpty()) {
 				newTask.setTaskStartTime(0);
 				newTask.setTaskEndTime(2359);
 			}
-			if (newTask.getTaskStartTime() == -1 && newTask.getTaskEndTime() != -1) {
+			if (newTask.taskStartTimeIsEmpty() && !newTask.taskEndTimeIsEmpty()) {
 				newTask.setTaskStartTime(newTask.getTaskEndTime());
 			}
-			if (newTask.getTaskStartTime() != -1 && newTask.getTaskEndTime() == -1) {
+			if (!newTask.taskStartTimeIsEmpty() && newTask.taskEndTimeIsEmpty()) {
 				newTask.setTaskEndTime(newTask.getTaskStartTime());
 			}
 		}
@@ -300,9 +292,9 @@ public class Parser {
 		newTask.setTaskEndTime(timeInfo[1]);
 	}
 
-	private void retrieveTime(){
-		
-	}
+//	private Calendar currentCalendarObject(){
+//		
+//	}
 	
 	public String getCurrentDate() {
 		DateFormat df = new SimpleDateFormat("ddMMyy");

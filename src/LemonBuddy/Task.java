@@ -49,6 +49,8 @@ public class Task implements Serializable {
 		return temp;
 	}
 
+	//TASK DATA MODIFIERS//
+	
 	public Task mergeTaskDetails(Task initialTask) {
 		if (this.taskName.equals("")) {
 			this.taskName = initialTask.getTaskName();
@@ -148,6 +150,10 @@ public class Task implements Serializable {
 	 * public void addDesc(String desc){ this.desc += desc; }
 	 */
 
+	
+	
+	//RETRIEVERS//
+	
 	public String getTaskName() {
 		StringBuffer buffer = new StringBuffer(this.taskName);
 		return buffer.toString();
@@ -174,11 +180,7 @@ public class Task implements Serializable {
 	public int getTaskStartDate() {
 		return this.taskStartDate;
 	}
-
-	public int getTaskEndDate() {
-		return this.taskEndDate;
-	}
-
+	
 	public String getTaskStartDateString() {
 		if (this.taskStartDate == -1) {
 			return "-1";
@@ -191,6 +193,18 @@ public class Task implements Serializable {
 				+ dateString.substring(4, 6);
 		return newDate;
 
+	}
+
+	public Boolean taskStartDateIsEmpty() {
+		if (this.taskStartDate == -1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public int getTaskEndDate() {
+		return this.taskEndDate;
 	}
 
 	public String getTaskEndDateString() {
@@ -206,32 +220,58 @@ public class Task implements Serializable {
 		return newDate;
 	}
 
+	public Boolean taskEndDateIsEmpty() {
+		if (this.taskEndDate == -1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public int getTaskStartTime() {
 		return this.taskStartTime;
 	}
-	public String getTaskStartTimeString(){
+
+	public String getTaskStartTimeString() {
 		if (this.taskStartTime == -1) {
 			return "" + this.taskStartTime;
 		}
 		String startTime = Integer.toString(this.taskStartTime);
-		while(startTime.length()<4){
-			startTime = "0"+startTime;
+		while (startTime.length() < 4) {
+			startTime = "0" + startTime;
 		}
 		return startTime;
 	}
+	
+	public Boolean taskStartTimeIsEmpty(){
+		if (this.taskStartTime == -1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public int getTaskEndTime() {
 		return this.taskEndTime;
 	}
 
-	public String getTaskEndTimeString(){
+	public String getTaskEndTimeString() {
 		if (this.taskEndTime == -1) {
 			return "" + this.taskEndTime;
 		}
 		String endTime = Integer.toString(this.taskEndTime);
-		while(endTime.length()<4){
-			endTime = "0"+endTime;
+		while (endTime.length() < 4) {
+			endTime = "0" + endTime;
 		}
 		return endTime;
+	}
+
+	public Boolean taskEndTimeIsEmpty(){
+		if (this.taskEndTime == -1) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public String getTaskPriority() {
