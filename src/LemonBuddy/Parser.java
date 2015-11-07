@@ -23,12 +23,12 @@ public class Parser {
 		int wordIndex = 1;
 		String taskName = "";
 		newTask.setTaskType(TASKTYPE_FLOATING);
-		
+
 		wordIndex = parseTaskName(commandParts, newTask, wordIndex, taskName);
 		wordIndex = parseDescription(commandParts, newTask, wordIndex);
 		wordIndex = parsePriority(commandParts, newTask, wordIndex);
 		wordIndex = parseTime(commandParts, newTask, wordIndex);
-		
+
 		return newTask;
 
 	}
@@ -37,7 +37,8 @@ public class Parser {
 		while (true) {
 
 			if (commandParts[wordIndex].equals(KEYWORD_ON) || commandParts[wordIndex].equals(KEYWORD_FROM)
-					|| commandParts[wordIndex].substring(0, 1).equals(KEYWORD_PRIORITY) || commandParts[wordIndex].equals(KEYWORD_DESCRIPTION)
+					|| commandParts[wordIndex].substring(0, 1).equals(KEYWORD_PRIORITY)
+					|| commandParts[wordIndex].equals(KEYWORD_DESCRIPTION)
 					|| commandParts[wordIndex].equals(KEYWORD_BY)) {
 				break;
 			}
@@ -154,24 +155,44 @@ public class Parser {
 	}
 
 	private int parseTime(String[] commandParts, Task newTask, int wordIndex) throws Exception {
+
 		detectFromToFormat(commandParts);
-		classifyTaskType(commandParts, newTask, wordIndex);	
-		
+		setInputTime(commandParts, newTask, wordIndex);
 		setFromToDefaultTime(newTask);
 		setDeadlineDefaultTime(newTask);
+		
+		checkValidDateTimeInput(newTask);
 		return wordIndex;
 	}
-	
-	private void classifyTaskType(String[] commandParts, Task newTask, int wordIndex) throws Exception {
+
+	private void checkValidDateTimeInput(Task newTask) throws ParseException, Exception {
+		if (newTask.getTaskType().equals(TASKTYPE_EVENT)) {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+			Date date1 = sdf.parse(newTask.getTaskStartDateString());
+			Date date2 = sdf.parse(newTask.getTaskEndDateString());
+			if (date1.after(date2)) {
+				System.out.println("Date1 is after Date2");
+				throw new Exception("Start date after end date");
+			}
+			
+			if(newTask.getTaskStartDate()==newTask.getTaskEndDate()){
+				if(newTask.getTaskStartTime()>newTask.getTaskEndTime()){
+					throw new Exception("Start time is after end time");
+				}
+			}
+		}
+	}
+
+	private void setInputTime(String[] commandParts, Task newTask, int wordIndex) throws Exception {
 		while (wordIndex < commandParts.length) {
 			Boolean comma = false;
 			switch (commandParts[wordIndex++]) {
 			case KEYWORD_ON:
 				wordIndex = splitCommaStart(commandParts, newTask, wordIndex, comma);
-				//qSystem.out.println("time = " + newTask.getTaskStartTime());
+				// qSystem.out.println("time = " + newTask.getTaskStartTime());
 				setOnDefaultTime(newTask);
 				addOneHourToEnd(newTask);
-				newTask.setTaskType(TASKTYPE_EVENT);		
+				newTask.setTaskType(TASKTYPE_EVENT);
 				break;
 			case KEYWORD_BY:
 				wordIndex = splitCommaEnd(commandParts, newTask, wordIndex, comma);
@@ -183,10 +204,10 @@ public class Parser {
 				wordIndex++;
 				wordIndex++;
 				wordIndex = splitCommaEnd(commandParts, newTask, wordIndex, comma);
-			
+
 				newTask.setTaskType(TASKTYPE_EVENT);
 				break;
-			}			
+			}
 		}
 	}
 
@@ -247,7 +268,7 @@ public class Parser {
 			if (newTask.taskStartDateIsEmpty() && !newTask.taskEndDateIsEmpty()) {
 				newTask.setTaskStartDate(newTask.getTaskEndDate());
 			}
-			if (!newTask.taskStartDateIsEmpty()&& newTask.taskEndDateIsEmpty()) {
+			if (!newTask.taskStartDateIsEmpty() && newTask.taskEndDateIsEmpty()) {
 				newTask.setTaskEndDate(newTask.getTaskStartDate());
 			}
 			if (newTask.taskStartTimeIsEmpty() && newTask.taskEndTimeIsEmpty()) {
@@ -269,25 +290,26 @@ public class Parser {
 	}
 
 	private void addOneDayToStart(Task newTask) {
-		int date = Integer.valueOf(getCurrentDate());
-		int time = Integer.valueOf(getCurrentTime());
-		Calendar endDate = Calendar.getInstance();
-
+		Calendar startDate = Calendar.getInstance();
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyy HHmm");
-		endDate.set((date % 100) + 2000, (date / 100) % 100 - 1, (date / 10000), time / 100, time % 100, 0);
-		endDate.add(Calendar.HOUR, 24);
-		String[] timeInfo = dateFormatter.format(endDate.getTime()).split(" ");
+
+		retrieveCurrentCalendar(startDate);
+		startDate.add(Calendar.HOUR, 24);
+		String[] timeInfo = dateFormatter.format(startDate.getTime()).split(" ");
 		newTask.setTaskStartDate(timeInfo[0]);
 
 	}
 
-	private void addOneDayToEnd(Task newTask) {
+	private void retrieveCurrentCalendar(Calendar startDate) {
 		int date = Integer.valueOf(getCurrentDate());
 		int time = Integer.valueOf(getCurrentTime());
-		Calendar endDate = Calendar.getInstance();
+		startDate.set((date % 100) + 2000, (date / 100) % 100 - 1, (date / 10000), time / 100, time % 100, 0);
+	}
 
+	private void addOneDayToEnd(Task newTask) {
+		Calendar endDate = Calendar.getInstance();
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyy HHmm");
-		endDate.set((date % 100) + 2000, (date / 100) % 100 - 1, (date / 10000), time / 100, time % 100, 0);
+		retrieveCurrentCalendar(endDate);
 		endDate.add(Calendar.HOUR, 24);
 		String[] timeInfo = dateFormatter.format(endDate.getTime()).split(" ");
 		newTask.setTaskEndDate(timeInfo[0]);
@@ -295,21 +317,25 @@ public class Parser {
 	}
 
 	private void addOneHourToEnd(Task newTask) {
-		int date = newTask.getTaskStartDate();
-		int time = newTask.getTaskStartTime();
 		Calendar endTime = Calendar.getInstance();
-		endTime.set(((date % 100) + 2000), (date / 100) % 100 - 1, (date / 10000), time / 100, time % 100, 0);
+		retrieveStartTimeCalendar(newTask, endTime);
 		endTime.add(Calendar.HOUR, 1);
+		setNewEndTime(newTask, endTime);
+	}
+
+	private void setNewEndTime(Task newTask, Calendar endTime) {
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyy HHmm");
 		String[] timeInfo = dateFormatter.format(endTime.getTime()).split(" ");
 		newTask.setTaskEndDate(timeInfo[0]);
 		newTask.setTaskEndTime(timeInfo[1]);
 	}
 
-//	private Calendar currentCalendarObject(){
-//		
-//	}
-	
+	private void retrieveStartTimeCalendar(Task newTask, Calendar endTime) {
+		int date = newTask.getTaskStartDate();
+		int time = newTask.getTaskStartTime();
+		endTime.set(((date % 100) + 2000), (date / 100) % 100 - 1, (date / 10000), time / 100, time % 100, 0);
+	}
+
 	public String getCurrentDate() {
 		DateFormat df = new SimpleDateFormat("ddMMyy");
 		Date dateobj = new Date();
