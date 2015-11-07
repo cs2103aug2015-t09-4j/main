@@ -53,7 +53,7 @@ public class CommandExecutor {
 
 		int taskToEditIndex = writeUntilTaskIndex(commandParts, fullList);
 		Task taskToEdit = fullList.get(taskToEditIndex);
-		FileStorage.writeObjectAsString(newTask.merge(taskToEdit));
+		FileStorage.writeObjectAsString(newTask.mergeTaskDetails(taskToEdit));
 		LemonGUIController.setTask(newTask);
 		writeRestOfList(fullList, taskToEditIndex);
 	}

@@ -57,11 +57,11 @@ public class TestParser extends Parser {
 		commandParts = splitString("add spectacular spiderman on 1000, 12/12/15 *medium desc super");
 		testParseEvent(commandParts, "spectacular spiderman", 121215, 121215, 1000, 1100, "medium", "super");
 		
-		commandParts = splitString("add spectacular spiderman on 201225, 1200 *high desc spec");
-		testParseEvent(commandParts, "spectacular spiderman", 201225, 201225, 1200, 1300, "high", "spec");
+		commandParts = splitString("add spectacular spiderman on 201225, 1200");
+		testParseEvent(commandParts, "spectacular spiderman", 201225, 201225, 1200, 1300, "", "");
 		
-		commandParts = splitString("add spectacular spiderman from 1000, 12/12/15 to 1200");
-		testParseEvent(commandParts, "spectacular spiderman", 121215, 121215, 1000, 1200, "", "");
+		commandParts = splitString("add spectacular spiderman from 1000, 12/12/15 to 1200 *high desc super spec");
+		testParseEvent(commandParts, "spectacular spiderman", 121215, 121215, 1000, 1200, "high", "super spec");
 		
 		commandParts = splitString("add spectacular spiderman from 201225, 1200 to 221225");
 		testParseEvent(commandParts, "spectacular spiderman", 201225, 221225, 1200, 1200, "", "");

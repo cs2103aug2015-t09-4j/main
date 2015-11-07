@@ -49,7 +49,7 @@ public class Task implements Serializable {
 		return temp;
 	}
 
-	public Task merge(Task initialTask) {
+	public Task mergeTaskDetails(Task initialTask) {
 		if (this.taskName.equals("")) {
 			this.taskName = initialTask.getTaskName();
 		}
