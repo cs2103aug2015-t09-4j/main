@@ -20,15 +20,23 @@ public class Task implements Serializable {
 	private String recurEndDate;
 	// private String desc= "";
 	/*
-	 * public void Task(){ this.taskName = ""; this.taskType = "";
-	 * this.taskStartDate = ""; this.taskEndDate = ""; this.taskPriority = "";
-	 * this.taskDescription = ""; this.taskStartTime = ""; this.taskEndTime =
-	 * ""; // for recurring this.recurType = ""; this.recurStartDate = "";
+	 * public void Task(){ 
+	 * this.taskName = ""; 
+	 * this.taskType = "";
+	 * this.taskStartDate = ""; 
+	 * this.taskEndDate = ""; 
+	 * this.taskPriority = "";
+	 * this.taskDescription = ""; 
+	 * this.taskStartTime = ""; 
+	 * this.taskEndTime =
+	 * ""; // 
+	 * for recurring this.recurType = ""; 
+	 * this.recurStartDate = "";
 	 * this.recurEndDate = "";
 	 * 
 	 * // private String desc= ""; }
 	 */
-
+	
 	public String toString() {
 		String temp = "";
 		temp = temp + "taskname:" + taskName + ";";
