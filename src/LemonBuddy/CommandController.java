@@ -40,17 +40,11 @@ public class CommandController {
 			if (commandcontroller == null) {
 				commandcontroller = new CommandController();
 			}
-			
 			String[] commandParts = commandcontroller.splitCommand(command);
 			String commandType = commandParts[0];
 			
-			
-			if (commandType.equals(COMMAND_ADD) || commandType.equals(COMMAND_DELETE)
-					|| commandType.equals(COMMAND_EDIT) || commandType.equals(COMMAND_RECUR)
-					|| commandType.equals(COMMAND_DONE)) {
-				commandexecutor.saveLastState();
-			}
-			
+			executeSaveLastState(commandType);
+
 			switch (commandType) {
 			case COMMAND_ADD:
 				commandexecutor.executeAdd(commandParts);
@@ -64,7 +58,7 @@ public class CommandController {
 				}
 				commandexecutor.executeDelete(commandParts);
 				break;
-				
+
 			case COMMAND_EDIT:
 				if (!commandcontroller.isValidTaskType(commandParts[1])) {
 					throw new Exception("Invalid task type");
@@ -81,11 +75,11 @@ public class CommandController {
 			case COMMAND_UNDO:
 				commandexecutor.executeUndo();
 				break;
-				
+
 			case COMMAND_REDO:
 				commandexecutor.executeRedo();
 				break;
-				
+
 			case COMMAND_NAVIGATE:
 				commandexecutor.executeNavigate(commandParts);
 				break;
@@ -131,6 +125,14 @@ public class CommandController {
 		} catch (Exception e) {
 			logger.log(Level.WARNING, "processing error", e);
 			e.printStackTrace();
+		}
+	}
+
+	private static void executeSaveLastState(String commandType) throws Exception, IOException {
+		if (commandType.equals(COMMAND_ADD) || commandType.equals(COMMAND_DELETE)
+				|| commandType.equals(COMMAND_EDIT) || commandType.equals(COMMAND_RECUR)
+				|| commandType.equals(COMMAND_DONE)) {
+			commandexecutor.saveLastState();
 		}
 	}
 

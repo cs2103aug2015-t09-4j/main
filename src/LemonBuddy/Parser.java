@@ -8,22 +8,37 @@ import java.util.Date;
 
 public class Parser {
 
+	private static final String KEYWORD_TOMORROW = "tomorrow";
+	private static final String KEYWORD_BY = "by";
+	private static final String KEYWORD_DESCRIPTION = "desc";
+	private static final String KEYWORD_PRIORITY = "*";
+	private static final String KEYWORD_FROM = "from";
+	private static final String KEYWORD_ON = "on";
 	private static final String TASKTYPE_FLOATING = "floating";
 	private static final String TASKTYPE_DEADLINE = "deadline";
 	private static final String TASKTYPE_EVENT = "event";
 
 	public Task parseTask(String[] commandParts) throws Exception {
 		Task newTask = new Task();
-
 		int wordIndex = 1;
 		String taskName = "";
 		newTask.setTaskType(TASKTYPE_FLOATING);
-		// this while loop gets task name
+		
+		wordIndex = parseTaskName(commandParts, newTask, wordIndex, taskName);
+		wordIndex = parseDescription(commandParts, newTask, wordIndex);
+		wordIndex = parsePriority(commandParts, newTask, wordIndex);
+		wordIndex = parseTime(commandParts, newTask, wordIndex);
+		
+		return newTask;
+
+	}
+
+	private int parseTaskName(String[] commandParts, Task newTask, int wordIndex, String taskName) {
 		while (true) {
 
-			if (commandParts[wordIndex].equals("on") || commandParts[wordIndex].equals("from")
-					|| commandParts[wordIndex].substring(0, 1).equals("*") || commandParts[wordIndex].equals("desc")
-					|| commandParts[wordIndex].equals("by")) {
+			if (commandParts[wordIndex].equals(KEYWORD_ON) || commandParts[wordIndex].equals(KEYWORD_FROM)
+					|| commandParts[wordIndex].substring(0, 1).equals(KEYWORD_PRIORITY) || commandParts[wordIndex].equals(KEYWORD_DESCRIPTION)
+					|| commandParts[wordIndex].equals(KEYWORD_BY)) {
 				break;
 			}
 			taskName = taskName + commandParts[wordIndex++];
@@ -34,12 +49,7 @@ public class Parser {
 		}
 		taskName = taskName.trim();
 		newTask.setTaskName(taskName);
-		wordIndex = parseDescription(commandParts, newTask, wordIndex);
-		wordIndex = parsePriority(commandParts, newTask, wordIndex);
-		wordIndex = parseTime(commandParts, newTask, wordIndex);
-		
-		return newTask;
-
+		return wordIndex;
 	}
 
 	/**
@@ -51,7 +61,7 @@ public class Parser {
 	private int parseDescription(String[] commandParts, Task newTask, int wordIndex) {
 		int initialIndex = wordIndex;
 		while (wordIndex < commandParts.length) {
-			if (commandParts[wordIndex].equals("desc")) {
+			if (commandParts[wordIndex].equals(KEYWORD_DESCRIPTION)) {
 				String taskDesc = "";
 				wordIndex++;
 				while (true) {
@@ -77,7 +87,7 @@ public class Parser {
 	private int parsePriority(String[] commandParts, Task newTask, int wordIndex) {
 		int initialIndex = wordIndex;
 		while (wordIndex < commandParts.length) {
-			if (commandParts[wordIndex].substring(0, 1).equals("*")) {
+			if (commandParts[wordIndex].substring(0, 1).equals(KEYWORD_PRIORITY)) {
 				newTask.setTaskPriority(commandParts[wordIndex].substring(1));
 			}
 			wordIndex++;
@@ -156,31 +166,18 @@ public class Parser {
 		while (wordIndex < commandParts.length) {
 			Boolean comma = false;
 			switch (commandParts[wordIndex++]) {
-			case "on":
+			case KEYWORD_ON:
 				wordIndex = splitCommaStart(commandParts, newTask, wordIndex, comma);
 				//qSystem.out.println("time = " + newTask.getTaskStartTime());
-				if (newTask.taskStartDateIsEmpty() && newTask.taskEndDateIsEmpty()) {
-					newTask.setTaskStartDate(getCurrentDate());
-					newTask.setTaskEndDate(getCurrentDate());
-				}
-				if (newTask.taskStartDateIsEmpty() && !newTask.taskEndDateIsEmpty()) {
-					newTask.setTaskStartDate(newTask.getTaskEndDate());
-				}
-				if (!newTask.taskStartDateIsEmpty() && newTask.taskEndDateIsEmpty()) {
-					newTask.setTaskEndDate(newTask.getTaskStartDate());
-				}
-				if (newTask.taskStartTimeIsEmpty() && newTask.taskEndTimeIsEmpty()) {
-					newTask.setTaskStartTime(getCurrentTime());
-					newTask.setTaskEndTime(getCurrentTime());
-				}
+				setOnDefaultTime(newTask);
 				addOneHourToEnd(newTask);
 				newTask.setTaskType(TASKTYPE_EVENT);		
 				break;
-			case "by":
+			case KEYWORD_BY:
 				wordIndex = splitCommaEnd(commandParts, newTask, wordIndex, comma);
 				newTask.setTaskType(TASKTYPE_DEADLINE);
 				break;
-			case "from":
+			case KEYWORD_FROM:
 				wordIndex = splitCommaStart(commandParts, newTask, wordIndex, comma);
 
 				wordIndex++;
@@ -193,11 +190,28 @@ public class Parser {
 		}
 	}
 
+	private void setOnDefaultTime(Task newTask) {
+		if (newTask.taskStartDateIsEmpty() && newTask.taskEndDateIsEmpty()) {
+			newTask.setTaskStartDate(getCurrentDate());
+			newTask.setTaskEndDate(getCurrentDate());
+		}
+		if (newTask.taskStartDateIsEmpty() && !newTask.taskEndDateIsEmpty()) {
+			newTask.setTaskStartDate(newTask.getTaskEndDate());
+		}
+		if (!newTask.taskStartDateIsEmpty() && newTask.taskEndDateIsEmpty()) {
+			newTask.setTaskEndDate(newTask.getTaskStartDate());
+		}
+		if (newTask.taskStartTimeIsEmpty() && newTask.taskEndTimeIsEmpty()) {
+			newTask.setTaskStartTime(getCurrentTime());
+			newTask.setTaskEndTime(getCurrentTime());
+		}
+	}
+
 	private void detectFromToFormat(String[] commandParts) throws Exception {
 		Boolean from = false;
 		Boolean to = false;
 		for (String part : commandParts) {
-			if (part.contains("from")) {
+			if (part.contains(KEYWORD_FROM)) {
 				from = true;
 			}
 		}
@@ -334,7 +348,7 @@ public class Parser {
 				throw new Exception("Invalid Date");
 			}
 			newTask.setTaskStartDate(taskOn);
-		} else if (taskOn.equals("tomorrow")) {
+		} else if (taskOn.equals(KEYWORD_TOMORROW)) {
 			addOneDayToStart(newTask);
 			addOneDayToEnd(newTask);
 		}
@@ -355,7 +369,7 @@ public class Parser {
 					throw new Exception("Invalid Date");
 				}
 				newTask.setTaskStartDate(taskOn);
-			} else if (taskOn.equals("tomorrow")) {
+			} else if (taskOn.equals(KEYWORD_TOMORROW)) {
 				addOneDayToStart(newTask);
 				addOneDayToEnd(newTask);
 			}
@@ -391,7 +405,7 @@ public class Parser {
 			newTask.setTaskEndDate(taskTo);
 		}
 
-		else if (taskTo.equals("tomorrow")) {
+		else if (taskTo.equals(KEYWORD_TOMORROW)) {
 			addOneDayToEnd(newTask);
 
 		}
@@ -413,7 +427,7 @@ public class Parser {
 					throw new Exception("Invalid Date");
 				}
 				newTask.setTaskEndDate(taskTo);
-			} else if (taskTo.equals("tomorrow")) {
+			} else if (taskTo.equals(KEYWORD_TOMORROW)) {
 				addOneDayToEnd(newTask);
 
 			}

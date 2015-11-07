@@ -3,21 +3,21 @@ package LemonBuddy;
 import java.io.Serializable;
 
 public class Task implements Serializable {
-	private String taskName = "";
-	private String taskType = "";
-	private int taskStartDate = -1;
-	private int taskEndDate = -1;
-	private String taskPriority = "";
-	private String taskDescription = "";
-	private boolean taskIsDone = false;
-	private boolean taskIsOverdue = false;
-	private boolean taskIsNewest = false;
-	private int taskStartTime = -1;
-	private int taskEndTime = -1;
+	private String taskName;
+	private String taskType;
+	private int taskStartDate;
+	private int taskEndDate;
+	private String taskPriority;
+	private String taskDescription;
+	private boolean taskIsDone;
+	private boolean taskIsOverdue;
+	private boolean taskIsNewest;
+	private int taskStartTime;
+	private int taskEndTime;
 	// for recurring
-	private String recurType = "";
-	private String recurStartDate = "";
-	private String recurEndDate = "";
+	private String recurType;
+	private String recurStartDate;
+	private String recurEndDate;
 	// private String desc= "";
 	/*
 	 * public void Task(){ this.taskName = ""; this.taskType = "";
@@ -49,6 +49,25 @@ public class Task implements Serializable {
 		return temp;
 	}
 
+	//initialiser
+	public Task(){
+		taskName = "";
+		taskType = "";
+		taskStartDate = -1;
+		taskEndDate = -1;
+		taskPriority = "";
+		taskDescription = "";
+		taskIsDone = false;
+		taskIsOverdue = false;
+		taskIsNewest = false;
+		taskStartTime = -1;
+		taskEndTime = -1;
+		// for recurring
+		recurType = "";
+		recurStartDate = "";
+		recurEndDate = "";
+	}
+	
 	//TASK DATA MODIFIERS//
 	
 	public Task mergeTaskDetails(Task initialTask) {

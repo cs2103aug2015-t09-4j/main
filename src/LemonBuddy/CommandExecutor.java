@@ -33,24 +33,26 @@ public class CommandExecutor {
 
 	// PRIORITY AND DESCRIPTION NOT DONE
 	public void executeAdd(String[] commandParts) throws Exception {
+		String commandType = commandParts[0];		
+		
 		Task newTask = parser.parseTask(commandParts);
 		newTask.setTaskIsNewest();
 		FileStorage.writeObjectAsString(newTask);
 		LemonGUIController.setTask(newTask);
-		LemonGUIController.setCommand(commandParts[0]);
+		LemonGUIController.setCommand(commandType);
 	}
 
 	public void executeEdit(String[] commandParts) throws Exception {
-		LemonGUIController.setCommand(commandParts[0]);
-		String[] stringToParse = new String[commandParts.length - 2];
-		for (int i = 2; i < commandParts.length; i++) {
-			stringToParse[i - 2] = commandParts[i];
-		}
-		stringToParse[0] = "";
-		Task newTask = parser.parseTask(stringToParse);
+		String commandType = commandParts[0];
+		LemonGUIController.setCommand(commandType);
+		String[] stringToParse = getStringForParsing(commandParts);
+		Task newTask = parser.parseTask(stringToParse);		
+		editTaskDetails(commandParts, newTask);
+	}
+
+	private void editTaskDetails(String[] commandParts, Task newTask) throws IOException, ClassNotFoundException {
 		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
 		FileStorage.clear();
-
 		int taskToEditIndex = writeUntilTaskIndex(commandParts, fullList);
 		Task taskToEdit = fullList.get(taskToEditIndex);
 		FileStorage.writeObjectAsString(newTask.mergeTaskDetails(taskToEdit));
@@ -58,17 +60,30 @@ public class CommandExecutor {
 		writeRestOfList(fullList, taskToEditIndex);
 	}
 
+	private String[] getStringForParsing(String[] commandParts) {
+		String[] stringToParse = new String[commandParts.length - 2];
+		for (int i = 2; i < commandParts.length; i++) {
+			stringToParse[i - 2] = commandParts[i];
+		}
+		stringToParse[0] = "";
+		return stringToParse;
+	}
+
 	public void executeDelete(String[] commandParts) throws Exception {
+		String commandType = commandParts[0];
 		String deleteId = commandParts[2];
 		ArrayList<Task> array = FileStorage.readStringAsObject(path);
 		assert(array != null) : "unable to read from specified path";
 		if (Integer.valueOf(deleteId) > array.size() || Integer.valueOf(deleteId) <= 0) {
 			return;
 		}
-		LemonGUIController.setCommand(commandParts[0]);
+		LemonGUIController.setCommand(commandType);
+		removeTaskFromFile(commandParts);
+	}
+
+	private void removeTaskFromFile(String[] commandParts) throws IOException, ClassNotFoundException {
 		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
 		FileStorage.clear();
-
 		int taskToDeleteIndex = writeUntilTaskIndex(commandParts, fullList);
 		Task taskToDelete = fullList.get(taskToDeleteIndex);
 		LemonGUIController.setTask(taskToDelete);
