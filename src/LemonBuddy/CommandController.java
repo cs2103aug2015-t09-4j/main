@@ -45,7 +45,7 @@ public class CommandController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String command = "add bumbling bumblebee by 0010, 25/12/15 desc during by 1010";
+		String command = "add test from 050516, 1400 to 060516, 1600 *high desc hello world";
 		commandcontroller.processCommand(command);
 	}
 	/////////////////////////////////////////////////////////////////////

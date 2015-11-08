@@ -95,7 +95,7 @@ public class Parser {
 		return initialIndex;
 	}
 
-	public static Task createTaskFromInformation(String s) {
+	public static Task createTaskFromString(String s) {
 		String[] array = s.split(";");
 		Task t = new Task();
 		for (int i = 0; i < array.length; i++) {
@@ -106,14 +106,6 @@ public class Parser {
 				break;
 			case "tasktype":
 				t.setTaskType(temp[1]);
-				break;
-			case "taskIsDone":
-				if (temp[1].equals("true"))
-					t.setTaskIsDone();
-				break;
-			case "taskIsOverdue":
-				if (temp[1].equals("true"))
-					t.setTaskIsOverdue();
 				break;
 			case "taskIsNewest":
 				if (temp[1].equals("true"))
@@ -136,15 +128,6 @@ public class Parser {
 				break;
 			case "taskEndTime":
 				t.setTaskEndTime(temp[1]);
-				break;
-			case "recurType":
-				t.setRecurType(temp[1]);
-				break;
-			case "recurStartDate":
-				t.setRecurStartDate(temp[1]);
-				break;
-			case "recurEndDate":
-				t.setRecurEndDate(temp[1]);
 				break;
 			default:
 				break;
@@ -189,7 +172,7 @@ public class Parser {
 			}
 			Boolean comma = false;
 			switch (commandParts[wordIndex++]) {
-			
+
 			case KEYWORD_ON:
 				wordIndex = splitCommaStart(commandParts, newTask, wordIndex, comma);
 				// qSystem.out.println("time = " + newTask.getTaskStartTime());
@@ -211,7 +194,7 @@ public class Parser {
 				newTask.setTaskType(TASKTYPE_EVENT);
 				break;
 			}
-			
+
 		}
 	}
 
@@ -305,9 +288,10 @@ public class Parser {
 	}
 
 	private void retrieveCurrentCalendar(Calendar startDate) {
-		int date = Integer.valueOf(getCurrentDate());
-		int time = Integer.valueOf(getCurrentTime());
-		startDate.set((date % 100) + 2000, (date / 100) % 100 - 1, (date / 10000), time / 100, time % 100, 0);
+		String date = getCurrentDate();
+		String time = getCurrentTime();
+		startDate.set(Integer.parseInt(date.substring(4,6)), Integer.parseInt(date.substring(2,4))-1, Integer.parseInt(date.substring(0,2)), Integer.parseInt(time.substring(0,2)), Integer.parseInt(time.substring(2,4)), 0);
+
 	}
 
 	private void addOneDayToEnd(Task newTask) {
@@ -335,9 +319,11 @@ public class Parser {
 	}
 
 	private void retrieveStartTimeCalendar(Task newTask, Calendar endTime) {
-		int date = Integer.parseInt(newTask.getTaskStartDate());
-		int time = Integer.parseInt(newTask.getTaskStartTime());
-		endTime.set(((date % 100) + 2000), (date / 100) % 100 - 1, (date / 10000), time / 100, time % 100, 0);
+		String date = newTask.getTaskStartDate();
+		String time = newTask.getTaskStartTime();
+		endTime.set(Integer.parseInt(date.substring(4, 6)), Integer.parseInt(date.substring(2, 4)) - 1,
+				Integer.parseInt(date.substring(0, 2)), Integer.parseInt(time.substring(0, 2)),
+				Integer.parseInt(time.substring(2, 4)), 0);
 	}
 
 	public String getCurrentDate() {

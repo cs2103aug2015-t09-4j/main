@@ -209,16 +209,16 @@ public class CommandExecutor extends FileStorage{
 		for (int i = 0; i < deadlineTasks.size(); i++) {
 			Task taskToCheck = deadlineTasks.get(i);
 			String endDate = taskToCheck.getTaskEndDate();
-				if (parser.endDatePassed(currentDate, endDate) && (taskToCheck.getTaskIsOverdue() == false)) {
-					taskToCheck.setTaskIsOverdue();
+				if (parser.endDatePassed(currentDate, endDate) && (!taskToCheck.getTaskType().equals(TASKTYPE_OVERDUE))) {
+					taskToCheck.setTaskType(TASKTYPE_OVERDUE);
 				}
 		}
 			
 		for (int j = 0; j < eventTasks.size(); j++) {
 			Task taskToCheck = eventTasks.get(j);
 			String endDate = taskToCheck.getTaskEndDate();
-				if (parser.endDatePassed(currentDate, endDate) && (taskToCheck.getTaskIsDone() == false)) {
-					taskToCheck.setTaskIsDone();
+				if (parser.endDatePassed(currentDate, endDate) && (!taskToCheck.getTaskType().equals(TASKTYPE_DONE))) {
+					taskToCheck.setTaskType(TASKTYPE_DONE);
 				}
 		}
 	}
@@ -258,7 +258,7 @@ public class CommandExecutor extends FileStorage{
 		// 3 types of arraylist here
 		for (int j = 0; j < fullList.size(); j++) {
 			currentTask = fullList.get(j);
-			if (currentTask.getTaskIsDone() == false) {
+			if (!currentTask.getTaskType().equals(TASKTYPE_DONE)) {
 				if (currentTask.getTaskType().equals(TASKTYPE_FLOATING)) {
 					floatingTasks.add(currentTask);
 				}
@@ -268,7 +268,7 @@ public class CommandExecutor extends FileStorage{
 				if (currentTask.getTaskType().equals(TASKTYPE_EVENT)) {
 					eventTasks.add(currentTask);
 				}
-				if (currentTask.getTaskIsOverdue() == true) {
+				if (currentTask.getTaskType().equals(TASKTYPE_OVERDUE)) {
 					overdueTasks.add(currentTask);
 				}
 			} else {

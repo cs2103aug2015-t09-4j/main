@@ -11,11 +11,24 @@ import org.junit.Test;
 public class TestParser extends Parser {
 
 	private Parser parser = new Parser();
+	private Task testTask;
 
 	@Before
 	public void setUp() throws Exception {
 		Parser parser = new Parser();
+		testTask.setTaskName("test");
+		testTask.setTaskType("event");
+		testTask.setTaskStartDate("050516");
+		testTask.setTaskEndDate("060516");
+		testTask.setTaskStartTime("1400");
+		testTask.setTaskEndTime("1600");
+		testTask.setTaskPriority("high");
+		testTask.setTaskDescription("hello world");
 	}
+
+//	public void testCreateTaskFromString(Task expectedTask, String storageString){
+//		assertEquals(expectedTask,);
+//	}
 
 	public void testParseEvent(String[] commandParts, String expectedName, String expectedStartDate,
 			String expectedEndDate, String expectedStartTime, String expectedEndTime, String expectedPriority,
@@ -84,7 +97,7 @@ public class TestParser extends Parser {
 			fail("Unknown exception");
 		}
 	}
-	
+
 	@Test
 	public void executeTestParseEvent() {
 		String[] commandParts = new String[50];
@@ -111,7 +124,8 @@ public class TestParser extends Parser {
 		testParseDeadline(commandParts, "bumbling bumblebee", "-1", getCurrentDate(), "-1", "0010", "", "");
 
 		commandParts = splitString("add bumbling bumblebee by 261215 *medium desc fly high");
-		testParseDeadline(commandParts, "bumbling bumblebee", "-1", "261215", "-1", getCurrentTime() , "medium", "fly high");
+		testParseDeadline(commandParts, "bumbling bumblebee", "-1", "261215", "-1", getCurrentTime(), "medium",
+				"fly high");
 	}
 
 	@Test

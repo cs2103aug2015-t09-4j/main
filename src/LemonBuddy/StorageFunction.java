@@ -27,7 +27,7 @@ public class StorageFunction extends FileStorage {
 			BufferedReader br = new BufferedReader(read); 
 			String lineText = null;
 			while((lineText = br.readLine()) != null) {
-        	 result.add(createTaskFromInformation(lineText));
+        	 result.add(createTaskFromString(lineText));
         	}
 			read.close();		
 		} catch (FileNotFoundException e) {

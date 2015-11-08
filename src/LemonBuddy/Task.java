@@ -7,52 +7,23 @@ public class Task implements Serializable {
 	private String taskType;
 	private String taskStartDate;
 	private String taskEndDate;
-	private String taskPriority;
-	private String taskDescription;
-	private boolean taskIsDone;
-	private boolean taskIsOverdue;
-	private boolean taskIsNewest;
 	private String taskStartTime;
 	private String taskEndTime;
-	// for recurring
-	private String recurType;
-	private String recurStartDate;
-	private String recurEndDate;
-	// private String desc= "";
-	/*
-	 * public void Task(){ 
-	 * this.taskName = ""; 
-	 * this.taskType = "";
-	 * this.taskStartDate = ""; 
-	 * this.taskEndDate = ""; 
-	 * this.taskPriority = "";
-	 * this.taskDescription = ""; 
-	 * this.taskStartTime = ""; 
-	 * this.taskEndTime =
-	 * ""; // 
-	 * for recurring this.recurType = ""; 
-	 * this.recurStartDate = "";
-	 * this.recurEndDate = "";
-	 * 
-	 * // private String desc= ""; }
-	 */
+	private String taskPriority;
+	private String taskDescription;
+	private boolean taskIsNewest;
 	
 	public String toString() {
 		String temp = "";
 		temp = temp + "taskname:" + taskName + ";";
 		temp = temp + "tasktype:" + taskType + ";";
-		temp = temp + "taskIsDone:" + taskIsDone + ";";
-		temp = temp + "taskIsOverdue:" + taskIsOverdue + ";";
 		temp = temp + "taskIsNewest:" + taskIsNewest + ";";
 		temp = temp + "taskStartDate:" + taskStartDate + ";";
 		temp = temp + "taskEndDate:" + taskEndDate + ";";
-		temp = temp + "taskPriority:" + taskPriority + ";";
-		temp = temp + "taskDescription:" + taskDescription + ";";
 		temp = temp + "taskStartTime:" + taskStartTime + ";";
 		temp = temp + "taskEndTime:" + taskEndTime + ";";
-		temp = temp + "recurType:" + recurType + ";";
-		temp = temp + "recurStartDate:" + recurStartDate + ";";
-		temp = temp + "recurEndDate:" + recurEndDate + ";";
+		temp = temp + "taskPriority:" + taskPriority + ";";
+		temp = temp + "taskDescription:" + taskDescription + ";";
 		temp = temp + "\n";
 		return temp;
 	}
@@ -65,15 +36,9 @@ public class Task implements Serializable {
 		taskEndDate = "-1";
 		taskPriority = "";
 		taskDescription = "";
-		taskIsDone = false;
-		taskIsOverdue = false;
 		taskIsNewest = false;
 		taskStartTime = "-1";
 		taskEndTime = "-1";
-		// for recurring
-		recurType = "";
-		recurStartDate = "";
-		recurEndDate = "";
 	}
 	
 	//TASK DATA MODIFIERS//
@@ -104,14 +69,6 @@ public class Task implements Serializable {
 
 	public void setTaskType(String taskType) {
 		this.taskType = taskType;
-	}
-
-	public void setTaskIsDone() {
-		this.taskIsDone = true;
-	}
-
-	public void setTaskIsOverdue() {
-		this.taskIsOverdue = true;
 	}
 
 	public void setTaskIsNewest() {
@@ -145,18 +102,6 @@ public class Task implements Serializable {
 	public void setTaskDescription(String taskDescription) {
 		this.taskDescription = taskDescription;
 	}
-
-	public void setRecurType(String recurType) {
-		this.recurType = recurType;
-	}
-
-	public void setRecurStartDate(String recurStartDate) {
-		this.recurStartDate = recurStartDate;
-	}
-
-	public void setRecurEndDate(String recurEndDate) {
-		this.recurEndDate = recurEndDate;
-	}
 	/*
 	 * public void addDesc(String desc){ this.desc += desc; }
 	 */
@@ -173,15 +118,6 @@ public class Task implements Serializable {
 	public String getTaskType() {
 		StringBuffer buffer = new StringBuffer(this.taskType);
 		return buffer.toString();
-	}
-
-	public Boolean getTaskIsDone() {
-		return this.taskIsDone;
-
-	}
-
-	public Boolean getTaskIsOverdue() {
-		return this.taskIsOverdue;
 	}
 
 	public Boolean getTaskIsNewest() {
@@ -244,21 +180,6 @@ public class Task implements Serializable {
 	public String getTaskDescription() {
 		StringBuffer buffer = new StringBuffer(this.taskDescription);
 		return buffer.toString();
-	}
-
-	public String getRecurType(String recurType) {
-		StringBuffer buffer = new StringBuffer(this.recurType);
-		return buffer.toString();
-	}
-
-	public Integer getRecurStartDate(Integer recurStartDate) {
-		StringBuffer buffer = new StringBuffer(this.recurStartDate);
-		return Integer.valueOf(buffer.toString());
-	}
-
-	public Integer getRecurEndDate(Integer recurEndDate) {
-		StringBuffer buffer = new StringBuffer(this.recurEndDate);
-		return Integer.valueOf(buffer.toString());
 	}
 
 }
