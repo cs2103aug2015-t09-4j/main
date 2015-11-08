@@ -50,13 +50,14 @@ public class CommandExecutor extends FileStorage{
 		lastListType = "overdue";
 	}
 	
-	public void updateLists(){
+	public void updateLists() throws IOException{
 		ArrayList<Task> newList = new ArrayList<Task>();
 		newList.addAll(floatingTasks);
 		newList.addAll(deadlineTasks);
 		newList.addAll(eventTasks);
 		newList = executeSort(newList);
 		ArrayList<ArrayList<Task>> updatedLists = StorageFunction.separateTaskList(newList);
+		FileStorage.writeObjectAsString(newList);
 		floatingTasks = updatedLists.get(0);
 		deadlineTasks = updatedLists.get(1);
 		eventTasks = updatedLists.get(2);
@@ -65,7 +66,6 @@ public class CommandExecutor extends FileStorage{
 		overdueTasks = updatedLists.get(5);
 	}
 	
-	// PRIORITY AND DESCRIPTION NOT DONE
 	public void executeAdd(String[] commandParts) throws Exception {
 		String commandType = commandParts[0];
 		System.out.println(commandType);
@@ -76,7 +76,6 @@ public class CommandExecutor extends FileStorage{
 		LemonGUIController.setTask(newTask);
 		LemonGUIController.setCommand(commandType);
 		System.out.println(newTask);
-		//System.out.println(newTask.getTaskName());
 		
 	}
 
@@ -103,15 +102,8 @@ public class CommandExecutor extends FileStorage{
 	public void executeDelete(String[] commandParts) throws Exception {
 		String commandType = commandParts[0];
 		int deleteId = Integer.valueOf(commandParts[1]);
-		// ArrayList<Task> array = FileStorage.readStringAsObject(path);
-		// assert(array != null) : "unable to read from specified path";
-		// if (Integer.valueOf(deleteId) > array.size() ||
-		// Integer.valueOf(deleteId) <= 0) {
-		// return;
-		// }
 		LemonGUIController.setCommand(commandType);
-		Task deletedTask = deleteTaskFromList(deleteId);
-		// removeTaskFromFile(commandParts);
+		deleteTaskFromList(deleteId);
 	}
 
 	private void addTaskToList(Task newTask) {

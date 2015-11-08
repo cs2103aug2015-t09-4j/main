@@ -19,6 +19,8 @@ public class TestParser {
 	private Parser parser = new Parser();
 	private Task testTask;
 	private String storageString;
+	
+	//INPUT CURRENT TIME/DATE DETAILS
 	private final String currentDate = "081115";
 	private final String tomorrowDate = "091115";
 	private final String currentTime = "2001";
