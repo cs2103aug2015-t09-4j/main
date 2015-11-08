@@ -26,10 +26,10 @@ public class CommandExecutor extends FileStorage{
 
 	private String lastListType;
 
-	private ArrayList<Task> allTasks;
 	private ArrayList<Task> floatingTasks;
 	private ArrayList<Task> deadlineTasks;
 	private ArrayList<Task> eventTasks;
+	private ArrayList<Task> allTasks;
 	private ArrayList<Task> doneTasks;
 	private ArrayList<Task> overdueTasks;
 
@@ -45,6 +45,7 @@ public class CommandExecutor extends FileStorage{
 		deadlineTasks = new ArrayList<Task>();
 		eventTasks = new ArrayList<Task>();
 		doneTasks = new ArrayList<Task>();
+		allTasks = new ArrayList<Task>();
 		overdueTasks = new ArrayList<Task>();
 		lastListType = "overdue";
 	}
@@ -314,7 +315,6 @@ public class CommandExecutor extends FileStorage{
 		}
 	}
 
-
 	public void executeRemoveNewest() throws IOException, ClassNotFoundException {
 		ArrayList<Task> array = FileStorage.readStringAsObject(path);
 		assert(array != null) : "unable to read from specified path";
@@ -416,7 +416,7 @@ public class CommandExecutor extends FileStorage{
 
 	}
 
-	public void executeSortFloating() throws ClassNotFoundException, IOException {
+	/*public void executeSortFloating() throws ClassNotFoundException, IOException {
 		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
 		// System.out.println("Hello");
 		int sizeToCheck = fullList.size();
@@ -435,7 +435,7 @@ public class CommandExecutor extends FileStorage{
 		for (int j = 0; j < fullList.size(); j++) {
 			FileStorage.writeObjectAsString(fullList.get(j));
 		}
-	}
+	}*/
 
 	public void executeClear(String[] commandParts) throws ClassNotFoundException, IOException {
 		ArrayList<Task> fullList = new ArrayList<Task>();
@@ -580,7 +580,6 @@ public class CommandExecutor extends FileStorage{
 	public void executeSearch(String[] commandParts) throws ClassNotFoundException, IOException {
 		LemonGUIController.setCommand("search");
 		LemonGUIController.setListType(commandParts[0]);
-		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
 		ArrayList<Task> searchResult = new ArrayList<Task>();
 
 		int phraseSize = commandParts.length - 1;
@@ -597,8 +596,8 @@ public class CommandExecutor extends FileStorage{
 
 		searchKeyword.toLowerCase();
 
-		for (int j = 0; j < fullList.size(); j++) {
-			Task searchedTask = fullList.get(j);
+		for (int j = 0; j < allTasks.size(); j++) {
+			Task searchedTask = allTasks.get(j);
 			if (searchedTask.getTaskName().toLowerCase().contains(searchKeyword)
 					|| searchedTask.getTaskDescription().toLowerCase().contains(searchKeyword)) {
 				searchResult.add(searchedTask);
