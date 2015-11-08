@@ -27,7 +27,6 @@ public class Parser {
 		wordIndex = parseDescription(commandParts, newTask, wordIndex);
 		wordIndex = parsePriority(commandParts, newTask, wordIndex);
 		wordIndex = parseTime(commandParts, newTask, wordIndex);
-		
 
 		return newTask;
 
@@ -160,7 +159,7 @@ public class Parser {
 		setInputTime(commandParts, newTask, wordIndex);
 		setFromToDefaultTime(newTask);
 		setDeadlineDefaultTime(newTask);
-		
+
 		checkValidDateTimeInput(newTask);
 		return wordIndex;
 	}
@@ -174,9 +173,9 @@ public class Parser {
 				System.out.println("Date1 is after Date2");
 				throw new Exception("Start date after end date");
 			}
-			
-			if(newTask.getTaskStartDate()==newTask.getTaskEndDate()){
-				if(Integer.parseInt(newTask.getTaskStartTime()) > Integer.parseInt(newTask.getTaskEndTime())) {
+
+			if (newTask.getTaskStartDate() == newTask.getTaskEndDate()) {
+				if (Integer.parseInt(newTask.getTaskStartTime()) > Integer.parseInt(newTask.getTaskEndTime())) {
 					throw new Exception("Start time is after end time");
 				}
 			}
@@ -185,11 +184,12 @@ public class Parser {
 
 	private void setInputTime(String[] commandParts, Task newTask, int wordIndex) throws Exception {
 		while (wordIndex < commandParts.length) {
-//			if(commandParts[wordIndex++].equals("desc")){
-//				break;
-//			}
+			if (commandParts[wordIndex].equals("desc")) {
+				break;
+			}
 			Boolean comma = false;
 			switch (commandParts[wordIndex++]) {
+			
 			case KEYWORD_ON:
 				wordIndex = splitCommaStart(commandParts, newTask, wordIndex, comma);
 				// qSystem.out.println("time = " + newTask.getTaskStartTime());
@@ -211,6 +211,7 @@ public class Parser {
 				newTask.setTaskType(TASKTYPE_EVENT);
 				break;
 			}
+			
 		}
 	}
 
@@ -530,8 +531,8 @@ public class Parser {
 	public boolean nextPriorityIsHigher(String currentPriority, String nextPriority) {
 		if (nextPriority.equals("high") && !currentPriority.equals("high")) {
 			return true;
-		} else
-			if (nextPriority.equals("medium") && !currentPriority.equals("high") && !currentPriority.equals("medium")) {
+		} else if (nextPriority.equals("medium") && !currentPriority.equals("high")
+				&& !currentPriority.equals("medium")) {
 			return true;
 		} else {
 			return false;

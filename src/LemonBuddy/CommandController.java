@@ -45,7 +45,7 @@ public class CommandController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String command = "add spectacular spiderman on 1000, 12/12/15 *medium desc super";
+		String command = "add bumbling bumblebee by 0010, 25/12/15 desc during by 1010";
 		commandcontroller.processCommand(command);
 	}
 	/////////////////////////////////////////////////////////////////////
