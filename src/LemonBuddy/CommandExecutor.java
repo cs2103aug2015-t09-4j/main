@@ -56,7 +56,7 @@ public class CommandExecutor extends FileStorage{
 		newList.addAll(deadlineTasks);
 		newList.addAll(eventTasks);
 		//sort?
-		ArrayList<ArrayList<Task>> updatedLists = FileStorage.separateTaskList(newList);
+		ArrayList<ArrayList<Task>> updatedLists = StorageFunction.separateTaskList(newList);
 		floatingTasks = updatedLists.get(0);
 		deadlineTasks = updatedLists.get(1);
 		eventTasks = updatedLists.get(2);

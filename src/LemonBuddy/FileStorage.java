@@ -6,10 +6,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class FileStorage extends Parser {
-    private String EMPTY_CONTENT = "";
-	public String filename = "default.txt";
+    private static String EMPTY_CONTENT = "";
+	public static String filename = "default.txt";
 	
-	public void clear() throws IOException {
+	public static void clear() throws IOException {
 		File f = new File(filename);	
 		assert(StorageFunction.checkFileStatus(f));
 		FileWriter fw = new FileWriter(f);
@@ -28,7 +28,7 @@ public class FileStorage extends Parser {
 		}
     }	
     
-	public void writeStringAsString(String s) throws IOException{
+	public static void writeStringAsString(String s) throws IOException{
     	FileWriter fw = StorageFunction.openFileForWrite(filename);  
     	try {
     		StorageFunction.writeAndClose(fw,s);
@@ -57,7 +57,7 @@ public class FileStorage extends Parser {
 		return newList;
 	}
 
-	public String readStringAsString(String path) throws IOException, ClassNotFoundException {
+	public static String readStringAsString(String path) throws IOException, ClassNotFoundException {
     	 String filecontent = "";
          File f = new File(filename);
          if(StorageFunction.checkFileStatus(f)){
