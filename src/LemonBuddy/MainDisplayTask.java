@@ -15,6 +15,14 @@ public class MainDisplayTask implements Serializable {
 	private SimpleStringProperty taskDescription;
 	private boolean mostRecent;
 	
+	public void setIsNewest() {
+		mostRecent = true;
+	}
+	
+	public boolean getIsNewest() {
+		return this.mostRecent;
+	}
+	
 	public void setTaskId(String id) {
 		this.taskId = new SimpleStringProperty(id);
 	}

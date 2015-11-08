@@ -14,20 +14,23 @@ import javafx.stage.Stage;
 
 public class lemonGUI extends Application {
 
-    private Stage primaryStage;
-    private AnchorPane LemonGUI;
+    private static CommandExecutor commandexecutor;
+	private Stage primaryStage;
+    private BorderPane rootLayout;
+    private ArrayList<Task> listForDisplay;
+    private String[] command = {"", ""};
+	private ArrayList<Task> listForTimeline;
 
 
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("LemonBuddy");
-        
         this.primaryStage.getIcons().add(new Image("file:resources/images/icon.png"));
 
         initRootLayout();
 
-        //showPersonOverview();
+        showLemonGUI();
     }
 
     /**
@@ -37,11 +40,11 @@ public class lemonGUI extends Application {
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(lemonGUI.class.getResource("view/LemonGUI.fxml"));
-            LemonGUI = (AnchorPane) loader.load();
+            loader.setLocation(lemonGUI.class.getResource("view/RootLayout.fxml"));
+            rootLayout = (BorderPane) loader.load();
 
             // Show the scene containing the root layout.
-            Scene scene = new Scene(LemonGUI);
+            Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             primaryStage.show();
             
@@ -49,36 +52,60 @@ public class lemonGUI extends Application {
             e.printStackTrace();
         }
     }
-    
+
     /**
-     * Shows the person overview inside the root layout.
+     * Shows the GUI inside the root layout.
      */
-//    public void showPersonOverview() {
-//        try {
-//            // Load person overview.
-//            FXMLLoader loader = new FXMLLoader();
-//            loader.setLocation(lemonGUI.class.getResource("view/LemonGUI.fxml"));
-//            AnchorPane personOverview = (AnchorPane) loader.load();
-//
-//            // Set person overview into the center of root layout.
-//            rootLayout.setCenter(personOverview);
-//            
-//            LemonGUIController controller = loader.getController();
-//            controller.setMainApp(this);
-//            
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void showLemonGUI() {
+        try {
+            // Load person overview.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(lemonGUI.class.getResource("view/LemonGUI.fxml"));
+            AnchorPane lemonGUI = (AnchorPane) loader.load();
+
+            // Set person overview into the center of root layout.
+            rootLayout.setTop(lemonGUI);
+            
+            LemonGUIController controller = loader.getController();
+            controller.setMainApp(this);
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     
     public Stage getPrimaryStage() {
         return primaryStage;
     }
 
     public static void main(String[] args) throws Exception {
+    	if (commandexecutor == null) {
+			commandexecutor = new CommandExecutor();
+		}
+    	commandexecutor.updateLists();
+    	commandexecutor.passToGUI();
         launch(args);
     }
     
+    public void setListForDisplay(ArrayList<Task> list) {
+    	listForDisplay = list;
+    }
+    
+    public void setListForTimeline(ArrayList<Task> list) {
+    	listForTimeline = list;
+    }
+    
+    public ArrayList<Task> getListForDisplay() {
+    	return listForDisplay;
+    }
+    
+    public ArrayList<Task> getListForTimeline() {
+    	return listForTimeline;
+    }
+    
+    public void setCommand(String[] command) {
+    	this.command = command;
+    }
     
 }
 		

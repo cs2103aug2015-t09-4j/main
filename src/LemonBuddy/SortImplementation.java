@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class SortImplementation {
+public class SortImplementation{
 	
 	private static Parser parser;
-	
 	public SortImplementation() {
 		if (parser == null) {
 			parser = new Parser();
@@ -43,7 +42,25 @@ public class SortImplementation {
 			case "done":
 				return 2;
 			default:
+<<<<<<< HEAD
 				return -2;
+=======
+				return -1;
+		}
+	}
+	
+	private static Integer convertDoneAndOverdue(Task t){
+		boolean DoneStatus = (t.getTaskType().equals("Done"));
+		boolean OverDueStatus = (t.getTaskType().equals("Overdue"));
+		if(DoneStatus&&OverDueStatus){
+			return 1;
+		} else if (OverDueStatus) {
+			return 0;
+		} else if (DoneStatus) {
+			return -1;
+		} else {
+			return -2;
+>>>>>>> origin/master
 		}
 	}
 	
