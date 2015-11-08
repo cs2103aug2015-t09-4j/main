@@ -6,6 +6,7 @@ import java.util.Comparator;
 
 public class SortImplementation {
 	
+/************************************************** Convert Function for Sorting ******************************************************************/	
 	private static int convertPriority(Task t){
 		String tempPriority = t.getTaskPriority();
 		switch(tempPriority) {
@@ -47,6 +48,8 @@ public class SortImplementation {
 			return -2;
 		}
 	}
+	
+/***************************************************** Sort By Condition ******************************************************************/	
 	
 	protected static ArrayList<Task> SortEndDate(ArrayList<Task> list) {
 		Comparator<Task> comparator = new Comparator<Task>(){

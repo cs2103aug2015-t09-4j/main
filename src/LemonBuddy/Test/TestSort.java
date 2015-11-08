@@ -16,4 +16,29 @@ public class TestSort {
 		fail("Not yet implemented");
 	}
 
+	@Test
+	public void testSortByName() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testSortByType() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testSortByStartDate() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testSortByEndDate() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testSortByStatus() {
+		fail("Not yet implemented");
+	}
+
 }

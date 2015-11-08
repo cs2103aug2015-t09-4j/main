@@ -1,12 +1,10 @@
 package LemonBuddy;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 class Sort {
 	
-		public ArrayList<Task> sortByTime(ArrayList<Task> sortList){
+		public static ArrayList<Task> sortByTime(ArrayList<Task> sortList){
 			return SortImplementation.SortTime(sortList);			
 		}
 		

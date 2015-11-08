@@ -1,6 +1,7 @@
 package LemonBuddy.view;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import LemonBuddy.CommandController;
@@ -439,7 +440,7 @@ public class LemonGUIController {
 		mainDisplayColumns.add(descriptionColumn);
 	}
 	
-	public void generateTimeline(String header) throws ClassNotFoundException, IOException {
+	public void generateTimeline(String header) throws ClassNotFoundException, IOException, ParseException {
 		timelineTasks.removeAll(timelineTasks);
 		columnHeader.setText("Date: " + header);
 		commandExecutor.executeNavigate(timelineDate);

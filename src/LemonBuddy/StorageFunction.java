@@ -12,10 +12,33 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class StorageFunction extends FileStorage {
+
 	private static final String MSG_WHEN_INVALID_FILENAME = "cannot find targeted file"; 
 	private static final String MSG_WHEN_IOEXCEPTION = "cannot store information"; 
 
 	private static Logger storageLogger;	
+	
+/************************************************** Modify TaskList ******************************************************************/		
+	
+	
+	protected static ArrayList<Task> createArrayList(File f) throws IOException {
+		storageLogger.log(Level.INFO, "Recreate arraylist of task from storage");
+		ArrayList<Task> result= new ArrayList<Task>();
+		try {
+			FileInputStream fis = new FileInputStream(f);
+			InputStreamReader read = new InputStreamReader(fis);
+			BufferedReader br = new BufferedReader(read); 
+			String lineText = null;
+			while((lineText = br.readLine()) != null) {
+        	 result.add(createTaskFromInformation(lineText));
+        	}
+			read.close();		
+		} catch (FileNotFoundException e) {
+			printExceptionMessage(e);
+		} finally {			
+		}
+		return result;
+	}
 	
 	protected static String convertArrayListToString(ArrayList<Task> p) {
 		storageLogger.log(Level.INFO, "Going to convert arraylist to string");
@@ -46,9 +69,9 @@ public class StorageFunction extends FileStorage {
 			read.close();		
 		} catch (FileNotFoundException e) {
 			printExceptionMessage(e);
-		} finally {
-			return s;
+		} finally {			
 		}
+		return s;
 	}
 
 	
@@ -120,6 +143,8 @@ public class StorageFunction extends FileStorage {
 		storageLogger.log(Level.INFO, "Going to convert task object to string");
 		return t.toString();
 	}
+
+	/************************************************** Print Function ******************************************************************/
 	
 	protected static void printExceptionMessage(IOException e) {
 		storageLogger.log(Level.INFO, "throw IOException");
@@ -133,6 +158,8 @@ public class StorageFunction extends FileStorage {
 		System.out.println(MSG_WHEN_INVALID_FILENAME);
 	}
 	
+	/************************************************** File Funciton ******************************************************************/
+	/*
 	protected static FileWriter openFileForWrite(String filename){
 		storageLogger.log(Level.INFO, "Going to open file use for writing");
 		File f = new File(filename);
@@ -145,7 +172,7 @@ public class StorageFunction extends FileStorage {
 		}
 		return fw;		
 	}
-
+ 
 	protected static void writeAndClose(FileWriter fw, String s) throws IOException{
 		storageLogger.log(Level.INFO, "Going to write string to the file and then close");
 		try {
@@ -156,6 +183,7 @@ public class StorageFunction extends FileStorage {
     		fw.flush();
     	}
 	}
+	*/
 
 	protected static boolean checkFileStatus(File f) throws IOException{
 		storageLogger.log(Level.INFO, "check file status to see whether can execute");
@@ -167,24 +195,6 @@ public class StorageFunction extends FileStorage {
 		}
 		return status;
 	}	
-	
-	protected static ArrayList<Task> createArrayList(File f) throws IOException {
-		storageLogger.log(Level.INFO, "Recreate arraylist of task from storage");
-		ArrayList<Task> result= new ArrayList<Task>();
-		try {
-			FileInputStream fis = new FileInputStream(f);
-			InputStreamReader read = new InputStreamReader(fis);
-			BufferedReader br = new BufferedReader(read); 
-			String lineText = null;
-			while((lineText = br.readLine()) != null) {
-        	 result.add(createTaskFromInformation(lineText));
-        	}
-			read.close();		
-		} catch (FileNotFoundException e) {
-			printExceptionMessage(e);
-		} finally {
-			return result;
-		}
-	}
+
 	
 }

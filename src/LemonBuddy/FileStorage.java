@@ -8,37 +8,53 @@ import java.util.ArrayList;
 public class FileStorage extends Parser {
     private static String EMPTY_CONTENT = "";
 	public static String filename = "default.txt";
-	
-	public static void clear() throws IOException {
-		File f = new File(filename);	
-		assert(StorageFunction.checkFileStatus(f));
-		FileWriter fw = new FileWriter(f);
-		StorageFunction.writeAndClose(fw, EMPTY_CONTENT);
-	}
-	
-	public void writeObjectAsString(ArrayList<Task> taskList) throws IOException{
-    	FileWriter fw = null;
-		fw = StorageFunction.openFileForWrite(filename);  
+
+	/************************************************** Write To Storage ******************************************************************/	
+	public static void writeObjectAsString(ArrayList<Task> taskList) throws IOException{
+		File f = new File(filename);
+		FileWriter fw = new FileWriter(f, false);
     	String content = StorageFunction.convertArrayListToString(taskList);
     	try {
-    		StorageFunction.writeAndClose(fw,content);
+    		fw.write(content);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			StorageFunction.printExceptionMessage(e);
+		} finally {
+			fw.flush();
 		}
     }	
     
 	public static void writeStringAsString(String s) throws IOException{
-    	FileWriter fw = StorageFunction.openFileForWrite(filename);  
+		File f = new File(filename);
+		FileWriter fw = new FileWriter(f, false);
     	try {
-    		StorageFunction.writeAndClose(fw,s);
+    		fw.write(s);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			StorageFunction.printExceptionMessage(e);
-		} 
+		} finally {
+			fw.flush();
+		}
     }
 	
+	/**************************************************** Clear Storage ********************************************************************/
+	
+	public static void clear(String filename) throws IOException {
+		File f = new File(filename);	
+		assert(StorageFunction.checkFileStatus(f));
+		FileWriter fw = new FileWriter(f);
+		try {
+    		fw.write("");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			StorageFunction.printExceptionMessage(e);
+		} finally {
+			fw.flush();
+		}
+	}
+	
 
+	/************************************************** Read From Storage ******************************************************************/
 	public ArrayList<ArrayList<Task>> readStringAsObject(String path) throws IOException, ClassNotFoundException {
 		//floating deadline event all done overdue
 		ArrayList<ArrayList<Task>> newList = new ArrayList<ArrayList<Task>>();
