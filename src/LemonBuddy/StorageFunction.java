@@ -22,7 +22,6 @@ public class StorageFunction extends FileStorage {
 	
 	
 	protected static ArrayList<Task> createArrayList(File f) throws IOException {
-		storageLogger.log(Level.INFO, "Recreate arraylist of task from storage");
 		ArrayList<Task> result= new ArrayList<Task>();
 		try {
 			FileInputStream fis = new FileInputStream(f);
@@ -41,7 +40,6 @@ public class StorageFunction extends FileStorage {
 	}
 	
 	protected static String convertArrayListToString(ArrayList<Task> p) {
-		storageLogger.log(Level.INFO, "Going to convert arraylist to string");
 		int size = p.size();
 		Task temptask = new Task();
 		String content = "";
@@ -57,7 +55,6 @@ public class StorageFunction extends FileStorage {
 
 	
 	protected static String createString(File f,String s) throws IOException {
-		storageLogger.log(Level.INFO, "convert storage to string");
 		try {
 			FileInputStream fis = new FileInputStream(f);
 			InputStreamReader read = new InputStreamReader(fis);
@@ -76,7 +73,6 @@ public class StorageFunction extends FileStorage {
 
 	
 	protected static ArrayList<ArrayList<Task>> separateTaskList(ArrayList<Task> taskList) {
-		storageLogger.log(Level.INFO, "Going to separate arraylist of task into arraylist of arraylist of task");
 		
 		ArrayList<ArrayList<Task>> separateList = new  ArrayList<ArrayList<Task>>();
 		ArrayList<Task> floatingList = new ArrayList<Task>();
@@ -140,21 +136,18 @@ public class StorageFunction extends FileStorage {
 	}
 	
 	protected static String TaskToString(Task t){
-		storageLogger.log(Level.INFO, "Going to convert task object to string");
 		return t.toString();
 	}
 
 	/************************************************** Print Function ******************************************************************/
 	
 	protected static void printExceptionMessage(IOException e) {
-		storageLogger.log(Level.INFO, "throw IOException");
 		System.out.println(MSG_WHEN_IOEXCEPTION);
 		e.printStackTrace();
 	}
 	
 	
 	protected static void printFileInvalidMessage() {
-		storageLogger.log(Level.INFO, "Print invalid file message");
 		System.out.println(MSG_WHEN_INVALID_FILENAME);
 	}
 	
@@ -186,7 +179,6 @@ public class StorageFunction extends FileStorage {
 	*/
 
 	protected static boolean checkFileStatus(File f) throws IOException{
-		storageLogger.log(Level.INFO, "check file status to see whether can execute");
 		boolean status = false;
 		if(f.exists() && f.isFile()) {
 			status = true;
