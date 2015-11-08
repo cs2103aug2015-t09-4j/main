@@ -82,8 +82,6 @@ public class StorageFunction extends FileStorage {
 		ArrayList<Task> overdueList = new ArrayList<Task>();
 		
 		int size = allList.size();
-		boolean isDone;
-		boolean isOverdue;
 		String type;
 		Task temptask = new Task();
 		
@@ -93,8 +91,6 @@ public class StorageFunction extends FileStorage {
 			temptask = taskList.get(i);
 			
 			type = temptask.getTaskType();
-			isDone = temptask.getTaskIsDone();
-			isOverdue = temptask.getTaskIsOverdue();
 			
 			switch(type){
 				case "floating":
@@ -106,22 +102,17 @@ public class StorageFunction extends FileStorage {
 				case "event":
 					eventList.add(temptask);
 					break;
+				case "Done":
+					doneList.add(temptask);
+					break;
+				case "Overdue":
+					overdueList.add(temptask);
+					break;
 				default:
 					floatingList.add(temptask);
 					break;									
 			}
-			
-			if(isDone) {
-				doneList.add(temptask);
-			} else {
-				
-			}
-			
-			if(isOverdue) {
-				overdueList.add(temptask);
-			} else {
-				
-			}
+
 		}	
 		
 		separateList.add(floatingList);
@@ -154,31 +145,6 @@ public class StorageFunction extends FileStorage {
 	}
 	
 	/************************************************** File Funciton ******************************************************************/
-	/*
-	protected static FileWriter openFileForWrite(String filename){
-		storageLogger.log(Level.INFO, "Going to open file use for writing");
-		File f = new File(filename);
-		FileWriter fw = null;
-		try {
-			fw = new FileWriter(f, false);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			printExceptionMessage(e);
-		}
-		return fw;		
-	}
- 
-	protected static void writeAndClose(FileWriter fw, String s) throws IOException{
-		storageLogger.log(Level.INFO, "Going to write string to the file and then close");
-		try {
-			fw.write(s);
-		} catch (IOException e) {
-    		printExceptionMessage(e);
-    	} finally {
-    		fw.flush();
-    	}
-	}
-	*/
 
 	protected static boolean checkFileStatus(File f) throws IOException{
 		//storageLogger.log(Level.INFO, "check file status to see whether can execute");
