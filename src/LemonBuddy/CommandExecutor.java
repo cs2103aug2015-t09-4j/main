@@ -128,7 +128,7 @@ public class CommandExecutor extends FileStorage{
 		}
 	}
 
-	private Task deleteTaskFromList(int deleteId) throws IOException, ClassNotFoundException {
+	public Task deleteTaskFromList(int deleteId) throws IOException, ClassNotFoundException {
 		Task deletedTask = new Task();
 		switch (lastListType) {
 		case TASKTYPE_FLOATING:
@@ -144,7 +144,7 @@ public class CommandExecutor extends FileStorage{
 		return deletedTask;
 	}
 
-	private Task removeTaskFromFloatingList(int deleteId) throws IOException, ClassNotFoundException {
+	public Task removeTaskFromFloatingList(int deleteId) throws IOException, ClassNotFoundException {
 		Task taskToDelete = floatingTasks.remove(deleteId - 1);
 		LemonGUIController.setTask(taskToDelete);
 		return taskToDelete;
