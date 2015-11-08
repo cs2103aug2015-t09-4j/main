@@ -259,39 +259,6 @@ public class CommandExecutor extends FileStorage{
 	public void executeHelp() {
 		// GUIConsole.displayHelp();
 	}
-
-	/*public void executeUpdate() throws IOException, ClassNotFoundException {
-		ArrayList<Task> array = FileStorage.readStringAsObject(path);
-		assert(array != null) : "unable to read from specified path";
-
-		String currentDate = parser.getCurrentDate();
-		// System.out.println(currentDate);
-
-		int i = 0;
-		boolean anythingRemoved = false;
-
-		for (i = 0; i < array.size(); i++) {
-			Task overdueTask = array.get(i);
-			String endDate = array.get(i).getTaskEndDate();
-			// System.out.println(endDate);
-			if (endDate.length() == 6) {
-				if (parser.endDatePassed(currentDate, endDate) && (overdueTask.getTaskIsOverdue() == false)) {
-					overdueTask.setTaskIsOverdue();
-					array.set(i, overdueTask);
-					anythingRemoved = true;
-				}
-			}
-		}
-
-		if (anythingRemoved) {
-			FileStorage.clear();
-			int j = 0;
-			while (j < array.size()) {
-				FileStorage.writeObjectAsString(array.get(j));
-				j++;
-			}
-		}
-	}*/
 	
 	public void executeUpdate() throws IOException, ClassNotFoundException {
 
