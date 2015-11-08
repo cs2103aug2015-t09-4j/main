@@ -88,17 +88,6 @@ public class CommandExecutor extends FileStorage{
 		addTaskToList(newTask);
 	}
 
-	// private void editTaskDetails(String[] commandParts, Task newTask) throws
-	// IOException, ClassNotFoundException {
-	// ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
-	// FileStorage.clear();
-	// int taskToEditIndex = writeUntilTaskIndex(commandParts, fullList);
-	// Task taskToEdit = fullList.get(taskToEditIndex);
-	// FileStorage.writeObjectAsString(newTask.mergeTaskDetails(taskToEdit));
-	// LemonGUIController.setTask(newTask);
-	// writeRestOfList(fullList, taskToEditIndex);
-	// }
-
 	private String[] getStringForParsing(String[] commandParts) {
 		String[] stringToParse = new String[commandParts.length - 1];
 		for (int i = 1; i < commandParts.length; i++) {
@@ -169,56 +158,6 @@ public class CommandExecutor extends FileStorage{
 		Task taskToDelete = eventTasks.remove(deleteId - 1);
 		LemonGUIController.setTask(taskToDelete);
 		return taskToDelete;
-	}
-
-	public void executeRecur(String[] commandParts) throws IOException, ClassNotFoundException {
-		String recurType = commandParts[1];
-		String recurID = commandParts[2];
-		String recurFreq = commandParts[3];
-		String recurEndDate = commandParts[4];
-
-		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
-		int taskTypeIndex = 1;
-
-		for (int i = 0; i < fullList.size(); i++) {
-			Task currentTask = fullList.get(i);
-
-			if (currentTask.getTaskType().equals(recurType)) {
-				if (recurID.equals(String.valueOf(taskTypeIndex))) {
-					taskTypeIndex++;
-					Task recurringTask = currentTask;
-					if (recurType.equals(TASKTYPE_DEADLINE)) {
-						// note: changed
-						String currentRecurringDate = currentTask.getTaskEndDate();
-						if (recurFreq.equals("yearly")) {
-							currentRecurringDate = parser.addOneYear(currentRecurringDate);
-							while (!parser.endDatePassed(currentRecurringDate, recurEndDate)) {
-								recurringTask.setTaskEndDate(currentRecurringDate);
-								FileStorage.writeObjectAsString(recurringTask);
-								currentRecurringDate = parser.addOneYear(currentRecurringDate);
-							}
-						}
-
-						/*
-						 * while (!parser.endDatePassed(currentRecurringDate,
-						 * recurEndDate)) { System.out.println(
-						 * "While loop entered"); if
-						 * (recurFreq.equals("yearly")) { currentRecurringDate =
-						 * parser.addOneYear(currentRecurringDate);
-						 * recurringTask.setTaskEndDate(currentRecurringDate);
-						 * System.out.println(currentRecurringDate);
-						 * FileStorage.write(recurringTask); } }
-						 */
-
-					} else if (recurType == TASKTYPE_EVENT) {
-
-					}
-
-				} else {
-					taskTypeIndex++;
-				}
-			}
-		}
 	}
 
 	public void executeNavigate(String[] commandParts) throws ClassNotFoundException, IOException, ParseException {
@@ -350,17 +289,6 @@ public class CommandExecutor extends FileStorage{
 		}
 	}
 
-	public void executeDisplay(String[] commandParts) throws Exception {
-		ArrayList<Task> fullList = new ArrayList<Task>();
-		LemonGUIController.setCommand(commandParts[0]);
-		Task currentTask;
-
-		int id = Integer.parseInt(commandParts[1]);
-		fullList = FileStorage.readStringAsObject(path);
-		currentTask = fullList.get(id - 1);
-		// LemonGUIController.setTask(currentTask);
-	}
-
 	public void parseInvalidCommand(String command) {
 		// GUIConsole.displayErrorMessage(command);
 	}
@@ -383,56 +311,9 @@ public class CommandExecutor extends FileStorage{
 
 	}
 
-	/*public void executeSortFloating() throws ClassNotFoundException, IOException {
-		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
-		// System.out.println("Hello");
-		int sizeToCheck = fullList.size();
-		for (int i = 0; i < sizeToCheck; i++) {
-			Task currentTask = fullList.get(i);
-			System.out.println("tasktype: " + currentTask.getTaskType());
-			if (currentTask.getTaskType().equals(TASKTYPE_FLOATING)) {
-				System.out.println("Entered if");
-				fullList.add(fullList.remove(i));
-				i--;
-				sizeToCheck--;
-			}
-		}
-
-		FileStorage.clear();
-		for (int j = 0; j < fullList.size(); j++) {
-			FileStorage.writeObjectAsString(fullList.get(j));
-		}
-	}*/
-
-	public void executeClear(String[] commandParts) throws ClassNotFoundException, IOException {
-		ArrayList<Task> fullList = new ArrayList<Task>();
-		Task currentTask;
-		fullList = FileStorage.readStringAsObject(path);
-		FileStorage.clear();
-		for (int j = 0; j < fullList.size(); j++) {
-			currentTask = fullList.get(j);
-			if (commandParts[1].equals(TASKTYPE_DONE)) {
-				if (currentTask.getTaskIsDone()) {
-					continue;
-				}
-			} else if (commandParts[1].equals(TASKTYPE_OVERDUE)) {
-				if (currentTask.getTaskIsOverdue()) {
-					continue;
-				}
-			}
-			FileStorage.writeObjectAsString(currentTask);
-		}
-	}
-
 	public ArrayList<Task> executeSort(ArrayList<Task> list) {
 		Sort.sortByDateThenPriority(list);
 		return list;
-	}
-
-		FileStorage.clear();
-		for (int j = 0; j < fullList.size(); j++) {
-			FileStorage.writeObjectAsString(fullList.get(j));
-		}
 	}
 
 	public void saveLastState() throws Exception, IOException {

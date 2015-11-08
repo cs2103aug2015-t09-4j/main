@@ -63,11 +63,7 @@ public class CommandController {
 				}
 				commandexecutor.executeEdit(commandParts);
 				break;
-
-			case COMMAND_RECUR:
-				commandexecutor.executeRecur(commandParts);
-				break;
-
+				
 			case COMMAND_UNDO:
 				commandexecutor.executeUndo();
 				break;
@@ -84,22 +80,11 @@ public class CommandController {
 				commandexecutor.executeList(commandParts);
 				break;
 
-			case COMMAND_DISPLAY:
-				commandexecutor.executeDisplay(commandParts);
-				break;
-
 			case COMMAND_DONE:
 				if (!commandcontroller.isValidTaskType(commandParts[1])) {
 					throw new Exception("Invalid task type");
 				}
 				commandexecutor.executeDone(commandParts);
-				break;
-
-			case COMMAND_CLEAR:
-				if (!commandcontroller.isValidClearType(commandParts[1])) {
-					throw new Exception("Invalid clear type");
-				}
-				commandexecutor.executeClear(commandParts);
 				break;
 
 			case COMMAND_HELP:
