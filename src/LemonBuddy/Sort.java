@@ -5,8 +5,16 @@ import java.util.Collections;
 import java.util.Comparator;
 
 class Sort {
+	
+		public ArrayList<Task> sortByTime(ArrayList<Task> sortList){
+			return SortTime(sortList);			
+		}
+		
+		public ArrayList<Task> normal_sort(ArrayList<Task> list) {
+			return SortEndDate(list);
+		}
 
-		public static ArrayList<Task> normal_sort(ArrayList<Task> list) {
+		private ArrayList<Task> SortEndDate(ArrayList<Task> list) {
 			Comparator<Task> comparator = new Comparator<Task>(){
 				public int compare(Task t1, Task t2) {					
 					 Integer end1, end2, p1, p2;
@@ -34,7 +42,7 @@ class Sort {
 			return list;
 		}
 	
-	  public static ArrayList<Task> sortByTime(ArrayList<Task> sortList) {
+	  private ArrayList<Task> SortTime(ArrayList<Task> sortList) {
 		  Comparator<Task> comparator = new Comparator<Task>(){
 			public int compare(Task t1, Task t2) {
 				

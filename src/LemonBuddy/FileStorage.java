@@ -1,45 +1,36 @@
 package LemonBuddy;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class FileStorage extends Parser {
     //private static final long serialVersionUID = -769626947865283;
-	private static ArrayList<Task> objectList = new ArrayList<Task>();
+	private ArrayList<Task> objectList = new ArrayList<Task>();
 	private static final String MSG_WHEN_INVALID_FILENAME = "cannot find targeted file"; 
 	private static final String MSG_WHEN_IOEXCEPTION = "cannot store information"; 
+	private Logger storageLogger;	
 	
-	private static String filename = "all.txt";
+	private String filename = "all.txt";
 	
-	/*
-	public static void clear() throws IOException {
+	public void clear() throws IOException {
+		storageLogger.log(Level.INFO, "Going to clear existing file");
 		File f = new File(filename);	
-		assert f.exists() == true;
-		assert f.isFile() == true;
+		assert(checkFileStatus(f));
 		FileWriter fw = new FileWriter(f);
-		try{
-			fw.write("");			
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			fw.close();			
-		}
+		String content = "";
+		writeAndClose(fw, content);
 	}
-	*/
-
 	
-	private static String convertArrayListToString(ArrayList<Task> p) {	
-
+	private String convertArrayListToString(ArrayList<Task> p) {
+		storageLogger.log(Level.INFO, "Going to convert arraylist to string");
 		int size = p.size();
 		Task temptask = new Task();
 		String content = "";
@@ -53,7 +44,8 @@ public class FileStorage extends Parser {
 		return content;
 	}
 	
-	private static ArrayList<ArrayList<Task>> separateTaskList(ArrayList<Task> taskList) {
+	private ArrayList<ArrayList<Task>> separateTaskList(ArrayList<Task> taskList) {
+		storageLogger.log(Level.INFO, "Going to separate arraylist of task into arraylist of arraylist of task");
 		
 		ArrayList<ArrayList<Task>> separateList = new  ArrayList<ArrayList<Task>>();
 		ArrayList<Task> floatingList = new ArrayList<Task>();
@@ -117,20 +109,24 @@ public class FileStorage extends Parser {
 	}
 
 	
-	private static String TaskToString(Task t){
+	private String TaskToString(Task t){
+		storageLogger.log(Level.INFO, "Going to convert task object to string");
 		return t.toString();
 	}
 	
-	private static void printExceptionMessage(IOException e) {
+	private void printExceptionMessage(IOException e) {
+		storageLogger.log(Level.INFO, "throw IOException");
 		System.out.println(MSG_WHEN_IOEXCEPTION);
 		e.printStackTrace();
 	}
 	
-	private static void printFileInvalidMessage() {
+	private void printFileInvalidMessage() {
+		storageLogger.log(Level.INFO, "Print invalid file message");
 		System.out.println("MSG_WHEN_INVALID_FILENAME");
 	}
 	
-	public static void writeObjectAsString(ArrayList<Task> taskList) throws IOException{
+	public void writeObjectAsString(ArrayList<Task> taskList) throws IOException{
+		storageLogger.log(Level.INFO, "Going to write all task object to string");
     	FileWriter fw = null;
 		fw = openFileForWrite();  
     	String content = convertArrayListToString(taskList);
@@ -142,7 +138,8 @@ public class FileStorage extends Parser {
 		}
     }	
 	
-	private static FileWriter openFileForWrite(){
+	private FileWriter openFileForWrite(){
+		storageLogger.log(Level.INFO, "Going to open file use for writing");
 		File f = new File(filename);
 		FileWriter fw = null;
 		try {
@@ -154,7 +151,8 @@ public class FileStorage extends Parser {
 		return fw;		
 	}
 
-	private static void writeAndClose(FileWriter fw, String s) throws IOException{
+	private void writeAndClose(FileWriter fw, String s) throws IOException{
+		storageLogger.log(Level.INFO, "Going to write string to the file and then close");
 		try {
 			fw.write(s);
 		} catch (IOException e) {
@@ -164,7 +162,8 @@ public class FileStorage extends Parser {
     	}
 	}
     
-	public static void writeStringAsString(String s) throws IOException{
+	public void writeStringAsString(String s) throws IOException{
+		storageLogger.log(Level.INFO, "Going to write string object to a file");
     	FileWriter fw = openFileForWrite();  
     	try {
 			writeAndClose(fw,s);
@@ -174,7 +173,8 @@ public class FileStorage extends Parser {
 		} 
     }
 	
-	private static boolean checkFileStatus(File f) throws IOException{
+	private boolean checkFileStatus(File f) throws IOException{
+		storageLogger.log(Level.INFO, "check file status to see whether can execute");
 		boolean status = false;
 		if(f.exists() && f.isFile()) {
 			status = true;
@@ -184,52 +184,72 @@ public class FileStorage extends Parser {
 		return status;
 	}	
 	
-	//private static BufferedReader create
+	private ArrayList<Task> createArrayList(File f, ArrayList<Task> a) throws IOException {
+		storageLogger.log(Level.INFO, "Recreate arraylist of task from storage");
+		try {
+			FileInputStream fis = new FileInputStream(f);
+			InputStreamReader read = new InputStreamReader(fis);
+			BufferedReader br = new BufferedReader(read); 
+			String lineText = null;
+			while((lineText = br.readLine()) != null) {
+        	 a.add(createTaskFromInformation(lineText));
+        	}
+			read.close();		
+		} catch (FileNotFoundException e) {
+			printExceptionMessage(e);
+		} finally {
+			return a;
+		}
+	}
 	
 
-	public static ArrayList<ArrayList<Task>> readStringAsObject(String path) throws IOException, ClassNotFoundException {
+	public ArrayList<ArrayList<Task>> readStringAsObject(String path) throws IOException, ClassNotFoundException {
+		storageLogger.log(Level.INFO, "convert string to object");
 		//floating deadline event all done overdue
 		ArrayList<ArrayList<Task>> newList = new ArrayList<ArrayList<Task>>();
 		try {
-			objectList = new ArrayList<Task>();
+			ArrayList<Task> tempObjectList = new ArrayList<Task>();
 			File f = new File(filename);
 			assert(checkFileStatus(f));
-			FileInputStream fis = new FileInputStream(f);
-			InputStreamReader read = new InputStreamReader(fis);
-			 BufferedReader br = new BufferedReader(read); 
-        	 String lineText = null;
-        	 while((lineText = br.readLine()) != null) {
-        		 objectList.add(createTaskFromInformation(lineText));
-        	 }
-        	 read.close();
-        	 newList = separateTaskList(objectList);
+			tempObjectList = createArrayList(f, tempObjectList);	
+			newList = separateTaskList(tempObjectList);
 		} catch (IOException e) {
-    		e.printStackTrace();
+			printFileInvalidMessage();
+			printExceptionMessage(e);
     	} finally {
-    		
-    	}
-		return newList;
+    		return newList;
+    	}		
 	}
 
-     
-	public static String readStringAsString(String path) throws IOException, ClassNotFoundException {
+	
+	private String createString(File f,String s) throws IOException {
+		storageLogger.log(Level.INFO, "convert storage to string");
+		try {
+			FileInputStream fis = new FileInputStream(f);
+			InputStreamReader read = new InputStreamReader(fis);
+			BufferedReader br = new BufferedReader(read); 
+			String lineText = null;
+			while((lineText = br.readLine()) != null) {
+				s = s + lineText + System.getProperty("line.separator");
+			}
+			read.close();		
+		} catch (FileNotFoundException e) {
+			printExceptionMessage(e);
+		} finally {
+			return s;
+		}
+	}
+
+	public String readStringAsString(String path) throws IOException, ClassNotFoundException {
+		 storageLogger.log(Level.INFO, "read string from storage");
     	 String filecontent = "";
          File f = new File(filename);
-         if(f.isFile() && f.exists()) { 
-         	 assert f.isFile() == true;
-         	 assert f.exists() == true;
-        	 FileInputStream fis = new FileInputStream(f);
-        	 InputStreamReader read = new InputStreamReader(fis);
-        	 BufferedReader br = new BufferedReader(read);
-        	 String lineText = null;
-        	 while((lineText = br.readLine()) != null) {
-        		 filecontent = filecontent + lineText + System.getProperty("line.separator");
-        	 }
-        	 read.close();
-        } else {
-        	System.out.println(MSG_WHEN_INVALID_FILENAME);
-        }
-		return filecontent;       
+         if(checkFileStatus(f)){
+        	 filecontent = createString(f,filecontent);
+         } else {
+			printFileInvalidMessage();
+         }
+		 return filecontent;       
      }
 
 }
