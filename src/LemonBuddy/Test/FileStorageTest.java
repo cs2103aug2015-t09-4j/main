@@ -52,7 +52,7 @@ public class FileStorageTest extends FileStorage {
 	@Test
 	public void testClear() throws IOException {
 		try {
-			FileStorage.clear(filename);
+			FileStorage.clear();
 			File f1 = new File(filename);
 			File f2 = new File(fileForTestEmpty);
 			assertEquals(f1, f2);
