@@ -23,7 +23,7 @@ public class FileStorage extends Parser {
 			fw.flush();
 		}
     }	
-    
+   
 	public static void writeStringAsString(String s) throws IOException{
 		File f = new File(filename);
 		FileWriter fw = new FileWriter(f, false);
@@ -39,7 +39,7 @@ public class FileStorage extends Parser {
 	
 	/**************************************************** Clear Storage ********************************************************************/
 	
-	public static void clear(String filename) throws IOException {
+	public static void clear() throws IOException {
 		File f = new File(filename);	
 		assert(StorageFunction.checkFileStatus(f));
 		FileWriter fw = new FileWriter(f);
