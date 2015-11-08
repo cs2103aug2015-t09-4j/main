@@ -59,8 +59,9 @@ public class CommandExecutor extends FileStorage{
 		floatingTasks = updatedLists.get(0);
 		deadlineTasks = updatedLists.get(1);
 		eventTasks = updatedLists.get(2);
-		doneTasks = updatedLists.get(3);
-		overdueTasks = updatedLists.get(4);
+		allTasks = updatedLists.get(3);
+		doneTasks = updatedLists.get(4);
+		overdueTasks = updatedLists.get(5);
 	}
 	
 	// PRIORITY AND DESCRIPTION NOT DONE
@@ -258,7 +259,7 @@ public class CommandExecutor extends FileStorage{
 		// GUIConsole.displayHelp();
 	}
 
-	public void executeUpdate() throws IOException, ClassNotFoundException {
+	/*public void executeUpdate() throws IOException, ClassNotFoundException {
 		ArrayList<Task> array = FileStorage.readStringAsObject(path);
 		assert(array != null) : "unable to read from specified path";
 
@@ -289,8 +290,30 @@ public class CommandExecutor extends FileStorage{
 				j++;
 			}
 		}
-		// GUI?>>?.successfulUpdate();
+	}*/
+	
+	public void executeUpdate() throws IOException, ClassNotFoundException {
+
+
+		String currentDate = parser.getCurrentDate();
+
+		for (int i = 0; i < deadlineTasks.size(); i++) {
+			Task taskToCheck = deadlineTasks.get(i);
+			String endDate = taskToCheck.getTaskEndDate();
+				if (parser.endDatePassed(currentDate, endDate) && (taskToCheck.getTaskIsOverdue() == false)) {
+					taskToCheck.setTaskIsOverdue();
+				}
+		}
+			
+		for (int j = 0; j < eventTasks.size(); j++) {
+			Task taskToCheck = eventTasks.get(j);
+			String endDate = taskToCheck.getTaskEndDate();
+				if (parser.endDatePassed(currentDate, endDate) && (taskToCheck.getTaskIsDone() == false)) {
+					taskToCheck.setTaskIsDone();
+				}
+		}
 	}
+
 
 	public void executeRemoveNewest() throws IOException, ClassNotFoundException {
 		ArrayList<Task> array = FileStorage.readStringAsObject(path);
