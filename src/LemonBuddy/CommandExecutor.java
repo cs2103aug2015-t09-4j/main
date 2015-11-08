@@ -57,13 +57,14 @@ public class CommandExecutor extends FileStorage{
 		date[1] = parser.getCurrentDate();
 	}
 	
-	public void updateLists(){
+	public void updateLists() throws IOException{
 		ArrayList<Task> newList = new ArrayList<Task>();
 		newList.addAll(floatingTasks);
 		newList.addAll(deadlineTasks);
 		newList.addAll(eventTasks);
 		newList = executeSort(newList);
 		ArrayList<ArrayList<Task>> updatedLists = StorageFunction.separateTaskList(newList);
+		FileStorage.writeObjectAsString(newList);
 		floatingTasks = updatedLists.get(0);
 		deadlineTasks = updatedLists.get(1);
 		eventTasks = updatedLists.get(2);
@@ -73,13 +74,14 @@ public class CommandExecutor extends FileStorage{
 		
 	}
 	
-	// PRIORITY AND DESCRIPTION NOT DONE
 	public void executeAdd(String[] commandParts) throws Exception {
 		String commandType = commandParts[0];
+		System.out.println(commandType);
 		Task newTask = parser.parseTask(commandParts);
 		newTask.setTaskIsNewest();
 		addTaskToList(newTask);
 		LemonGUIController.setCommand(commandType);
+		System.out.println(newTask);
 	}
 
 	public void executeEdit(String[] commandParts) throws Exception {
@@ -93,7 +95,7 @@ public class CommandExecutor extends FileStorage{
 		addTaskToList(newTask);
 	}
 
-	private String[] getStringForParsing(String[] commandParts) {
+	public String[] getStringForParsing(String[] commandParts) {
 		String[] stringToParse = new String[commandParts.length - 1];
 		for (int i = 1; i < commandParts.length; i++) {
 			stringToParse[i - 1] = commandParts[i];
@@ -127,7 +129,7 @@ public class CommandExecutor extends FileStorage{
 		}
 	}
 
-	private Task deleteTaskFromList(int deleteId) throws IOException, ClassNotFoundException {
+	public Task deleteTaskFromList(int deleteId) throws IOException, ClassNotFoundException {
 		Task deletedTask = new Task();
 		switch (listType) {
 		case TASKTYPE_FLOATING:
@@ -143,7 +145,7 @@ public class CommandExecutor extends FileStorage{
 		return deletedTask;
 	}
 
-	private Task removeTaskFromFloatingList(int deleteId) throws IOException, ClassNotFoundException {
+	public Task removeTaskFromFloatingList(int deleteId) throws IOException, ClassNotFoundException {
 		Task taskToDelete = floatingTasks.remove(deleteId - 1);
 		LemonGUIController.setTask(taskToDelete);
 		return taskToDelete;
@@ -204,16 +206,16 @@ public class CommandExecutor extends FileStorage{
 		for (int i = 0; i < deadlineTasks.size(); i++) {
 			Task taskToCheck = deadlineTasks.get(i);
 			String endDate = taskToCheck.getTaskEndDate();
-				if (parser.endDatePassed(currentDate, endDate) && (taskToCheck.getTaskIsOverdue() == false)) {
-					taskToCheck.setTaskIsOverdue();
+				if (parser.endDatePassed(currentDate, endDate) && (!taskToCheck.getTaskType().equals(TASKTYPE_OVERDUE))) {
+					taskToCheck.setTaskType(TASKTYPE_OVERDUE);
 				}
 		}
 			
 		for (int j = 0; j < eventTasks.size(); j++) {
 			Task taskToCheck = eventTasks.get(j);
 			String endDate = taskToCheck.getTaskEndDate();
-				if (parser.endDatePassed(currentDate, endDate) && (taskToCheck.getTaskIsDone() == false)) {
-					taskToCheck.setTaskIsDone();
+				if (parser.endDatePassed(currentDate, endDate) && (!taskToCheck.getTaskType().equals(TASKTYPE_DONE))) {
+					taskToCheck.setTaskType(TASKTYPE_DONE);
 				}
 		}
 	}
@@ -253,7 +255,7 @@ public class CommandExecutor extends FileStorage{
 		// 3 types of arraylist here
 		for (int j = 0; j < fullList.size(); j++) {
 			currentTask = fullList.get(j);
-			if (currentTask.getTaskIsDone() == false) {
+			if (!currentTask.getTaskType().equals(TASKTYPE_DONE)) {
 				if (currentTask.getTaskType().equals(TASKTYPE_FLOATING)) {
 					floatingTasks.add(currentTask);
 				}
@@ -263,7 +265,7 @@ public class CommandExecutor extends FileStorage{
 				if (currentTask.getTaskType().equals(TASKTYPE_EVENT)) {
 					eventTasks.add(currentTask);
 				}
-				if (currentTask.getTaskIsOverdue() == true) {
+				if (currentTask.getTaskType().equals(TASKTYPE_OVERDUE)) {
 					overdueTasks.add(currentTask);
 				}
 			} else {

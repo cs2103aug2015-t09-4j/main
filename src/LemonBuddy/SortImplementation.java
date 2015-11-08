@@ -44,8 +44,8 @@ public class SortImplementation {
 	}
 	
 	private static Integer convertDoneAndOverdue(Task t){
-		boolean DoneStatus = t.getTaskIsDone();
-		boolean OverDueStatus = t.getTaskIsOverdue();
+		boolean DoneStatus = (t.getTaskType().equals("Done"));
+		boolean OverDueStatus = (t.getTaskType().equals("Overdue"));
 		if(DoneStatus&&OverDueStatus){
 			return 1;
 		} else if (OverDueStatus) {

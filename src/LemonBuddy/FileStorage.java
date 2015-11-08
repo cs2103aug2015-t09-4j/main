@@ -44,7 +44,7 @@ public class FileStorage extends Parser {
 		assert(StorageFunction.checkFileStatus(f));
 		FileWriter fw = new FileWriter(f);
 		try {
-    		fw.write("");
+    		fw.write(EMPTY_CONTENT);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			StorageFunction.printExceptionMessage(e);

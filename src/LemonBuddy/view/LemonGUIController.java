@@ -237,6 +237,9 @@ public class LemonGUIController {
 			generateTimeline(mainApp.getListForTimeline(), newDate);
 			generateMainDisplay(mainApp.getListForDisplay());
 //			commandExecutor.executeRemoveNewest();
+//			generateTimeline(newDate);
+//			generateMainDisplay();
+			//commandExecutor.executeRemoveNewest();
 			selectedTask = new Task();
 		}
 	}
@@ -606,17 +609,17 @@ public class LemonGUIController {
 			return temp;
 		}
 		
-		if (newTask.getTaskIsOverdue() && !listType[1].equals("overdue")) {
-			temp.setDisplayId("^" + id);
-			temp.setTaskName("^" + newTask.getTaskName());
-			temp.setTaskStartDate("^" + newTask.getTaskStartDate());
-			temp.setTaskEndDate("^" + newTask.getTaskEndDate());
-			temp.setTaskStartTime("^" + newTask.getTaskStartTime());
-			temp.setTaskEndTime("^" + newTask.getTaskEndTime());
-			temp.setTaskPriority("^" + newTask.getTaskPriority());
-			temp.setTaskDescription("^" + newTask.getTaskDescription());
-			return temp;
-		}
+//		if (newTask.getTaskIsOverdue() && !listType[1].equals("overdue")) {
+//			temp.setDisplayId("^" + id);
+//			temp.setTaskName("^" + newTask.getTaskName());
+//			temp.setTaskStartDate("^" + newTask.getTaskStartDate());
+//			temp.setTaskEndDate("^" + newTask.getTaskEndDate());
+//			temp.setTaskStartTime("^" + newTask.getTaskStartTime());
+//			temp.setTaskEndTime("^" + newTask.getTaskEndTime());
+//			temp.setTaskPriority("^" + newTask.getTaskPriority());
+//			temp.setTaskDescription("^" + newTask.getTaskDescription());
+//			return temp;
+//		}
 		
 		
 		temp.setDisplayId("" + id);

@@ -6,6 +6,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CommandController {
+	private static final String TASKTYPE_EVENT = "event";
+
+	private static final String TASKTYPE_DEADLINE = "deadline";
+
+	private static final String TASKTYPE_FLOATING = "floating";
+
 	private static Logger logger = Logger.getLogger("CommandController");
 
 	private static final String COMMAND_ADD = "add";
@@ -32,6 +38,23 @@ public class CommandController {
 		commandexecutor.saveLastState();
 	}
 
+	// REMEMBER TO DELETE THIS!!! FOR TESTING ONLY!!//////////////////////
+	public static void main(String[] args) {
+		try {
+			CommandController commandcontroller = new CommandController();
+			commandcontroller = new CommandController();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String command = "add spectacular spiderman on 2340 *medium desc super duper";
+		commandcontroller.processCommand(command);
+	}
+	/////////////////////////////////////////////////////////////////////
+
 	public static void processCommand(String command) {
 		logger.log(Level.INFO, "going to start processing");
 		try {
@@ -40,7 +63,7 @@ public class CommandController {
 			}
 			String[] commandParts = commandcontroller.splitCommand(command);
 			String commandType = commandParts[0];
-			
+
 			executeSaveLastState(commandType);
 			
 			commandexecutor.updateLists();
@@ -63,7 +86,7 @@ public class CommandController {
 				}
 				commandexecutor.executeEdit(commandParts);
 				break;
-				
+
 			case COMMAND_UNDO:
 				commandexecutor.executeUndo();
 				break;
@@ -103,16 +126,17 @@ public class CommandController {
 				commandexecutor.parseInvalidCommand(commandType);
 				break;
 			}
+			commandexecutor.updateLists();
 		} catch (Exception e) {
 			logger.log(Level.WARNING, "processing error", e);
 			e.printStackTrace();
 		}
+
 	}
 
 	private static void executeSaveLastState(String commandType) throws Exception, IOException {
-		if (commandType.equals(COMMAND_ADD) || commandType.equals(COMMAND_DELETE)
-				|| commandType.equals(COMMAND_EDIT) || commandType.equals(COMMAND_RECUR)
-				|| commandType.equals(COMMAND_DONE)) {
+		if (commandType.equals(COMMAND_ADD) || commandType.equals(COMMAND_DELETE) || commandType.equals(COMMAND_EDIT)
+				|| commandType.equals(COMMAND_RECUR) || commandType.equals(COMMAND_DONE)) {
 			commandexecutor.saveLastState();
 		}
 	}
@@ -124,15 +148,13 @@ public class CommandController {
 
 	private boolean isValidTaskType(String taskType) {
 		if (taskType.equals("floating") || taskType.equals("deadline") || taskType.equals("event")) {
-			return true;
-		} else
+			if (taskType.equals(TASKTYPE_FLOATING) || taskType.equals(TASKTYPE_DEADLINE)
+				|| taskType.equals(TASKTYPE_EVENT)) {
+				return true;
+			}
+		} else {
 			return false;
+		}
+		return false;
 	}
-
-//	private boolean isValidClearType(String clearType) {
-//		if (clearType.equals("overdue") || clearType.equals("done")) {
-//			return true;
-//		} else
-//			return false;
-//	}
 }
