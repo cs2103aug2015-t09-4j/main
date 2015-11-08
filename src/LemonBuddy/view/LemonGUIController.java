@@ -236,7 +236,7 @@ public class LemonGUIController {
 			String newDate = timelineDate[1].substring(0,2) + "/" + timelineDate[1].substring(2,4) + "/" + timelineDate[1].substring(4,6);
 			generateTimeline(newDate);
 			generateMainDisplay();
-			commandExecutor.executeRemoveNewest();
+			//commandExecutor.executeRemoveNewest();
 			selectedTask = new Task();
 		}
 	}

@@ -23,11 +23,11 @@ public class Parser {
 		int wordIndex = 1;
 		String taskName = "";
 		newTask.setTaskType(TASKTYPE_FLOATING);
-
 		wordIndex = parseTaskName(commandParts, newTask, wordIndex, taskName);
 		wordIndex = parseDescription(commandParts, newTask, wordIndex);
 		wordIndex = parsePriority(commandParts, newTask, wordIndex);
 		wordIndex = parseTime(commandParts, newTask, wordIndex);
+		
 
 		return newTask;
 
@@ -167,7 +167,7 @@ public class Parser {
 
 	private void checkValidDateTimeInput(Task newTask) throws ParseException, Exception {
 		if (newTask.getTaskType().equals(TASKTYPE_EVENT)) {
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+			SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy");
 			Date date1 = sdf.parse(newTask.getTaskStartDate());
 			Date date2 = sdf.parse(newTask.getTaskEndDate());
 			if (date1.after(date2)) {
@@ -189,7 +189,7 @@ public class Parser {
 //				break;
 //			}
 			Boolean comma = false;
-			switch (commandParts[wordIndex]) {
+			switch (commandParts[wordIndex++]) {
 			case KEYWORD_ON:
 				wordIndex = splitCommaStart(commandParts, newTask, wordIndex, comma);
 				// qSystem.out.println("time = " + newTask.getTaskStartTime());

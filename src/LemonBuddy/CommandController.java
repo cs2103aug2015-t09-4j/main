@@ -33,7 +33,22 @@ public class CommandController {
 		}
 		commandexecutor.saveLastState();
 	}
-
+	//REMEMBER TO DELETE THIS!!! FOR TESTING ONLY!!//////////////////////
+	public static void main(String[] args){
+		try {
+		CommandController commandcontroller = new CommandController();
+			commandcontroller = new CommandController();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String command = "add spectacular spiderman on 1000, 12/12/15 *medium desc super";
+		commandcontroller.processCommand(command);
+	}
+	/////////////////////////////////////////////////////////////////////
 	public static void processCommand(String command) {
 		logger.log(Level.INFO, "going to start processing");
 		try {

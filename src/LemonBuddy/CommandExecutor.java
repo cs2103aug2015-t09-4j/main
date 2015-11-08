@@ -68,12 +68,14 @@ public class CommandExecutor extends FileStorage{
 	// PRIORITY AND DESCRIPTION NOT DONE
 	public void executeAdd(String[] commandParts) throws Exception {
 		String commandType = commandParts[0];
-
+		System.out.println(commandType);
+		
 		Task newTask = parser.parseTask(commandParts);
 		newTask.setTaskIsNewest();
 		addTaskToList(newTask);
 		LemonGUIController.setTask(newTask);
 		LemonGUIController.setCommand(commandType);
+		System.out.println(newTask);
 		
 	}
 
@@ -221,7 +223,7 @@ public class CommandExecutor extends FileStorage{
 		}
 	}
 
-	public void executeRemoveNewest() throws IOException, ClassNotFoundException {
+	/*public void executeRemoveNewest() throws IOException, ClassNotFoundException {
 		ArrayList<Task> array = FileStorage.readStringAsObject(path);
 		assert(array != null) : "unable to read from specified path";
 		for (int counter = 0; counter < array.size(); counter++) {
@@ -236,7 +238,7 @@ public class CommandExecutor extends FileStorage{
 			FileStorage.writeObjectAsString(array.get(j));
 			j++;
 		}
-	}
+	}*/
 
 	public void executeList(String[] commandParts) throws Exception {
 		String listType = commandParts[1];

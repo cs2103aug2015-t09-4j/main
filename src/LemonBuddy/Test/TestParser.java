@@ -34,21 +34,35 @@ public class TestParser extends Parser {
 //		}
 //	}
 	
-	public void testParseDeadline(String[] commandParts, String expectedName, String expectedStartDate, String expectedEndDate,
-			String expectedStartTime, String expectedEndTime, String expectedPriority, String expectedDescription) {
+	public void testParseName(String[] commandParts, String expectedName) {
 		try {
 			Task task = parser.parseTask(commandParts);
 			assertEquals(((Task) task).getTaskName(), expectedName);
-			assertEquals(((Task) task).getTaskStartDate(), expectedStartDate);
-			assertEquals(((Task) task).getTaskEndDate(), expectedEndDate);
-			assertEquals(((Task) task).getTaskStartTime(), expectedStartTime);
-			assertEquals(((Task) task).getTaskEndTime(), expectedEndTime);
-			assertEquals(((Task) task).getTaskPriority(), expectedPriority);
-			assertEquals(((Task) task).getTaskDescription(), expectedDescription);
 		} catch (Exception e) {
 			fail("Unknown exception");
 		}
 	}
+	@Test
+	public void executeTestParseName() {
+		String[] commandParts = new String[50];
+		commandParts = splitString("add spectacular spiderman on 1000, 12/12/15 *medium desc super");
+		testParseName(commandParts, "spectacular spiderman");
+	}
+//	public void testParseDeadline(String[] commandParts, String expectedName, String expectedStartDate, String expectedEndDate,
+//			String expectedStartTime, String expectedEndTime, String expectedPriority, String expectedDescription) {
+//		try {
+//			Task task = parser.parseTask(commandParts);
+//			assertEquals(((Task) task).getTaskName(), expectedName);
+//			assertEquals(((Task) task).getTaskStartDate(), expectedStartDate);
+//			assertEquals(((Task) task).getTaskEndDate(), expectedEndDate);
+//			assertEquals(((Task) task).getTaskStartTime(), expectedStartTime);
+//			assertEquals(((Task) task).getTaskEndTime(), expectedEndTime);
+//			assertEquals(((Task) task).getTaskPriority(), expectedPriority);
+//			assertEquals(((Task) task).getTaskDescription(), expectedDescription);
+//		} catch (Exception e) {
+//			fail("Unknown exception");
+//		}
+//	}
 //
 //	@Test
 //	public void executeTestParseEvent() {
@@ -69,17 +83,17 @@ public class TestParser extends Parser {
 //	}
 //	
 
-	@Test
-	public void executeTestParseDeadline() {
-		String[] commandParts = new String[50];
-		
-		commandParts = splitString("add bumbling bumblebee by 0010, 25/12/15");
-		testParseDeadline(commandParts, "bumbling bumblebee", "-1", "251215", "-1", "0010", "", "");
-		
-		commandParts = splitString("add bumbling bumblebee by 1200, 261215 *medium desc fly high");
-		testParseDeadline(commandParts, "bumbling bumblebee", "-1", "261215", "-1", "1200", "medium", "fly high");
-		
-	}
+//	@Test
+//	public void executeTestParseDeadline() {
+//		String[] commandParts = new String[50];
+//		
+//		commandParts = splitString("add bumbling bumblebee by 0010, 25/12/15");
+//		testParseDeadline(commandParts, "bumbling bumblebee", "-1", "251215", "-1", "0010", "", "");
+//		
+//		commandParts = splitString("add bumbling bumblebee by 1200, 261215 *medium desc fly high");
+//		testParseDeadline(commandParts, "bumbling bumblebee", "-1", "261215", "-1", "1200", "medium", "fly high");
+//		
+//	}
 	
 	private String[] splitString(String command) {
 		String[] commandParts = command.split(" ");
