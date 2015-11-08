@@ -76,6 +76,7 @@ public class CommandExecutor extends FileStorage{
 		LemonGUIController.setTask(newTask);
 		LemonGUIController.setCommand(commandType);
 		System.out.println(newTask);
+		//System.out.println(newTask.getTaskName());
 		
 	}
 

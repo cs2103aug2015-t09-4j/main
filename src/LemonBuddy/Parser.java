@@ -276,7 +276,7 @@ public class Parser {
 		return date;
 	}
 
-	private void addOneDayToStart(Task newTask) {
+	private String addOneDayToStart(Task newTask) {
 		Calendar startDate = Calendar.getInstance();
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyy HHmm");
 
@@ -284,7 +284,7 @@ public class Parser {
 		startDate.add(Calendar.HOUR, 24);
 		String[] timeInfo = dateFormatter.format(startDate.getTime()).split(" ");
 		newTask.setTaskStartDate(timeInfo[0]);
-
+		return timeInfo[0];
 	}
 
 	private void retrieveCurrentCalendar(Calendar startDate) {
