@@ -15,8 +15,6 @@ public class StorageFunction extends FileStorage {
 
 	private static final String MSG_WHEN_INVALID_FILENAME = "cannot find targeted file"; 
 	private static final String MSG_WHEN_IOEXCEPTION = "cannot store information"; 
-
-	private static Logger storageLogger;	
 	
 /************************************************** Modify TaskList ******************************************************************/		
 	
