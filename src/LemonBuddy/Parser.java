@@ -96,7 +96,7 @@ public class Parser {
 		return initialIndex;
 	}
 
-	public Task createTaskFromInformation(String s) {
+	public static Task createTaskFromInformation(String s) {
 		String[] array = s.split(";");
 		Task t = new Task();
 		for (int i = 0; i < array.length; i++) {
