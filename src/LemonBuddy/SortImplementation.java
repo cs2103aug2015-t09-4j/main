@@ -4,16 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class SortImplementation {
+public class SortImplementation{
 	
 	private static Parser parser;
-	private static TimeHandler timehandler;
 	public SortImplementation() {
 		if (parser == null) {
 			parser = new Parser();
-		}
-		if (timehandler == null){
-			timehandler = new TimeHandler();
 		}
 	}
 	
@@ -231,7 +227,7 @@ public class SortImplementation {
 					date2 = t1.getTaskStartDate();
 				}
 				
-				if(timehandler.endDatePassed(date1, date2)) {
+				if(parser.endDatePassed(date1, date2)) {
 					return 1;
 				} else if (date1.equals(date2)) {
 					if(p1 > p2){
