@@ -52,7 +52,7 @@ public class CommandController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String command = "add test from 050516, 1400 to 060516, 1600 *high desc hello world";
+		String command = "add spectacular spiderman on 2340 *medium desc super duper";
 		commandcontroller.processCommand(command);
 	}
 	/////////////////////////////////////////////////////////////////////

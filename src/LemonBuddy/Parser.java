@@ -23,10 +23,10 @@ public class Parser {
 		int wordIndex = 1;
 		String taskName = "";
 		newTask.setTaskType(TASKTYPE_FLOATING);
-		wordIndex = parseTaskName(commandParts, newTask, wordIndex, taskName);
-		wordIndex = parseDescription(commandParts, newTask, wordIndex);
-		wordIndex = parsePriority(commandParts, newTask, wordIndex);
-		wordIndex = parseTime(commandParts, newTask, wordIndex);
+		parseTaskName(commandParts, newTask, wordIndex, taskName);
+		parseDescription(commandParts, newTask, wordIndex);
+		parsePriority(commandParts, newTask, wordIndex);
+		parseTime(commandParts, newTask, wordIndex);
 
 		return newTask;
 
@@ -153,7 +153,6 @@ public class Parser {
 			Date date1 = sdf.parse(newTask.getTaskStartDate());
 			Date date2 = sdf.parse(newTask.getTaskEndDate());
 			if (date1.after(date2)) {
-				System.out.println("Date1 is after Date2");
 				throw new Exception("Start date after end date");
 			}
 
@@ -166,31 +165,46 @@ public class Parser {
 	}
 
 	private void setInputTime(String[] commandParts, Task newTask, int wordIndex) throws Exception {
+		String[] timeInfo = new String[2];
 		while (wordIndex < commandParts.length) {
 			if (commandParts[wordIndex].equals("desc")) {
 				break;
 			}
-			Boolean comma = false;
 			switch (commandParts[wordIndex++]) {
 
 			case KEYWORD_ON:
-				wordIndex = splitCommaStart(commandParts, newTask, wordIndex, comma);
-				// qSystem.out.println("time = " + newTask.getTaskStartTime());
+				timeInfo = getTimeInfo(commandParts, newTask, wordIndex);
+				newTask.setTaskStartDate(timeInfo[0]);
+				newTask.setTaskStartTime(timeInfo[1]);
 				setOnDefaultTime(newTask);
-				addOneHourToEnd(newTask);
+				timeInfo = addOneHour(newTask.getTaskStartDate(), newTask.getTaskStartTime());
+				newTask.setTaskEndDate(timeInfo[0]);
+				newTask.setTaskEndTime(timeInfo[1]);
+
 				newTask.setTaskType(TASKTYPE_EVENT);
 				break;
 			case KEYWORD_BY:
-				wordIndex = splitCommaEnd(commandParts, newTask, wordIndex, comma);
+				timeInfo = getTimeInfo(commandParts, newTask, wordIndex);
+				newTask.setTaskEndDate(timeInfo[0]);
+				newTask.setTaskEndTime(timeInfo[1]);
 				newTask.setTaskType(TASKTYPE_DEADLINE);
 				break;
 			case KEYWORD_FROM:
-				wordIndex = splitCommaStart(commandParts, newTask, wordIndex, comma);
-
-				wordIndex++;
-				wordIndex++;
-				wordIndex = splitCommaEnd(commandParts, newTask, wordIndex, comma);
-
+				timeInfo = getTimeInfo(commandParts, newTask, wordIndex);
+				newTask.setTaskStartDate(timeInfo[0]);
+				newTask.setTaskStartTime(timeInfo[1]);
+				for (int i = wordIndex; i < commandParts.length; i++) {
+					System.out.println(commandParts[i]);
+					if (commandParts[i].equals("to")) {
+						i++;
+						wordIndex = i;
+						break;
+					}
+				}
+				timeInfo = getTimeInfo(commandParts, newTask, wordIndex);
+			
+				newTask.setTaskEndDate(timeInfo[0]);
+				newTask.setTaskEndTime(timeInfo[1]);
 				newTask.setTaskType(TASKTYPE_EVENT);
 				break;
 			}
@@ -276,54 +290,28 @@ public class Parser {
 		return date;
 	}
 
-	private String addOneDayToStart(Task newTask) {
-		Calendar startDate = Calendar.getInstance();
+	private String addOneDay(String date, String time) {
+		Calendar initialTime = Calendar.getInstance();
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyy HHmm");
-
-		retrieveCurrentCalendar(startDate);
-		startDate.add(Calendar.HOUR, 24);
-		String[] timeInfo = dateFormatter.format(startDate.getTime()).split(" ");
-		newTask.setTaskStartDate(timeInfo[0]);
-		return timeInfo[0];
-	}
-
-	private void retrieveCurrentCalendar(Calendar startDate) {
-		String date = getCurrentDate();
-		String time = getCurrentTime();
-		startDate.set(Integer.parseInt(date.substring(4,6)), Integer.parseInt(date.substring(2,4))-1, Integer.parseInt(date.substring(0,2)), Integer.parseInt(time.substring(0,2)), Integer.parseInt(time.substring(2,4)), 0);
-
-	}
-
-	private void addOneDayToEnd(Task newTask) {
-		Calendar endDate = Calendar.getInstance();
-		SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyy HHmm");
-		retrieveCurrentCalendar(endDate);
-		endDate.add(Calendar.HOUR, 24);
-		String[] timeInfo = dateFormatter.format(endDate.getTime()).split(" ");
-		newTask.setTaskEndDate(timeInfo[0]);
-
-	}
-
-	private void addOneHourToEnd(Task newTask) {
-		Calendar endTime = Calendar.getInstance();
-		retrieveStartTimeCalendar(newTask, endTime);
-		endTime.add(Calendar.HOUR, 1);
-		setNewEndTime(newTask, endTime);
-	}
-
-	private void setNewEndTime(Task newTask, Calendar endTime) {
-		SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyy HHmm");
-		String[] timeInfo = dateFormatter.format(endTime.getTime()).split(" ");
-		newTask.setTaskEndDate(timeInfo[0]);
-		newTask.setTaskEndTime(timeInfo[1]);
-	}
-
-	private void retrieveStartTimeCalendar(Task newTask, Calendar endTime) {
-		String date = newTask.getTaskStartDate();
-		String time = newTask.getTaskStartTime();
-		endTime.set(Integer.parseInt(date.substring(4, 6)), Integer.parseInt(date.substring(2, 4)) - 1,
+		time = getCurrentTime();
+		initialTime.set(Integer.parseInt(date.substring(4, 6)), Integer.parseInt(date.substring(2, 4)) - 1,
 				Integer.parseInt(date.substring(0, 2)), Integer.parseInt(time.substring(0, 2)),
 				Integer.parseInt(time.substring(2, 4)), 0);
+		initialTime.add(Calendar.HOUR, 24);
+		String[] timeInfo = dateFormatter.format(initialTime.getTime()).split(" ");
+		return timeInfo[0];
+
+	}
+
+	private String[] addOneHour(String date, String time) {
+		Calendar initialTime = Calendar.getInstance();
+		initialTime.set(Integer.parseInt(date.substring(4, 6)), Integer.parseInt(date.substring(2, 4)) - 1,
+				Integer.parseInt(date.substring(0, 2)), Integer.parseInt(time.substring(0, 2)),
+				Integer.parseInt(time.substring(2, 4)), 0);
+		initialTime.add(Calendar.HOUR, 1);
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyy HHmm");
+		String[] timeInfo = dateFormatter.format(initialTime.getTime()).split(" ");
+		return timeInfo;
 	}
 
 	public String getCurrentDate() {
@@ -340,116 +328,51 @@ public class Parser {
 		return time;
 	}
 
-	private int splitCommaStart(String[] commandParts, Task newTask, int wordIndex, Boolean comma) throws Exception {
+	// 0 for date 1 for time
+	private String[] getTimeInfo(String[] commandParts, Task newTask, int wordIndex) throws Exception {
+		Boolean commaIsPresent = false;
+		String[] timeInfo = new String[2];
+		timeInfo[0] = "-1";
+		timeInfo[1] = "-1";
+
+		String currentDate = getCurrentDate();
+		String currentTime = getCurrentTime();
 		String taskOn = commandParts[wordIndex];
 		// trim and comma is present
 		if (commandParts[wordIndex].contains(",")) {
 			if (!(commandParts[wordIndex].indexOf(",") == commandParts[wordIndex].length() - 1)) {
-				throw new Exception("Start comma has no spacing");
+				throw new Exception("Comma has no spacing");
 			}
 		}
-		if (commandParts[wordIndex].contains(",")) {
-			taskOn = commandParts[wordIndex].substring(0, commandParts[wordIndex].indexOf(","));
-			comma = true;
-		}
-		taskOn = removeSlashes(taskOn);
-		if (taskOn.length() == 4) {
-			int taskOnInt = Integer.valueOf(taskOn);
-			if (taskOnInt > 2400 || taskOnInt < 0) {
-				throw new Exception("Time out of range");
-			}
-			newTask.setTaskStartTime(taskOn);
-		} else if (taskOn.length() == 6) {
-			if (!isDateValid(taskOn)) {
-				throw new Exception("Invalid Date");
-			}
-			newTask.setTaskStartDate(taskOn);
-		} else if (taskOn.equals(KEYWORD_TOMORROW)) {
-			addOneDayToStart(newTask);
-			addOneDayToEnd(newTask);
-		}
-		if (comma) {
-			if (++wordIndex >= commandParts.length) {
-				throw new Exception("No time specified after comma");
-			}
+
+		int parseCount = 1;
+		for (int i = 0; i < parseCount; i++) {
 			taskOn = commandParts[wordIndex];
+			System.out.println(taskOn);
+			if (commandParts[wordIndex].contains(",")) {
+				taskOn = commandParts[wordIndex].substring(0, commandParts[wordIndex].indexOf(","));
+				parseCount = 2;
+			}
 			taskOn = removeSlashes(taskOn);
 			if (taskOn.length() == 4) {
 				int taskOnInt = Integer.valueOf(taskOn);
 				if (taskOnInt > 2400 || taskOnInt < 0) {
 					throw new Exception("Time out of range");
 				}
-				newTask.setTaskStartTime(taskOn);
+				timeInfo[1] = taskOn;
 			} else if (taskOn.length() == 6) {
 				if (!isDateValid(taskOn)) {
 					throw new Exception("Invalid Date");
 				}
-				newTask.setTaskStartDate(taskOn);
+				timeInfo[0] = taskOn;
 			} else if (taskOn.equals(KEYWORD_TOMORROW)) {
-				addOneDayToStart(newTask);
-				addOneDayToEnd(newTask);
+				String nextDate = addOneDay(currentDate, currentTime);
+				timeInfo[0] = nextDate;
 			}
-			// wordIndex = wordIndex + 1;
-		}
-		return wordIndex;
-	}
-
-	private int splitCommaEnd(String[] commandParts, Task newTask, int wordIndex, Boolean comma) throws Exception {
-		if (commandParts[wordIndex].contains(",")) {
-			if (!(commandParts[wordIndex].indexOf(",") == commandParts[wordIndex].length() - 1)) {
-				throw new Exception("End comma has no spacing");
-			}
+			wordIndex++;
 		}
 
-		String taskTo = commandParts[wordIndex];
-		// trim and comma is present
-		if (commandParts[wordIndex].contains(",")) {
-			taskTo = commandParts[wordIndex].substring(0, commandParts[wordIndex].indexOf(","));
-			comma = true;
-		}
-		taskTo = removeSlashes(taskTo);
-		if (taskTo.length() == 4) {
-			int taskToInt = Integer.valueOf(taskTo);
-			if (taskToInt > 2400 || taskToInt < 0) {
-				throw new Exception("Time out of range");
-			}
-			newTask.setTaskEndTime(taskTo);
-		} else if (taskTo.length() == 6) {
-			if (!isDateValid(taskTo)) {
-				throw new Exception("Invalid Date");
-			}
-			newTask.setTaskEndDate(taskTo);
-		}
-
-		else if (taskTo.equals(KEYWORD_TOMORROW)) {
-			addOneDayToEnd(newTask);
-
-		}
-
-		if (comma) {
-			if (++wordIndex >= commandParts.length) {
-				throw new Exception("No time specified after comma");
-			}
-			taskTo = commandParts[wordIndex];
-			taskTo = removeSlashes(taskTo);
-			if (taskTo.length() == 4) {
-				int taskToInt = Integer.valueOf(taskTo);
-				if (taskToInt > 2400 || taskToInt < 0) {
-					throw new Exception("Time out of range");
-				}
-				newTask.setTaskEndTime(taskTo);
-			} else if (taskTo.length() == 6) {
-				if (!isDateValid(taskTo)) {
-					throw new Exception("Invalid Date");
-				}
-				newTask.setTaskEndDate(taskTo);
-			} else if (taskTo.equals(KEYWORD_TOMORROW)) {
-				addOneDayToEnd(newTask);
-
-			}
-			wordIndex = wordIndex + 1;
-		}
-		return wordIndex;
+		return timeInfo;
 	}
 
 	public boolean endDatePassed(String currentDate, String endDate) {
@@ -517,8 +440,8 @@ public class Parser {
 	public boolean nextPriorityIsHigher(String currentPriority, String nextPriority) {
 		if (nextPriority.equals("high") && !currentPriority.equals("high")) {
 			return true;
-		} else if (nextPriority.equals("medium") && !currentPriority.equals("high")
-				&& !currentPriority.equals("medium")) {
+		} else
+			if (nextPriority.equals("medium") && !currentPriority.equals("high") && !currentPriority.equals("medium")) {
 			return true;
 		} else {
 			return false;
