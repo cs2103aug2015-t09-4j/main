@@ -48,8 +48,6 @@ public class CommandController {
 			switch (commandType) {
 			case COMMAND_ADD:
 				commandexecutor.executeAdd(commandParts);
-				commandexecutor.executeSort();
-				commandexecutor.executeSortFloating();
 				break;
 
 			case COMMAND_DELETE:
@@ -64,8 +62,6 @@ public class CommandController {
 					throw new Exception("Invalid task type");
 				}
 				commandexecutor.executeEdit(commandParts);
-				commandexecutor.executeSort();
-				commandexecutor.executeSortFloating();
 				break;
 
 			case COMMAND_RECUR:
