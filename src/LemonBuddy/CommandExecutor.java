@@ -55,7 +55,7 @@ public class CommandExecutor extends FileStorage{
 		newList.addAll(floatingTasks);
 		newList.addAll(deadlineTasks);
 		newList.addAll(eventTasks);
-		//sort?
+		newList = executeSort(newList);
 		ArrayList<ArrayList<Task>> updatedLists = StorageFunction.separateTaskList(newList);
 		floatingTasks = updatedLists.get(0);
 		deadlineTasks = updatedLists.get(1);
@@ -87,17 +87,6 @@ public class CommandExecutor extends FileStorage{
 		newTask.mergeTaskDetails(oldTask);
 		addTaskToList(newTask);
 	}
-
-	// private void editTaskDetails(String[] commandParts, Task newTask) throws
-	// IOException, ClassNotFoundException {
-	// ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
-	// FileStorage.clear();
-	// int taskToEditIndex = writeUntilTaskIndex(commandParts, fullList);
-	// Task taskToEdit = fullList.get(taskToEditIndex);
-	// FileStorage.writeObjectAsString(newTask.mergeTaskDetails(taskToEdit));
-	// LemonGUIController.setTask(newTask);
-	// writeRestOfList(fullList, taskToEditIndex);
-	// }
 
 	private String[] getStringForParsing(String[] commandParts) {
 		String[] stringToParse = new String[commandParts.length - 1];
@@ -171,56 +160,6 @@ public class CommandExecutor extends FileStorage{
 		return taskToDelete;
 	}
 
-	public void executeRecur(String[] commandParts) throws IOException, ClassNotFoundException {
-		String recurType = commandParts[1];
-		String recurID = commandParts[2];
-		String recurFreq = commandParts[3];
-		String recurEndDate = commandParts[4];
-
-		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
-		int taskTypeIndex = 1;
-
-		for (int i = 0; i < fullList.size(); i++) {
-			Task currentTask = fullList.get(i);
-
-			if (currentTask.getTaskType().equals(recurType)) {
-				if (recurID.equals(String.valueOf(taskTypeIndex))) {
-					taskTypeIndex++;
-					Task recurringTask = currentTask;
-					if (recurType.equals(TASKTYPE_DEADLINE)) {
-						// note: changed
-						String currentRecurringDate = currentTask.getTaskEndDate();
-						if (recurFreq.equals("yearly")) {
-							currentRecurringDate = parser.addOneYear(currentRecurringDate);
-							while (!parser.endDatePassed(currentRecurringDate, recurEndDate)) {
-								recurringTask.setTaskEndDate(currentRecurringDate);
-								FileStorage.writeObjectAsString(recurringTask);
-								currentRecurringDate = parser.addOneYear(currentRecurringDate);
-							}
-						}
-
-						/*
-						 * while (!parser.endDatePassed(currentRecurringDate,
-						 * recurEndDate)) { System.out.println(
-						 * "While loop entered"); if
-						 * (recurFreq.equals("yearly")) { currentRecurringDate =
-						 * parser.addOneYear(currentRecurringDate);
-						 * recurringTask.setTaskEndDate(currentRecurringDate);
-						 * System.out.println(currentRecurringDate);
-						 * FileStorage.write(recurringTask); } }
-						 */
-
-					} else if (recurType == TASKTYPE_EVENT) {
-
-					}
-
-				} else {
-					taskTypeIndex++;
-				}
-			}
-		}
-	}
-
 	public void executeNavigate(String[] commandParts) throws ClassNotFoundException, IOException, ParseException {
 		// get days related to day
 		String commandType = commandParts[0];
@@ -259,39 +198,6 @@ public class CommandExecutor extends FileStorage{
 	public void executeHelp() {
 		// GUIConsole.displayHelp();
 	}
-
-	/*public void executeUpdate() throws IOException, ClassNotFoundException {
-		ArrayList<Task> array = FileStorage.readStringAsObject(path);
-		assert(array != null) : "unable to read from specified path";
-
-		String currentDate = parser.getCurrentDate();
-		// System.out.println(currentDate);
-
-		int i = 0;
-		boolean anythingRemoved = false;
-
-		for (i = 0; i < array.size(); i++) {
-			Task overdueTask = array.get(i);
-			String endDate = array.get(i).getTaskEndDate();
-			// System.out.println(endDate);
-			if (endDate.length() == 6) {
-				if (parser.endDatePassed(currentDate, endDate) && (overdueTask.getTaskIsOverdue() == false)) {
-					overdueTask.setTaskIsOverdue();
-					array.set(i, overdueTask);
-					anythingRemoved = true;
-				}
-			}
-		}
-
-		if (anythingRemoved) {
-			FileStorage.clear();
-			int j = 0;
-			while (j < array.size()) {
-				FileStorage.writeObjectAsString(array.get(j));
-				j++;
-			}
-		}
-	}*/
 	
 	public void executeUpdate() throws IOException, ClassNotFoundException {
 
@@ -383,17 +289,6 @@ public class CommandExecutor extends FileStorage{
 		}
 	}
 
-	public void executeDisplay(String[] commandParts) throws Exception {
-		ArrayList<Task> fullList = new ArrayList<Task>();
-		LemonGUIController.setCommand(commandParts[0]);
-		Task currentTask;
-
-		int id = Integer.parseInt(commandParts[1]);
-		fullList = FileStorage.readStringAsObject(path);
-		currentTask = fullList.get(id - 1);
-		// LemonGUIController.setTask(currentTask);
-	}
-
 	public void parseInvalidCommand(String command) {
 		// GUIConsole.displayErrorMessage(command);
 	}
@@ -416,143 +311,9 @@ public class CommandExecutor extends FileStorage{
 
 	}
 
-	/*public void executeSortFloating() throws ClassNotFoundException, IOException {
-		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
-		// System.out.println("Hello");
-		int sizeToCheck = fullList.size();
-		for (int i = 0; i < sizeToCheck; i++) {
-			Task currentTask = fullList.get(i);
-			System.out.println("tasktype: " + currentTask.getTaskType());
-			if (currentTask.getTaskType().equals(TASKTYPE_FLOATING)) {
-				System.out.println("Entered if");
-				fullList.add(fullList.remove(i));
-				i--;
-				sizeToCheck--;
-			}
-		}
-
-		FileStorage.clear();
-		for (int j = 0; j < fullList.size(); j++) {
-			FileStorage.writeObjectAsString(fullList.get(j));
-		}
-	}*/
-
-	public void executeClear(String[] commandParts) throws ClassNotFoundException, IOException {
-		ArrayList<Task> fullList = new ArrayList<Task>();
-		Task currentTask;
-		fullList = FileStorage.readStringAsObject(path);
-		FileStorage.clear();
-		for (int j = 0; j < fullList.size(); j++) {
-			currentTask = fullList.get(j);
-			if (commandParts[1].equals(TASKTYPE_DONE)) {
-				if (currentTask.getTaskIsDone()) {
-					continue;
-				}
-			} else if (commandParts[1].equals(TASKTYPE_OVERDUE)) {
-				if (currentTask.getTaskIsOverdue()) {
-					continue;
-				}
-			}
-			FileStorage.writeObjectAsString(currentTask);
-		}
-	}
-
-	public void executeSort() throws ClassNotFoundException, IOException {
-		ArrayList<Task> fullList = FileStorage.readStringAsObject(path);
-		for (int i = 0; i < fullList.size() - 1; i++) {
-			Task currentTask = fullList.get(i);
-			for (int j = i + 1; j < fullList.size(); j++) {
-				Task nextTask = fullList.get(j);
-				if (currentTask.getTaskType().equals(TASKTYPE_DEADLINE)) {
-					String currentDate = currentTask.getTaskEndDate();
-					if (nextTask.getTaskType().equals(TASKTYPE_DEADLINE)) {
-						String nextDate = nextTask.getTaskEndDate();
-						if (parser.endDatePassed(currentDate, nextDate)) {
-							// fullList.add(j, fullList.remove(i));
-							fullList.add(i, nextTask);
-							fullList.add(j + 1, currentTask);
-							fullList.remove(i + 1);
-							fullList.remove(j + 1);
-						} else if (currentDate.equals(nextDate)) {
-							String currentPriority = currentTask.getTaskPriority();
-							String nextPriority = nextTask.getTaskPriority();
-							if (parser.nextPriorityIsHigher(currentPriority, nextPriority)) {
-								// fullList.add(j, fullList.remove(i));
-								fullList.add(i, nextTask);
-								fullList.add(j + 1, currentTask);
-								fullList.remove(i + 1);
-								fullList.remove(j + 1);
-							}
-						}
-					} else if (nextTask.getTaskType().equals(TASKTYPE_EVENT)) {
-						String nextDate = nextTask.getTaskStartDate();
-						if (parser.endDatePassed(currentDate, nextDate)) {
-							// fullList.add(j, fullList.remove(i));
-							fullList.add(i, nextTask);
-							fullList.add(j + 1, currentTask);
-							fullList.remove(i + 1);
-							fullList.remove(j + 1);
-						} else if (currentDate.equals(nextDate)) {
-							String currentPriority = currentTask.getTaskPriority();
-							String nextPriority = nextTask.getTaskPriority();
-							if (parser.nextPriorityIsHigher(currentPriority, nextPriority)) {
-								// fullList.add(j, fullList.remove(i));
-								fullList.add(i, nextTask);
-								fullList.add(j + 1, currentTask);
-								fullList.remove(i + 1);
-								fullList.remove(j + 1);
-							}
-						}
-					}
-				} else if (currentTask.getTaskType().equals(TASKTYPE_EVENT)) {
-					String currentDate = currentTask.getTaskStartDate();
-					if (nextTask.getTaskType().equals(TASKTYPE_EVENT)) {
-						String nextDate = nextTask.getTaskStartDate();
-						if (parser.endDatePassed(currentDate, nextDate)) {
-							// fullList.add(j, fullList.remove(i));
-							fullList.add(i, nextTask);
-							fullList.add(j + 1, currentTask);
-							fullList.remove(i + 1);
-							fullList.remove(j + 1);
-						} else if (currentDate.equals(nextDate)) {
-							String currentPriority = currentTask.getTaskPriority();
-							String nextPriority = nextTask.getTaskPriority();
-							if (parser.nextPriorityIsHigher(currentPriority, nextPriority)) {
-								// fullList.add(j, fullList.remove(i));
-								fullList.add(i, nextTask);
-								fullList.add(j + 1, currentTask);
-								fullList.remove(i + 1);
-								fullList.remove(j + 1);
-							}
-						}
-					} else if (nextTask.getTaskType().equals(TASKTYPE_DEADLINE)) {
-						String nextDate = nextTask.getTaskEndDate();
-						if (parser.endDatePassed(currentDate, nextDate)) {
-							// fullList.add(j, fullList.remove(i));
-							fullList.add(i, nextTask);
-							fullList.add(j + 1, currentTask);
-							fullList.remove(i + 1);
-							fullList.remove(j + 1);
-						} else if (currentDate.equals(nextDate)) {
-							String currentPriority = currentTask.getTaskPriority();
-							String nextPriority = nextTask.getTaskPriority();
-							if (parser.nextPriorityIsHigher(currentPriority, nextPriority)) {
-								// fullList.add(j, fullList.remove(i));
-								fullList.add(i, nextTask);
-								fullList.add(j + 1, currentTask);
-								fullList.remove(i + 1);
-								fullList.remove(j + 1);
-							}
-						}
-					}
-				}
-			}
-		}
-
-		FileStorage.clear();
-		for (int j = 0; j < fullList.size(); j++) {
-			FileStorage.writeObjectAsString(fullList.get(j));
-		}
+	public ArrayList<Task> executeSort(ArrayList<Task> list) {
+		Sort.sortByDateThenPriority(list);
+		return list;
 	}
 
 	public void saveLastState() throws Exception, IOException {

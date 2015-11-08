@@ -6,6 +6,14 @@ import java.util.Comparator;
 
 public class SortImplementation {
 	
+	private static Parser parser;
+	
+	public SortImplementation() {
+		if (parser == null) {
+			parser = new Parser();
+		}
+	}
+	
 /************************************************** Convert Function for Sorting ******************************************************************/	
 	private static int convertPriority(Task t){
 		String tempPriority = t.getTaskPriority();
@@ -193,5 +201,49 @@ public class SortImplementation {
 		return list;
 	}
 	
-
+	protected static ArrayList<Task> SortDateThenPriority(ArrayList<Task> list) {
+		Comparator<Task> comparator = new Comparator<Task>(){
+			public int compare(Task t1, Task t2) {					
+				String date1 = null;
+				String date2 = null;
+				Integer p1, p2;
+				p1 = convertPriority(t1);
+				p2 = convertPriority(t2);
+				
+				String deadline = "deadline";
+				String event = "event";
+				
+				String type1 = t1.getTaskType();
+				String type2=  t2.getTaskType();
+				
+				if (type1.equals(deadline)) {
+					date1 = t1.getTaskEndDate(); 
+				} else if (type1.equals(event)) {
+					date1 = t1.getTaskStartDate();
+				}
+				
+				if (type2.equals(deadline)) {
+					date2 = t1.getTaskEndDate(); 
+				} else if (type1.equals(event)) {
+					date2 = t1.getTaskStartDate();
+				}
+				
+				if(parser.endDatePassed(date1, date2)) {
+					return 1;
+				} else if (date1.equals(date2)) {
+					if(p1 > p2){
+						return 1;
+					} else if (p1 == p2) {
+						return 0;
+					} else {
+						return -1;
+					}
+				} else {
+					return -1;
+			    }					
+			}
+		};				
+		Collections.sort(list, comparator);
+		return list;
+	}
 }
