@@ -8,12 +8,8 @@ import java.io.OutputStream;
 class MyObjectOutputStream extends ObjectOutputStream {
      private static File f;
 
-     public MyObjectOutputStream newInstance(File file, OutputStream out) throws IOException {
-    	 try {
-    		 
-    	 } catch (IOException e) {
-    		 FileStorage.
-    	 }
+     public static MyObjectOutputStream newInstance(File file, OutputStream out)
+              throws IOException {
          f = file;
          return new MyObjectOutputStream(out);
      }
