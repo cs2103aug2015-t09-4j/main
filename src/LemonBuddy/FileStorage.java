@@ -44,8 +44,12 @@ public class FileStorage extends Parser {
 		return content;
 	}
 	
+<<<<<<< HEAD
 	private ArrayList<ArrayList<Task>> separateTaskList(ArrayList<Task> taskList) {
 		storageLogger.log(Level.INFO, "Going to separate arraylist of task into arraylist of arraylist of task");
+=======
+	protected static ArrayList<ArrayList<Task>> separateTaskList(ArrayList<Task> taskList) {
+>>>>>>> origin/master
 		
 		ArrayList<ArrayList<Task>> separateList = new  ArrayList<ArrayList<Task>>();
 		ArrayList<Task> floatingList = new ArrayList<Task>();
