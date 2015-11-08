@@ -138,15 +138,6 @@ public class Parser {
 			case "taskEndTime":
 				t.setTaskEndTime(temp[1]);
 				break;
-			case "recurType":
-				t.setRecurType(temp[1]);
-				break;
-			case "recurStartDate":
-				t.setRecurStartDate(temp[1]);
-				break;
-			case "recurEndDate":
-				t.setRecurEndDate(temp[1]);
-				break;
 			default:
 				break;
 			}

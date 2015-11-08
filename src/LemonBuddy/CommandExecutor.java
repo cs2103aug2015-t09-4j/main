@@ -19,12 +19,13 @@ public class CommandExecutor extends FileStorage{
 	private static final String TASKTYPE_FLOATING = "floating";
 
 	private static String path;
+	private lemonGUI lemonGUI;
 	private Parser parser;
 	String lastState;
 	Stack<String> lastStates;
 	Stack<String> undoneStates;
 
-	private String lastListType;
+	private String listType;
 
 	private ArrayList<Task> floatingTasks;
 	private ArrayList<Task> deadlineTasks;
@@ -32,8 +33,12 @@ public class CommandExecutor extends FileStorage{
 	private ArrayList<Task> allTasks;
 	private ArrayList<Task> doneTasks;
 	private ArrayList<Task> overdueTasks;
+	private ArrayList<Task> listToDisplay;
+	private ArrayList<Task> listToTimeline;
+	private String[] date = {"", ""};
+	
 
-	public CommandExecutor() {
+	public CommandExecutor() throws ClassNotFoundException, IOException {
 		if (parser == null) {
 			parser = new Parser();
 		}
@@ -41,13 +46,15 @@ public class CommandExecutor extends FileStorage{
 		undoneStates = new Stack<String>();
 		lastState = "";
 		path = "";
-		floatingTasks = new ArrayList<Task>();
-		deadlineTasks = new ArrayList<Task>();
-		eventTasks = new ArrayList<Task>();
-		doneTasks = new ArrayList<Task>();
-		allTasks = new ArrayList<Task>();
-		overdueTasks = new ArrayList<Task>();
-		lastListType = "overdue";
+		ArrayList<ArrayList<Task>> temp = FileStorage.readStringAsObject(path);
+		floatingTasks = new ArrayList<Task>(temp.get(0));
+		deadlineTasks = new ArrayList<Task>(temp.get(1));
+		eventTasks = new ArrayList<Task>(temp.get(2));
+		allTasks = new ArrayList<Task>(temp.get(3));
+		doneTasks = new ArrayList<Task>(temp.get(4));
+		overdueTasks = new ArrayList<Task>(temp.get(5));
+		listType = "overdue";
+		date[1] = parser.getCurrentDate();
 	}
 	
 	public void updateLists(){
@@ -63,18 +70,16 @@ public class CommandExecutor extends FileStorage{
 		allTasks = updatedLists.get(3);
 		doneTasks = updatedLists.get(4);
 		overdueTasks = updatedLists.get(5);
+		
 	}
 	
 	// PRIORITY AND DESCRIPTION NOT DONE
 	public void executeAdd(String[] commandParts) throws Exception {
 		String commandType = commandParts[0];
-
 		Task newTask = parser.parseTask(commandParts);
 		newTask.setTaskIsNewest();
 		addTaskToList(newTask);
-		LemonGUIController.setTask(newTask);
 		LemonGUIController.setCommand(commandType);
-		
 	}
 
 	public void executeEdit(String[] commandParts) throws Exception {
@@ -100,15 +105,8 @@ public class CommandExecutor extends FileStorage{
 	public void executeDelete(String[] commandParts) throws Exception {
 		String commandType = commandParts[0];
 		int deleteId = Integer.valueOf(commandParts[1]);
-		// ArrayList<Task> array = FileStorage.readStringAsObject(path);
-		// assert(array != null) : "unable to read from specified path";
-		// if (Integer.valueOf(deleteId) > array.size() ||
-		// Integer.valueOf(deleteId) <= 0) {
-		// return;
-		// }
 		LemonGUIController.setCommand(commandType);
-		Task deletedTask = deleteTaskFromList(deleteId);
-		// removeTaskFromFile(commandParts);
+		deleteTaskFromList(deleteId);
 	}
 
 	private void addTaskToList(Task newTask) {
@@ -116,11 +114,14 @@ public class CommandExecutor extends FileStorage{
 		switch (newTask.getTaskType()) {
 		case TASKTYPE_FLOATING:
 			floatingTasks.add(newTask);
+			listToDisplay = floatingTasks;
 			break;
 		case TASKTYPE_DEADLINE:
+			fillUpTime(newTask);
 			deadlineTasks.add(newTask);
 			break;
 		case TASKTYPE_EVENT:
+			fillUpTime(newTask);
 			eventTasks.add(newTask);
 			break;
 		}
@@ -128,7 +129,7 @@ public class CommandExecutor extends FileStorage{
 
 	private Task deleteTaskFromList(int deleteId) throws IOException, ClassNotFoundException {
 		Task deletedTask = new Task();
-		switch (lastListType) {
+		switch (listType) {
 		case TASKTYPE_FLOATING:
 			deletedTask = removeTaskFromFloatingList(deleteId);
 			break;
@@ -160,6 +161,10 @@ public class CommandExecutor extends FileStorage{
 		return taskToDelete;
 	}
 
+	/*
+	 * get what user wants to view date e.g. navigate 010101
+	 */
+	
 	public void executeNavigate(String[] commandParts) throws ClassNotFoundException, IOException, ParseException {
 		// get days related to day
 		String commandType = commandParts[0];
@@ -169,30 +174,24 @@ public class CommandExecutor extends FileStorage{
 		SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy");
 		Date dateToView = sdf.parse(dateInput);
 
-		ArrayList<Task> eventsOnDate = new ArrayList<Task>();
-
-		for (int index = 0; index < allTasks.size(); index++) {
-			Task currentTask = allTasks.get(index);
+		ArrayList<Task> tasksOnDate = new ArrayList<Task>();
+		Task currentTask;
+		for (int index = 0; index < eventTasks.size(); index++) {
+			currentTask = eventTasks.get(index);
 			Date dateStart = sdf.parse(currentTask.getTaskStartDate());
 			Date dateEnd = sdf.parse(currentTask.getTaskEndDate());
 			if ((dateEnd.compareTo(dateToView) >= 0) && (dateStart.compareTo(dateToView) <= 0)) {
-				eventsOnDate.add(currentTask);
+				tasksOnDate.add(currentTask);
 			}
-			if (currentTask.getTaskType().equals(TASKTYPE_DEADLINE)) {
-				if (currentTask.getTaskEndDate().equals(dateInput)) {
-					deadlineTasks.add(currentTask);
-				}
-			}
-
-			deadlineTasks.addAll(eventTasks);
-
-			ArrayList<Task> temp = Sort.sortByTime(deadlineTasks);
-			LemonGUIController.setTimelineList(temp);
 		}
-
-		/*
-		 * get what user wants to view date e.g. navigate 010101
-		 */
+		
+		for (int index = 0; index < deadlineTasks.size(); index++) {
+			currentTask = deadlineTasks.get(index);
+			if (currentTask.getTaskEndDate().equals(dateInput)) {
+				tasksOnDate.add(currentTask);
+			}
+		}
+		listToTimeline = Sort.sortByTime(tasksOnDate);
 	}
 
 	public void executeHelp() {
@@ -200,10 +199,8 @@ public class CommandExecutor extends FileStorage{
 	}
 	
 	public void executeUpdate() throws IOException, ClassNotFoundException {
-
-
+		
 		String currentDate = parser.getCurrentDate();
-
 		for (int i = 0; i < deadlineTasks.size(); i++) {
 			Task taskToCheck = deadlineTasks.get(i);
 			String endDate = taskToCheck.getTaskEndDate();
@@ -221,22 +218,22 @@ public class CommandExecutor extends FileStorage{
 		}
 	}
 
-	public void executeRemoveNewest() throws IOException, ClassNotFoundException {
-		ArrayList<Task> array = FileStorage.readStringAsObject(path);
-		assert(array != null) : "unable to read from specified path";
-		for (int counter = 0; counter < array.size(); counter++) {
-			Task task = array.get(counter);
-			if (task.getTaskIsNewest()) {
-				task.removeTaskIsNewest();
-			}
-		}
-		FileStorage.clear();
-		int j = 0;
-		while (j < array.size()) {
-			FileStorage.writeObjectAsString(array.get(j));
-			j++;
-		}
-	}
+//	public void executeRemoveNewest() throws IOException, ClassNotFoundException {
+//		ArrayList<Task> array = FileStorage.readStringAsObject(path);
+//		assert(array != null) : "unable to read from specified path";
+//		for (int counter = 0; counter < array.size(); counter++) {
+//			Task task = array.get(counter);
+//			if (task.getTaskIsNewest()) {
+//				task.removeTaskIsNewest();
+//			}
+//		}
+//		FileStorage.clear();
+//		int j = 0;
+//		while (j < array.size()) {
+//			FileStorage.writeObjectAsString(array.get(j));
+//			j++;
+//		}
+//	}
 
 	public void executeList(String[] commandParts) throws Exception {
 		String listType = commandParts[1];
@@ -366,5 +363,71 @@ public class CommandExecutor extends FileStorage{
 			}
 		}
 		LemonGUIController.setList(searchResult);
+	}
+	
+	private void fillUpTime(Task newTask) {
+		if (newTask.getTaskType().equals("floating")) {
+			return;
+		} else if (newTask.getTaskType().equals("event")) {
+			int newStartTime = roundDownTime(newTask.getTaskStartTime());
+			int newEndTime = roundUpTime(newTask.getTaskEndTime());
+			for (int counter = newStartTime; counter< newEndTime; counter++) {
+				newTask.setEventTime(counter);
+			}
+		} else {
+			int newEndTime = roundDownTime(newTask.getTaskEndTime());
+			newTask.setDeadlineTime(newEndTime);
+		}
+	}
+	
+	private int roundDownTime(String time) {
+		int ans = Integer.parseInt(time);
+		int temp = Integer.parseInt(time);
+		ans = ans/100;
+		temp = temp % 100;
+		if (temp == 0) {
+			return ans;
+		} else if (temp > 30) {
+			return 2 * ans + 1;
+		} else {
+			return 2 * ans;
+		}
+	}
+	
+	private int roundUpTime(String time) {
+		int ans = Integer.parseInt(time);
+		int temp = Integer.parseInt(time);
+		ans = ans/100;
+		temp = temp % 100;
+		if (temp == 0) {
+			return ans;
+		}
+		
+		if (temp > 30) {
+			ans = ans + 1;
+			return ans * 2;
+		} else{
+			return ans * 2 + 1;
+		}
+	}
+	
+	public void passToGUI() throws Exception {
+//		lemonGUI.setCommand();
+		if (listType.equals("overdue")){
+			System.out.println(overdueTasks);
+			lemonGUI.setListForDisplay(overdueTasks);
+		} else if (listType.equals("floating")) {
+			lemonGUI.setListForDisplay(floatingTasks);
+		} else if (listType.equals("deadline")) {
+			lemonGUI.setListForDisplay(deadlineTasks);
+		} else if (listType.equals("event")) {
+			lemonGUI.setListForDisplay(eventTasks);
+		} else if (listType.equals("done")) {
+			lemonGUI.setListForDisplay(doneTasks);
+		} else if (listType.equals("date")) {
+			lemonGUI.setListForDisplay(floatingTasks);
+		}
+		executeList(date);
+		lemonGUI.setListForTimeline(listToTimeline);
 	}
 }

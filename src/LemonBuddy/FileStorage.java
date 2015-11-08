@@ -55,7 +55,7 @@ public class FileStorage extends Parser {
 	
 
 	/************************************************** Read From Storage ******************************************************************/
-	public ArrayList<ArrayList<Task>> readStringAsObject(String path) throws IOException, ClassNotFoundException {
+	public static ArrayList<ArrayList<Task>> readStringAsObject(String path) throws IOException, ClassNotFoundException {
 		//floating deadline event all done overdue
 		ArrayList<ArrayList<Task>> newList = new ArrayList<ArrayList<Task>>();
 		try {

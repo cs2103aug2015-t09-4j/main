@@ -14,7 +14,6 @@ public class CommandController {
 	private static final String COMMAND_RECUR = "recur";
 	private static final String COMMAND_NAVIGATE = "view";
 	private static final String COMMAND_LIST = "list";
-	private static final String COMMAND_DISPLAY = "display";
 	private static final String COMMAND_HELP = "help";
 	private static final String COMMAND_UPDATE = "update";
 	private static final String COMMAND_UNDO = "undo";
@@ -22,7 +21,6 @@ public class CommandController {
 	private static final String COMMAND_DONE = "done";
 	private static final String COMMAND_SEARCH = "search";
 	private static final String MESSAGE_INVALID = "Invalid Command";
-	private static final String COMMAND_CLEAR = "clear";
 	private static CommandExecutor commandexecutor;
 	private static CommandController commandcontroller;
 
@@ -44,7 +42,9 @@ public class CommandController {
 			String commandType = commandParts[0];
 			
 			executeSaveLastState(commandType);
-
+			
+			commandexecutor.updateLists();
+			
 			switch (commandType) {
 			case COMMAND_ADD:
 				commandexecutor.executeAdd(commandParts);
@@ -129,10 +129,10 @@ public class CommandController {
 			return false;
 	}
 
-	private boolean isValidClearType(String clearType) {
-		if (clearType.equals("overdue") || clearType.equals("done")) {
-			return true;
-		} else
-			return false;
-	}
+//	private boolean isValidClearType(String clearType) {
+//		if (clearType.equals("overdue") || clearType.equals("done")) {
+//			return true;
+//		} else
+//			return false;
+//	}
 }

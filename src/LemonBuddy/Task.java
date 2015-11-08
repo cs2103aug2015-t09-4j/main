@@ -1,6 +1,9 @@
 package LemonBuddy;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+
+import javafx.beans.property.SimpleStringProperty;
 
 public class Task implements Serializable {
 	private String taskName;
@@ -14,28 +17,16 @@ public class Task implements Serializable {
 	private boolean taskIsNewest;
 	private String taskStartTime;
 	private String taskEndTime;
-	// for recurring
-	private String recurType;
-	private String recurStartDate;
-	private String recurEndDate;
-	// private String desc= "";
-	/*
-	 * public void Task(){ 
-	 * this.taskName = ""; 
-	 * this.taskType = "";
-	 * this.taskStartDate = ""; 
-	 * this.taskEndDate = ""; 
-	 * this.taskPriority = "";
-	 * this.taskDescription = ""; 
-	 * this.taskStartTime = ""; 
-	 * this.taskEndTime =
-	 * ""; // 
-	 * for recurring this.recurType = ""; 
-	 * this.recurStartDate = "";
-	 * this.recurEndDate = "";
-	 * 
-	 * // private String desc= ""; }
-	 */
+
+	private SimpleStringProperty displayId;
+	private SimpleStringProperty displayName;
+	private SimpleStringProperty displayStartDate;
+	private SimpleStringProperty displayEndDate;
+	private SimpleStringProperty displayStartTime;
+	private SimpleStringProperty displayEndTime;
+	private SimpleStringProperty displayPriority;
+	private SimpleStringProperty displayDescription;
+	private ArrayList<SimpleStringProperty> displayTimmings = new ArrayList<SimpleStringProperty>(48);
 	
 	public String toString() {
 		String temp = "";
@@ -50,14 +41,11 @@ public class Task implements Serializable {
 		temp = temp + "taskDescription:" + taskDescription + ";";
 		temp = temp + "taskStartTime:" + taskStartTime + ";";
 		temp = temp + "taskEndTime:" + taskEndTime + ";";
-		temp = temp + "recurType:" + recurType + ";";
-		temp = temp + "recurStartDate:" + recurStartDate + ";";
-		temp = temp + "recurEndDate:" + recurEndDate + ";";
 		temp = temp + "\n";
 		return temp;
 	}
 
-	//initialiser
+	//initializer
 	public Task(){
 		taskName = "";
 		taskType = "";
@@ -70,10 +58,6 @@ public class Task implements Serializable {
 		taskIsNewest = false;
 		taskStartTime = "-1";
 		taskEndTime = "-1";
-		// for recurring
-		recurType = "";
-		recurStartDate = "";
-		recurEndDate = "";
 	}
 	
 	//TASK DATA MODIFIERS//
@@ -100,6 +84,7 @@ public class Task implements Serializable {
 
 	public void setTaskName(String taskName) {
 		this.taskName = taskName;
+		this.displayName = new SimpleStringProperty(taskName);
 	}
 
 	public void setTaskType(String taskType) {
@@ -124,45 +109,48 @@ public class Task implements Serializable {
 
 	public void setTaskStartDate(String taskStartDate) {
 		this.taskStartDate = taskStartDate.replaceAll("[^\\d-]", "");
+		this.displayStartDate = new SimpleStringProperty(this.taskStartDate);
 	}
 
 	public void setTaskEndDate(String taskEndDate) {
 		this.taskEndDate = taskEndDate.replaceAll("[^\\d-]", "");
+		this.displayEndDate = new SimpleStringProperty(this.taskEndDate);
 	}
 
 	public void setTaskStartTime(String taskStartTime) {
 		this.taskStartTime = taskStartTime.replaceAll("[^\\d-]", "");
+		this.displayStartTime = new SimpleStringProperty(this.taskStartTime);
 	}
 
 	public void setTaskEndTime(String taskEndTime) {
 		this.taskEndTime = taskEndTime.replaceAll("[^\\d-]", "");
+		this.displayEndTime = new SimpleStringProperty(this.taskEndTime);
 	}
 
 	public void setTaskPriority(String taskPriority) {
 		this.taskPriority = taskPriority;
+		this.displayPriority = new SimpleStringProperty(this.taskPriority);
 	}
 
 	public void setTaskDescription(String taskDescription) {
 		this.taskDescription = taskDescription;
+		this.displayDescription = new SimpleStringProperty(this.taskDescription);
 	}
-
-	public void setRecurType(String recurType) {
-		this.recurType = recurType;
-	}
-
-	public void setRecurStartDate(String recurStartDate) {
-		this.recurStartDate = recurStartDate;
-	}
-
-	public void setRecurEndDate(String recurEndDate) {
-		this.recurEndDate = recurEndDate;
-	}
-	/*
-	 * public void addDesc(String desc){ this.desc += desc; }
-	 */
-
 	
+	public void setDisplayId(String index) {
+		this.displayId = new SimpleStringProperty(index);
+	}
 	
+	public void setEventTime(int time) {
+		SimpleStringProperty temp = new SimpleStringProperty("1");
+		this.displayTimmings.add(time, temp);
+	}
+	
+	public void setDeadlineTime(int time) {
+		SimpleStringProperty temp = new SimpleStringProperty("0");
+		this.displayTimmings.add(time, temp);
+	}
+
 	//RETRIEVERS//
 	
 	public String getTaskName() {
@@ -246,19 +234,40 @@ public class Task implements Serializable {
 		return buffer.toString();
 	}
 
-	public String getRecurType(String recurType) {
-		StringBuffer buffer = new StringBuffer(this.recurType);
-		return buffer.toString();
+	public SimpleStringProperty getDisplayName() {
+		return this.displayName;
+	}
+	
+	public SimpleStringProperty getDisplayStartDate() {
+		return this.displayStartDate;
+	}
+	
+	public SimpleStringProperty getDisplayEndDate() {
+		return this.displayEndDate;
+	}
+	
+	public SimpleStringProperty getDisplayStartTime() {
+		return this.displayStartTime;
+	}
+	
+	public SimpleStringProperty getDisplayEndTime() {
+		return this.displayEndTime;
+	}
+	
+	public SimpleStringProperty getDisplayPriority() {
+		return this.displayPriority;
+	}
+	
+	public SimpleStringProperty getDisplayDescription() {
+		return this.displayDescription;
 	}
 
-	public Integer getRecurStartDate(Integer recurStartDate) {
-		StringBuffer buffer = new StringBuffer(this.recurStartDate);
-		return Integer.valueOf(buffer.toString());
+	public SimpleStringProperty getDisplayId() {
+		return this.displayId;
 	}
-
-	public Integer getRecurEndDate(Integer recurEndDate) {
-		StringBuffer buffer = new StringBuffer(this.recurEndDate);
-		return Integer.valueOf(buffer.toString());
+	
+	public SimpleStringProperty getTimmings(int num) {
+		return this.displayTimmings.get(num);
 	}
 
 }

@@ -6,10 +6,10 @@ import java.util.ArrayList;
 
 import LemonBuddy.CommandController;
 import LemonBuddy.CommandExecutor;
-import LemonBuddy.MainDisplayTask;
+import LemonBuddy.Task;
 import LemonBuddy.Parser;
 import LemonBuddy.Task;
-import LemonBuddy.TimelineTask;
+import LemonBuddy.Task;
 import LemonBuddy.lemonGUI;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -41,135 +41,135 @@ public class LemonGUIController {
 
 	private lemonGUI mainApp;
 	
-	private ObservableList<TimelineTask> timelineTasks = FXCollections.observableArrayList();
-	private ObservableList<MainDisplayTask> mainDisplayTasks = FXCollections.observableArrayList();
+	private ObservableList<Task> MainDisplayTasks = FXCollections.observableArrayList();
+	private ObservableList<Task> TimelineTasks = FXCollections.observableArrayList();
 	
 	@FXML
-	private TableView<TimelineTask> timeline;
+	private TableView<Task> timeline;
 	@FXML
-	private TableColumn<TimelineTask, String> columnHeader;
+	private TableColumn<Task, String> columnHeader;
 	@FXML
-	private TableColumn<TimelineTask, String> columnName;
+	private TableColumn<Task, String> columnName;
 	@FXML
-	private TableColumn<TimelineTask, String> column0000;
+	private TableColumn<Task, String> column0000;
 	@FXML
-	private TableColumn<TimelineTask, String> column0030;
+	private TableColumn<Task, String> column0030;
 	@FXML
-	private TableColumn<TimelineTask, String> column0100;
+	private TableColumn<Task, String> column0100;
 	@FXML
-	private TableColumn<TimelineTask, String> column0130;
+	private TableColumn<Task, String> column0130;
 	@FXML
-	private TableColumn<TimelineTask, String> column0200;
+	private TableColumn<Task, String> column0200;
 	@FXML
-	private TableColumn<TimelineTask, String> column0230;
+	private TableColumn<Task, String> column0230;
 	@FXML
-	private TableColumn<TimelineTask, String> column0300;
+	private TableColumn<Task, String> column0300;
 	@FXML
-	private TableColumn<TimelineTask, String> column0330;
+	private TableColumn<Task, String> column0330;
 	@FXML
-	private TableColumn<TimelineTask, String> column0400;
+	private TableColumn<Task, String> column0400;
 	@FXML
-	private TableColumn<TimelineTask, String> column0430;
+	private TableColumn<Task, String> column0430;
 	@FXML
-	private TableColumn<TimelineTask, String> column0500;
+	private TableColumn<Task, String> column0500;
 	@FXML
-	private TableColumn<TimelineTask, String> column0530;
+	private TableColumn<Task, String> column0530;
 	@FXML
-	private TableColumn<TimelineTask, String> column0600;
+	private TableColumn<Task, String> column0600;
 	@FXML
-	private TableColumn<TimelineTask, String> column0630;
+	private TableColumn<Task, String> column0630;
 	@FXML
-	private TableColumn<TimelineTask, String> column0700;
+	private TableColumn<Task, String> column0700;
 	@FXML
-	private TableColumn<TimelineTask, String> column0730;
+	private TableColumn<Task, String> column0730;
 	@FXML
-	private TableColumn<TimelineTask, String> column0800;
+	private TableColumn<Task, String> column0800;
 	@FXML
-	private TableColumn<TimelineTask, String> column0830;
+	private TableColumn<Task, String> column0830;
 	@FXML
-	private TableColumn<TimelineTask, String> column0900;
+	private TableColumn<Task, String> column0900;
 	@FXML
-	private TableColumn<TimelineTask, String> column0930;
+	private TableColumn<Task, String> column0930;
 	@FXML
-	private TableColumn<TimelineTask, String> column1000;
+	private TableColumn<Task, String> column1000;
 	@FXML
-	private TableColumn<TimelineTask, String> column1030;
+	private TableColumn<Task, String> column1030;
 	@FXML
-	private TableColumn<TimelineTask, String> column1100;
+	private TableColumn<Task, String> column1100;
 	@FXML
-	private TableColumn<TimelineTask, String> column1130;
+	private TableColumn<Task, String> column1130;
 	@FXML
-	private TableColumn<TimelineTask, String> column1200;
+	private TableColumn<Task, String> column1200;
 	@FXML
-	private TableColumn<TimelineTask, String> column1230;
+	private TableColumn<Task, String> column1230;
 	@FXML
-	private TableColumn<TimelineTask, String> column1300;
+	private TableColumn<Task, String> column1300;
 	@FXML
-	private TableColumn<TimelineTask, String> column1330;
+	private TableColumn<Task, String> column1330;
 	@FXML
-	private TableColumn<TimelineTask, String> column1400;
+	private TableColumn<Task, String> column1400;
 	@FXML
-	private TableColumn<TimelineTask, String> column1430;
+	private TableColumn<Task, String> column1430;
 	@FXML
-	private TableColumn<TimelineTask, String> column1500;
+	private TableColumn<Task, String> column1500;
 	@FXML
-	private TableColumn<TimelineTask, String> column1530;
+	private TableColumn<Task, String> column1530;
 	@FXML
-	private TableColumn<TimelineTask, String> column1600;
+	private TableColumn<Task, String> column1600;
 	@FXML
-	private TableColumn<TimelineTask, String> column1630;
+	private TableColumn<Task, String> column1630;
 	@FXML
-	private TableColumn<TimelineTask, String> column1700;
+	private TableColumn<Task, String> column1700;
 	@FXML
-	private TableColumn<TimelineTask, String> column1730;
+	private TableColumn<Task, String> column1730;
 	@FXML
-	private TableColumn<TimelineTask, String> column1800;
+	private TableColumn<Task, String> column1800;
 	@FXML
-	private TableColumn<TimelineTask, String> column1830;
+	private TableColumn<Task, String> column1830;
 	@FXML
-	private TableColumn<TimelineTask, String> column1900;
+	private TableColumn<Task, String> column1900;
 	@FXML
-	private TableColumn<TimelineTask, String> column1930;
+	private TableColumn<Task, String> column1930;
 	@FXML
-	private TableColumn<TimelineTask, String> column2000;
+	private TableColumn<Task, String> column2000;
 	@FXML
-	private TableColumn<TimelineTask, String> column2030;
+	private TableColumn<Task, String> column2030;
 	@FXML
-	private TableColumn<TimelineTask, String> column2100;
+	private TableColumn<Task, String> column2100;
 	@FXML
-	private TableColumn<TimelineTask, String> column2130;
+	private TableColumn<Task, String> column2130;
 	@FXML
-	private TableColumn<TimelineTask, String> column2200;
+	private TableColumn<Task, String> column2200;
 	@FXML
-	private TableColumn<TimelineTask, String> column2230;
+	private TableColumn<Task, String> column2230;
 	@FXML
-	private TableColumn<TimelineTask, String> column2300;
+	private TableColumn<Task, String> column2300;
 	@FXML
-	private TableColumn<TimelineTask, String> column2330;
-	ArrayList<TableColumn<TimelineTask, String>> timelineColumns = new ArrayList<TableColumn<TimelineTask, String>>();
+	private TableColumn<Task, String> column2330;
+	ArrayList<TableColumn<Task, String>> timelineColumns = new ArrayList<TableColumn<Task, String>>();
 	
 	
 	@FXML
-	private TableView<MainDisplayTask> mainDisplay;
+	private TableView<Task> mainDisplay;
 	@FXML
-	private TableColumn<MainDisplayTask, String> mainDisplayHeader;
+	private TableColumn<Task, String> mainDisplayHeader;
 	@FXML
-	private TableColumn<MainDisplayTask, String> idColumn;
+	private TableColumn<Task, String> idColumn;
 	@FXML
-	private TableColumn<MainDisplayTask, String> nameColumn;
+	private TableColumn<Task, String> nameColumn;
 	@FXML
-	private TableColumn<MainDisplayTask, String> startDateColumn;
+	private TableColumn<Task, String> startDateColumn;
 	@FXML
-	private TableColumn<MainDisplayTask, String> endDateColumn;
+	private TableColumn<Task, String> endDateColumn;
 	@FXML
-	private TableColumn<MainDisplayTask, String> startTimeColumn;
+	private TableColumn<Task, String> startTimeColumn;
 	@FXML
-	private TableColumn<MainDisplayTask, String> endTimeColumn;
+	private TableColumn<Task, String> endTimeColumn;
 	@FXML
-	private TableColumn<MainDisplayTask, String> priorityColumn;
+	private TableColumn<Task, String> priorityColumn;
 	@FXML
-	private TableColumn<MainDisplayTask, String> descriptionColumn;
-	ArrayList<TableColumn<MainDisplayTask, String>> mainDisplayColumns = new ArrayList<TableColumn<MainDisplayTask, String>>();
+	private TableColumn<Task, String> descriptionColumn;
+	ArrayList<TableColumn<Task, String>> mainDisplayColumns = new ArrayList<TableColumn<Task, String>>();
 	
 	@FXML
 	private TextFlow notificationBar;
@@ -181,7 +181,7 @@ public class LemonGUIController {
 	private static String displayHeader = "Overdue Tasks";
 	
 	private static String[] timelineDate = {"", ""};
-	private static ArrayList<Task> timelineTasksTemp;
+	private static ArrayList<Task> TasksTemp;
 
 	private static String userCommand = "";
 	
@@ -211,13 +211,13 @@ public class LemonGUIController {
 		temp.setStyle("-fx-font-size: 18pt;");
 		notificationBar.getChildren().add(temp);
 		notificationBar.setTextAlignment(TextAlignment.CENTER);
-		date = parser.getCurrentDate();
-		timelineDate[1] = date;
+//		date = parser.getCurrentDate();
+//		timelineDate[1] = date;
 		formatMainDisplay();
-		generateMainDisplay();
+		generateMainDisplay(mainApp.getListForDisplay());
 		formatTimeline();
 		String newDate = timelineDate[1].substring(0,2) + "/" + timelineDate[1].substring(2,4) + "/" + timelineDate[1].substring(4,6);
-		generateTimeline(newDate);
+		generateTimeline(mainApp.getListForTimeline(), newDate);
 	}
 	
 	public void setMainApp(lemonGUI mainApp) {
@@ -234,26 +234,24 @@ public class LemonGUIController {
 				timelineDate[1] = "0" + timelineDate[1];
 			}
 			String newDate = timelineDate[1].substring(0,2) + "/" + timelineDate[1].substring(2,4) + "/" + timelineDate[1].substring(4,6);
-			generateTimeline(newDate);
-			generateMainDisplay();
-			commandExecutor.executeRemoveNewest();
+			generateTimeline(mainApp.getListForTimeline(), newDate);
+			generateMainDisplay(mainApp.getListForDisplay());
+//			commandExecutor.executeRemoveNewest();
 			selectedTask = new Task();
 		}
 	}
 	
-	public void generateMainDisplay() throws Exception {
-		if (swap) {
-			tasks = timelineTasksTemp;
-		} else {
-			commandExecutor.executeList(listType);
-		}
+	public void generateMainDisplay(ArrayList<Task> listToDisplay) throws Exception {
+//		if (swap) {
+//			tasks = TasksTemp;
+//		} else {
+//			commandExecutor.executeList(listType);
+//		}
 		modifyDisplayHeader();
 		mainDisplayHeader.setText(displayHeader);
-		mainDisplayTasks.removeAll(mainDisplayTasks);
-		for (int counter = 0; counter < tasks.size(); counter++) {
-			mainDisplayTasks.add(convertForMainDisplay(tasks.get(counter), counter));
-		}
-		mainDisplay.setItems(mainDisplayTasks);
+		MainDisplayTasks.removeAll(MainDisplayTasks);
+		MainDisplayTasks.addAll(listToDisplay);
+		mainDisplay.setItems(MainDisplayTasks);
 		mainDisplay.scrollTo(mainDisplayIndex);
 		mainDisplayIndex = 0;
 	}
@@ -261,17 +259,17 @@ public class LemonGUIController {
 	private void formatMainDisplay() {
 		generateMainDisplayColumnList();
 		mainDisplay.setPlaceholder(new Label("No tasks to display."));
-		idColumn.setCellValueFactory(cellData -> cellData.getValue().getTaskId());
-		nameColumn.setCellValueFactory(cellData -> cellData.getValue().getTaskName());
-		startDateColumn.setCellValueFactory(cellData -> cellData.getValue().getTaskStartDate());
-		endDateColumn.setCellValueFactory(cellData -> cellData.getValue().getTaskEndDate());
-		startTimeColumn.setCellValueFactory(cellData -> cellData.getValue().getTaskStartTime());
-		endTimeColumn.setCellValueFactory(cellData -> cellData.getValue().getTaskEndTime());
-		priorityColumn.setCellValueFactory(cellData -> cellData.getValue().getTaskPriority());
-		descriptionColumn.setCellValueFactory(cellData -> cellData.getValue().getTaskDescription());
+		idColumn.setCellValueFactory(cellData -> cellData.getValue().getDisplayId());
+		nameColumn.setCellValueFactory(cellData -> cellData.getValue().getDisplayName());
+		startDateColumn.setCellValueFactory(cellData -> cellData.getValue().getDisplayStartDate());
+		endDateColumn.setCellValueFactory(cellData -> cellData.getValue().getDisplayEndDate());
+		startTimeColumn.setCellValueFactory(cellData -> cellData.getValue().getDisplayStartTime());
+		endTimeColumn.setCellValueFactory(cellData -> cellData.getValue().getDisplayEndTime());
+		priorityColumn.setCellValueFactory(cellData -> cellData.getValue().getDisplayPriority());
+		descriptionColumn.setCellValueFactory(cellData -> cellData.getValue().getDisplayDescription());
 		
 		idColumn.setCellFactory(column -> {
-		    return new TableCell<MainDisplayTask, String>() {
+		    return new TableCell<Task, String>() {
 		        @Override
 		        protected void updateItem(String item, boolean empty) {
 		            super.updateItem(item, empty);
@@ -299,7 +297,7 @@ public class LemonGUIController {
 		});
 		
 		nameColumn.setCellFactory(column -> {
-		    return new TableCell<MainDisplayTask, String>() {
+		    return new TableCell<Task, String>() {
 		        @Override
 		        protected void updateItem(String item, boolean empty) {
 		            super.updateItem(item, empty);
@@ -326,7 +324,7 @@ public class LemonGUIController {
 		
 		for (int counter = 2; counter < 6; counter++) {
 			mainDisplayColumns.get(counter).setCellFactory(column -> {
-			    return new TableCell<MainDisplayTask, String>() {
+			    return new TableCell<Task, String>() {
 			        @Override
 			        protected void updateItem(String item, boolean empty) {
 			            super.updateItem(item, empty);
@@ -371,7 +369,7 @@ public class LemonGUIController {
 			});
 			
 			priorityColumn.setCellFactory(column -> {
-			    return new TableCell<MainDisplayTask, String>() {
+			    return new TableCell<Task, String>() {
 			        @Override
 			        protected void updateItem(String item, boolean empty) {
 			            super.updateItem(item, empty);
@@ -402,7 +400,7 @@ public class LemonGUIController {
 			});
 			
 			descriptionColumn.setCellFactory(column -> {
-			    return new TableCell<MainDisplayTask, String>() {
+			    return new TableCell<Task, String>() {
 			        @Override
 			        protected void updateItem(String item, boolean empty) {
 			            super.updateItem(item, empty);
@@ -440,26 +438,18 @@ public class LemonGUIController {
 		mainDisplayColumns.add(descriptionColumn);
 	}
 	
-	public void generateTimeline(String header) throws ClassNotFoundException, IOException, ParseException {
-		timelineTasks.removeAll(timelineTasks);
+	public void generateTimeline(ArrayList<Task> listToTimeline, String header) throws ClassNotFoundException, IOException, ParseException {
+		TimelineTasks.removeAll(TimelineTasks);
+		TimelineTasks.addAll(listToTimeline);
 		columnHeader.setText("Date: " + header);
-		commandExecutor.executeNavigate(timelineDate);
-		for (int counter = 0; counter < timelineTasksTemp.size(); counter++) {
-			if (!timelineTasksTemp.get(counter).getTaskType().equals("floating")){
-				timelineTasks.add(convertForTimeline(timelineTasksTemp.get(counter)));
-				if (timelineTasksTemp.get(counter).getTaskIsNewest()) {
-					timelineIndex = counter;
-				}
-			}
-		}
-		timeline.setItems(timelineTasks);
+		timeline.setItems(TimelineTasks);
 		timeline.scrollTo(timelineIndex);
 		timelineIndex = 0;
 	}
 	
 	private void formatTimeline() {
 		timeline.setPlaceholder(new Label("No events or deadlines on this day."));
-		columnName.setCellValueFactory(cellData -> cellData.getValue().getTaskName());
+		columnName.setCellValueFactory(cellData -> cellData.getValue().getDisplayName());
 		generateTimelineColumnList();
 		
 		for (int x = 0; x < 48; x++) {
@@ -468,7 +458,7 @@ public class LemonGUIController {
 		}
 		
 		columnName.setCellFactory(column -> {
-			return new TableCell<TimelineTask, String>() {
+			return new TableCell<Task, String>() {
 				@Override
 				protected void updateItem(String item, boolean empty) {
 					super.updateItem(item, empty);
@@ -497,7 +487,7 @@ public class LemonGUIController {
 		
 		for (int counter = 0; counter < 48; counter ++) {
 			timelineColumns.get(counter).setCellFactory(column -> {
-			    return new TableCell<TimelineTask, String>() {
+			    return new TableCell<Task, String>() {
 			        @Override
 			        protected void updateItem(String item, boolean empty) {
 			            super.updateItem(item, empty);
@@ -593,18 +583,18 @@ public class LemonGUIController {
 	}
 	
 	public static void setTimelineList(ArrayList<Task> list) {
-		timelineTasksTemp = list;
+		TasksTemp = list;
 	}
 
 	public static void setListType(String type) {
 		listType[1] = type;
 	}
 	
-	public MainDisplayTask convertForMainDisplay(Task newTask, int num) {
-		MainDisplayTask temp = new MainDisplayTask();
+	public Task convertForMainDisplay(Task newTask, int num) {
+		Task temp = new Task();
 		int id = num + 1;
 		if (newTask.getTaskIsNewest()) {
-			temp.setTaskId("#" + id);
+			temp.setDisplayId("#" + id);
 			temp.setTaskName("#" + newTask.getTaskName());
 			temp.setTaskStartDate("#" + newTask.getTaskStartDate());
 			temp.setTaskEndDate("#" + newTask.getTaskEndDate());
@@ -617,7 +607,7 @@ public class LemonGUIController {
 		}
 		
 		if (newTask.getTaskIsOverdue() && !listType[1].equals("overdue")) {
-			temp.setTaskId("^" + id);
+			temp.setDisplayId("^" + id);
 			temp.setTaskName("^" + newTask.getTaskName());
 			temp.setTaskStartDate("^" + newTask.getTaskStartDate());
 			temp.setTaskEndDate("^" + newTask.getTaskEndDate());
@@ -629,7 +619,7 @@ public class LemonGUIController {
 		}
 		
 		
-		temp.setTaskId("" + id);
+		temp.setDisplayId("" + id);
 		temp.setTaskName(newTask.getTaskName());
 		temp.setTaskStartDate(newTask.getTaskStartDate());
 		temp.setTaskEndDate(newTask.getTaskEndDate());
@@ -642,99 +632,68 @@ public class LemonGUIController {
 		return temp;
 	}
 	
-	public TimelineTask convertForTimeline(Task newTask) {
-		TimelineTask temp = new TimelineTask();
-		if (newTask.getTaskIsNewest()) {
-			temp.setTaskName("#" + newTask.getTaskName());
-		} else {
-			temp.setTaskName(newTask.getTaskName());
-		}
-		temp.setTaskStartDate(newTask.getTaskStartDate());
-		temp.setTaskEndDate(newTask.getTaskEndDate());
-		temp.setTaskType(newTask.getTaskType());
-		int rstartTime = -1;
-		int rendTime = -1;
-		if (newTask.getTaskType().equals("deadline")) {
-			rendTime = roundDown(newTask.getTaskEndTime());
-		}
-		if (newTask.getTaskType().equals("event")) {
-			rstartTime = roundDown(newTask.getTaskStartTime());
-			rendTime = roundUp(newTask.getTaskEndTime());
-		}
-		if (Integer.parseInt(newTask.getTaskStartDate()) != Integer.parseInt(timelineDate[1])
-				&& Integer.parseInt(newTask.getTaskEndDate()) != Integer.parseInt(timelineDate[1])) {
-			for (int counter2 = 0; counter2 < 48; counter2++) {
-				temp.setTime(counter2);
-			}
-			return temp;
-		}
-		
-		int time = 0;
-		int add = 0;
-		if (Integer.parseInt(newTask.getTaskStartDate()) != Integer.parseInt(timelineDate[1]) && newTask.getTaskType().equals("event")) {
-			add = 1;
-		} else {
-			add = 0;
-		}
-		
-		for (int counter = 0; counter < 48; counter ++) {
-			if (time == rstartTime && Integer.parseInt(newTask.getTaskStartDate()) == Integer.parseInt(timelineDate[1])) {
-				add = 1;
-			}
-			if (time == rendTime && Integer.parseInt(newTask.getTaskEndDate()) == Integer.parseInt(timelineDate[1])) {
-				add = 0;
-			}
-			if (add == 1) {
-				temp.setTime(counter);
-			}
-			if (add == 0) {
-				temp.missTime(counter);
-			}
-			if (time == rendTime && Integer.parseInt(newTask.getTaskEndDate()) == Integer.parseInt(timelineDate[1]) &&
-					newTask.getTaskType().equals("deadline")) {
-				temp.setDeadline(counter);
-			}
-			if(time % 100 == 0) {
-				time = time + 30;
-			} else {
-				time = time - 30 + 100;
-			}
-		}
-		return temp;
-	}
+//	public Task convertForTimeline(Task newTask) {
+//		Task temp = new Task();
+//		if (newTask.getTaskIsNewest()) {
+//			temp.setTaskName("#" + newTask.getTaskName());
+//		} else {
+//			temp.setTaskName(newTask.getTaskName());
+//		}
+//		temp.setTaskStartDate(newTask.getTaskStartDate());
+//		temp.setTaskEndDate(newTask.getTaskEndDate());
+//		temp.setTaskType(newTask.getTaskType());
+//		int rstartTime = -1;
+//		int rendTime = -1;
+//		if (newTask.getTaskType().equals("deadline")) {
+//			rendTime = roundDown(newTask.getTaskEndTime());
+//		}
+//		if (newTask.getTaskType().equals("event")) {
+//			rstartTime = roundDown(newTask.getTaskStartTime());
+//			rendTime = roundUp(newTask.getTaskEndTime());
+//		}
+//		if (Integer.parseInt(newTask.getTaskStartDate()) != Integer.parseInt(timelineDate[1])
+//				&& Integer.parseInt(newTask.getTaskEndDate()) != Integer.parseInt(timelineDate[1])) {
+//			for (int counter2 = 0; counter2 < 48; counter2++) {
+//				temp.setTime(counter2);
+//			}
+//			return temp;
+//		}
+//		
+//		int time = 0;
+//		int add = 0;
+//		if (Integer.parseInt(newTask.getTaskStartDate()) != Integer.parseInt(timelineDate[1]) && newTask.getTaskType().equals("event")) {
+//			add = 1;
+//		} else {
+//			add = 0;
+//		}
+//		
+//		for (int counter = 0; counter < 48; counter ++) {
+//			if (time == rstartTime && Integer.parseInt(newTask.getTaskStartDate()) == Integer.parseInt(timelineDate[1])) {
+//				add = 1;
+//			}
+//			if (time == rendTime && Integer.parseInt(newTask.getTaskEndDate()) == Integer.parseInt(timelineDate[1])) {
+//				add = 0;
+//			}
+//			if (add == 1) {
+//				temp.setTime(counter);
+//			}
+//			if (add == 0) {
+//				temp.missTime(counter);
+//			}
+//			if (time == rendTime && Integer.parseInt(newTask.getTaskEndDate()) == Integer.parseInt(timelineDate[1]) &&
+//					newTask.getTaskType().equals("deadline")) {
+//				temp.setDeadline(counter);
+//			}
+//			if(time % 100 == 0) {
+//				time = time + 30;
+//			} else {
+//				time = time - 30 + 100;
+//			}
+//		}
+//		return temp;
+//	}
+//	
 	
-	private int roundDown(String time) {
-		int ans = Integer.parseInt(time);
-		int temp = Integer.parseInt(time);
-		temp = temp % 100;
-		if (temp == 0) {
-			return ans;
-		}
-		if (temp > 30) {
-			ans = ans +30 - temp;
-		}
-		if (temp < 30) {
-			ans = ans - temp;
-		}
-		return ans;
-	}
-	
-	private int roundUp(String time) {
-		int ans = Integer.parseInt(time);
-		int temp = Integer.parseInt(time);
-		temp = temp % 100;
-		if (temp == 0) {
-			return ans;
-		}
-		if (temp > 30) {
-			ans = ans + 100 - temp;
-		}
-		if (temp < 30) {
-			ans = ans - temp + 30;
-		}
-		return ans;
-	}
-
 	public static void setTimeLineDate(String requestedDate) {
 		timelineDate[1] = requestedDate;
 	}
