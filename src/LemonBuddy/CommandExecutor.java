@@ -90,7 +90,7 @@ public class CommandExecutor extends FileStorage{
 		addTaskToList(newTask);
 	}
 
-	private String[] getStringForParsing(String[] commandParts) {
+	public String[] getStringForParsing(String[] commandParts) {
 		String[] stringToParse = new String[commandParts.length - 1];
 		for (int i = 1; i < commandParts.length; i++) {
 			stringToParse[i - 1] = commandParts[i];
