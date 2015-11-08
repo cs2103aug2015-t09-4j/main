@@ -1,4 +1,4 @@
-package test;
+package LemonBuddy.Test;
 
 import LemonBuddy.Parser;
 import LemonBuddy.Task;
