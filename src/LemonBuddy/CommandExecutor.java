@@ -223,22 +223,22 @@ public class CommandExecutor extends FileStorage{
 		}
 	}
 
-	/*public void executeRemoveNewest() throws IOException, ClassNotFoundException {
-		ArrayList<Task> array = FileStorage.readStringAsObject(path);
-		assert(array != null) : "unable to read from specified path";
-		for (int counter = 0; counter < array.size(); counter++) {
-			Task task = array.get(counter);
-			if (task.getTaskIsNewest()) {
-				task.removeTaskIsNewest();
-			}
-		}
-		FileStorage.clear();
-		int j = 0;
-		while (j < array.size()) {
-			FileStorage.writeObjectAsString(array.get(j));
-			j++;
-		}
-	}*/
+//	public void executeRemoveNewest() throws IOException, ClassNotFoundException {
+//		ArrayList<Task> array = FileStorage.readStringAsObject(path);
+//		assert(array != null) : "unable to read from specified path";
+//		for (int counter = 0; counter < array.size(); counter++) {
+//			Task task = array.get(counter);
+//			if (task.getTaskIsNewest()) {
+//				task.removeTaskIsNewest();
+//			}
+//		}
+//		FileStorage.clear();
+//		int j = 0;
+//		while (j < array.size()) {
+//			FileStorage.writeObjectAsString(array.get(j));
+//			j++;
+//		}
+//	}
 
 	public void executeList(String[] commandParts) throws Exception {
 		String listType = commandParts[1];

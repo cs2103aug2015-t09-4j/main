@@ -22,7 +22,6 @@ public class StorageFunction extends FileStorage {
 	
 	
 	protected static ArrayList<Task> createArrayList(File f) throws IOException {
-		storageLogger.log(Level.INFO, "Recreate arraylist of task from storage");
 		ArrayList<Task> result= new ArrayList<Task>();
 		try {
 			FileInputStream fis = new FileInputStream(f);
@@ -41,7 +40,6 @@ public class StorageFunction extends FileStorage {
 	}
 	
 	protected static String convertArrayListToString(ArrayList<Task> p) {
-		storageLogger.log(Level.INFO, "Going to convert arraylist to string");
 		int size = p.size();
 		Task temptask = new Task();
 		String content = "";
@@ -76,7 +74,6 @@ public class StorageFunction extends FileStorage {
 
 	
 	protected static ArrayList<ArrayList<Task>> separateTaskList(ArrayList<Task> taskList) {
-		storageLogger.log(Level.INFO, "Going to separate arraylist of task into arraylist of arraylist of task");
 		
 		ArrayList<ArrayList<Task>> separateList = new  ArrayList<ArrayList<Task>>();
 		ArrayList<Task> floatingList = new ArrayList<Task>();
