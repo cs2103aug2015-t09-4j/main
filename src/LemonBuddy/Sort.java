@@ -2,12 +2,12 @@ package LemonBuddy;
 
 import java.util.ArrayList;
 
-class Sort {
-	 
-		public static ArrayList<Task> sortByTime(ArrayList<Task> sortList){
-			return SortImplementation.SortTime(sortList);			
+public class Sort {
+	
+		public static ArrayList<Task> sortByTime(ArrayList<Task> list) {
+			return SortImplementation.SortTime(list);
 		}
-		
+	
 		public static ArrayList<Task> normal_sort(ArrayList<Task> list) {
 			return SortImplementation.SortEndDate(list);
 		}
@@ -27,12 +27,5 @@ class Sort {
 		public static ArrayList<Task> sortByEndDate(ArrayList<Task> list) {
 			return SortImplementation.SortEndDate(list);
 		}
-		
-		public static ArrayList<Task> sortByStatus(ArrayList<Task> list) {
-			return SortImplementation.SortStatus(list);
-		}
-		
-		public static ArrayList<Task> sortByDateThenPriority(ArrayList<Task> list) {
-			return SortImplementation.SortDateThenPriority(list);
-		}
+
 }

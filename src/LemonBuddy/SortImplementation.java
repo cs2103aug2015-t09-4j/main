@@ -32,28 +32,18 @@ public class SortImplementation {
 	private static Integer convertType(Task t){
 		String tempType = t.getTaskType();
 		switch(tempType) {
+			case "overdue":
+				return -2;
 			case "deadline":
-				return 1;
+				return -1;
 			case "event":
 				return 0;
 			case "floating":
-				return -1;
+				return 1;
+			case "done":
+				return 2;
 			default:
-				return -1;
-		}
-	}
-	
-	private static Integer convertDoneAndOverdue(Task t){
-		boolean DoneStatus = (t.getTaskType() == "Done");
-		boolean OverDueStatus = (t.getTaskType() == "Overdue");
-		if(DoneStatus&&OverDueStatus){
-			return 1;
-		} else if (OverDueStatus) {
-			return 0;
-		} else if (DoneStatus) {
-			return -1;
-		} else {
-			return -2;
+				return -2;
 		}
 	}
 	
@@ -62,16 +52,17 @@ public class SortImplementation {
 	protected static ArrayList<Task> SortEndDate(ArrayList<Task> list) {
 		Comparator<Task> comparator = new Comparator<Task>(){
 			public int compare(Task t1, Task t2) {					
-				 Integer end1, end2, p1, p2;
-				 end1 = Integer.parseInt(t1.getTaskEndDate());
-				 end2 = Integer.parseInt(t2.getTaskEndDate());
+				 int end1, end2;
+				 int p1, p2;
+				 end1 = Integer.valueOf(t1.getTaskEndDate()).intValue();
+				 end2 = Integer.valueOf(t2.getTaskEndDate()).intValue();
 				 p1 = convertPriority(t1);
 				 p2 = convertPriority(t2);
 
 				if(end1 > end2){
 					return 1;
 				} else if (end1 == end2) {
-					if(p1 > p2){
+					if(p1 < p2){
 						return 1;
 					} else if (p1 == p2) {
 						return 0;
@@ -87,74 +78,56 @@ public class SortImplementation {
 		return list;
 	}
 
-  protected static ArrayList<Task> SortTime(ArrayList<Task> sortList) {
-	  Comparator<Task> comparator = new Comparator<Task>(){
-		public int compare(Task t1, Task t2) {
-			
-			String deadline = "deadline";
-			String event = "event";
-			
-			String type1, type2;
-			int time1, time2;
-			type1 = t1.getTaskType();
-			type2 = t2.getTaskType();	
+	public static ArrayList<Task> SortTime(ArrayList<Task> sortList) {
+		  Comparator<Task> comparator = new Comparator<Task>(){
+			public int compare(Task t1, Task t2) {
 				
-			if(type1.equals(deadline)) {
-				time1 = Integer.parseInt(t1.getTaskEndTime());
-			} else if(type1.equals(event)) {
-				time1 = Integer.parseInt(t1.getTaskStartTime());
-			} else {
-				time1 = 0;
-			}
-	 
-			if(type2.equals(deadline)) {
-				time2 = Integer.parseInt(t2.getTaskEndTime());
-			} else if(type2.equals(event)) {
-				time2 = Integer.parseInt(t2.getTaskStartTime());
-			} else {
-				time2 = 0;
-			}
-
-			if(time1 > time2){
-				return 1;
-			} else if (time1 == time2) {
-				return 0;
-			} else {
-				return -1;
-			}
+				String deadline = "deadline";
+				String event = "event";
+				
+				String type1, type2;
+				int time1, time2;
+				type1 = t1.getTaskType();
+				type2 = t2.getTaskType();	
+					
+				if(type1.equals(deadline)) {
+					time1 = Integer.valueOf(t1.getTaskEndTime()).intValue();
+				} else if(type1.equals(event)) {
+					time1 = Integer.valueOf(t1.getTaskStartTime()).intValue();
+				} else {
+					time1 = -1;
+				}
 		 
-		}
-	};	
-	
-	Collections.sort(sortList, comparator);
-	return sortList;
- }
+				if(type2.equals(deadline)) {
+					time2 = Integer.valueOf(t2.getTaskEndTime()).intValue();
+				} else if(type2.equals(event)) {
+					time2 = Integer.valueOf(t2.getTaskStartTime()).intValue();
+				} else {
+					time2 = -1;
+				}
+
+				if(time1 > time2){
+					return 1;
+				} else if (time1 == time2) {
+					return 0;
+				} else {
+					return -1;
+				}
+			 
+			}
+		};	
+		
+		Collections.sort(sortList, comparator);
+		return sortList;
+	}
   
 	protected static ArrayList<Task> SortName(ArrayList<Task> list) {
 		Comparator<Task> comparator = new Comparator<Task>(){
 			public int compare(Task t1, Task t2) {
 				String n1, n2;
-				int p1, p2;
 				n1 = t1.getTaskName();
 				n2 = t2.getTaskName();
-				p1 = convertPriority(t1);
-				p2 = convertPriority(t2);
-				
-				int flag = n1.compareTo(n2);
-				
-				if(flag == 1){
-					return 1;
-				} else if (flag == 0) {
-					if(p1 > p2){
-						return 1;
-					} else if (p1 == p2) {
-						return 0;
-					} else {
-						return -1;
-					}
-				} else {
-					return -1;
-			    }
+				return n1.compareTo(n2);
 			}
 		};				
 		Collections.sort(list, comparator);
@@ -179,71 +152,13 @@ public class SortImplementation {
 		Comparator<Task> comparator = new Comparator<Task>(){
 			public int compare(Task t1, Task t2) {
 				Integer sd1, sd2;
-				sd1 = Integer.parseInt(t1.getTaskStartDate());
-				sd2 = Integer.parseInt(t2.getTaskStartDate());
+				sd1 = Integer.valueOf(t1.getTaskStartDate()).intValue(); 
+				sd2 = Integer.valueOf(t2.getTaskStartDate()).intValue(); 
 				return sd1.compareTo(sd2);
 			}
 		};				
 		Collections.sort(list, comparator);
 		return list;
 	}
-	
-	protected static ArrayList<Task> SortStatus(ArrayList<Task> list) {
-		Comparator<Task> comparator = new Comparator<Task>(){
-			public int compare(Task t1, Task t2) {
-				Integer st1, st2;
-				st1 = convertDoneAndOverdue(t1);
-				st2 = convertDoneAndOverdue(t2);
-				return st1.compareTo(st2);
-			}
-		};				
-		Collections.sort(list, comparator);
-		return list;
-	}
-	
-	protected static ArrayList<Task> SortDateThenPriority(ArrayList<Task> list) {
-		Comparator<Task> comparator = new Comparator<Task>(){
-			public int compare(Task t1, Task t2) {					
-				String date1 = null;
-				String date2 = null;
-				Integer p1, p2;
-				p1 = convertPriority(t1);
-				p2 = convertPriority(t2);
-				
-				String deadline = "deadline";
-				String event = "event";
-				
-				String type1 = t1.getTaskType();
-				String type2=  t2.getTaskType();
-				
-				if (type1.equals(deadline)) {
-					date1 = t1.getTaskEndDate(); 
-				} else if (type1.equals(event)) {
-					date1 = t1.getTaskStartDate();
-				}
-				
-				if (type2.equals(deadline)) {
-					date2 = t1.getTaskEndDate(); 
-				} else if (type1.equals(event)) {
-					date2 = t1.getTaskStartDate();
-				}
-				
-				if(parser.endDatePassed(date1, date2)) {
-					return 1;
-				} else if (date1.equals(date2)) {
-					if(p1 > p2){
-						return 1;
-					} else if (p1 == p2) {
-						return 0;
-					} else {
-						return -1;
-					}
-				} else {
-					return -1;
-			    }					
-			}
-		};				
-		Collections.sort(list, comparator);
-		return list;
-	}
+
 }
