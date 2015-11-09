@@ -151,19 +151,19 @@ public class CommandExecutor extends FileStorage{
 		case TASKTYPE_deadline:
 			if (deleteId > overdueTasks.size()) {
 				int temp = deleteId - overdueTasks.size();
-				deletedTask = removeTaskFromdeadlineList(temp);
+				deletedTask = removeTaskFromDeadlineList(temp);
 			} else {
-				deletedTask = removeTaskFromoverdueList(deleteId);
+				deletedTask = removeTaskFromOverdueList(deleteId);
 			}
 			break;
 		case TASKTYPE_event:
-			deletedTask = removeTaskFromeventList(deleteId);
+			deletedTask = removeTaskFromEventList(deleteId);
 			break;
 		case TASKTYPE_overdue:
-			deletedTask = removeTaskFromoverdueList(deleteId);
+			deletedTask = removeTaskFromOverdueList(deleteId);
 			break;
 		case TASKTYPE_done:
-			deletedTask = removeTaskFromdoneList(deleteId);
+			deletedTask = removeTaskFromDoneList(deleteId);
 			break;
 		}
 		selectedTask = deletedTask;
@@ -175,22 +175,22 @@ public class CommandExecutor extends FileStorage{
 		return taskToDelete;
 	}
 
-	private Task removeTaskFromdeadlineList(int deleteId) throws IOException, ClassNotFoundException {
+	private Task removeTaskFromDeadlineList(int deleteId) throws IOException, ClassNotFoundException {
 		Task taskToDelete = deadlineTasks.remove(deleteId - 1);
 		return taskToDelete;
 	}
 
-	private Task removeTaskFromeventList(int deleteId) throws IOException, ClassNotFoundException {
+	private Task removeTaskFromEventList(int deleteId) throws IOException, ClassNotFoundException {
 		Task taskToDelete = eventTasks.remove(deleteId - 1);
 		return taskToDelete;
 	}
 	
-	private Task removeTaskFromoverdueList(int deleteId) throws IOException, ClassNotFoundException {
+	private Task removeTaskFromOverdueList(int deleteId) throws IOException, ClassNotFoundException {
 		Task taskToDelete = overdueTasks.remove(deleteId - 1);
 		return taskToDelete;
 	}
 	
-	private Task removeTaskFromdoneList(int deleteId) throws IOException, ClassNotFoundException {
+	private Task removeTaskFromDoneList(int deleteId) throws IOException, ClassNotFoundException {
 		Task taskToDelete = doneTasks.remove(deleteId - 1);
 		return taskToDelete;
 	}
