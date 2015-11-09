@@ -64,7 +64,7 @@ public class CommandController {
 				break;
 
 			case COMMAND_DELETE:
-				if (!(Pattern.matches("[a-zA-Z]+", commandParts[1]) == true)) {
+				if (commandParts[1].matches("[0-9]+") == false) {
 					throw new Exception("Index is not in numerical form");
 				}
 				commandexecutor.executeDelete(commandParts);
@@ -72,7 +72,7 @@ public class CommandController {
 				break;
 
 			case COMMAND_EDIT:
-				if (!(Pattern.matches("[a-zA-Z]+", commandParts[1]) == true)) {
+				if (commandParts[1].matches("[0-9]+") == false) {
 					throw new Exception("Index is not in numerical form");
 				}
 				commandexecutor.executeEdit(commandParts);

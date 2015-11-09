@@ -260,9 +260,12 @@ public class CommandExecutor extends FileStorage{
 	}
 
 	public void executeDone(String[] commandParts) throws Exception, IOException {
-		int deleteId = Integer.valueOf(commandParts[1]);
-		deleteTaskFromList(deleteId);
-
+		int deleteID = Integer.valueOf(commandParts[1]);
+		Task doneTask = deleteTaskFromList(deleteID);
+		doneTask.setTaskType("done");
+		doneTasks.add(doneTask);
+		
+		writeToFile();
 	}
 
 	public ArrayList<Task> executeSort(ArrayList<Task> list) {
