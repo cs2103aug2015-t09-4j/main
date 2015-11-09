@@ -1,2 +1,0 @@
-taskname:event1;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:true;taskStartDate:-1;taskEndDate:-1;taskPriority:low;taskDescription:;taskStartTime:-1;taskEndTime:-1;
-taskname:two;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:091115;taskEndDate:091115;taskPriority:low;taskDescription:;taskStartTime:2020;taskEndTime:2030;
