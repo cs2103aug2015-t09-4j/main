@@ -490,7 +490,7 @@ public class CommandExecutor extends FileStorage{
 		temp.addAll(eventTasks);
 		temp.addAll(overdueTasks);
 		temp.addAll(doneTasks);
-		//sort temp here!!!!!!!
+		Sort.normal_sort(temp);
 		FileStorage.clear();
 		FileStorage.writeObjectAsString(temp);
 		System.out.println("temp" + temp);

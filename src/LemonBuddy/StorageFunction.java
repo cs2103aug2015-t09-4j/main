@@ -149,7 +149,6 @@ public class StorageFunction {
 					overdueList.add(temptask);
 					break;
 				default:
-					floatingList.add(temptask);
 					break;									
 			}
 
