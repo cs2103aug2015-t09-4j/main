@@ -10,13 +10,11 @@ public class Task implements Serializable {
 	private String taskType;
 	private String taskStartDate;
 	private String taskEndDate;
-	private String taskPriority;
-	private String taskDescription;
-	private boolean taskIsDone;
-	private boolean taskIsOverdue;
-	private boolean taskIsNewest;
 	private String taskStartTime;
 	private String taskEndTime;
+	private String taskPriority;
+	private String taskDescription;
+	private boolean taskIsNewest;
 
 	private SimpleStringProperty displayId;
 	private SimpleStringProperty displayName;
@@ -26,21 +24,19 @@ public class Task implements Serializable {
 	private SimpleStringProperty displayEndTime;
 	private SimpleStringProperty displayPriority;
 	private SimpleStringProperty displayDescription;
-	private ArrayList<SimpleStringProperty> displayTimmings = new ArrayList<SimpleStringProperty>(48);
+	private SimpleStringProperty[] displayTimmings;
 	
 	public String toString() {
 		String temp = "";
 		temp = temp + "taskname:" + taskName + ";";
 		temp = temp + "tasktype:" + taskType + ";";
-		temp = temp + "taskIsDone:" + taskIsDone + ";";
-		temp = temp + "taskIsOverdue:" + taskIsOverdue + ";";
-		temp = temp + "taskIsNewest:" + taskIsNewest + ";";
 		temp = temp + "taskStartDate:" + taskStartDate + ";";
 		temp = temp + "taskEndDate:" + taskEndDate + ";";
-		temp = temp + "taskPriority:" + taskPriority + ";";
-		temp = temp + "taskDescription:" + taskDescription + ";";
 		temp = temp + "taskStartTime:" + taskStartTime + ";";
 		temp = temp + "taskEndTime:" + taskEndTime + ";";
+		temp = temp + "taskIsNewest:" + taskIsNewest + ";";
+		temp = temp + "taskPriority:" + taskPriority + ";";
+		temp = temp + "taskDescription:" + taskDescription + ";";
 		temp = temp + "\n";
 		return temp;
 	}
@@ -53,11 +49,10 @@ public class Task implements Serializable {
 		taskEndDate = "-1";
 		taskPriority = "";
 		taskDescription = "";
-		taskIsDone = false;
-		taskIsOverdue = false;
 		taskIsNewest = false;
 		taskStartTime = "-1";
 		taskEndTime = "-1";
+		displayTimmings = new SimpleStringProperty[48];
 	}
 	
 	//TASK DATA MODIFIERS//
@@ -89,14 +84,6 @@ public class Task implements Serializable {
 
 	public void setTaskType(String taskType) {
 		this.taskType = taskType;
-	}
-
-	public void setTaskIsDone() {
-		this.taskIsDone = true;
-	}
-
-	public void setTaskIsOverdue() {
-		this.taskIsOverdue = true;
 	}
 
 	public void setTaskIsNewest() {
@@ -136,19 +123,19 @@ public class Task implements Serializable {
 		this.taskDescription = taskDescription;
 		this.displayDescription = new SimpleStringProperty(this.taskDescription);
 	}
-	
+
 	public void setDisplayId(String index) {
 		this.displayId = new SimpleStringProperty(index);
 	}
 	
 	public void setEventTime(int time) {
 		SimpleStringProperty temp = new SimpleStringProperty("1");
-		this.displayTimmings.add(time, temp);
+		this.displayTimmings[time] = temp;
 	}
 	
 	public void setDeadlineTime(int time) {
 		SimpleStringProperty temp = new SimpleStringProperty("0");
-		this.displayTimmings.add(time, temp);
+		this.displayTimmings[time] = temp;
 	}
 
 	//RETRIEVERS//
@@ -161,15 +148,6 @@ public class Task implements Serializable {
 	public String getTaskType() {
 		StringBuffer buffer = new StringBuffer(this.taskType);
 		return buffer.toString();
-	}
-
-	public Boolean getTaskIsDone() {
-		return this.taskIsDone;
-
-	}
-
-	public Boolean getTaskIsOverdue() {
-		return this.taskIsOverdue;
 	}
 
 	public Boolean getTaskIsNewest() {
@@ -267,7 +245,7 @@ public class Task implements Serializable {
 	}
 	
 	public SimpleStringProperty getTimmings(int num) {
-		return this.displayTimmings.get(num);
+		return this.displayTimmings[num];
 	}
 
 }
