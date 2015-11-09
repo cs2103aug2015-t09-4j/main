@@ -46,7 +46,7 @@ public class CommandController {
 		
 	}
 
-	public static void processCommand(String command) {
+	public void processCommand(String command) {
 		logger.log(Level.INFO, "going to start processing");
 		try {
 			String[] commandParts = commandcontroller.splitCommand(command);
