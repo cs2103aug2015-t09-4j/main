@@ -142,31 +142,6 @@ public class CommandExecutor extends FileStorage {
 		}
 	}
 
-<<<<<<< HEAD
-	public Task deleteTaskFromList(int deleteID) throws IOException, ClassNotFoundException {
-		Task deletedTask = new Task();
-		switch (listType) {
-		case TASKTYPE_floating:
-			deletedTask = removeTaskFromFloatingList(deleteID);
-			break;
-		case TASKTYPE_deadline:
-			if (deleteID > overdueTasks.size()) {
-				int temp = deleteID - overdueTasks.size();
-				deletedTask = removeTaskFromDeadlineList(temp);
-			} else {
-				deletedTask = removeTaskFromOverdueList(deleteID);
-			}
-			break;
-		case TASKTYPE_event:
-			deletedTask = removeTaskFromEventList(deleteID);
-			break;
-		case TASKTYPE_overdue:
-			deletedTask = removeTaskFromOverdueList(deleteID);
-			break;
-		case TASKTYPE_done:
-			deletedTask = removeTaskFromDoneList(deleteID);
-			break;
-=======
 	public Task deleteTaskFromList(int deleteId) throws Exception {
 		Task deletedTask = new Task();
 		try {
@@ -178,53 +153,28 @@ public class CommandExecutor extends FileStorage {
 			case TASKTYPE_deadline:
 				if (deleteId > overdueTasks.size()) {
 					int temp = deleteId - overdueTasks.size();
-					deletedTask = removeTaskFromdeadlineList(temp);
+					deletedTask = removeTaskFromDeadlineList(temp);
 				} else {
-					deletedTask = removeTaskFromoverdueList(deleteId);
+					deletedTask = removeTaskFromOverdueList(deleteId);
 				}
 				break;
 			case TASKTYPE_event:
-				deletedTask = removeTaskFromeventList(deleteId);
+				deletedTask = removeTaskFromEventList(deleteId);
 				break;
 			case TASKTYPE_overdue:
-				deletedTask = removeTaskFromoverdueList(deleteId);
+				deletedTask = removeTaskFromOverdueList(deleteId);
 				break;
 			case TASKTYPE_done:
-				deletedTask = removeTaskFromdoneList(deleteId);
+				deletedTask = removeTaskFromDoneList(deleteId);
 				break;
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
 			throw new Exception("Invalid index");
->>>>>>> origin/master
 		}
 		selectedTask = deletedTask;
 		return deletedTask;
 	}
 
-<<<<<<< HEAD
-	public Task removeTaskFromFloatingList(int deleteID) throws IOException, ClassNotFoundException {
-		Task taskToDelete = floatingTasks.remove(deleteID - 1);
-		return taskToDelete;
-	}
-
-	public Task removeTaskFromDeadlineList(int deleteID) throws IOException, ClassNotFoundException {
-		Task taskToDelete = deadlineTasks.remove(deleteID - 1);
-		return taskToDelete;
-	}
-
-	private Task removeTaskFromEventList(int deleteID) throws IOException, ClassNotFoundException {
-		Task taskToDelete = eventTasks.remove(deleteID - 1);
-		return taskToDelete;
-	}
-	
-	private Task removeTaskFromOverdueList(int deleteID) throws IOException, ClassNotFoundException {
-		Task taskToDelete = overdueTasks.remove(deleteID - 1);
-		return taskToDelete;
-	}
-	
-	private Task removeTaskFromDoneList(int deleteID) throws IOException, ClassNotFoundException {
-		Task taskToDelete = doneTasks.remove(deleteID - 1);
-=======
 	public Task removeTaskFromFloatingList(int deleteId) throws Exception {
 		if (floatingTasks.size() <= deleteId) {
 			throw new Exception("Invalid Index");
@@ -233,7 +183,7 @@ public class CommandExecutor extends FileStorage {
 		return taskToDelete;
 	}
 
-	private Task removeTaskFromdeadlineList(int deleteId) throws Exception {
+	private Task removeTaskFromDeadlineList(int deleteId) throws Exception {
 		if (deadlineTasks.size() <= deleteId) {
 			throw new Exception("Invalid Index");
 		}
@@ -241,7 +191,7 @@ public class CommandExecutor extends FileStorage {
 		return taskToDelete;
 	}
 
-	private Task removeTaskFromeventList(int deleteId) throws Exception {
+	private Task removeTaskFromEventList(int deleteId) throws Exception {
 		if (eventTasks.size() <= deleteId) {
 			throw new Exception("Invalid Index");
 		}
@@ -249,7 +199,7 @@ public class CommandExecutor extends FileStorage {
 		return taskToDelete;
 	}
 
-	private Task removeTaskFromoverdueList(int deleteId) throws Exception {
+	private Task removeTaskFromOverdueList(int deleteId) throws Exception {
 		if (overdueTasks.size() <= deleteId) {
 			throw new Exception("Invalid Index");
 		}
@@ -257,13 +207,12 @@ public class CommandExecutor extends FileStorage {
 		return taskToDelete;
 	}
 
-	private Task removeTaskFromdoneList(int deleteId) throws Exception {
+	private Task removeTaskFromDoneList(int deleteId) throws Exception {
 		if (doneTasks.size() <= deleteId) {
 			throw new Exception("Invalid Index");
 		}
 		Task taskToDelete = new Task();
 		taskToDelete = doneTasks.remove(deleteId - 1);
->>>>>>> origin/master
 		return taskToDelete;
 	}
 
