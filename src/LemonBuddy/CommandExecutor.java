@@ -190,7 +190,8 @@ public class CommandExecutor extends FileStorage {
 		}
 		listToTimeline = Sort.sortByTime(tasksOnDate);
 	}
-//@author A0127147H
+
+	// @author A0127147H
 	public void executeRedo() throws IOException, Exception {
 		if (!undoneStates.isEmpty()) {
 			lastStates.push(FileStorage.readStringAsString(path));
@@ -211,7 +212,7 @@ public class CommandExecutor extends FileStorage {
 		return stringToParse;
 	}
 
-	private void addTaskToList(Task newTask) {
+	public void addTaskToList(Task newTask) {
 		switch (newTask.getTaskType()) {
 		case TASKTYPE_FLOATING:
 			floatingTasks.add(newTask);
@@ -268,7 +269,7 @@ public class CommandExecutor extends FileStorage {
 		return taskToDelete;
 	}
 
-	private Task removeTaskFromDeadlineList(int deleteId) throws Exception {
+	public Task removeTaskFromDeadlineList(int deleteId) throws Exception {
 		if (deadlineTasks.size() < deleteId) {
 			throw new Exception("Invalid Index");
 		}
@@ -276,7 +277,7 @@ public class CommandExecutor extends FileStorage {
 		return taskToDelete;
 	}
 
-	private Task removeTaskFromEventList(int deleteId) throws Exception {
+	public Task removeTaskFromEventList(int deleteId) throws Exception {
 		if (floatingTasks.size() < deleteId) {
 			throw new Exception("Invalid Index");
 		}
@@ -284,7 +285,7 @@ public class CommandExecutor extends FileStorage {
 		return taskToDelete;
 	}
 
-	private Task removeTaskFromOverdueList(int deleteId) throws Exception {
+	public Task removeTaskFromOverdueList(int deleteId) throws Exception {
 		if (floatingTasks.size() < deleteId) {
 			throw new Exception("Invalid Index");
 		}

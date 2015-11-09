@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 public class Parser {
 
+	private static final String DATETIMEFORMAT = "ddMMyy";
 	private static final String KEYWORD_TO = "to";
 	private static final String SIMPLEDATETIMEFORMAT = "ddMMyy HHmm";
 	private static final String KEYWORD_TOMORROW = "tomorrow";
@@ -21,14 +22,11 @@ public class Parser {
 	private static final String KEYWORD_FROM = "from";
 	
 	private static final String KEYWORD_ON = "on";
-	private static final String TASKTYPE_FLOATING = "floating";
 	private static final String TASKTYPE_DEADLINE = "deadline";
 	private static final String TASKTYPE_EVENT = "event";
 	private static Parser parser;
 	private static Logger logger = Logger.getLogger("Parser");
 	
-	private static void parser(){
-	}
 	public static Parser getInstance(){
 		if(parser == null)
 			parser = new Parser();
@@ -92,8 +90,7 @@ public class Parser {
 		return initialIndex;
 	}
 
-	/********************************* Builds priority after detecting KEYWORD_PRIORITY 
-	 * @throws Exception ******************************************/
+	/********************************* Builds priority after detecting KEYWORD_PRIORITY *******************/
 	private int parsePriority(String[] commandParts, Task newTask, int wordIndex) throws Exception {
 		logger.log(Level.INFO, "Parsing priority");
 		int initialIndex = wordIndex;
@@ -120,7 +117,7 @@ public class Parser {
 	private void checkValidDateTimeInput(Task newTask) throws ParseException, Exception {
 		if (newTask.getTaskType().equals(TASKTYPE_EVENT)) {
 
-			SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy");
+			SimpleDateFormat sdf = new SimpleDateFormat(DATETIMEFORMAT);
 			Date date1 = sdf.parse(newTask.getTaskStartDate());
 			Date date2 = sdf.parse(newTask.getTaskEndDate());
 			if (date1.after(date2)) {
@@ -285,7 +282,7 @@ public class Parser {
 	}
 
 	public String getCurrentDate() {
-		DateFormat df = new SimpleDateFormat("ddMMyy");
+		DateFormat df = new SimpleDateFormat(DATETIMEFORMAT);
 		Date dateobj = new Date();
 		String currentDate = df.format(dateobj);
 		return currentDate;
@@ -301,7 +298,6 @@ public class Parser {
 	// 0 for date 1 for time
 	private String[] getTimeInfo(String[] commandParts, Task newTask, int wordIndex) throws Exception {
 		logger.log(Level.INFO, "Parsing time");
-		Boolean commaIsPresent = false;
 		String[] timeInfo = new String[2];
 		timeInfo[0] = "-1";
 		timeInfo[1] = "-1";
@@ -406,7 +402,7 @@ public class Parser {
 
 	public static boolean isDateValid(String date) {
 		try {
-			DateFormat df = new SimpleDateFormat("ddMMyy");
+			DateFormat df = new SimpleDateFormat(DATETIMEFORMAT);
 			df.setLenient(false);
 			df.parse(date);
 			return true;
