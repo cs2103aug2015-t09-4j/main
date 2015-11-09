@@ -274,6 +274,7 @@ public class CommandExecutor extends FileStorage {
 		undoneStates.push(FileStorage.readStringAsString(path));
 		FileStorage.clear();
 		FileStorage.writeStringAsString(lastStates.pop());
+		updateLists();
 	}
 
 	public void executeDone(String[] commandParts) throws Exception, IOException {
@@ -281,7 +282,6 @@ public class CommandExecutor extends FileStorage {
 		Task doneTask = deleteTaskFromList(deleteID);
 		doneTask.setTaskType("done");
 		doneTasks.add(doneTask);
-
 		writeToFile();
 	}
 
@@ -306,8 +306,9 @@ public class CommandExecutor extends FileStorage {
 			FileStorage.clear();
 			FileStorage.writeStringAsString(undoneStates.pop());
 		} else {
-			// System.out.println("Already at current");
+			throw new Exception("Already at current");
 		}
+		updateLists();
 	}
 
 	public void executeSearch(String[] commandParts) throws ClassNotFoundException, IOException {

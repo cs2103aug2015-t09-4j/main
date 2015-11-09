@@ -3,15 +3,13 @@ taskname:three;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskIsNewest:
 taskname:one;tasktype:deadline;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:111115;taskPriority:low;taskDescription:;taskStartTime:-1;taskEndTime:2020;
 taskname:two 091115;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:111115;taskEndDate:111115;taskPriority:low;taskDescription:;taskStartTime:2020;taskEndTime:2020;
 taskname:one;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:low;taskDescription:;taskStartTime:-1;taskEndTime:-1;
-taskname:two;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:low;taskDescription:;taskStartTime:-1;taskEndTime:-1;
-taskname:two;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:low;taskDescription:;taskStartTime:-1;taskEndTime:-1;
 taskname:one;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:low;taskDescription:;taskStartTime:-1;taskEndTime:-1;
-taskname:deleted;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:low;taskDescription:;taskStartTime:-1;taskEndTime:-1;
 taskname:one;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:low;taskDescription:;taskStartTime:-1;taskEndTime:-1;
 taskname:two;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:low;taskDescription:;taskStartTime:-1;taskEndTime:-1;
 taskname:222;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:low;taskDescription:;taskStartTime:-1;taskEndTime:-1;
 taskname:333;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:low;taskDescription:;taskStartTime:-1;taskEndTime:-1;
-taskname:444;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:true;taskStartDate:-1;taskEndDate:-1;taskPriority:low;taskDescription:;taskStartTime:-1;taskEndTime:-1;
+taskname:one;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:low;taskDescription:;taskStartTime:-1;taskEndTime:-1;
+taskname:four;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:low;taskDescription:;taskStartTime:-1;taskEndTime:-1;
 taskname:one;tasktype:overdue;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:091115;taskPriority:low;taskDescription:;taskStartTime:-1;taskEndTime:2200;
 taskname:two;tasktype:overdue;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:091115;taskPriority:low;taskDescription:;taskStartTime:-1;taskEndTime:2057;
 taskname:four;tasktype:done;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:091115;taskEndDate:091115;taskPriority:low;taskDescription:;taskStartTime:2020;taskEndTime:2030;
