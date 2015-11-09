@@ -95,6 +95,7 @@ public class CommandController {
 				break;
 
 			case COMMAND_LIST:
+				String taskType = commandParts[1].toLowerCase();
 				commandexecutor.executeList(commandParts);
 				break;
 

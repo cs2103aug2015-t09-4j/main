@@ -47,6 +47,7 @@ public class TestFileStorage extends FileStorage {
 	}
 
 	
+	@SuppressWarnings("resource")
 	private boolean compareTwoFiles(File f1, File f2) {
 		
 		boolean tag = true;
@@ -276,7 +277,7 @@ public class TestFileStorage extends FileStorage {
 			FileStorage.writeObjectAsString(arrayListUnderTest);
 			File f1 = new File(filename);
 			outputFile = "testWriteObjectExpected.txt";
-			File f2 = new File(outputFile);
+			File f2 = new File(outputFile);			
 			boolean compareResult = compareTwoFiles(f1,f2);
 			assertTrue(compareResult);
 		} catch(IOException e) {

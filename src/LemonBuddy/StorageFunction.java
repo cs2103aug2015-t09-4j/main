@@ -4,18 +4,14 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class StorageFunction {
 
 	private static final String MSG_WHEN_INVALID_FILENAME = "cannot find targeted file"; 
 	private static final String MSG_WHEN_IOEXCEPTION = "cannot store information"; 
-	
 
 	/************************************************** Modify String 
 	 * @throws Exception ******************************************************************/	
@@ -75,7 +71,7 @@ public class StorageFunction {
         	 result.add(createTaskFromString(lineText));
         	}
 			read.close();		
-		} catch (FileNotFoundException e) {
+		} catch (FileNotFoundException e) {			
 			printExceptionMessage(e);
 		} finally {			
 		}
@@ -135,22 +131,22 @@ public class StorageFunction {
 			
 			temptask = taskList.get(i);
 			
-			type = temptask.getTaskType();
+			type = temptask.getTaskType().toLowerCase();
 			
 			switch(type){
-				case "Floating":
+				case "floating":
 					floatingList.add(temptask);
 					break;
-				case "Deadline":
+				case "deadline":
 					deadlineList.add(temptask);
 					break;
-				case "Event":
+				case "event":
 					eventList.add(temptask);
 					break;
-				case "Done":
+				case "done":
 					doneList.add(temptask);
 					break;
-				case "Overdue":
+				case "overdue":
 					overdueList.add(temptask);
 					break;
 				default:
