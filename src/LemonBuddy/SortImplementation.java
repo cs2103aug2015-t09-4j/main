@@ -68,17 +68,17 @@ public class SortImplementation{
 				type2 = t2.getTaskType().toLowerCase();	
 					
 				if(type1.equals(deadline)) {
-					end1 = Integer.valueOf(t1.getTaskEndTime()).intValue();
+					end1 = Integer.valueOf(t1.getTaskEndDate()).intValue();
 				} else if(type1.equals(event)) {
-					end1 = Integer.valueOf(t1.getTaskStartTime()).intValue();
+					end1 = Integer.valueOf(t1.getTaskStartDate()).intValue();
 				} else {
 					end1 = -1;
 				}
 			
 				if(type2.equals(deadline)) {
-					end2 = Integer.valueOf(t2.getTaskEndTime()).intValue();
+					end2 = Integer.valueOf(t2.getTaskEndDate()).intValue();
 				} else if(type2.equals(event)) {
-					end2 = Integer.valueOf(t2.getTaskStartTime()).intValue();
+					end2 = Integer.valueOf(t2.getTaskStartDate()).intValue();
 				} else {
 					end2 = -1;
 				}
