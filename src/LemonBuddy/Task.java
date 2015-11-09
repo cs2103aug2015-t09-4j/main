@@ -10,11 +10,13 @@ public class Task implements Serializable {
 	private String taskType;
 	private String taskStartDate;
 	private String taskEndDate;
-	private String taskStartTime;
-	private String taskEndTime;
 	private String taskPriority;
 	private String taskDescription;
+	private boolean taskIsDone;
+	private boolean taskIsOverdue;
 	private boolean taskIsNewest;
+	private String taskStartTime;
+	private String taskEndTime;
 
 	private SimpleStringProperty displayId;
 	private SimpleStringProperty displayName;
@@ -24,19 +26,21 @@ public class Task implements Serializable {
 	private SimpleStringProperty displayEndTime;
 	private SimpleStringProperty displayPriority;
 	private SimpleStringProperty displayDescription;
-	private SimpleStringProperty[] displayTimmings;
+	private SimpleStringProperty[] displayTimmings = new SimpleStringProperty[48];
 	
 	public String toString() {
 		String temp = "";
 		temp = temp + "taskname:" + taskName + ";";
 		temp = temp + "tasktype:" + taskType + ";";
+		temp = temp + "taskIsDone:" + taskIsDone + ";";
+		temp = temp + "taskIsOverdue:" + taskIsOverdue + ";";
+		temp = temp + "taskIsNewest:" + taskIsNewest + ";";
 		temp = temp + "taskStartDate:" + taskStartDate + ";";
 		temp = temp + "taskEndDate:" + taskEndDate + ";";
-		temp = temp + "taskStartTime:" + taskStartTime + ";";
-		temp = temp + "taskEndTime:" + taskEndTime + ";";
-		temp = temp + "taskIsNewest:" + taskIsNewest + ";";
 		temp = temp + "taskPriority:" + taskPriority + ";";
 		temp = temp + "taskDescription:" + taskDescription + ";";
+		temp = temp + "taskStartTime:" + taskStartTime + ";";
+		temp = temp + "taskEndTime:" + taskEndTime + ";";
 		temp = temp + "\n";
 		return temp;
 	}
@@ -47,12 +51,13 @@ public class Task implements Serializable {
 		taskType = "";
 		taskStartDate = "-1";
 		taskEndDate = "-1";
-		taskPriority = "";
+		taskPriority = "low";
 		taskDescription = "";
+		taskIsDone = false;
+		taskIsOverdue = false;
 		taskIsNewest = false;
 		taskStartTime = "-1";
 		taskEndTime = "-1";
-		displayTimmings = new SimpleStringProperty[48];
 	}
 	
 	//TASK DATA MODIFIERS//
@@ -86,6 +91,14 @@ public class Task implements Serializable {
 		this.taskType = taskType;
 	}
 
+	public void setTaskIsDone() {
+		this.taskIsDone = true;
+	}
+
+	public void setTaskIsOverdue() {
+		this.taskIsOverdue = true;
+	}
+
 	public void setTaskIsNewest() {
 		this.taskIsNewest = true;
 	}
@@ -114,7 +127,10 @@ public class Task implements Serializable {
 		this.displayEndTime = new SimpleStringProperty(this.taskEndTime);
 	}
 
-	public void setTaskPriority(String taskPriority) {
+	public void setTaskPriority(String taskPriority) throws Exception {
+		if(!(taskPriority.equals("low")||taskPriority.equals("medium")||taskPriority.equals("high"))){
+			throw new Exception("Invalid priority type");
+		}
 		this.taskPriority = taskPriority;
 		this.displayPriority = new SimpleStringProperty(this.taskPriority);
 	}
@@ -123,7 +139,7 @@ public class Task implements Serializable {
 		this.taskDescription = taskDescription;
 		this.displayDescription = new SimpleStringProperty(this.taskDescription);
 	}
-
+	
 	public void setDisplayId(String index) {
 		this.displayId = new SimpleStringProperty(index);
 	}
@@ -148,6 +164,15 @@ public class Task implements Serializable {
 	public String getTaskType() {
 		StringBuffer buffer = new StringBuffer(this.taskType);
 		return buffer.toString();
+	}
+
+	public Boolean getTaskIsDone() {
+		return this.taskIsDone;
+
+	}
+
+	public Boolean getTaskIsOverdue() {
+		return this.taskIsOverdue;
 	}
 
 	public Boolean getTaskIsNewest() {

@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
 
 public class Parser {
 
@@ -18,6 +19,7 @@ public class Parser {
 	private static final String TASKTYPE_DEADLINE = "deadline";
 	private static final String TASKTYPE_EVENT = "event";
 
+	/***************************************Create Task from string ******************************************************************/
 	public Task parseTask(String[] commandParts) throws Exception {
 		Task newTask = new Task();
 		int wordIndex = 1;
@@ -29,9 +31,9 @@ public class Parser {
 		parseTime(commandParts, newTask, wordIndex);
 
 		return newTask;
-
 	}
 
+	/************************************** Builds name until first keyword ******************************************************************/
 	private int parseTaskName(String[] commandParts, Task newTask, int wordIndex, String taskName) {
 		while (true) {
 
@@ -52,12 +54,7 @@ public class Parser {
 		return wordIndex;
 	}
 
-	/**
-	 * @param commandParts
-	 * @param newTask
-	 * @param wordIndex
-	 * @return
-	 */
+	/**************************************** Builds description after KEYWORD_DESCRIPTION *****************************************/
 	private int parseDescription(String[] commandParts, Task newTask, int wordIndex) {
 		int initialIndex = wordIndex;
 		while (wordIndex < commandParts.length) {
@@ -78,13 +75,9 @@ public class Parser {
 		return initialIndex;
 	}
 
-	/**
-	 * @param commandParts
-	 * @param newTask
-	 * @param wordIndex
-	 * @return
-	 */
-	private int parsePriority(String[] commandParts, Task newTask, int wordIndex) {
+	/********************************* Builds priority after detecting KEYWORD_PRIORITY 
+	 * @throws Exception ******************************************/
+	private int parsePriority(String[] commandParts, Task newTask, int wordIndex) throws Exception {
 		int initialIndex = wordIndex;
 		while (wordIndex < commandParts.length) {
 			if (commandParts[wordIndex].substring(0, 1).equals(KEYWORD_PRIORITY)) {
@@ -95,6 +88,50 @@ public class Parser {
 		return initialIndex;
 	}
 
+<<<<<<< HEAD
+=======
+	public static Task createTaskFromString(String s) throws Exception {
+		String[] array = s.split(";");
+		Task t = new Task();
+		for (int i = 0; i < array.length; i++) {
+			String[] temp = array[i].split(":", 2);
+			switch (temp[0]) {
+			case "taskname":
+				t.setTaskName(temp[1]);
+				break;
+			case "tasktype":
+				t.setTaskType(temp[1]);
+				break;
+			case "taskIsNewest":
+				if (temp[1].equals("true"))
+					t.setTaskIsNewest();
+				break;
+			case "taskStartDate":
+				t.setTaskStartDate(temp[1]);
+				break;
+			case "taskEndDate":
+				t.setTaskEndDate(temp[1]);
+				break;
+			case "taskPriority":
+				t.setTaskPriority(temp[1]);
+				break;
+			case "taskDescription":
+				t.setTaskDescription(temp[1]);
+				break;
+			case "taskStartTime":
+				t.setTaskStartTime(temp[1]);
+				break;
+			case "taskEndTime":
+				t.setTaskEndTime(temp[1]);
+				break;
+			default:
+				break;
+			}
+		}
+		return t;
+	}
+
+>>>>>>> origin/master
 	private int parseTime(String[] commandParts, Task newTask, int wordIndex) throws Exception {
 
 		detectFromToFormat(commandParts);
@@ -108,14 +145,14 @@ public class Parser {
 
 	private void checkValidDateTimeInput(Task newTask) throws ParseException, Exception {
 		if (newTask.getTaskType().equals(TASKTYPE_EVENT)) {
+
 			SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy");
 			Date date1 = sdf.parse(newTask.getTaskStartDate());
 			Date date2 = sdf.parse(newTask.getTaskEndDate());
 			if (date1.after(date2)) {
-				throw new Exception("Start date after end date");
+				throw new Exception("Start date is after end date");
 			}
-
-			if (newTask.getTaskStartDate() == newTask.getTaskEndDate()) {
+			if (newTask.getTaskStartDate().equals(newTask.getTaskEndDate())) {
 				if (Integer.parseInt(newTask.getTaskStartTime()) > Integer.parseInt(newTask.getTaskEndTime())) {
 					throw new Exception("Start time is after end time");
 				}
@@ -153,7 +190,7 @@ public class Parser {
 				newTask.setTaskStartDate(timeInfo[0]);
 				newTask.setTaskStartTime(timeInfo[1]);
 				for (int i = wordIndex; i < commandParts.length; i++) {
-					System.out.println(commandParts[i]);
+					// System.out.println(commandParts[i]);
 					if (commandParts[i].equals("to")) {
 						i++;
 						wordIndex = i;
@@ -161,7 +198,7 @@ public class Parser {
 					}
 				}
 				timeInfo = getTimeInfo(commandParts, newTask, wordIndex);
-			
+
 				newTask.setTaskEndDate(timeInfo[0]);
 				newTask.setTaskEndTime(timeInfo[1]);
 				newTask.setTaskType(TASKTYPE_EVENT);
@@ -307,15 +344,19 @@ public class Parser {
 		int parseCount = 1;
 		for (int i = 0; i < parseCount; i++) {
 			taskOn = commandParts[wordIndex];
-			System.out.println(taskOn);
+			// System.out.println(taskOn);
 			if (commandParts[wordIndex].contains(",")) {
 				taskOn = commandParts[wordIndex].substring(0, commandParts[wordIndex].indexOf(","));
 				parseCount = 2;
 			}
 			taskOn = removeSlashes(taskOn);
+			if (!(taskOn.matches("[0-9]+") || ((taskOn.length() == 4) && (taskOn.length() == 6))
+					|| (taskOn.equals(KEYWORD_TOMORROW)))) {
+				throw new Exception("Invalid date/time format");
+			}
 			if (taskOn.length() == 4) {
 				int taskOnInt = Integer.valueOf(taskOn);
-				if (taskOnInt > 2400 || taskOnInt < 0) {
+				if (taskOnInt >= 2400 || taskOnInt < 0) {
 					throw new Exception("Time out of range");
 				}
 				timeInfo[1] = taskOn;
@@ -399,8 +440,8 @@ public class Parser {
 	public boolean nextPriorityIsHigher(String currentPriority, String nextPriority) {
 		if (nextPriority.equals("high") && !currentPriority.equals("high")) {
 			return true;
-		} else
-			if (nextPriority.equals("medium") && !currentPriority.equals("high") && !currentPriority.equals("medium")) {
+		} else if (nextPriority.equals("medium") && !currentPriority.equals("high")
+				&& !currentPriority.equals("medium")) {
 			return true;
 		} else {
 			return false;

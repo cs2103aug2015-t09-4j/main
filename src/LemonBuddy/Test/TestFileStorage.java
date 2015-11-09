@@ -113,7 +113,7 @@ public class TestFileStorage extends FileStorage {
 		e.printStackTrace();
 	}
 	
-	private ArrayList<Task> initialTaskListForTest() {
+	private ArrayList<Task> initialTaskListForTest() throws Exception {
 		
 		ArrayList<Task> testList = new ArrayList<Task>();
 		
@@ -174,7 +174,7 @@ public class TestFileStorage extends FileStorage {
 		return testList;
 	}
 	
-	private void initialTaskListForTestRead() {
+	private void initialTaskListForTestRead() throws Exception {
 		
 		ArrayList<Task> testFloatingList = new ArrayList<Task>();
 		ArrayList<Task> testDeadlineList = new ArrayList<Task>();
@@ -266,10 +266,10 @@ public class TestFileStorage extends FileStorage {
 		stringUnderTest =  content;
 	}
 	
-	/*********************************************************** Test *************************************************************************/	
+	/*********************************************************** Test*************************************************************************/	
 	
 	@Test
-	public void testWriteObjectAsString() throws IOException {
+	public void testWriteObjectAsString() throws Exception {
 		try {
 			filename = "testWriteObjectExpected.txt";			
 			arrayListUnderTest = initialTaskListForTest();

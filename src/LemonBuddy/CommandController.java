@@ -36,6 +36,7 @@ public class CommandController {
 			commandexecutor = new CommandExecutor();
 		}
 		commandexecutor.saveLastState();
+		commandexecutor.updateLists();
 	}
 
 	// REMEMBER TO DELETE THIS!!! FOR TESTING ONLY!!//////////////////////
@@ -50,7 +51,7 @@ public class CommandController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String command = "add bumbling bumblebee by 0010, 25/12/15";
+		String command = "add spectacular spiderman from 0000, 11/11/15 to 2350, 11/12/15 *higher desc super spec";
 		commandcontroller.processCommand(command);
 	}
 	/////////////////////////////////////////////////////////////////////
@@ -66,24 +67,16 @@ public class CommandController {
 
 			executeSaveLastState(commandType);
 			
-			commandexecutor.updateLists();
-			
 			switch (commandType) {
 			case COMMAND_ADD:
 				commandexecutor.executeAdd(commandParts);
 				break;
 
 			case COMMAND_DELETE:
-				if (!commandcontroller.isValidTaskType(commandParts[1])) {
-					throw new Exception("Invalid task type");
-				}
 				commandexecutor.executeDelete(commandParts);
 				break;
 
 			case COMMAND_EDIT:
-				if (!commandcontroller.isValidTaskType(commandParts[1])) {
-					throw new Exception("Invalid task type");
-				}
 				commandexecutor.executeEdit(commandParts);
 				break;
 
@@ -126,7 +119,7 @@ public class CommandController {
 				commandexecutor.parseInvalidCommand(commandType);
 				break;
 			}
-			commandexecutor.updateLists();
+			
 		} catch (Exception e) {
 			logger.log(Level.WARNING, "processing error", e);
 			e.printStackTrace();
@@ -152,5 +145,10 @@ public class CommandController {
 			return true;
 		} else
 			return false;
+	}
+	
+	public ArrayList<ArrayList<Task>> passToGUI() throws Exception {
+		return commandexecutor.passToGUI();
+		
 	}
 }
