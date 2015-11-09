@@ -32,7 +32,7 @@ public class lemonGUI extends Application {
         this.primaryStage.setTitle("LemonBuddy");
         this.primaryStage.getIcons().add(new Image("file:resources/images/icon.png"));
         initRootLayout();
-        showLemonGUI();
+        showLemonGui();
     }
 
     
@@ -58,7 +58,7 @@ public class lemonGUI extends Application {
     }
 
     //Shows the GUI inside the root layout.
-    public void showLemonGUI() {
+    public void showLemonGui() {
         try {
         	logger.log(Level.INFO, "Initializing LemonGui");
             FXMLLoader loader = new FXMLLoader();

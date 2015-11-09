@@ -35,7 +35,7 @@ public class CommandController {
 	private static String commandType;
 	private static String errorMessage;
 
-	private CommandController() throws Exception {
+	public CommandController() throws Exception {
 		commandexecutor = CommandExecutor.getInstance();
 		commandexecutor.saveLastState();
 		commandexecutor.updateLists();
