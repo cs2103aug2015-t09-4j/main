@@ -16,9 +16,10 @@ public class StorageFunction {
 	private static final String MSG_WHEN_INVALID_FILENAME = "cannot find targeted file"; 
 	private static final String MSG_WHEN_IOEXCEPTION = "cannot store information"; 
 	
-<<<<<<< HEAD
-	/************************************************** Modify String ******************************************************************/	
-	public static Task createTaskFromString(String s) {
+
+	/************************************************** Modify String 
+	 * @throws Exception ******************************************************************/	
+	public static Task createTaskFromString(String s) throws Exception {
 		String[] array = s.split(";");
 		Task t = new Task();
 		for (int i = 0; i < array.length; i++) {
@@ -59,12 +60,9 @@ public class StorageFunction {
 		return t;
 	}
 	
+
 /************************************************** Modify TaskList ******************************************************************/		
-=======
-/************************************************** Modify TaskList 
- * @throws Exception ******************************************************************/		
->>>>>>> origin/master
-	
+
 	
 	protected static ArrayList<Task> createArrayList(File f) throws Exception {
 		ArrayList<Task> result= new ArrayList<Task>();

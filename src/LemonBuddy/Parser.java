@@ -88,50 +88,6 @@ public class Parser {
 		return initialIndex;
 	}
 
-<<<<<<< HEAD
-=======
-	public static Task createTaskFromString(String s) throws Exception {
-		String[] array = s.split(";");
-		Task t = new Task();
-		for (int i = 0; i < array.length; i++) {
-			String[] temp = array[i].split(":", 2);
-			switch (temp[0]) {
-			case "taskname":
-				t.setTaskName(temp[1]);
-				break;
-			case "tasktype":
-				t.setTaskType(temp[1]);
-				break;
-			case "taskIsNewest":
-				if (temp[1].equals("true"))
-					t.setTaskIsNewest();
-				break;
-			case "taskStartDate":
-				t.setTaskStartDate(temp[1]);
-				break;
-			case "taskEndDate":
-				t.setTaskEndDate(temp[1]);
-				break;
-			case "taskPriority":
-				t.setTaskPriority(temp[1]);
-				break;
-			case "taskDescription":
-				t.setTaskDescription(temp[1]);
-				break;
-			case "taskStartTime":
-				t.setTaskStartTime(temp[1]);
-				break;
-			case "taskEndTime":
-				t.setTaskEndTime(temp[1]);
-				break;
-			default:
-				break;
-			}
-		}
-		return t;
-	}
-
->>>>>>> origin/master
 	private int parseTime(String[] commandParts, Task newTask, int wordIndex) throws Exception {
 
 		detectFromToFormat(commandParts);
