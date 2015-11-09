@@ -117,7 +117,7 @@ public class CommandExecutor extends FileStorage {
 		writeToFile();
 	}
 
-	private void addTaskToList(Task newTask) {
+	public void addTaskToList(Task newTask) {
 		switch (newTask.getTaskType()) {
 		case TASKTYPE_floating:
 			floatingTasks.add(newTask);
@@ -147,16 +147,16 @@ public class CommandExecutor extends FileStorage {
 		case TASKTYPE_deadline:
 			if (deleteId > overdueTasks.size()) {
 				int temp = deleteId - overdueTasks.size();
-				deletedTask = removeTaskFromdeadlineList(temp);
+				deletedTask = removeTaskFromDeadlineList(temp);
 			} else {
-				deletedTask = removeTaskFromoverdueList(deleteId);
+				deletedTask = removeTaskFromOverdueList(deleteId);
 			}
 			break;
 		case TASKTYPE_event:
-			deletedTask = removeTaskFromeventList(deleteId);
+			deletedTask = removeTaskFromEventList(deleteId);
 			break;
 		case TASKTYPE_overdue:
-			deletedTask = removeTaskFromoverdueList(deleteId);
+			deletedTask = removeTaskFromOverdueList(deleteId);
 			break;
 		case TASKTYPE_done:
 			deletedTask = removeTaskFromDoneList(deleteId);
@@ -174,7 +174,7 @@ public class CommandExecutor extends FileStorage {
 		return taskToDelete;
 	}
 
-	private Task removeTaskFromdeadlineList(int deleteId) throws Exception {
+	public Task removeTaskFromDeadlineList(int deleteId) throws Exception {
 		if(deadlineTasks.size()<deleteId){
 			throw new Exception("Invalid Index");
 		}
@@ -182,7 +182,7 @@ public class CommandExecutor extends FileStorage {
 		return taskToDelete;
 	}
 
-	private Task removeTaskFromeventList(int deleteId) throws Exception {
+	public Task removeTaskFromEventList(int deleteId) throws Exception {
 		if(floatingTasks.size()<deleteId){
 			throw new Exception("Invalid Index");
 		}
@@ -190,7 +190,7 @@ public class CommandExecutor extends FileStorage {
 		return taskToDelete;
 	}
 
-	private Task removeTaskFromoverdueList(int deleteId) throws Exception {
+	public Task removeTaskFromOverdueList(int deleteId) throws Exception {
 		if(floatingTasks.size()<deleteId){
 			throw new Exception("Invalid Index");
 		}
