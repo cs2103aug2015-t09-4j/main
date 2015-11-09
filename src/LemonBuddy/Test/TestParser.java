@@ -1,6 +1,7 @@
 package LemonBuddy.Test;
 
 import LemonBuddy.Parser;
+import LemonBuddy.StorageFunction;
 import LemonBuddy.Task;
 import LemonBuddy.CommandExecutor;
 
@@ -75,14 +76,11 @@ public class TestParser {
 		parser = null;
 		testTask = null;
 		storageString = null;
-<<<<<<< HEAD
-    }
-=======
 	}
 
 	public void testCompareTwoTasks(Task expectedTask, String storageString) {
 		try {
-			Task task = parser.createTaskFromString(storageString);
+			Task task = StorageFunction.createTaskFromString(storageString);
 			assertEquals(((Task) task).getTaskName(), expectedTask.getTaskName());
 			assertEquals(((Task) task).getTaskType(), expectedTask.getTaskType());
 			assertEquals(((Task) task).getTaskIsNewest(), expectedTask.getTaskIsNewest());
@@ -96,7 +94,6 @@ public class TestParser {
 			fail("Unknown exception");
 		}
 	}
->>>>>>> origin/master
 
 	public void testCompareTwoTasks(String[] commandParts, String expectedName, String expectedStartDate,
 			String expectedEndDate, String expectedStartTime, String expectedEndTime, String expectedPriority,
@@ -139,16 +136,7 @@ public class TestParser {
 		assertEquals(exceptionMessage, expectedMessage);
 	}
 ////--------------------------------------------------------------------------------------------------------///
-<<<<<<< HEAD
-	
-=======
 
-	@Test
-	public void executeTestCreateTaskFromString() {
-		testCompareTwoTasks(testTask, storageString);
-	}
-
->>>>>>> origin/master
 	@Test
 	public void executeTestParseEvent() {
 		String[] commandParts = new String[50];
