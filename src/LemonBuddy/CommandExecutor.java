@@ -311,7 +311,7 @@ public class CommandExecutor extends FileStorage{
 	}
 
 	public ArrayList<Task> executeSort(ArrayList<Task> list) {
-		Sort.normal_sort(list);
+		list = Sort.normal_sort(list);
 		return list;
 	}
 
