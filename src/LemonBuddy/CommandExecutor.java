@@ -37,13 +37,15 @@ public class CommandExecutor extends FileStorage{
 	private static ArrayList<Task> listToTimeline;
 	private static ArrayList<Task> searchResults;
 	private static String[] date = {"", ""};
+<<<<<<< HEAD
+	private static CommandExecutor commandexecutor;
+=======
 	private static Task selectedTask;
 	
+>>>>>>> origin/master
 
 	public CommandExecutor() throws Exception {
-		if (parser == null) {
-			parser = new Parser();
-		}
+		parser = Parser.getInstance();
 		listType = "overdue";
 		date[1] = parser.getCurrentDate();
 		lastStates = new Stack<String>();
@@ -57,6 +59,13 @@ public class CommandExecutor extends FileStorage{
 		doneTasks = new ArrayList<Task>();
 		overdueTasks = new ArrayList<Task>();
 		searchResults = new ArrayList<Task>();
+	}
+	
+	public static CommandExecutor getInstance() throws Exception{
+		if (commandexecutor == null) {
+			commandexecutor = new CommandExecutor();
+		}
+		return commandexecutor;
 	}
 	
 	public void updateLists() throws Exception{

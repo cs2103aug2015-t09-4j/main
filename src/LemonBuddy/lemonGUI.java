@@ -16,7 +16,7 @@ public class lemonGUI extends Application {
 
     private static int timelineIndex = 0;
 	private static int mainDisplayIndex = 0;
-	private static CommandController commandcontroller = null;
+	private static CommandController commandcontroller;
 	private Stage primaryStage;
     private BorderPane rootLayout;
     private static ArrayList<Task> listForDisplay;
@@ -81,9 +81,7 @@ public class lemonGUI extends Application {
     }
 
     public static void main(String[] args) throws Exception {
-    	if (commandcontroller == null) {
-    		commandcontroller  = new CommandController();
-		}
+    	commandcontroller = CommandController.getInstance();
     	updateDisplayList();
         launch(args);
     }
