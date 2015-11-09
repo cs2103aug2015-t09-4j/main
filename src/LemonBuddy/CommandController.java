@@ -147,8 +147,15 @@ public class CommandController {
 			return false;
 	}
 	
-	public ArrayList<ArrayList<Task>> passToGUI() throws Exception {
-		return commandexecutor.passToGUI();
-		
+	public ArrayList<ArrayList<Task>> passListsToGUI() throws Exception {
+		return commandexecutor.passListsToGUI();
+	}
+	
+	public String getDate() {
+		return commandexecutor.passDate();
+	}
+	
+	public String getListType() {
+		return commandexecutor.passListType();
 	}
 }

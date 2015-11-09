@@ -213,7 +213,7 @@ public class LemonGUIController {
 		generateMainDisplay(mainApp.getListForDisplay());
 		formatTimeline();
 //		String newDate = timelineDate[1].substring(0,2) + "/" + timelineDate[1].substring(2,4) + "/" + timelineDate[1].substring(4,6);
-		generateTimeline(mainApp.getListForTimeline(), timelineDate[1]);
+		generateTimeline(mainApp.getListForTimeline(), mainApp.getDate());
 	}
 	
 	public void setMainApp(lemonGUI mainApp) {
@@ -230,7 +230,7 @@ public class LemonGUIController {
 			}
 			String newDate = timelineDate[1].substring(0,2) + "/" + timelineDate[1].substring(2,4) + "/" + timelineDate[1].substring(4,6);
 			mainApp.updateDisplayList();
-			generateTimeline(mainApp.getListForTimeline(), newDate);
+			generateTimeline(mainApp.getListForTimeline(), mainApp.getDate());
 			generateMainDisplay(mainApp.getListForDisplay());
 			//commandExecutor.executeRemoveNewest();
 			selectedTask = new Task();
@@ -239,7 +239,7 @@ public class LemonGUIController {
 	
 	public void generateMainDisplay(ArrayList<Task> listToDisplay) throws Exception {
 		modifyDisplayHeader();
-		mainDisplayHeader.setText(displayHeader);
+		mainDisplayHeader.setText(mainApp.getMainDisplayHeader());
 		MainDisplayTasks.removeAll(MainDisplayTasks);
 		MainDisplayTasks.addAll(listToDisplay);
 		mainDisplay.setItems(MainDisplayTasks);

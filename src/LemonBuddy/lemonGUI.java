@@ -120,7 +120,7 @@ public class lemonGUI extends Application {
     }
     
     public static void updateDisplayList() throws Exception {
-    	ArrayList<ArrayList<Task>> temp = commandcontroller.passToGUI();
+    	ArrayList<ArrayList<Task>> temp = commandcontroller.passListsToGUI();
     	listForTimeline = temp.get(0);
     	listForDisplay = temp.get(1);
     	System.out.println("help" + temp.get(1));
@@ -138,6 +138,22 @@ public class lemonGUI extends Application {
     
     public int getTimelineIndex() {
     	return timelineIndex;
+    }
+    
+    public String getDate() {
+    	String temp = commandcontroller.getDate();
+    	String finalDate = temp.substring(0,2) + "/" + temp.substring(2,4) + "/" + temp.substring(4,6);
+    	return finalDate;
+    }
+    
+    public String getMainDisplayHeader() {
+    	String list = commandcontroller.getListType();
+    	if (list.equals("date")) {
+    		return "Tasks on: " + getDate();
+    	} else if (list .equals("Event")) {
+    		return list + "s.";
+    	}
+    	return list + " tasks.";
     }
     
 }

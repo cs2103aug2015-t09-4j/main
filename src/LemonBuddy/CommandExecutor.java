@@ -409,7 +409,7 @@ public class CommandExecutor extends FileStorage{
 		}
 	}
 	
-	public ArrayList<ArrayList<Task>> passToGUI() throws Exception {
+	public ArrayList<ArrayList<Task>> passListsToGUI() throws Exception {
 //		lemonGUI.setCommand();
 		ArrayList<ArrayList<Task>> temp = new ArrayList<ArrayList<Task>>();
 		ArrayList<Task> combinedList = new ArrayList<Task>();
@@ -483,5 +483,13 @@ public class CommandExecutor extends FileStorage{
 		FileStorage.clear();
 		FileStorage.writeObjectAsString(temp);
 		System.out.println("temp" + temp);
+	}
+
+	public String passDate() {
+		return date[1];
+	}
+	
+	public String passListType() {
+		return listType;
 	}
 }
