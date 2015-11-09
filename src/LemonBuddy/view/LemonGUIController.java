@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
+import LemonBuddy.LemonGui;
 import LemonBuddy.Task;
-import LemonBuddy.lemonGUI;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,11 +22,11 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 
-public class LemonGUIController {
+public class LemonGuiController {
 
 	@FXML
 	private TextField inputField;
-	private lemonGUI mainApp;
+	private LemonGui mainApp;
 	private ObservableList<Task> MainDisplayTasks = FXCollections.observableArrayList();
 	private ObservableList<Task> TimelineTasks = FXCollections.observableArrayList();
 	
@@ -159,18 +159,18 @@ public class LemonGUIController {
 	@FXML
 	private TextFlow notificationBar;
 	
-	public LemonGUIController() {
+	public void LemonGuiController() {
 		
 	}
 	
-	public void setMainApp(lemonGUI mainApp) {
-		this.mainApp = mainApp;
+	public void setMainApp(LemonGui lemonGui) {
+		this.mainApp = lemonGui;
 	}
 	
 	@FXML
 	private void initialize() throws Exception {
 		if (mainApp == null) {
-			mainApp = new lemonGUI();
+			mainApp = new LemonGui();
 		}
 		mainApp.updateDisplayList();
 		formatNotificationBar();
@@ -178,6 +178,7 @@ public class LemonGUIController {
 		generateMainDisplay(mainApp.getListForDisplay());
 		formatTimeline();
 		generateTimeline(mainApp.getListForTimeline(), mainApp.getDate());
+		
 	}
 
 	@FXML
@@ -268,6 +269,34 @@ public class LemonGUIController {
 		                }
 			        }
 			    };
+			});
+			
+			nameColumn.setCellFactory(column -> {
+				return new TableCell<Task, String>() {
+					@Override
+					protected void updateItem(String item, boolean empty) {
+						super.updateItem(item, empty);
+
+						if (item == null || empty) {
+							setText(null);
+							setStyle("");
+						} else {
+							if (item.startsWith("#")) {
+								setText(item.substring(1));
+								setTextFill(Color.BLACK);
+							} else if (item.startsWith("^")) {
+								setText(item.substring(1));
+								setTextFill(Color.BLACK);
+								setStyle("");
+							} else {
+								setText(item);
+								setTextFill(Color.BLACK);
+								setStyle("");
+
+							}
+						}
+					}
+				};
 			});
 			
 			priorityColumn.setCellFactory(column -> {
@@ -366,7 +395,7 @@ public class LemonGUIController {
 			                setText(null);
 			                setStyle("");
 			            } else {
-			            	if (item.equals("-1")) {
+			            	if (item.equals("0")) {
 			            		setText(null);
 			            		setStyle("");
 			            	}
@@ -374,7 +403,7 @@ public class LemonGUIController {
 			                	setText(null);
 			                	setStyle("-fx-background-color: yellow; -fx-border-color: black");
 			                }
-		                    if (item.equals("0")) {
+		                    if (item.equals("-1")) {
 		                    	setText(null);
 		                    	setStyle("-fx-background-color: black; -fx-border-color: black");
 		                    }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import LemonBuddy.view.LemonGUIController;
+import LemonBuddy.view.LemonGuiController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,7 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-public class lemonGUI extends Application {
+public class LemonGui extends Application {
 
     private static int timelineIndex = 0;
 	private static int mainDisplayIndex = 0;
@@ -43,7 +43,7 @@ public class lemonGUI extends Application {
         	logger.log(Level.INFO, "Initializing RootLayout");
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(lemonGUI.class.getResource("view/RootLayout.fxml"));
+            loader.setLocation(LemonGui.class.getResource("view/RootLayout.fxml"));
             rootLayout = (BorderPane) loader.load();
 
             // Show the scene containing the root layout.
@@ -62,12 +62,12 @@ public class lemonGUI extends Application {
         try {
         	logger.log(Level.INFO, "Initializing LemonGui");
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(lemonGUI.class.getResource("view/LemonGUI.fxml"));
-            AnchorPane lemonGUI = (AnchorPane) loader.load();
+            loader.setLocation(LemonGui.class.getResource("view/LemonGUI.fxml"));
+            AnchorPane lemonGui = (AnchorPane) loader.load();
 
-            rootLayout.setTop(lemonGUI);
+            rootLayout.setTop(lemonGui);
             
-            LemonGUIController controller = loader.getController();
+            LemonGuiController controller = loader.getController();
             controller.setMainApp(this);
             logger.log(Level.INFO, "Completed Initializing LemonGui");
         } catch (IOException e) {

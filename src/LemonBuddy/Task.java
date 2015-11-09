@@ -150,7 +150,7 @@ public class Task implements Serializable {
 	}
 	
 	public void setDeadlineTime(int time) {
-		SimpleStringProperty temp = new SimpleStringProperty("0");
+		SimpleStringProperty temp = new SimpleStringProperty("-1");
 		this.displayTimmings[time] = temp;
 	}
 
