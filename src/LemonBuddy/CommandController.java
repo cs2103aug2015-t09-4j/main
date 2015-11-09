@@ -1,3 +1,5 @@
+
+//@author A0124209N
 package LemonBuddy;
 
 import java.io.IOException;
@@ -6,9 +8,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
-
 public class CommandController {
+	private static final String TASKTYPE_OVERDUE = "overdue";
+
+	private static final String TASKTYPE_DONE = "done";
+
 	private static final String TASKTYPE_EVENT = "Event";
 
 	private static final String TASKTYPE_DEADLINE = "Deadline";
@@ -20,14 +24,12 @@ public class CommandController {
 	private static final String COMMAND_ADD = "add";
 	private static final String COMMAND_DELETE = "delete";
 	private static final String COMMAND_EDIT = "edit";
-	private static final String COMMAND_RECUR = "recur";
 	private static final String COMMAND_VIEW = "view";
 	private static final String COMMAND_LIST = "list";
 	private static final String COMMAND_UNDO = "undo";
 	private static final String COMMAND_REDO = "redo";
-	private static final String COMMAND_DONE = "done";
+	private static final String COMMAND_DONE = TASKTYPE_DONE;
 	private static final String COMMAND_SEARCH = "search";
-	private static final String MESSAGE_INVALID = "Invalid Command";
 	private static CommandExecutor commandexecutor;
 	private static CommandController commandcontroller;
 
@@ -98,9 +100,9 @@ public class CommandController {
 				break;
 
 			case COMMAND_LIST:
-				if (!(commandParts[1].equals("floating") || commandParts[1].equals("deadline")
-						|| commandParts[1].equals("event") || commandParts[1].equals("done")
-						|| commandParts[1].equals("overdue"))) {
+				if (!(commandParts[1].equals(TASKTYPE_FLOATING) || commandParts[1].equals(TASKTYPE_DEADLINE)
+						|| commandParts[1].equals(TASKTYPE_EVENT) || commandParts[1].equals(TASKTYPE_DONE)
+						|| commandParts[1].equals(TASKTYPE_OVERDUE))) {
 					throw new Exception("Invalid task type");
 				}
 				commandexecutor.executeList(commandParts);
@@ -132,7 +134,7 @@ public class CommandController {
 		}
 
 	}
-
+//@author A0127147H
 	private static void executeSaveLastState(String commandType) throws Exception, IOException {
 		if (commandType.equals(COMMAND_ADD) || commandType.equals(COMMAND_DELETE) || commandType.equals(COMMAND_EDIT)
 				|| commandType.equals(COMMAND_DONE)) {

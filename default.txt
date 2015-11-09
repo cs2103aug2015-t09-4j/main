@@ -10,6 +10,8 @@ taskname:222;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest
 taskname:333;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:low;taskDescription:;taskStartTime:-1;taskEndTime:-1;
 taskname:one;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:low;taskDescription:;taskStartTime:-1;taskEndTime:-1;
 taskname:four;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:low;taskDescription:;taskStartTime:-1;taskEndTime:-1;
+taskname:one;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:low;taskDescription:;taskStartTime:-1;taskEndTime:-1;
+taskname:two;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:true;taskStartDate:-1;taskEndDate:-1;taskPriority:low;taskDescription:;taskStartTime:-1;taskEndTime:-1;
 taskname:one;tasktype:overdue;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:091115;taskPriority:low;taskDescription:;taskStartTime:-1;taskEndTime:2200;
 taskname:two;tasktype:overdue;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:091115;taskPriority:low;taskDescription:;taskStartTime:-1;taskEndTime:2057;
 taskname:four;tasktype:done;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:091115;taskEndDate:091115;taskPriority:low;taskDescription:;taskStartTime:2020;taskEndTime:2030;

@@ -1,3 +1,4 @@
+//@author A0121814R
 package LemonBuddy.view;
 
 import java.io.IOException;
@@ -237,7 +238,6 @@ public class LemonGuiController {
 	            		setText(item.substring(1));
 		            	setTextFill(Color.BLACK);
 		            	setStyle("-fx-alignment: center;");
-		            	System.out.println(currentRow.getItem());
 		            	currentRow.setStyle("-fx-background-color: lightgreen;"); 
 		            } else {
 		            	setText(item);
@@ -475,7 +475,6 @@ public class LemonGuiController {
 	
 	public void modifyNotificationBar() {
 		String toDisplay = mainApp.getNotificationBarDisplay();
-		System.out.println(toDisplay);
 		Text temp = new Text(toDisplay);
 		temp.setStyle("-fx-font-size: 18pt;");
 		notificationBar.getChildren().clear();

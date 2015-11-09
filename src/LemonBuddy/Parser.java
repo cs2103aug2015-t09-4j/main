@@ -1,3 +1,5 @@
+
+//@author A0124209N
 package LemonBuddy;
 
 import java.text.DateFormat;
@@ -6,9 +8,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Parser {
 
+	private static final String KEYWORD_TO = "to";
 	private static final String SIMPLEDATETIMEFORMAT = "ddMMyy HHmm";
 	private static final String KEYWORD_TOMORROW = "tomorrow";
 	private static final String KEYWORD_BY = "by";
@@ -21,6 +25,7 @@ public class Parser {
 	private static final String TASKTYPE_DEADLINE = "deadline";
 	private static final String TASKTYPE_EVENT = "event";
 	private static Parser parser;
+	private static Logger logger = Logger.getLogger("Parser");
 	
 	private static void parser(){
 	}
@@ -31,6 +36,7 @@ public class Parser {
 	}
 	/***************************************Create Task from string ******************************************************************/
 	public Task parseTask(String[] commandParts) throws Exception {
+		logger.log(Level.INFO, "Executing parse task");
 		Task newTask = new Task();
 		int wordIndex = 1;
 		String taskName = "";
@@ -44,6 +50,7 @@ public class Parser {
 
 	/************************************** Builds name until first keyword ******************************************************************/
 	private int parseTaskName(String[] commandParts, Task newTask, int wordIndex, String taskName) {
+		logger.log(Level.INFO, "Parsing Name");
 		while (true) {
 
 			if (commandParts[wordIndex].equals(KEYWORD_ON) || commandParts[wordIndex].equals(KEYWORD_FROM)
@@ -65,6 +72,7 @@ public class Parser {
 
 	/**************************************** Builds description after KEYWORD_DESCRIPTION *****************************************/
 	private int parseDescription(String[] commandParts, Task newTask, int wordIndex) {
+		logger.log(Level.INFO, "Parsing description");
 		int initialIndex = wordIndex;
 		while (wordIndex < commandParts.length) {
 			if (commandParts[wordIndex].equals(KEYWORD_DESCRIPTION)) {
@@ -87,6 +95,7 @@ public class Parser {
 	/********************************* Builds priority after detecting KEYWORD_PRIORITY 
 	 * @throws Exception ******************************************/
 	private int parsePriority(String[] commandParts, Task newTask, int wordIndex) throws Exception {
+		logger.log(Level.INFO, "Parsing priority");
 		int initialIndex = wordIndex;
 		while (wordIndex < commandParts.length) {
 			if (commandParts[wordIndex].substring(0, 1).equals(KEYWORD_PRIORITY)) {
@@ -155,7 +164,7 @@ public class Parser {
 				newTask.setTaskStartDate(timeInfo[0]);
 				newTask.setTaskStartTime(timeInfo[1]);
 				for (int i = wordIndex; i < commandParts.length; i++) {
-					if (commandParts[i].equals("to")) {
+					if (commandParts[i].equals(KEYWORD_TO)) {
 						i++;
 						wordIndex = i;
 						break;
@@ -189,6 +198,7 @@ public class Parser {
 		}
 	}
 
+	//@author A0127147H
 	private void detectFromToFormat(String[] commandParts) throws Exception {
 		Boolean from = false;
 		Boolean to = false;
@@ -198,7 +208,7 @@ public class Parser {
 			}
 		}
 		for (String part : commandParts) {
-			if (part.contains("to")) {
+			if (part.contains(KEYWORD_TO)) {
 				to = true;
 			}
 		}
@@ -290,6 +300,7 @@ public class Parser {
 
 	// 0 for date 1 for time
 	private String[] getTimeInfo(String[] commandParts, Task newTask, int wordIndex) throws Exception {
+		logger.log(Level.INFO, "Parsing time");
 		Boolean commaIsPresent = false;
 		String[] timeInfo = new String[2];
 		timeInfo[0] = "-1";
@@ -308,7 +319,6 @@ public class Parser {
 		int parseCount = 1;
 		for (int i = 0; i < parseCount; i++) {
 			taskOn = commandParts[wordIndex];
-			// System.out.println(taskOn);
 			if (commandParts[wordIndex].contains(",")) {
 				taskOn = commandParts[wordIndex].substring(0, commandParts[wordIndex].indexOf(","));
 				parseCount = 2;
