@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -28,23 +29,23 @@ public class TestFileStorage extends FileStorage {
 	private static final String MSG_WHEN_IOEXCEPTION = "cannjot store information"; 
 	
 	/***************************************************** Private Function ******************************************************************/	
-	
-	public void testCreateTaskFromString(Task expectedTask, String storageString){
-		try {
-			Task task = StorageFunction.createTaskFromString(storageString);
-			assertEquals(((Task) task).getTaskName(), expectedTask.getTaskName());
-			assertEquals(((Task) task).getTaskType(), expectedTask.getTaskType());
-			assertEquals(((Task) task).getTaskIsNewest(), expectedTask.getTaskIsNewest());
-			assertEquals(((Task) task).getTaskStartDate(), expectedTask.getTaskStartDate());
-			assertEquals(((Task) task).getTaskEndDate(), expectedTask.getTaskEndDate());
-			assertEquals(((Task) task).getTaskStartTime(), expectedTask.getTaskStartTime());
-			assertEquals(((Task) task).getTaskEndTime(), expectedTask.getTaskEndTime());
-			assertEquals(((Task) task).getTaskPriority(), expectedTask.getTaskPriority());
-			assertEquals(((Task) task).getTaskDescription(), expectedTask.getTaskDescription());
-		} catch (Exception e) {
-			fail("Unknown exception");
-		}
-	}
+//	
+//	public void testCreateTaskFromString(Task expectedTask, String storageString){
+//		try {
+//			Task task = StorageFunction.createTaskFromString(storageString);
+//			assertEquals(((Task) task).getTaskName(), expectedTask.getTaskName());
+//			assertEquals(((Task) task).getTaskType(), expectedTask.getTaskType());
+//			assertEquals(((Task) task).getTaskIsNewest(), expectedTask.getTaskIsNewest());
+//			assertEquals(((Task) task).getTaskStartDate(), expectedTask.getTaskStartDate());
+//			assertEquals(((Task) task).getTaskEndDate(), expectedTask.getTaskEndDate());
+//			assertEquals(((Task) task).getTaskStartTime(), expectedTask.getTaskStartTime());
+//			assertEquals(((Task) task).getTaskEndTime(), expectedTask.getTaskEndTime());
+//			assertEquals(((Task) task).getTaskPriority(), expectedTask.getTaskPriority());
+//			assertEquals(((Task) task).getTaskDescription(), expectedTask.getTaskDescription());
+//		} catch (Exception e) {
+//			fail("Unknown exception");
+//		}
+//	}
 
 	
 	@SuppressWarnings("resource")
@@ -123,6 +124,7 @@ public class TestFileStorage extends FileStorage {
 		t1.setTaskType("deadline");
 		t1.setTaskEndDate("091115");
 		t1.setTaskEndTime("2359");
+		t1.setTaskIsNewest();
 		t1.setTaskDescription("Need to finish devGuide and JUNIT test by Monday 2359");
 		t1.setTaskPriority("medium");
 		
@@ -171,6 +173,14 @@ public class TestFileStorage extends FileStorage {
 		t5.setTaskPriority("high");
 		
 		testList.add(t5);	
+		
+		Task t6 = new Task();
+		t6.setTaskName("t6");
+		t6.setTaskEndDate("091115");
+		t6.setTaskEndTime("2359");
+		t6.setTaskDescription("Need to finish devGuide and JUNIT test by Monday 2359");
+		
+		testList.add(t6);
 	
 		return testList;
 	}
@@ -189,6 +199,7 @@ public class TestFileStorage extends FileStorage {
 		t1.setTaskType("deadline");
 		t1.setTaskEndDate("091115");
 		t1.setTaskEndTime("2359");
+		t1.setTaskIsNewest();
 		t1.setTaskDescription("Need to finish devGuide and JUNIT test by Monday 2359");
 		t1.setTaskPriority("medium");
 		
@@ -237,13 +248,22 @@ public class TestFileStorage extends FileStorage {
 		t5.setTaskDescription("Floating Task without Any restrict");
 		t5.setTaskPriority("high");
 		
-		testOverdueList.add(t5);	
+		testOverdueList.add(t5);
+		
+		Task t6 = new Task();
+		t6.setTaskName("t6");
+		t6.setTaskEndDate("091115");
+		t6.setTaskEndTime("2359");
+		t6.setTaskDescription("Need to finish devGuide and JUNIT test by Monday 2359");
+		
+		testFloatingList.add(t6);
 		
 		testAllList.add(t1);
 		testAllList.add(t2);
 		testAllList.add(t3);
 		testAllList.add(t4);
 		testAllList.add(t5);
+		testAllList.add(t6);	
 		
 		expected.add(testFloatingList);
 		expected.add(testDeadlineList);
@@ -272,7 +292,7 @@ public class TestFileStorage extends FileStorage {
 	@Test
 	public void testWriteObjectAsString() throws Exception {
 		try {
-			filename = "testWriteObjectExpected.txt";			
+			filename = "testWriteObjectOutput.txt";			
 			arrayListUnderTest = initialTaskListForTest();
 			FileStorage.writeObjectAsString(arrayListUnderTest);
 			File f1 = new File(filename);
@@ -291,6 +311,7 @@ public class TestFileStorage extends FileStorage {
 			initialTaskListForTestRead();
 			filename = "testWriteObjectExpected.txt";	
 			test = readStringAsObject(filename);
+//			assertEquals(test,expected);
 			boolean compare = compareTwoList(test, expected);
 			assertTrue(compare);
 		} catch(IOException e) {
@@ -298,6 +319,28 @@ public class TestFileStorage extends FileStorage {
 		} 
 	}
 
+	@Test
+	public void testprintExceptionMessage() throws Exception {
+		try {
+			initialTaskListForTestRead();
+			filename = "justforfun.txt";	
+			test = readStringAsObject(filename);
+		} catch(IOException e) {
+			assertThat(e.getMessage(), null);
+		} 
+	}
+	
+	@Test
+	public void testprintInvalidMessage() throws Exception {
+		try {
+			initialTaskListForTestRead();
+			filename = "justforfun.txt";	
+			test = readStringAsObject(filename);
+		} catch(IOException e) {
+			assertThat(e.getMessage(), null);
+		} 
+	}
+	
 	@Test
 	public void testWriteStringAsString() throws IOException {
 		try {

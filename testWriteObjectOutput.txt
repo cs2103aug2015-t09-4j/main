@@ -1,5 +1,6 @@
-taskname:t1;tasktype:deadline;taskIsNewest:false;taskStartDate:-1;taskEndDate:091115;taskStartTime:-1;taskEndTime:2359;taskPriority:medium;taskDescription:Need to finish devGuide and JUNIT test by Monday 2359;
-taskname:t2;tasktype:floating;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskStartTime:-1;taskEndTime:-1;taskPriority:low;taskDescription:Floating Task without Any restrict;
-taskname:t3;tasktype:event;taskIsNewest:false;taskStartDate:091115;taskEndDate:101115;taskStartTime:0000;taskEndTime:2359;taskPriority:high;taskDescription:Floating Task without Any restrict;
-taskname:t4;tasktype:done;taskIsNewest:false;taskStartDate:091115;taskEndDate:101115;taskStartTime:0000;taskEndTime:2359;taskPriority:high;taskDescription:Floating Task without Any restrict;
-taskname:t5;tasktype:overdue;taskIsNewest:false;taskStartDate:091115;taskEndDate:101115;taskStartTime:0000;taskEndTime:2359;taskPriority:high;taskDescription:Floating Task without Any restrict;
+taskname:t1;tasktype:deadline;taskIsDone:false;taskIsOverdue:false;taskIsNewest:true;taskStartDate:-1;taskEndDate:091115;taskPriority:medium;taskDescription:Need to finish devGuide and JUNIT test by Monday 2359;taskStartTime:-1;taskEndTime:2359;
+taskname:t2;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:low;taskDescription:Floating Task without Any restrict;taskStartTime:-1;taskEndTime:-1;
+taskname:t3;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:091115;taskEndDate:101115;taskPriority:high;taskDescription:Floating Task without Any restrict;taskStartTime:0000;taskEndTime:2359;
+taskname:t4;tasktype:done;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:091115;taskEndDate:101115;taskPriority:high;taskDescription:Floating Task without Any restrict;taskStartTime:0000;taskEndTime:2359;
+taskname:t5;tasktype:overdue;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:091115;taskEndDate:101115;taskPriority:high;taskDescription:Floating Task without Any restrict;taskStartTime:0000;taskEndTime:2359;
+taskname:t6;tasktype:Floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:091115;taskPriority:low;taskDescription:Need to finish devGuide and JUNIT test by Monday 2359;taskStartTime:-1;taskEndTime:2359;
