@@ -1,3 +1,4 @@
+/*@@author LI YUMENG(A0133911N)*/
 package LemonBuddy.Test;
 
 import static org.junit.Assert.*;
@@ -21,19 +22,12 @@ public class TestFileStorage extends FileStorage {
 	/***************************************************** Private Attributes ******************************************************************/
 	private String outputFile;
 	private String fileForTestEmpty = "testClear.txt";
-	private Logger TestLogger;
 	private ArrayList<Task> arrayListUnderTest = new ArrayList<Task>();	
 	private ArrayList<ArrayList<Task>> expected = new ArrayList<ArrayList<Task>>();	
 	ArrayList<ArrayList<Task>> test = new ArrayList<ArrayList<Task>>();
 	private String stringUnderTest  = "";
-	private static final String MSG_WHEN_IOEXCEPTION = "cannjot store information"; 
 	
 	/***************************************************** Private Function ******************************************************************/	
-	
-	private static void printExceptionMessage(IOException e) {
-		System.out.println(MSG_WHEN_IOEXCEPTION);
-		e.printStackTrace();
-	}
 	
 	@SuppressWarnings("resource")
 	private boolean compareTwoFiles(File f1, File f2) {
@@ -58,7 +52,7 @@ public class TestFileStorage extends FileStorage {
                 return tag;  
             }  
         } catch(IOException e) {  
-        	printExceptionMessage(e);  
+        	StorageFunction.printExceptionMessage(e);  
         }
 		return tag; 
 	}
@@ -155,15 +149,7 @@ public class TestFileStorage extends FileStorage {
 		t5.setTaskPriority("high");
 		
 		testList.add(t5);	
-		
-//		Task t6 = new Task();
-//		t6.setTaskName("t6");
-//		t6.setTaskEndDate("091115");
-//		t6.setTaskEndTime("2359");
-//		t6.setTaskDescription("Need to finish devGuide and JUNIT test by Monday 2359");
-//		
-//		testList.add(t6);
-//	
+
 		return testList;
 	}
 	
@@ -231,22 +217,13 @@ public class TestFileStorage extends FileStorage {
 		t5.setTaskPriority("high");
 		
 		testOverdueList.add(t5);
-		
-//		Task t6 = new Task();
-//		t6.setTaskName("t6");
-//		t6.setTaskEndDate("091115");
-//		t6.setTaskEndTime("2359");
-//		t6.setTaskDescription("Need to finish devGuide and JUNIT test by Monday 2359");
-//		
-//		testFloatingList.add(t6);
-		
+	
 		testAllList.add(t1);
 		testAllList.add(t2);
 		testAllList.add(t3);
 		testAllList.add(t4);
 		testAllList.add(t5);
-//		testAllList.add(t6);	
-		
+	
 		expected.add(testFloatingList);
 		expected.add(testDeadlineList);
 		expected.add(testEventList);
@@ -262,9 +239,8 @@ public class TestFileStorage extends FileStorage {
 		
 		String t1 = "test whether the file can store string in the default file";
 		String t2 = "This string is used to test whether can write in a new line and the next is for whether can accept empty string";
-		String t3 = "";
 		
-		content = t1 + t2 + t3 + content;
+		content = t1 + t2 + content;
 	
 		stringUnderTest =  content;
 	}
@@ -283,7 +259,7 @@ public class TestFileStorage extends FileStorage {
 			boolean compareResult = compareTwoFiles(f1,f2);
 			assertTrue(compareResult);
 		} catch(IOException e) {
-			printExceptionMessage(e);
+			StorageFunction.printExceptionMessage(e);
 		} 
 	}
 
@@ -293,11 +269,10 @@ public class TestFileStorage extends FileStorage {
 			initialTaskListForTestRead();
 			filename = "testWriteObjectExpected.txt";	
 			test = readStringAsObject(filename);
-//			assertEquals(test,expected);
 			boolean compare = compareTwoList(test, expected);
 			assertTrue(compare);
 		} catch(IOException e) {
-			printExceptionMessage(e);
+			StorageFunction.printExceptionMessage(e);
 		} 
 	}
 
@@ -335,7 +310,7 @@ public class TestFileStorage extends FileStorage {
 			boolean compareResult = compareTwoFiles(f1,f2);
 			assertTrue(compareResult);
 		} catch(IOException e) {
-			printExceptionMessage(e);
+			StorageFunction.printExceptionMessage(e);
 		} 
 		
 	}
@@ -344,14 +319,14 @@ public class TestFileStorage extends FileStorage {
 	public void testReadStringAsString() throws IOException, ClassNotFoundException{
 		String expected;
 		String actual;
-		try {
-			filename = "testReadStringInput.txt";
+		try {	
+			filename = "testReadStringAsString.txt";
 			expected = readStringAsString(filename);
 			actual = stringUnderTest;
-			assertEquals(expected, actual);
+			assertEquals(expected, actual);		
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			printExceptionMessage(e);
+			StorageFunction.printExceptionMessage(e);
 		}
 	}
 	
@@ -364,7 +339,7 @@ public class TestFileStorage extends FileStorage {
 			boolean compareResult = compareTwoFiles(f1,f2);
 			assertTrue(compareResult);
 		} catch(IOException e) {
-			printExceptionMessage(e);
+			StorageFunction.printExceptionMessage(e);
 		} 	
 	}
 

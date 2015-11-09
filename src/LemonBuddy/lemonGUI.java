@@ -2,6 +2,8 @@ package LemonBuddy;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import LemonBuddy.view.LemonGUIController;
 import javafx.application.Application;
@@ -22,6 +24,7 @@ public class lemonGUI extends Application {
     private static ArrayList<Task> listForDisplay;
     private String[] command = {"", ""};
 	private static ArrayList<Task> listForTimeline;
+	private static Logger logger = Logger.getLogger("GUI");
 
 
     @Override
@@ -40,6 +43,7 @@ public class lemonGUI extends Application {
      */
     public void initRootLayout() {
         try {
+        	logger.log(Level.INFO, "Initializing RootLayout");
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(lemonGUI.class.getResource("view/RootLayout.fxml"));
@@ -49,8 +53,9 @@ public class lemonGUI extends Application {
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             primaryStage.show();
-            
+            logger.log(Level.INFO, "Completed Initializing RootLayout");
         } catch (IOException e) {
+        	logger.log(Level.INFO, "Initializing ERROR");
             e.printStackTrace();
         }
     }
@@ -61,6 +66,7 @@ public class lemonGUI extends Application {
     public void showLemonGUI() {
         try {
             // Load person overview.
+        	logger.log(Level.INFO, "Initializing LemonGui");
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(lemonGUI.class.getResource("view/LemonGUI.fxml"));
             AnchorPane lemonGUI = (AnchorPane) loader.load();
@@ -70,9 +76,10 @@ public class lemonGUI extends Application {
             
             LemonGUIController controller = loader.getController();
             controller.setMainApp(this);
-            
+            logger.log(Level.INFO, "Completed Initializing LemonGui");
         } catch (IOException e) {
             e.printStackTrace();
+            logger.log(Level.INFO, "LemonGui Initializing Error");
         }
     }
     
@@ -109,12 +116,12 @@ public class lemonGUI extends Application {
     }
     
     public ArrayList<Task> getListForTimeline() {
-    	for (int counter = 0; counter < listForDisplay.size(); counter++) {
-    		if (listForDisplay.get(counter).getTaskIsNewest()) {
-    			listForDisplay.get(counter).setTaskName("#" + (listForDisplay.get(counter).getTaskName()));
+    	for (int counter = 0; counter < listForTimeline.size(); counter++) {
+    		if (listForTimeline.get(counter).getTaskIsNewest()) {
+    			listForTimeline.get(counter).setTaskName("#" + (listForTimeline.get(counter).getTaskName()));
     			timelineIndex = counter;
     		} else {
-    			listForDisplay.get(counter).setTaskName("^" + (listForDisplay.get(counter).getTaskName()));
+    			listForTimeline.get(counter).setTaskName("^" + (listForTimeline.get(counter).getTaskName()));
     		}
     	}
     	return listForTimeline;
@@ -177,7 +184,9 @@ public class lemonGUI extends Application {
     		String command = commandcontroller.passCommand();
         		return command.toUpperCase() + " Successful";
     	}
-    	return commandcontroller.getNotificationMessage();
+    	String errorMessage = commandcontroller.getNotificationMessage();
+    	int index = errorMessage.indexOf(":");
+    	return errorMessage.substring(index + 1);
     }
     
     public boolean checkSuccess() {
