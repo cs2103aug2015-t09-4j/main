@@ -232,21 +232,37 @@ public class TestParser {
 	}
 
 	@Test
-	public void executeTestOutOfRangeTime() {
+	public void executeTestInvalidTime() {
 		String[] commandParts = "add spectacular spiderman from 1200, 12/12/15 to 1100, 12/12/15 *high desc super spec"
 				.split(" ");
 		testInvalidTime(commandParts, "Start time is after end time");
-	}
-	
-	@Test
-	public void executeTestOutOfRangeDate() {
-		String[] commandParts = "add spectacular spiderman from 2359, 11/12/15 to 0000, 10/12/15 *high desc super spec"
+		
+		commandParts = "add spectacular spiderman from 2359, 11/12/15 to 0000, 10/12/15 *high desc super spec"
 				.split(" ");
 		testInvalidTime(commandParts, "Start date is after end date");
 		
 		commandParts = "add spectacular spiderman from 0000, 11/12/15 to 1100, 10/12/15 *high desc super spec"
 				.split(" ");
 		testInvalidTime(commandParts, "Start date is after end date");
+		
+		commandParts = "add spectacular spiderman from 0000, 11/12/15 to 2400, 11/12/15 *high desc super spec"
+				.split(" ");
+		testInvalidTime(commandParts, "Time out of range");
+		
+		commandParts = "add spectacular spiderman from 0000,11/12/15 to 2400, 11/12/15 *high desc super spec"
+				.split(" ");
+		testInvalidTime(commandParts, "Comma has no spacing");
+		
+		commandParts = "add spectacular spiderman from 0000, 11/1h/15 to 2400, 1a/12/15 *high desc super spec"
+				.split(" ");
+		testInvalidTime(commandParts, "Invalid date/time format");
+		
+		commandParts = "add spectacular spiderman from 0000, 11/1sh/15 to 2400, 1a/12/15 *high desc super spec"
+				.split(" ");
+		testInvalidTime(commandParts, "Invalid date/time format");
+//		commandParts = "add spectacular spiderman from -1, 11/12/15 to 2359, 11/12/15 *high desc super spec"
+//				.split(" ");
+//		testInvalidTime(commandParts, "Time out of range");
 	}
 	
 	private String[] splitString(String command) {
