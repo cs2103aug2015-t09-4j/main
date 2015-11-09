@@ -37,12 +37,8 @@ public class CommandExecutor extends FileStorage{
 	private static ArrayList<Task> listToTimeline;
 	private static ArrayList<Task> searchResults;
 	private static String[] date = {"", ""};
-<<<<<<< HEAD
 	private static CommandExecutor commandexecutor;
-=======
 	private static Task selectedTask;
-	
->>>>>>> origin/master
 
 	public CommandExecutor() throws Exception {
 		parser = Parser.getInstance();
