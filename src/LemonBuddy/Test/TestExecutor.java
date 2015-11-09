@@ -12,12 +12,12 @@ import LemonBuddy.CommandExecutor;
 import LemonBuddy.Task;
 
 public class TestExecutor extends CommandExecutor {
-	
+
 	public TestExecutor() throws Exception {
 		super();
 	}
 
-	CommandExecutor tester;
+	private CommandExecutor tester = new CommandExecutor();
 	
 	private static final String TASKTYPE_EVENT = "event";
 	private static final String TASKTYPE_DEADLINE = "deadline";
@@ -47,25 +47,33 @@ public class TestExecutor extends CommandExecutor {
 	
 	 @Before
 	    public void setUp() throws Exception {
-		 tester = new CommandExecutor();
+		 
 		 floatingTask1.setTaskName("paint a cat");
+		 floatingTask1.setTaskType("Floating");
 		 floatingTask2.setTaskName("paint a dog");
+		 floatingTask2.setTaskType("Floating");
 		 floatingTask3.setTaskName("paint a giraffe");
+		 floatingTask3.setTaskType("Floating");
+		 
 		 deadlineTask1.setTaskName("do PC1432");
+		 deadlineTask1.setTaskType("Deadline");
 		 deadlineTask1.setTaskEndDate("221215");
 		 deadlineTask1.setTaskEndTime("1310");
 		 deadlineTask1.setTaskPriority("high");
 		 
 		 deadlineTask2.setTaskName("finish knitting project");
+		 deadlineTask2.setTaskType("Deadline");
 		 deadlineTask2.setTaskEndDate("291115");
 		 deadlineTask2.setTaskEndTime("1200");
 		 
 		 deadlineTask3.setTaskName("finish strawberries");
+		 deadlineTask3.setTaskType("Deadline");
 		 deadlineTask3.setTaskEndDate("151115");
 		 deadlineTask3.setTaskEndTime("1900");
 		 deadlineTask3.setTaskDescription("dont let them turn mouldy");
 		 
 		 eventTask1.setTaskName("chalet with cats");
+		 eventTask1.setTaskType("Event");
 		 eventTask1.setTaskStartDate("201215");
 		 eventTask1.setTaskEndDate("221215");
 		 eventTask1.setTaskStartTime("0800");
@@ -74,19 +82,21 @@ public class TestExecutor extends CommandExecutor {
 		 eventTask1.setTaskPriority("high");
 		 
 		 eventTask2.setTaskName("water plants when granny is overseas");
+		 eventTask2.setTaskType("Event");
 		 eventTask2.setTaskStartDate("101215");
 		 eventTask2.setTaskEndDate("151215");
 		 eventTask2.setTaskStartTime("0000");
 		 eventTask2.setTaskEndTime("2359");
 		 eventTask2.setTaskPriority("medium");
 		 
-		 eventTask2.setTaskName("a levels");
-		 eventTask2.setTaskStartDate("011115");
-		 eventTask2.setTaskEndDate("251115");
-		 eventTask2.setTaskStartTime("0000");
-		 eventTask2.setTaskEndTime("2359");
-		 eventTask2.setTaskDescription("last lap!");
-		 eventTask2.setTaskPriority("high");
+		 eventTask3.setTaskName("a levels");
+		 eventTask3.setTaskType("Event");
+		 eventTask3.setTaskStartDate("011115");
+		 eventTask3.setTaskEndDate("251115");
+		 eventTask3.setTaskStartTime("0000");
+		 eventTask3.setTaskEndTime("2359");
+		 eventTask3.setTaskDescription("last lap!");
+		 eventTask3.setTaskPriority("high");
 		 
 		 floatingTasks.add(floatingTask1);
 		 floatingTasks.add(floatingTask2);
@@ -124,39 +134,22 @@ public class TestExecutor extends CommandExecutor {
 	@Test
 	public void testRemoveTaskFromFloatingList() throws ClassNotFoundException, IOException { 
 		int deleteID1 = 1;
-		System.out.println(this.floatingTasks.get(0));
-		assertEquals("test correct task is deleted", floatingTask1, removeTaskFromFloatingList(deleteID1));
+		
+		assertEquals("test correct task is deleted", floatingTask1, tester.removeTaskFromFloatingList(deleteID1));
 		
 	}
 	
-//	@Test
-//	public void testDeleteTaskFromList() throws ClassNotFoundException, IOException { 
-//		int deleteID1 = 1;
-//		
-//		
-//		assertEquals("test correct task is deleted", floatingTask1, tester.deleteTaskFromList(deleteID1));
-//		
-//	}
-//	
-//	@Test
-//	public void testSort() {
-//		assertEquals("test correct task is deleted", floatingTask1, tester.executeSort(allTasks));
-//	}
+	@Test
+	public void testDeleteTaskFromList() throws ClassNotFoundException, IOException { 
+		int deleteID1 = 1;
+		
+		
+		assertEquals("test correct task is deleted", floatingTask1, tester.deleteTaskFromList(deleteID1));
+		
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@Test
+	public void testSort() {
+		assertEquals("test correct task is deleted", floatingTask1, tester.executeSort(deadlineTasks));
+	}
 }

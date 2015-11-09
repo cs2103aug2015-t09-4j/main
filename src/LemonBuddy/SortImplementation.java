@@ -22,21 +22,32 @@ public class SortImplementation{
 	}	
 	
 	private static Integer convertType(Task t){
-		String tempType = t.getTaskType();
+		String tempType = t.getTaskType().toLowerCase();
 		switch(tempType) {
-			case "Overdue":
+			case "overdue":
 				return -2;
-			case "Deadline":
+			case "deadline":
 				return -1;
-			case "Event":
+			case "event":
 				return 0;
-			case "Floating":
+			case "floating":
 				return 1;
-			case "Done":
+			case "done":
 				return 2;
 			default:
 				return -2;
 		}
+	}
+	
+	private static int convertDate(int d) {
+		int year = d % 100;
+		d = d / 100;
+		int month = d % 100;
+		d = d / 100;
+		int day = d;
+		
+		int newdate = (year * 10000) + (month * 100) + day;
+		return newdate;
 	}
 	
 /***************************************************** Sort By Condition ******************************************************************/	
@@ -50,6 +61,9 @@ public class SortImplementation{
 				 end2 = Integer.valueOf(t2.getTaskEndDate()).intValue();
 				 p1 = convertPriority(t1);
 				 p2 = convertPriority(t2);
+				 
+				 end1 = convertDate(end1);
+				 end2 = convertDate(end2);
 
 				if(end1 > end2){
 					return 1;
@@ -74,13 +88,13 @@ public class SortImplementation{
 		  Comparator<Task> comparator = new Comparator<Task>(){
 			public int compare(Task t1, Task t2) {
 				
-				String deadline = "Deadline";
-				String event = "Event";
+				String deadline = "deadline";
+				String event = "event";
 				
 				String type1, type2;
 				int time1, time2;
-				type1 = t1.getTaskType();
-				type2 = t2.getTaskType();	
+				type1 = t1.getTaskType().toLowerCase();
+				type2 = t2.getTaskType().toLowerCase();	
 					
 				if(type1.equals(deadline)) {
 					time1 = Integer.valueOf(t1.getTaskEndTime()).intValue();

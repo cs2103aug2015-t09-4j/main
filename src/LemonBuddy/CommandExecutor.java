@@ -104,6 +104,7 @@ public class CommandExecutor extends FileStorage{
 		addTaskToList(newTask);
 		listType = newTask.getTaskType();
 		writeToFile();
+		updateLists();
 	}
 
 	public String[] getStringForParsing(String[] commandParts) {
