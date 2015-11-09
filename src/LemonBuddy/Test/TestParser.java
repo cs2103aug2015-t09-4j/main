@@ -76,23 +76,6 @@ public class TestParser {
 		testTask = null;
 		storageString = null;
     }
-	
-	public void testCreateTaskFromString(Task expectedTask, String storageString){
-		try {
-			Task task = parser.createTaskFromString(storageString);
-			assertEquals(((Task) task).getTaskName(), expectedTask.getTaskName());
-			assertEquals(((Task) task).getTaskType(), expectedTask.getTaskType());
-			assertEquals(((Task) task).getTaskIsNewest(), expectedTask.getTaskIsNewest());
-			assertEquals(((Task) task).getTaskStartDate(), expectedTask.getTaskStartDate());
-			assertEquals(((Task) task).getTaskEndDate(), expectedTask.getTaskEndDate());
-			assertEquals(((Task) task).getTaskStartTime(), expectedTask.getTaskStartTime());
-			assertEquals(((Task) task).getTaskEndTime(), expectedTask.getTaskEndTime());
-			assertEquals(((Task) task).getTaskPriority(), expectedTask.getTaskPriority());
-			assertEquals(((Task) task).getTaskDescription(), expectedTask.getTaskDescription());
-		} catch (Exception e) {
-			fail("Unknown exception");
-		}
-	}
 
 	public void testParseEvent(String[] commandParts, String expectedName, String expectedStartDate,
 			String expectedEndDate, String expectedStartTime, String expectedEndTime, String expectedPriority,
@@ -164,10 +147,6 @@ public class TestParser {
 
 	
 ////--------------------------------------------------------------------------------------------------------///
-	@Test
-	public void executeTestCreateTaskFromString(){
-		testCreateTaskFromString(testTask, storageString);
-	}
 	
 	@Test
  	public void executeTestParseEvent() {

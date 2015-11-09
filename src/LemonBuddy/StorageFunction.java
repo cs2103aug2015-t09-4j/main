@@ -11,10 +11,52 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class StorageFunction extends FileStorage {
+public class StorageFunction {
 
 	private static final String MSG_WHEN_INVALID_FILENAME = "cannot find targeted file"; 
 	private static final String MSG_WHEN_IOEXCEPTION = "cannot store information"; 
+	
+	/************************************************** Modify String ******************************************************************/	
+	public static Task createTaskFromString(String s) {
+		String[] array = s.split(";");
+		Task t = new Task();
+		for (int i = 0; i < array.length; i++) {
+			String[] temp = array[i].split(":", 2);
+			switch (temp[0]) {
+			case "taskname":
+				t.setTaskName(temp[1]);
+				break;
+			case "tasktype":
+				t.setTaskType(temp[1]);
+				break;
+			case "taskIsNewest":
+				if (temp[1].equals("true"))
+					t.setTaskIsNewest();
+				break;
+			case "taskStartDate":
+				t.setTaskStartDate(temp[1]);
+				break;
+			case "taskEndDate":
+				t.setTaskEndDate(temp[1]);
+				break;
+			case "taskPriority":
+				t.setTaskPriority(temp[1]);
+				break;
+			case "taskDescription":
+				t.setTaskDescription(temp[1]);
+				break;
+			case "taskStartTime":
+				t.setTaskStartTime(temp[1]);
+				break;
+			case "taskEndTime":
+				t.setTaskEndTime(temp[1]);
+				break;
+			default:
+				break;
+			}
+		}
+		return t;
+	}
 	
 /************************************************** Modify TaskList ******************************************************************/		
 	

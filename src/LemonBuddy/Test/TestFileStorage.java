@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import org.junit.Test;
 
 import LemonBuddy.FileStorage;
+import LemonBuddy.StorageFunction;
 import LemonBuddy.Task;
 
 public class TestFileStorage extends FileStorage {
@@ -27,7 +28,25 @@ public class TestFileStorage extends FileStorage {
 	private static final String MSG_WHEN_IOEXCEPTION = "cannjot store information"; 
 	
 	/***************************************************** Private Function ******************************************************************/	
+	
+	public void testCreateTaskFromString(Task expectedTask, String storageString){
+		try {
+			Task task = StorageFunction.createTaskFromString(storageString);
+			assertEquals(((Task) task).getTaskName(), expectedTask.getTaskName());
+			assertEquals(((Task) task).getTaskType(), expectedTask.getTaskType());
+			assertEquals(((Task) task).getTaskIsNewest(), expectedTask.getTaskIsNewest());
+			assertEquals(((Task) task).getTaskStartDate(), expectedTask.getTaskStartDate());
+			assertEquals(((Task) task).getTaskEndDate(), expectedTask.getTaskEndDate());
+			assertEquals(((Task) task).getTaskStartTime(), expectedTask.getTaskStartTime());
+			assertEquals(((Task) task).getTaskEndTime(), expectedTask.getTaskEndTime());
+			assertEquals(((Task) task).getTaskPriority(), expectedTask.getTaskPriority());
+			assertEquals(((Task) task).getTaskDescription(), expectedTask.getTaskDescription());
+		} catch (Exception e) {
+			fail("Unknown exception");
+		}
+	}
 
+	
 	private boolean compareTwoFiles(File f1, File f2) {
 		
 		boolean tag = true;

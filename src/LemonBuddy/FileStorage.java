@@ -5,7 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class FileStorage extends Parser {
+public class FileStorage {
     private static String EMPTY_CONTENT = "";
 	public static String filename = "default.txt";
 
