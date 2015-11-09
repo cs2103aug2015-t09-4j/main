@@ -1,5 +1,0 @@
-taskname:test1;tasktype:deadline;taskIsDone:false;taskIsOverdue:true;taskStartDate:-1;taskEndDate:10101;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:2359;recurType:;recurStartDate:;recurEndDate:;
-taskname:new2;tasktype:event;taskIsDone:true;taskIsOverdue:false;taskStartDate:10101;taskEndDate:10101;taskPriority:;taskDescription:;taskStartTime:0;taskEndTime:59;recurType:;recurStartDate:;recurEndDate:;
-taskname:test;tasktype:deadline;taskIsDone:true;taskIsOverdue:false;taskStartDate:-1;taskEndDate:291015;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:1700;recurType:;recurStartDate:;recurEndDate:;
-taskname:new;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;recurType:;recurStartDate:;recurEndDate:;
-taskname:hi;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;recurType:;recurStartDate:;recurEndDate:;

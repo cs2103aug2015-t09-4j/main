@@ -1,20 +1,27 @@
-<<<<<<< HEAD
-test whether the file can store string in the default fileThis string is used to test whether can write in a new line and the next is for whether can accept empty string
-=======
-taskname:Buy tickets for TOTEM;tasktype:deadline;taskIsDone:false;taskIsOverdue:true;taskStartDate:-1;taskEndDate:281015;taskPriority:;taskDescription:Got 10% discount before this date;taskStartTime:-1;taskEndTime:112;recurType:;recurStartDate:;recurEndDate:;
-taskname:Prepare slides for KC2222;tasktype:deadline;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:101115;taskPriority:high;taskDescription:;taskStartTime:-1;taskEndTime:114;recurType:;recurStartDate:;recurEndDate:;
-taskname:Prepare script for KC2222;tasktype:deadline;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:101115;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:114;recurType:;recurStartDate:;recurEndDate:;
-taskname:Buy canned fish for QQ;tasktype:deadline;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:101115;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:111;recurType:;recurStartDate:;recurEndDate:;
-taskname:Colour code the project;tasktype:deadline;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:101115;taskPriority:;taskDescription:3 colours;taskStartTime:-1;taskEndTime:105;recurType:;recurStartDate:;recurEndDate:;
-taskname:Fix dental appointment;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskStartDate:201115;taskEndDate:201115;taskPriority:;taskDescription:Yellow building;taskStartTime:1200;taskEndTime:1430;recurType:;recurStartDate:;recurEndDate:;
-taskname:Buy new pen;tasktype:deadline;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:241115;taskPriority:high;taskDescription:EXAMS NEED;taskStartTime:-1;taskEndTime:116;recurType:;recurStartDate:;recurEndDate:;
-taskname:Fetch dad;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskStartDate:291115;taskEndDate:291115;taskPriority:;taskDescription:Changi airport;taskStartTime:800;taskEndTime:900;recurType:;recurStartDate:;recurEndDate:;
-taskname:Meeting with boss and important people;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskStartDate:11215;taskEndDate:11215;taskPriority:;taskDescription:;taskStartTime:800;taskEndTime:900;recurType:;recurStartDate:;recurEndDate:;
-taskname:Project proposal for iMao;tasktype:deadline;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:21215;taskPriority:high;taskDescription:;taskStartTime:-1;taskEndTime:119;recurType:;recurStartDate:;recurEndDate:;
-taskname:Do quiz for HS3123;tasktype:deadline;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:31215;taskPriority:high;taskDescription:;taskStartTime:-1;taskEndTime:117;recurType:;recurStartDate:;recurEndDate:;
-taskname:Get eyes checked;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskStartDate:121215;taskEndDate:121215;taskPriority:;taskDescription:maybe get new specs... yellow?;taskStartTime:900;taskEndTime:1000;recurType:;recurStartDate:;recurEndDate:;
-taskname:Water plants when mom is overseas;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskStartDate:191215;taskEndDate:231215;taskPriority:;taskDescription:;taskStartTime:0;taskEndTime:2359;recurType:;recurStartDate:;recurEndDate:;
-taskname:Fix bed;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;recurType:;recurStartDate:;recurEndDate:;
-taskname:Paint kitchen;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:Yellow colour;taskStartTime:-1;taskEndTime:-1;recurType:;recurStartDate:;recurEndDate:;
-taskname:Buy new towels;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:mom says bright colours better;taskStartTime:-1;taskEndTime:-1;recurType:;recurStartDate:;recurEndDate:;
->>>>>>> origin/master
+taskname:hi;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;
+taskname:hi;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;
+taskname:hi;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;
+taskname:hi;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;
+taskname:hi;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;
+taskname:hi;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;
+taskname:hi;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;
+taskname:new;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;
+taskname:hi;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;
+taskname:hi;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;
+taskname:hi;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;
+taskname:new 111111;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;
+taskname:hi;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;
+taskname:hi4;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;
+taskname:two tomorrow;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;
+taskname:hi2;tasktype:deadline;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:091115;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:1200;
+taskname:lol;tasktype:deadline;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:091115;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:1600;
+taskname:shi;tasktype:deadline;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:091115;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:1700;
+taskname:lol;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:091115;taskEndDate:091115;taskPriority:;taskDescription:;taskStartTime:1500;taskEndTime:1900;
+taskname:one;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:091115;taskEndDate:091115;taskPriority:;taskDescription:;taskStartTime:1010;taskEndTime:1110;
+taskname:two;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:101115;taskEndDate:101115;taskPriority:;taskDescription:;taskStartTime:1346;taskEndTime:1446;
+taskname:three;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:091115;taskEndDate:091115;taskPriority:;taskDescription:;taskStartTime:1010;taskEndTime:2020;
+taskname:SUPER MAN;tasktype:event;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:101115;taskEndDate:101115;taskPriority:high;taskDescription:super duper man;taskStartTime:1010;taskEndTime:2020;
+taskname:task1;tasktype:overdue;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:111111;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:1244;
+taskname:task;tasktype:overdue;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:111111;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:1242;
+taskname:lol;tasktype:overdue;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:111111;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:1242;
+taskname:lolol;tasktype:done;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:111111;taskEndDate:121111;taskPriority:;taskDescription:;taskStartTime:0000;taskEndTime:2359;
