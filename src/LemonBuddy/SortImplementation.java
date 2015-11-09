@@ -13,9 +13,7 @@ public class SortImplementation{
 			case "high":
 				return 1;
 			case "medium":
-				return 0;
-			case "low":
-				return -1;			
+				return 0;		
 			default:
 				return -1;
 		}
@@ -30,12 +28,10 @@ public class SortImplementation{
 				return -1;
 			case "event":
 				return 0;
-			case "floating":
-				return 1;
 			case "done":
 				return 2;
 			default:
-				return -2;
+				return 1;
 		}
 	}
 	
@@ -54,16 +50,37 @@ public class SortImplementation{
 	
 	protected static ArrayList<Task> SortEndDate(ArrayList<Task> list) {
 		Comparator<Task> comparator = new Comparator<Task>(){
-			public int compare(Task t1, Task t2) {					
+			public int compare(Task t1, Task t2) {
+				 String type1, type2;
 				 int end1, end2;
 				 int p1, p2;
-				 end1 = Integer.valueOf(t1.getTaskEndDate()).intValue();
-				 end2 = Integer.valueOf(t2.getTaskEndDate()).intValue();
 				 p1 = convertPriority(t1);
 				 p2 = convertPriority(t2);
 				 
-				 end1 = convertDate(end1);
-				 end2 = convertDate(end2);
+				String deadline = "deadline";
+				String event = "event";
+
+				type1 = t1.getTaskType().toLowerCase();
+				type2 = t2.getTaskType().toLowerCase();	
+					
+				if(type1.equals(deadline)) {
+					end1 = Integer.valueOf(t1.getTaskEndDate()).intValue();
+				} else if(type1.equals(event)) {
+					end1 = Integer.valueOf(t1.getTaskStartDate()).intValue();
+				} else {
+					end1 = -1;
+				}
+			
+				if(type2.equals(deadline)) {
+					end2 = Integer.valueOf(t2.getTaskEndDate()).intValue();
+				} else if(type2.equals(event)) {
+					end2 = Integer.valueOf(t2.getTaskStartDate()).intValue();
+				} else {
+					end2 = -1;
+				}
+				 
+				end1 = convertDate(end1);
+				end2 = convertDate(end2);
 
 				if(end1 > end2){
 					return 1;

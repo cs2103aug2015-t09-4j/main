@@ -119,8 +119,7 @@ public class CommandController {
 				break;
 
 			default:
-				commandexecutor.parseInvalidCommand(commandType);
-				break;
+				throw new Exception("Invalid Command");
 			}
 			
 		} catch (Exception e) {

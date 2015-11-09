@@ -63,11 +63,11 @@ public class TestParser {
 
 		storageString = "taskname:test one;tasktype:event;taskIsNewest:true;event;taskStartDate:050516;taskEndDate:060516;taskPriority:high;taskDescription:hello world;taskStartTime:1400;taskEndTime:1600;";
 
-//		System.out.println(currentDate);
-//		System.out.println(tomorrowDateAtCurrentTime);
-//		System.out.println(tomorrowDateAfterOneHour);
-//		System.out.println(currentTime);
-//		System.out.println(currentTimeAfterOneHour);
+		// System.out.println(currentDate);
+		// System.out.println(tomorrowDateAtCurrentTime);
+		// System.out.println(tomorrowDateAfterOneHour);
+		// System.out.println(currentTime);
+		// System.out.println(currentTimeAfterOneHour);
 
 	}
 
@@ -78,41 +78,23 @@ public class TestParser {
 		storageString = null;
 	}
 
-//	public void testCompareTwoTasks(Task expectedTask, String storageString) {
-//		try {
-//			Task task = StorageFunction.createTaskFromString(storageString);
-//			assertEquals(((Task) task).getTaskName(), expectedTask.getTaskName());
-//			assertEquals(((Task) task).getTaskType(), expectedTask.getTaskType());
-//			assertEquals(((Task) task).getTaskIsNewest(), expectedTask.getTaskIsNewest());
-//			assertEquals(((Task) task).getTaskStartDate(), expectedTask.getTaskStartDate());
-//			assertEquals(((Task) task).getTaskEndDate(), expectedTask.getTaskEndDate());
-//			assertEquals(((Task) task).getTaskStartTime(), expectedTask.getTaskStartTime());
-//			assertEquals(((Task) task).getTaskEndTime(), expectedTask.getTaskEndTime());
-//			assertEquals(((Task) task).getTaskPriority(), expectedTask.getTaskPriority());
-//			assertEquals(((Task) task).getTaskDescription(), expectedTask.getTaskDescription());
-//		} catch (Exception e) {
-//			fail("Unknown exception");
-//		}
-//	}
-
 	public void testCompareTwoTasks(String[] commandParts, String expectedName, String expectedStartDate,
 			String expectedEndDate, String expectedStartTime, String expectedEndTime, String expectedPriority,
 			String expectedDescription) {
 		try {
 			Task task = parser.parseTask(commandParts);
-			assertEquals(((Task) task).getTaskName(), expectedName);
-			assertEquals(((Task) task).getTaskStartDate(), expectedStartDate);
-			assertEquals(((Task) task).getTaskEndDate(), expectedEndDate);
-			assertEquals(((Task) task).getTaskStartTime(), expectedStartTime);
-			assertEquals(((Task) task).getTaskEndTime(), expectedEndTime);
-			assertEquals(((Task) task).getTaskPriority(), expectedPriority);
-			assertEquals(((Task) task).getTaskDescription(), expectedDescription);
+			assertEquals(expectedName, ((Task) task).getTaskName());
+			assertEquals(expectedStartDate, ((Task) task).getTaskStartDate());
+			assertEquals(expectedEndDate, ((Task) task).getTaskEndDate());
+			assertEquals(expectedStartTime, ((Task) task).getTaskStartTime());
+			assertEquals(expectedEndTime, ((Task) task).getTaskEndTime());
+			assertEquals(expectedPriority, ((Task) task).getTaskPriority());
+			assertEquals(expectedDescription, ((Task) task).getTaskDescription());
 		} catch (Exception e) {
 			fail("Unknown exception");
 		}
 	}
-	
-	
+
 	public void testInvalidTime(String[] commandParts, String expectedMessage) {
 		Task task = new Task();
 		String exceptionMessage = "";
@@ -121,9 +103,9 @@ public class TestParser {
 		} catch (Exception e) {
 			exceptionMessage = e.getMessage();
 		}
-		assertEquals(exceptionMessage, expectedMessage);
+		assertEquals(expectedMessage, exceptionMessage);
 	}
-	
+
 	public void testInvalidPriority(String[] commandParts, String expectedMessage) {
 		Task task = new Task();
 		String exceptionMessage = "";
@@ -133,9 +115,15 @@ public class TestParser {
 			exceptionMessage = e.getMessage();
 		}
 		System.out.println(exceptionMessage);
-		assertEquals(exceptionMessage, expectedMessage);
+		assertEquals(expectedMessage, exceptionMessage);
 	}
-////--------------------------------------------------------------------------------------------------------///
+
+	public void testOverdue(String currentDate, String endDate, boolean expectedBoolean) {
+		boolean isOverdue = parser.endDatePassed(currentDate, endDate);
+		assertEquals(expectedBoolean, isOverdue);
+	}
+
+	//// --------------------------------------------------------------------------------------------------------///
 
 	@Test
 	public void executeTestParseEvent() {
@@ -244,39 +232,47 @@ public class TestParser {
 		String[] commandParts = "add spectacular spiderman from 1200, 12/12/15 to 1100, 12/12/15 *high desc super spec"
 				.split(" ");
 		testInvalidTime(commandParts, "Start time is after end time");
-		
+
 		commandParts = "add spectacular spiderman from 2359, 11/12/15 to 0000, 10/12/15 *high desc super spec"
 				.split(" ");
 		testInvalidTime(commandParts, "Start date is after end date");
-		
+
 		commandParts = "add spectacular spiderman from 0000, 11/12/15 to 1100, 10/12/15 *high desc super spec"
 				.split(" ");
 		testInvalidTime(commandParts, "Start date is after end date");
-		
+
 		commandParts = "add spectacular spiderman from 0000, 11/12/15 to 2400, 11/12/15 *high desc super spec"
 				.split(" ");
 		testInvalidTime(commandParts, "Time out of range");
-		
+
 		commandParts = "add spectacular spiderman from 0000,11/12/15 to 2400, 11/12/15 *high desc super spec"
 				.split(" ");
 		testInvalidTime(commandParts, "Comma has no spacing");
-		
+
 		commandParts = "add spectacular spiderman from 0000, 11/1h/15 to 2400, 1a/12/15 *high desc super spec"
 				.split(" ");
 		testInvalidTime(commandParts, "Invalid date/time format");
-		
+
 		commandParts = "add spectacular spiderman from 0000, 11/1sh/15 to 2400, 1a/12/15 *high desc super spec"
 				.split(" ");
 		testInvalidTime(commandParts, "Invalid date/time format");
-		commandParts = "add spectacular spiderman from -1, 11/12/15 to 2359, 11/12/15 *high desc super spec"
-				.split(" ");
+		commandParts = "add spectacular spiderman from -1, 11/12/15 to 2359, 11/12/15 *high desc super spec".split(" ");
 		testInvalidTime(commandParts, "Invalid date/time format");
 	}
+
 	@Test
 	public void executeTestInvalidPriority() {
 		String[] commandParts = "add spectacular spiderman from 0000, 11/11/15 to 2350, 11/12/15 *higher desc super spec"
 				.split(" ");
 		testInvalidPriority(commandParts, "Invalid priority type");
+	}
+
+	@Test
+	public void executeTestOverdue() {
+		testOverdue("101010", "121010", false);
+		testOverdue("121010", "121010", false);
+		testOverdue("131010", "121010", true);
+		
 	}
 	
 	private String[] splitString(String command) {
