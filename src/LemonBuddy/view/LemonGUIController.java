@@ -174,29 +174,15 @@ public class LemonGUIController {
 	@FXML
 	private TextFlow notificationBar;
 	
-	private static Task selectedTask = new Task();
-	private static ArrayList<Task> tasks;
-	private static String[] listType = {"", "overdue"};
-	private static String date;
-	private static String displayHeader = "Overdue Tasks";
-	
-	private static String[] timelineDate = {"", ""};
-	private static ArrayList<Task> TasksTemp;
-
-	private static String userCommand = "";
-	
-	private int mainDisplayIndex = 0;
-	
-	private boolean swap = false;
-	
-	private Parser parser;
-	private CommandExecutor commandExecutor;
-
-	private int timelineIndex;
-	
 	public LemonGUIController() {
 		
 	}
+	
+	
+	public void setMainApp(lemonGUI mainApp) {
+		this.mainApp = mainApp;
+	}
+	
 	
 	@FXML
 	private void initialize() throws Exception {
@@ -207,44 +193,37 @@ public class LemonGUIController {
 		temp.setStyle("-fx-font-size: 18pt;");
 		notificationBar.getChildren().add(temp);
 		notificationBar.setTextAlignment(TextAlignment.CENTER);
-//		date = parser.getCurrentDate();
-//		timelineDate[1] = date;
 		formatMainDisplay();
 		generateMainDisplay(mainApp.getListForDisplay());
 		formatTimeline();
-//		String newDate = timelineDate[1].substring(0,2) + "/" + timelineDate[1].substring(2,4) + "/" + timelineDate[1].substring(4,6);
 		generateTimeline(mainApp.getListForTimeline(), mainApp.getDate());
 	}
-	
-	public void setMainApp(lemonGUI mainApp) {
-		this.mainApp = mainApp;
-	}
-	
+
 	@FXML
 	void onEnter(KeyEvent event) throws Exception {
 		if (event.getCode() == KeyCode.ENTER) {
 			getInput();
-			modifyNotificationBar();
-			if (timelineDate[1].length() == 5) {
-				timelineDate[1] = "0" + timelineDate[1];
-			}
-			String newDate = timelineDate[1].substring(0,2) + "/" + timelineDate[1].substring(2,4) + "/" + timelineDate[1].substring(4,6);
 			mainApp.updateDisplayList();
 			generateTimeline(mainApp.getListForTimeline(), mainApp.getDate());
 			generateMainDisplay(mainApp.getListForDisplay());
-			//commandExecutor.executeRemoveNewest();
-			selectedTask = new Task();
+			modifyNotificationBar();
 		}
 	}
+
+	@FXML
+	private void getInput() {
+		String input = inputField.getText();
+		mainApp.getCommand(input);
+		inputField.clear();
+	}
+	
 	
 	public void generateMainDisplay(ArrayList<Task> listToDisplay) throws Exception {
-		modifyDisplayHeader();
 		mainDisplayHeader.setText(mainApp.getMainDisplayHeader());
 		MainDisplayTasks.removeAll(MainDisplayTasks);
 		MainDisplayTasks.addAll(listToDisplay);
 		mainDisplay.setItems(MainDisplayTasks);
 		mainDisplay.scrollTo(mainApp.getMainDisplayIndex());
-		mainDisplayIndex = 0;
 	}
 	
 	private void formatMainDisplay() {
@@ -282,7 +261,7 @@ public class LemonGUIController {
 		            } else {
 		            	setText(item);
 	                    setTextFill(Color.BLACK);
-	                    setStyle(" -fx-alignment: center");
+	                    setStyle("-fx-alignment: center");
 	                    currentRow.setStyle(""); 
 	                }
 		        }
@@ -305,7 +284,7 @@ public class LemonGUIController {
 			            }else {
 			            	setText(item);
 		                    setTextFill(Color.BLACK);
-		                    setStyle(" -fx-alignment: center");
+		                    setStyle("-fx-alignment: center");
 		                }
 			        }
 			    };
@@ -354,8 +333,7 @@ public class LemonGUIController {
 		TimelineTasks.addAll(listToTimeline);
 		columnHeader.setText("Date: " + header);
 		timeline.setItems(TimelineTasks);
-		timeline.scrollTo(timelineIndex);
-		timelineIndex = 0;
+		timeline.scrollTo(mainApp.getTimelineIndex());
 	}
 	
 	private void formatTimeline() {
@@ -378,13 +356,14 @@ public class LemonGUIController {
 						setText(null);
 						setStyle("");
 					} else {
-						if (item.equals("-1")) {
-							setText(null);
-							setStyle("");
-						} else if (item.startsWith("#")) {
+						if (item.startsWith("#")) {
 							setText(item.substring(1));
 							setTextFill(Color.BLACK);
 							setStyle("-fx-background-color: lightgreen; -fx-border-color: lightgreen;");
+						} else if (item.startsWith("^")) {
+							setText(item.substring(1));
+							setTextFill(Color.BLACK);
+							setStyle("");
 						} else {
 							setText(item);
 							setTextFill(Color.BLACK);
@@ -478,66 +457,6 @@ public class LemonGUIController {
 		timelineColumns.add(column2330);
 	}
 
-	@FXML
-	private void getInput() {
-		String input = inputField.getText();
-		mainApp.getCommand(input);
-		inputField.clear();
-	}
-	
-	public static void setTask(Task givenTask) {
-		selectedTask = givenTask;
-	}
-	
-	public static void setList(ArrayList<Task> list) {
-		tasks = list;
-	}
-	
-	public static void setTimelineList(ArrayList<Task> list) {
-		TasksTemp = list;
-	}
-
-	public static void setListType(String type) {
-		listType[1] = type;
-	}
-	
-	public static void setTimeLineDate(String requestedDate) {
-		timelineDate[1] = requestedDate;
-	}
-
-	public static void setMainDisplay(String type) {
-		listType[1] = type;
-	}	
-	
-	private static void modifyDisplayHeader() {
-		String type = listType[1];
-		if (type.equals("all")) {
-			displayHeader = "All Tasks";
-		}
-		if (type.equals("floating")) {
-			displayHeader = "Floating Tasks";
-		}
-		if (type.equals("deadline")) {
-			displayHeader = "Deadlines";
-		}
-		if (type.equals("event")) {
-			displayHeader = "Events";
-		}
-		if (type.equals("done")) {
-			displayHeader = "Completed Tasks";
-		}
-		if (type.equals("overdue")) {
-			displayHeader = "Overdue Tasks";
-		}
-		if (type.equals("search")) {
-			displayHeader = "Search Results";
-		}
-	}
-
-	public static void setCommand(String command) {
-		userCommand = command;
-	}
-	
 	public void modifyNotificationBar() {
 		String toDisplay = mainApp.getNotificationBarDisplay();
 		System.out.println(toDisplay);
@@ -546,113 +465,10 @@ public class LemonGUIController {
 		notificationBar.getChildren().clear();
 		notificationBar.getChildren().add(temp);
 		notificationBar.setTextAlignment(TextAlignment.CENTER);
-		notificationBar.setStyle("-fx-background-color: red;");
-		
-//		swap = false;
-//		String toPrint = "";
-//		int style = 0;
-//		if (userCommand.equals("add")) {
-//			toPrint  = (selectedTask.getTaskName() + " added!");
-//			style = 1;
-//			if (selectedTask.getTaskType().equals("event")) {
-//				swap = true;
-//				timelineDate[1] = "" + selectedTask.getTaskStartDate();
-//				displayHeader = "Displaying tasks on: " + selectedTask.getTaskStartDate();
-//				listType[1] = "date";
-//			} else if (selectedTask.getTaskType().equals("deadline")) {
-//				swap = true;
-//				timelineDate[1] = "" + selectedTask.getTaskEndDate();
-//				displayHeader = "Displaying tasks on: " + selectedTask.getTaskEndDate();
-//				listType[1] = "date";
-//			} else {
-//				swap = false;
-//				listType[1] = "floating";
-//			}
-//		}
-//		if (userCommand.equals("delete")) {
-//			toPrint = (selectedTask.getTaskName() + " deleted!");
-//			style = 1;
-//			if (selectedTask.getTaskType().equals("event")) {
-//				swap = true;
-//				timelineDate[1] = "" + selectedTask.getTaskStartDate();
-//				displayHeader = "Displaying tasks on: " + selectedTask.getTaskStartDate();
-//				listType[1] = "date";
-//			} else if (selectedTask.getTaskType().equals("deadline")) {
-//				swap = true;
-//				timelineDate[1] = "" + selectedTask.getTaskEndDate();
-//				displayHeader = "Displaying tasks on: " + selectedTask.getTaskEndDate();
-//				listType[1] = "date";
-//			} else {
-//				swap = false;
-//				listType[1] = "floating";
-//			}
-//		}
-//		if (userCommand.equals("edit")) {
-//			toPrint = (selectedTask.getTaskName() + " edited!");
-//			style = 1;
-//			if (selectedTask.getTaskType().equals("event")) {
-//				swap = true;
-//				timelineDate[1] = "" + selectedTask.getTaskStartDate();
-//				displayHeader = "Displaying tasks on: " + selectedTask.getTaskStartDate();
-//				listType[1] = "date";
-//			} else if (selectedTask.getTaskType().equals("deadline")) {
-//				swap = true;
-//				timelineDate[1] = "" + selectedTask.getTaskEndDate();
-//				displayHeader = "Displaying tasks on: " + selectedTask.getTaskEndDate();
-//				listType[1] = "date";
-//			} else {
-//				swap = false;
-//				listType[1] = "floating";
-//			}
-//		}
-//		if (userCommand.equals("list")) {
-//			toPrint = ("Displaying tasks");
-//			style = 1;
-//		}
-//		if (userCommand.equals("view")) {
-//			style = 1;
-//			swap = true;
-//			listType[1] = "date";
-//			String newDate = timelineDate[1].substring(0,2) + "/" + timelineDate[1].substring(2,4) + "/" + timelineDate[1].substring(4,6);
-//			displayHeader = "Displaying tasks on: " + newDate;
-//			toPrint = ("Displaying tasks on " + newDate);
-//		}
-//		if (userCommand.equals("undo")) {
-//			toPrint = ("Undo successful");
-//			style = 1;
-//		}
-//		if (userCommand.equals("redo")) {
-//			toPrint = ("Redo successful");
-//			style = 1;
-//		}
-//		if (userCommand.equals("redo maxed")) {
-//			toPrint = ("Redo unsuccessful, no more actions to redo.");
-//			style = 2;
-//		}
-//		if (userCommand.equals("done")) {
-//			toPrint = ("Task set as done.");
-//			style = 1;
-//		}
-//		if (userCommand.equals("search")) {
-//			toPrint = ("Search successful");
-//			style = 1;
-//		}
-//		
-//		Text temp = new Text(toPrint);
-//		temp.setStyle("-fx-font-size: 18pt;");
-//		notificationBar.getChildren().clear();
-//		notificationBar.getChildren().add(temp);
-//		notificationBar.setTextAlignment(TextAlignment.CENTER);
-//		
-//		if (style == 1) {
-//			notificationBar.setStyle("-fx-background-color: lightgreen;");
-//		}
-//		
-//		if (style == 2) {
-//			notificationBar.setStyle("-fx-background-color: red;");
-//		}
-//		
-//		style = 0;
+		if (mainApp.checkSuccess()){
+			notificationBar.setStyle("-fx-background-color: lightgreen;");
+		} else {
+			notificationBar.setStyle("-fx-background-color: red;");
+		}
 	}
-
 }

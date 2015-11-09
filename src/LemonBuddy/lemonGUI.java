@@ -91,7 +91,6 @@ public class lemonGUI extends Application {
     }
     
     public void setListForTimeline(ArrayList<Task> list) {
-    	System.out.println(list);
     	listForTimeline = list;
     }
     
@@ -110,6 +109,14 @@ public class lemonGUI extends Application {
     }
     
     public ArrayList<Task> getListForTimeline() {
+    	for (int counter = 0; counter < listForDisplay.size(); counter++) {
+    		if (listForDisplay.get(counter).getTaskIsNewest()) {
+    			listForDisplay.get(counter).setTaskName("#" + (listForDisplay.get(counter).getTaskName()));
+    			timelineIndex = counter;
+    		} else {
+    			listForDisplay.get(counter).setTaskName("^" + (listForDisplay.get(counter).getTaskName()));
+    		}
+    	}
     	return listForTimeline;
     }
     
@@ -166,7 +173,15 @@ public class lemonGUI extends Application {
     }
     
     public String getNotificationBarDisplay() {
+    	if (commandcontroller.checkForSuccessfulCommand()) {
+    		String command = commandcontroller.passCommand();
+        		return command.toUpperCase() + " Successful";
+    	}
     	return commandcontroller.getNotificationMessage();
+    }
+    
+    public boolean checkSuccess() {
+    	return commandcontroller.checkForSuccessfulCommand();
     }
     
 }
