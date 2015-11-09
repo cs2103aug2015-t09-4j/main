@@ -14,12 +14,14 @@ import javafx.stage.Stage;
 
 public class lemonGUI extends Application {
 
-    private static CommandExecutor commandexecutor;
+    private static int timelineIndex = 0;
+	private static int mainDisplayIndex = 0;
+	private static CommandController commandcontroller = null;
 	private Stage primaryStage;
     private BorderPane rootLayout;
-    private static ArrayList<Task> listForDisplay = new ArrayList<Task>();
+    private static ArrayList<Task> listForDisplay;
     private String[] command = {"", ""};
-	private static ArrayList<Task> listForTimeline = new ArrayList<Task>();
+	private static ArrayList<Task> listForTimeline;
 
 
     @Override
@@ -79,10 +81,10 @@ public class lemonGUI extends Application {
     }
 
     public static void main(String[] args) throws Exception {
-    	if (commandexecutor == null) {
-			commandexecutor = new CommandExecutor();
+    	if (commandcontroller == null) {
+    		commandcontroller  = new CommandController();
 		}
-    	commandexecutor.passToGUI();
+    	updateDisplayList();
         launch(args);
     }
     
@@ -91,15 +93,15 @@ public class lemonGUI extends Application {
     }
     
     public void setListForTimeline(ArrayList<Task> list) {
+    	System.out.println(list);
     	listForTimeline = list;
     }
     
     public ArrayList<Task> getListForDisplay() {
-    	
     	for (int counter = 0; counter < listForDisplay.size(); counter++) {
-    		System.out.println(listForDisplay.get(counter).getTaskIsNewest());
     		if (listForDisplay.get(counter).getTaskIsNewest()) {
     			listForDisplay.get(counter).setDisplayId("#" + (counter + 1));
+    			mainDisplayIndex = counter;
     		} else if (listForDisplay.get(counter).getTaskType().equals("overdue")){
     			listForDisplay.get(counter).setDisplayId("^" + (counter + 1));
     		} else {
@@ -116,11 +118,27 @@ public class lemonGUI extends Application {
     public void setCommand(String[] command) {
     	this.command = command;
     }
-
-	public void update() throws Exception {
-		commandexecutor.passToGUI();
-		commandexecutor.updateLists();
-	}
+    
+    public static void updateDisplayList() throws Exception {
+    	ArrayList<ArrayList<Task>> temp = commandcontroller.passToGUI();
+    	listForTimeline = temp.get(0);
+    	listForDisplay = temp.get(1);
+    	System.out.println("help" + temp.get(1));
+    }
+    
+    public void getCommand(String input) {
+    	commandcontroller.processCommand(input);
+    }
+    
+    public int getMainDisplayIndex() {
+    	int temp = mainDisplayIndex;
+    	mainDisplayIndex = 0;
+    	return temp;
+    }
+    
+    public int getTimelineIndex() {
+    	return timelineIndex;
+    }
     
 }
 		

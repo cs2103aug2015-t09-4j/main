@@ -149,7 +149,6 @@ public class LemonGUIController {
 	private TableColumn<Task, String> column2330;
 	ArrayList<TableColumn<Task, String>> timelineColumns = new ArrayList<TableColumn<Task, String>>();
 	
-	
 	@FXML
 	private TableView<Task> mainDisplay;
 	@FXML
@@ -201,27 +200,20 @@ public class LemonGUIController {
 	
 	@FXML
 	private void initialize() throws Exception {
-		if (parser == null) {
-			parser = new Parser();
-		}
-		if (commandExecutor == null) {
-			commandExecutor = new CommandExecutor();
-		}
 		if (mainApp == null) {
 			mainApp = new lemonGUI();
 		}
-		
 		Text temp = new Text("Welcome to LemonBuddy!!!!");
 		temp.setStyle("-fx-font-size: 18pt;");
 		notificationBar.getChildren().add(temp);
 		notificationBar.setTextAlignment(TextAlignment.CENTER);
-		date = parser.getCurrentDate();
-		timelineDate[1] = date;
+//		date = parser.getCurrentDate();
+//		timelineDate[1] = date;
 		formatMainDisplay();
 		generateMainDisplay(mainApp.getListForDisplay());
 		formatTimeline();
-		String newDate = timelineDate[1].substring(0,2) + "/" + timelineDate[1].substring(2,4) + "/" + timelineDate[1].substring(4,6);
-		generateTimeline(mainApp.getListForTimeline(), newDate);
+//		String newDate = timelineDate[1].substring(0,2) + "/" + timelineDate[1].substring(2,4) + "/" + timelineDate[1].substring(4,6);
+		generateTimeline(mainApp.getListForTimeline(), timelineDate[1]);
 	}
 	
 	public void setMainApp(lemonGUI mainApp) {
@@ -233,29 +225,25 @@ public class LemonGUIController {
 		if (event.getCode() == KeyCode.ENTER) {
 			getInput();
 			modifyNotificationBar();
-			mainApp.update();
 			if (timelineDate[1].length() == 5) {
 				timelineDate[1] = "0" + timelineDate[1];
 			}
 			String newDate = timelineDate[1].substring(0,2) + "/" + timelineDate[1].substring(2,4) + "/" + timelineDate[1].substring(4,6);
+			mainApp.updateDisplayList();
 			generateTimeline(mainApp.getListForTimeline(), newDate);
 			generateMainDisplay(mainApp.getListForDisplay());
+			//commandExecutor.executeRemoveNewest();
 			selectedTask = new Task();
 		}
 	}
 	
 	public void generateMainDisplay(ArrayList<Task> listToDisplay) throws Exception {
-//		if (swap) {
-//			tasks = TasksTemp;
-//		} else {
-//			commandExecutor.executeList(listType);
-//		}
 		modifyDisplayHeader();
 		mainDisplayHeader.setText(displayHeader);
 		MainDisplayTasks.removeAll(MainDisplayTasks);
 		MainDisplayTasks.addAll(listToDisplay);
 		mainDisplay.setItems(MainDisplayTasks);
-		mainDisplay.scrollTo(mainDisplayIndex);
+		mainDisplay.scrollTo(mainApp.getMainDisplayIndex());
 		mainDisplayIndex = 0;
 	}
 	
@@ -279,7 +267,7 @@ public class LemonGUIController {
 		            TableRow<Task> currentRow = getTableRow();
 		            if (item == null || empty) {
 		                setText(null);
-		                setStyle("");          	
+		                currentRow.setStyle("");           	
 		            } else if (item.startsWith("^")) {
 	            		setText(item.substring(1));
 		            	setTextFill(Color.BLACK);
@@ -349,7 +337,6 @@ public class LemonGUIController {
 			});
 		}
 	}
-
 	
 	private void generateMainDisplayColumnList() {
 		mainDisplayColumns.add(idColumn);
@@ -494,7 +481,7 @@ public class LemonGUIController {
 	@FXML
 	private void getInput() {
 		String input = inputField.getText();
-		CommandController.processCommand(input);
+		mainApp.getCommand(input);
 		inputField.clear();
 	}
 	
