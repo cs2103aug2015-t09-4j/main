@@ -20,8 +20,6 @@ public class CommandController {
 	private static final String COMMAND_RECUR = "recur";
 	private static final String COMMAND_NAVIGATE = "view";
 	private static final String COMMAND_LIST = "list";
-	private static final String COMMAND_HELP = "help";
-	private static final String COMMAND_UPDATE = "update";
 	private static final String COMMAND_UNDO = "undo";
 	private static final String COMMAND_REDO = "redo";
 	private static final String COMMAND_DONE = "done";
@@ -29,7 +27,9 @@ public class CommandController {
 	private static final String MESSAGE_INVALID = "Invalid Command";
 	private static CommandExecutor commandexecutor;
 	private static CommandController commandcontroller;
-
+	
+	private static boolean isSuccesful;
+	private static String commandType;
 	private static String errorMessage;
 
 	public CommandController() throws IOException, Exception {
@@ -65,38 +65,44 @@ public class CommandController {
 				commandcontroller = new CommandController();
 			}
 			String[] commandParts = commandcontroller.splitCommand(command);
-			String commandType = commandParts[0];
+			commandType = commandParts[0];
 
 			executeSaveLastState(commandType);
 			
 			switch (commandType) {
 			case COMMAND_ADD:
 				commandexecutor.executeAdd(commandParts);
+				isSuccesful = true;
 				break;
 
 			case COMMAND_DELETE:
 				commandexecutor.executeDelete(commandParts);
+				isSuccesful = true;
 				break;
 
 			case COMMAND_EDIT:
 				commandexecutor.executeEdit(commandParts);
+				isSuccesful = true;
 				break;
 
 			case COMMAND_UNDO:
 				commandexecutor.executeUndo();
+				isSuccesful = true;
 				break;
 
 			case COMMAND_REDO:
 				commandexecutor.executeRedo();
+				isSuccesful = true;
 				break;
 
 			case COMMAND_NAVIGATE:
 				commandexecutor.executeNavigate(commandParts);
+				isSuccesful = true;
 				break;
 
 			case COMMAND_LIST:
-				String taskType = commandParts[1].toLowerCase();
 				commandexecutor.executeList(commandParts);
+				isSuccesful = true;
 				break;
 
 			case COMMAND_DONE:
@@ -104,18 +110,12 @@ public class CommandController {
 					throw new Exception("Invalid task type");
 				}
 				commandexecutor.executeDone(commandParts);
+				isSuccesful = true;
 				break;
-
-			case COMMAND_HELP:
-				commandexecutor.executeHelp();
-				break;
-//
-//			case COMMAND_UPDATE:
-//				commandexecutor.executeUpdate();
-//				break;
 
 			case COMMAND_SEARCH:
 				commandexecutor.executeSearch(commandParts);
+				isSuccesful = true;
 				break;
 
 			default:
@@ -126,6 +126,7 @@ public class CommandController {
 		} catch (Exception e) {
 			logger.log(Level.WARNING, "processing error", e);
 			errorMessage = (e.toString());
+			isSuccesful = false;
 		}
 
 	}
@@ -166,5 +167,17 @@ public class CommandController {
 		String temp = errorMessage;
 		errorMessage = "";
 		return temp;
+	}
+	
+	public boolean checkForSuccessfulCommand() {
+		return isSuccesful;
+	}
+	
+	public String passCommand() {
+		return commandType;
+	}
+	
+	public Task getSelectedTask() {
+		return commandexecutor.passSelectedTask();
 	}
 }
