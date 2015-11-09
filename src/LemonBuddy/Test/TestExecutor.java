@@ -190,7 +190,7 @@ public class TestExecutor {
 	}
 
 	@Test
-	public void testDeleteTaskFromList() throws ClassNotFoundException, IOException {
+	public void testDeleteTaskFromList() throws Exception {
 		
 		int deleteID = 1;
 		
@@ -204,7 +204,7 @@ public class TestExecutor {
 	}
 	
 	@Test
-	public void testDeleteTaskFromList2() throws ClassNotFoundException, IOException {
+	public void testDeleteTaskFromList2() throws Exception {
 		
 		int deleteID = 1;
 		
@@ -218,7 +218,7 @@ public class TestExecutor {
 	}
 
 	@Test
-	public void testRemoveTaskFromFloatingList() throws ClassNotFoundException, IOException {
+	public void testRemoveTaskFromFloatingList() throws Exception {
 		int deleteID = 1;
 		Task floatingTask = new Task();
 		floatingTask.setTaskType("floating");
@@ -228,7 +228,7 @@ public class TestExecutor {
 	}
 	
 	@Test
-	public void testRemoveTaskFromDeadlineList() throws ClassNotFoundException, IOException {
+	public void testRemoveTaskFromDeadlineList() throws Exception {
 		int deleteID = 1;
 		Task deadlineTask = new Task();
 		deadlineTask.setTaskType("deadline");
@@ -236,6 +236,16 @@ public class TestExecutor {
 		
 		assertEquals("deleting first deadline task", deadlineTask, tester.removeTaskFromDeadlineList(deleteID));
 	}
+	
+	public void testRemoveTaskFromEventList() throws Exception {
+		int deleteID = 1;
+		Task eventTask = new Task();
+		eventTask.setTaskType("event");
+		tester.addTaskToList(eventTask);
+		
+		assertEquals("deleting first deadline task", eventTask, tester.removeTaskFromDeadlineList(deleteID));
+	}
+
 
 	@Test
 	public void testSort() {

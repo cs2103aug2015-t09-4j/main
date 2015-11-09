@@ -5,12 +5,8 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.junit.Test;
 
 import LemonBuddy.FileStorage;
@@ -21,18 +17,18 @@ public class TestFileStorage extends FileStorage {
 	
 	/***************************************************** Private Attributes ******************************************************************/
 	private String outputFile;
+	private String stringUnderTest  = "";
 	private String fileForTestEmpty = "testClear.txt";
 	private ArrayList<Task> arrayListUnderTest = new ArrayList<Task>();	
 	private ArrayList<ArrayList<Task>> expected = new ArrayList<ArrayList<Task>>();	
 	ArrayList<ArrayList<Task>> test = new ArrayList<ArrayList<Task>>();
-	private String stringUnderTest  = "";
 	
 	/***************************************************** Private Function ******************************************************************/	
 	
 	@SuppressWarnings("resource")
 	private boolean compareTwoFiles(File f1, File f2) {
 		
-		boolean tag = true;
+		boolean isTrue = true;
 		
         try {   
     		FileInputStream fis1 = new FileInputStream(f1);
@@ -45,27 +41,27 @@ public class TestFileStorage extends FileStorage {
                 {  
                     if(fis1.read() != fis2.read())  
                     {  
-                        tag = false;  
+                        isTrue = false;  
                         break;  
                     }  
                 }  
-                return tag;  
+                return isTrue;  
             }  
         } catch(IOException e) {  
         	StorageFunction.printExceptionMessage(e);  
         }
-		return tag; 
+		return isTrue; 
 	}
 	
 	private boolean compareTwoList(ArrayList<ArrayList<Task>> a1, ArrayList<ArrayList<Task>> a2) {
 		
-		boolean tag = true;
+		boolean isTrue = true;
 		
         int size1 = a1.size();
         int size2 = a2.size();
         
         if(size1 != size2){
-        	return tag;
+        	return isTrue;
         }
         
 		for(int i=0; i< size1; i++) {
@@ -73,21 +69,21 @@ public class TestFileStorage extends FileStorage {
 			int size4 = a2.get(i).size();
 			
 			if(size3 != size4){
-				tag = false;
-				return tag;
+				isTrue = false;
+				return isTrue;
 			} else {
 				for(int j = 0; j < size3; j++) {
 					String task1 = a1.get(i).get(j).toString();
 					String task2 = a2.get(i).get(j).toString();
 					boolean tempCompare = task1.equals(task2);
 					if(!tempCompare){
-						tag = false;
-						return tag;
+						isTrue = false;
+						return isTrue;
 					}
 				}
 			}
 		}
-		return tag; 
+		return isTrue; 
 	}
 
 	

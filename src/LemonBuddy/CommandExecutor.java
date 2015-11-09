@@ -183,7 +183,7 @@ public class CommandExecutor extends FileStorage {
 		return taskToDelete;
 	}
 
-	private Task removeTaskFromDeadlineList(int deleteId) throws Exception {
+	public Task removeTaskFromDeadlineList(int deleteId) throws Exception {
 		if (deadlineTasks.size() < deleteId) {
 			throw new Exception("Invalid Index");
 		}
@@ -191,7 +191,7 @@ public class CommandExecutor extends FileStorage {
 		return taskToDelete;
 	}
 
-	private Task removeTaskFromEventList(int deleteId) throws Exception {
+	public Task removeTaskFromEventList(int deleteId) throws Exception {
 		if (eventTasks.size() < deleteId) {
 			throw new Exception("Invalid Index");
 		}
@@ -199,7 +199,7 @@ public class CommandExecutor extends FileStorage {
 		return taskToDelete;
 	}
 
-	private Task removeTaskFromOverdueList(int deleteId) throws Exception {
+	public Task removeTaskFromOverdueList(int deleteId) throws Exception {
 		if (overdueTasks.size() < deleteId) {
 			throw new Exception("Invalid Index");
 		}
@@ -207,7 +207,7 @@ public class CommandExecutor extends FileStorage {
 		return taskToDelete;
 	}
 
-	private Task removeTaskFromDoneList(int deleteId) throws Exception {
+	public Task removeTaskFromDoneList(int deleteId) throws Exception {
 		if (doneTasks.size() < deleteId) {
 			throw new Exception("Invalid Index");
 		}
@@ -220,12 +220,9 @@ public class CommandExecutor extends FileStorage {
 	 * get what user wants to view date e.g. navigate 010101
 	 */
 
-	public void executeNavigate(String[] commandParts) throws Exception {
+	public void executeNavigate(String[] commandParts) throws ClassNotFoundException, IOException, ParseException {
 		listType = "date";
 		date[1] = commandParts[1];
-		if(!parser.isDateValid(date[1])){
-			throw new Exception("Invalid Date Input");
-		}
 		SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy");
 		Date dateToView = sdf.parse(date[1]);
 		ArrayList<Task> tasksOnDate = new ArrayList<Task>();
