@@ -50,8 +50,8 @@ public class CommandController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		String command = "add spectacular spiderman on 2340 *medium desc super duper";
-//		commandcontroller.processCommand(command);
+		String command = "add bumbling bumblebee by 0010, 25/12/15";
+		commandcontroller.processCommand(command);
 	}
 	/////////////////////////////////////////////////////////////////////
 

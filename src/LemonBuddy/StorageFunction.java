@@ -102,10 +102,10 @@ public class StorageFunction extends FileStorage {
 				case "event":
 					eventList.add(temptask);
 					break;
-				case "Done":
+				case "done":
 					doneList.add(temptask);
 					break;
-				case "Overdue":
+				case "overdue":
 					overdueList.add(temptask);
 					break;
 				default:

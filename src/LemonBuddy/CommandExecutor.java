@@ -309,7 +309,7 @@ public class CommandExecutor extends FileStorage{
 	}
 
 	public ArrayList<Task> executeSort(ArrayList<Task> list) {
-		Sort.sortByDateThenPriority(list);
+		list = Sort.normal_sort(list);
 		return list;
 	}
 

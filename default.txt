@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+test whether the file can store string in the default fileThis string is used to test whether can write in a new line and the next is for whether can accept empty string
+=======
 taskname:Buy tickets for TOTEM;tasktype:deadline;taskIsDone:false;taskIsOverdue:true;taskStartDate:-1;taskEndDate:281015;taskPriority:;taskDescription:Got 10% discount before this date;taskStartTime:-1;taskEndTime:112;recurType:;recurStartDate:;recurEndDate:;
 taskname:Prepare slides for KC2222;tasktype:deadline;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:101115;taskPriority:high;taskDescription:;taskStartTime:-1;taskEndTime:114;recurType:;recurStartDate:;recurEndDate:;
 taskname:Prepare script for KC2222;tasktype:deadline;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:101115;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:114;recurType:;recurStartDate:;recurEndDate:;
@@ -14,3 +17,4 @@ taskname:Water plants when mom is overseas;tasktype:event;taskIsDone:false;taskI
 taskname:Fix bed;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:;taskStartTime:-1;taskEndTime:-1;recurType:;recurStartDate:;recurEndDate:;
 taskname:Paint kitchen;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:Yellow colour;taskStartTime:-1;taskEndTime:-1;recurType:;recurStartDate:;recurEndDate:;
 taskname:Buy new towels;tasktype:floating;taskIsDone:false;taskIsOverdue:false;taskStartDate:-1;taskEndDate:-1;taskPriority:;taskDescription:mom says bright colours better;taskStartTime:-1;taskEndTime:-1;recurType:;recurStartDate:;recurEndDate:;
+>>>>>>> origin/master
