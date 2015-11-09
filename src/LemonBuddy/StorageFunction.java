@@ -4,18 +4,14 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class StorageFunction {
 
 	private static final String MSG_WHEN_INVALID_FILENAME = "cannot find targeted file"; 
 	private static final String MSG_WHEN_IOEXCEPTION = "cannot store information"; 
-	
 
 	/************************************************** Modify String 
 	 * @throws Exception ******************************************************************/	
@@ -76,6 +72,7 @@ public class StorageFunction {
         	}
 			read.close();		
 		} catch (FileNotFoundException e) {
+			
 			printExceptionMessage(e);
 		} finally {			
 		}
