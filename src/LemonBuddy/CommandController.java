@@ -32,38 +32,23 @@ public class CommandController {
 
 	private static String errorMessage;
 
-	public CommandController() throws IOException, Exception {
-
-		if (commandexecutor == null) {
-			commandexecutor = new CommandExecutor();
-		}
+	private CommandController() throws Exception{
+		commandexecutor = CommandExecutor.getInstance();
 		commandexecutor.saveLastState();
 		commandexecutor.updateLists();
 	}
-
-	// REMEMBER TO DELETE THIS!!! FOR TESTING ONLY!!//////////////////////
-	public static void main(String[] args) {
-		try {
-			CommandController commandcontroller = new CommandController();
+	
+	public static CommandController getInstance() throws IOException, Exception {
+		if (commandcontroller == null) {
 			commandcontroller = new CommandController();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-//		String command = "add spectacular spiderman from 0000, 11/11/15 to 2350, 11/12/15 *higher desc super spec";
-//		commandcontroller.processCommand(command);
+		return commandcontroller;
+		
 	}
-	/////////////////////////////////////////////////////////////////////
 
 	public static void processCommand(String command) {
 		logger.log(Level.INFO, "going to start processing");
 		try {
-			if (commandcontroller == null) {
-				commandcontroller = new CommandController();
-			}
 			String[] commandParts = commandcontroller.splitCommand(command);
 			String commandType = commandParts[0];
 
