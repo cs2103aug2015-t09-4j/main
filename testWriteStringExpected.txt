@@ -1,1 +1,0 @@
-test whether the file can store string in the default fileThis string is used to test whether can write in a new line and the next is for whether can accept empty string
