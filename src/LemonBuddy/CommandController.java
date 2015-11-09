@@ -135,7 +135,7 @@ public class CommandController {
 
 	private static void executeSaveLastState(String commandType) throws Exception, IOException {
 		if (commandType.equals(COMMAND_ADD) || commandType.equals(COMMAND_DELETE) || commandType.equals(COMMAND_EDIT)
-				|| commandType.equals(COMMAND_RECUR) || commandType.equals(COMMAND_DONE)) {
+				|| commandType.equals(COMMAND_DONE)) {
 			commandexecutor.saveLastState();
 		}
 	}
