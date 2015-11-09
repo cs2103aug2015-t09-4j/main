@@ -183,52 +183,32 @@ public class CommandExecutor extends FileStorage {
 		return taskToDelete;
 	}
 
-<<<<<<< HEAD
-	private Task removeTaskFromdeadlineList(int deleteId) throws Exception {
-		if (deadlineTasks.size() < deleteId) {
-=======
 	private Task removeTaskFromDeadlineList(int deleteId) throws Exception {
-		if (deadlineTasks.size() <= deleteId) {
->>>>>>> origin/master
+		if (deadlineTasks.size() < deleteId) {
 			throw new Exception("Invalid Index");
 		}
 		Task taskToDelete = deadlineTasks.remove(deleteId - 1);
 		return taskToDelete;
 	}
 
-<<<<<<< HEAD
-	private Task removeTaskFromeventList(int deleteId) throws Exception {
-		if (eventTasks.size() < deleteId) {
-=======
 	private Task removeTaskFromEventList(int deleteId) throws Exception {
-		if (eventTasks.size() <= deleteId) {
->>>>>>> origin/master
+		if (eventTasks.size() < deleteId) {
 			throw new Exception("Invalid Index");
 		}
 		Task taskToDelete = eventTasks.remove(deleteId - 1);
 		return taskToDelete;
 	}
 
-<<<<<<< HEAD
-	private Task removeTaskFromoverdueList(int deleteId) throws Exception {
-		if (overdueTasks.size() < deleteId) {
-=======
 	private Task removeTaskFromOverdueList(int deleteId) throws Exception {
-		if (overdueTasks.size() <= deleteId) {
->>>>>>> origin/master
+		if (overdueTasks.size() < deleteId) {
 			throw new Exception("Invalid Index");
 		}
 		Task taskToDelete = overdueTasks.remove(deleteId - 1);
 		return taskToDelete;
 	}
 
-<<<<<<< HEAD
-	private Task removeTaskFromdoneList(int deleteId) throws Exception {
-		if (doneTasks.size() < deleteId) {
-=======
 	private Task removeTaskFromDoneList(int deleteId) throws Exception {
-		if (doneTasks.size() <= deleteId) {
->>>>>>> origin/master
+		if (doneTasks.size() < deleteId) {
 			throw new Exception("Invalid Index");
 		}
 		Task taskToDelete = new Task();
@@ -311,8 +291,11 @@ public class CommandExecutor extends FileStorage {
 
 	public void executeDone(String[] commandParts) throws Exception, IOException {
 		int deleteID = Integer.valueOf(commandParts[1]);
-		deleteTaskFromList(deleteID);
-
+		Task doneTask = deleteTaskFromList(deleteID);
+		doneTask.setTaskType("done");
+		doneTasks.add(doneTask);
+		
+		writeToFile();
 	}
 
 	public ArrayList<Task> executeSort(ArrayList<Task> list) {
