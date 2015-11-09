@@ -16,10 +16,11 @@ public class StorageFunction extends FileStorage {
 	private static final String MSG_WHEN_INVALID_FILENAME = "cannot find targeted file"; 
 	private static final String MSG_WHEN_IOEXCEPTION = "cannot store information"; 
 	
-/************************************************** Modify TaskList ******************************************************************/		
+/************************************************** Modify TaskList 
+ * @throws Exception ******************************************************************/		
 	
 	
-	protected static ArrayList<Task> createArrayList(File f) throws IOException {
+	protected static ArrayList<Task> createArrayList(File f) throws Exception {
 		ArrayList<Task> result= new ArrayList<Task>();
 		try {
 			FileInputStream fis = new FileInputStream(f);

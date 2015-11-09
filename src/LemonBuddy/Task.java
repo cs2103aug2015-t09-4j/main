@@ -47,7 +47,7 @@ public class Task implements Serializable {
 		taskType = "";
 		taskStartDate = "-1";
 		taskEndDate = "-1";
-		taskPriority = "";
+		taskPriority = "low";
 		taskDescription = "";
 		taskIsNewest = false;
 		taskStartTime = "-1";
@@ -114,7 +114,10 @@ public class Task implements Serializable {
 		this.displayEndTime = new SimpleStringProperty(this.taskEndTime);
 	}
 
-	public void setTaskPriority(String taskPriority) {
+	public void setTaskPriority(String taskPriority) throws Exception {
+		if(!(taskPriority.equals("low")||taskPriority.equals("medium")||taskPriority.equals("high"))){
+			throw new Exception("Invalid priority type");
+		}
 		this.taskPriority = taskPriority;
 		this.displayPriority = new SimpleStringProperty(this.taskPriority);
 	}

@@ -19,6 +19,7 @@ public class Parser {
 	private static final String TASKTYPE_DEADLINE = "deadline";
 	private static final String TASKTYPE_EVENT = "event";
 
+	/***************************************Create Task from string ******************************************************************/
 	public Task parseTask(String[] commandParts) throws Exception {
 		Task newTask = new Task();
 		int wordIndex = 1;
@@ -30,9 +31,9 @@ public class Parser {
 		parseTime(commandParts, newTask, wordIndex);
 
 		return newTask;
-
 	}
 
+	/************************************** Builds name until first keyword ******************************************************************/
 	private int parseTaskName(String[] commandParts, Task newTask, int wordIndex, String taskName) {
 		while (true) {
 
@@ -53,12 +54,7 @@ public class Parser {
 		return wordIndex;
 	}
 
-	/**
-	 * @param commandParts
-	 * @param newTask
-	 * @param wordIndex
-	 * @return
-	 */
+	/**************************************** Builds description after KEYWORD_DESCRIPTION *****************************************/
 	private int parseDescription(String[] commandParts, Task newTask, int wordIndex) {
 		int initialIndex = wordIndex;
 		while (wordIndex < commandParts.length) {
@@ -79,13 +75,9 @@ public class Parser {
 		return initialIndex;
 	}
 
-	/**
-	 * @param commandParts
-	 * @param newTask
-	 * @param wordIndex
-	 * @return
-	 */
-	private int parsePriority(String[] commandParts, Task newTask, int wordIndex) {
+	/********************************* Builds priority after detecting KEYWORD_PRIORITY 
+	 * @throws Exception ******************************************/
+	private int parsePriority(String[] commandParts, Task newTask, int wordIndex) throws Exception {
 		int initialIndex = wordIndex;
 		while (wordIndex < commandParts.length) {
 			if (commandParts[wordIndex].substring(0, 1).equals(KEYWORD_PRIORITY)) {
@@ -96,7 +88,7 @@ public class Parser {
 		return initialIndex;
 	}
 
-	public static Task createTaskFromString(String s) {
+	public static Task createTaskFromString(String s) throws Exception {
 		String[] array = s.split(";");
 		Task t = new Task();
 		for (int i = 0; i < array.length; i++) {

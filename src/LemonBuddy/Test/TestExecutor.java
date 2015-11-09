@@ -13,7 +13,7 @@ import LemonBuddy.Task;
 
 public class TestExecutor extends CommandExecutor {
 	
-	public TestExecutor() throws ClassNotFoundException, IOException {
+	public TestExecutor() throws Exception {
 		super();
 	}
 

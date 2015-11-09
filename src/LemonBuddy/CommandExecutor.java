@@ -38,7 +38,7 @@ public class CommandExecutor extends FileStorage{
 	private static String[] date = {"", ""};
 	
 
-	public CommandExecutor() throws ClassNotFoundException, IOException {
+	public CommandExecutor() throws Exception {
 		if (parser == null) {
 			parser = new Parser();
 		}
@@ -60,7 +60,7 @@ public class CommandExecutor extends FileStorage{
 		date[1] = parser.getCurrentDate();
 	}
 	
-	public void updateLists() throws IOException, ClassNotFoundException{
+	public void updateLists() throws Exception{
 //		ArrayList<Task> newList = new ArrayList<Task>();
 //		newList.addAll(floatingTasks);
 //		newList.addAll(deadlineTasks);
