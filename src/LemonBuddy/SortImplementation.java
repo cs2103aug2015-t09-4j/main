@@ -13,13 +13,9 @@ public class SortImplementation{
 			case "high":
 				return 1;
 			case "medium":
-<<<<<<< HEAD
 				return 0;
 			case "low":
 				return -1;
-=======
-				return 0;		
->>>>>>> origin/master
 			default:
 				return -1;
 		}
