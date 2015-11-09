@@ -362,47 +362,6 @@ public class Parser {
 		return date.substring(4, 6);
 	}
 
-	public String addOneYear(String date) {
-		int day = parseInt(getDay(date));
-		int month = parseInt(getMonth(date));
-		int year = parseInt(getYear(date)) + 1;
-
-		String newDate = "";
-		newDate = newDate.concat(toTwoDigit(Integer.toString(day)));
-		newDate = newDate.concat(toTwoDigit(Integer.toString(month)));
-		newDate = newDate.concat((Integer.toString(year)));
-
-		return newDate;
-	}
-
-	String toTwoDigit(String num) {
-		if (num.length() == 1) {
-			num = "0" + num;
-		}
-
-		return num;
-	}
-
-	String toSixDigit(int num) {
-		String numString = Integer.toString(num);
-		if (numString.length() == 5) {
-			numString = "0" + numString;
-		}
-
-		return numString;
-	}
-
-	public boolean nextPriorityIsHigher(String currentPriority, String nextPriority) {
-		if (nextPriority.equals("high") && !currentPriority.equals("high")) {
-			return true;
-		} else if (nextPriority.equals("medium") && !currentPriority.equals("high")
-				&& !currentPriority.equals("medium")) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	int parseInt(String str) {
 		int i = 0;
 		int num = 0;
