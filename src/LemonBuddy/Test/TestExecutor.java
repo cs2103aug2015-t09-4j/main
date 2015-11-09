@@ -192,25 +192,49 @@ public class TestExecutor {
 	@Test
 	public void testDeleteTaskFromList() throws ClassNotFoundException, IOException {
 		
-		int deleteId = 1;
+		int deleteID = 1;
+		
 		Task taskToDelete = new Task();
 		taskToDelete.setTaskType("floating");
 		listType = TASKTYPE_floating;
 		tester.addTaskToList(taskToDelete);
 		
-		assertEquals(taskToDelete ,tester.deleteTaskFromList(deleteId));
-		
-		
+		assertEquals("deleting first floating task", taskToDelete ,tester.deleteTaskFromList(deleteID));
 
+	}
+	
+	@Test
+	public void testDeleteTaskFromList2() throws ClassNotFoundException, IOException {
+		
+		int deleteID = 1;
+		
+		Task taskToDelete = new Task();
+		taskToDelete.setTaskType("event");
+		listType = TASKTYPE_event;
+		tester.addTaskToList(taskToDelete);
+		
+		assertEquals("deleting first deadline task", taskToDelete ,tester.deleteTaskFromList(deleteID));
 
 	}
 
 	@Test
 	public void testRemoveTaskFromFloatingList() throws ClassNotFoundException, IOException {
 		int deleteID = 1;
-		Task newTask = new Task();
-		newTask = tester.removeTaskFromFloatingList(deleteID);
-
+		Task floatingTask = new Task();
+		floatingTask.setTaskType("floating");
+		tester.addTaskToList(floatingTask);
+		
+		assertEquals("deleting first floating task", floatingTask, tester.removeTaskFromFloatingList(deleteID));
+	}
+	
+	@Test
+	public void testRemoveTaskFromDeadlineList() throws ClassNotFoundException, IOException {
+		int deleteID = 1;
+		Task deadlineTask = new Task();
+		deadlineTask.setTaskType("deadline");
+		tester.addTaskToList(deadlineTask);
+		
+		assertEquals("deleting first deadline task", deadlineTask, tester.removeTaskFromDeadlineList(deleteID));
 	}
 
 	@Test

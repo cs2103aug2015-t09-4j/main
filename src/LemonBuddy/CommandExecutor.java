@@ -116,8 +116,8 @@ public class CommandExecutor extends FileStorage{
 	}
 
 	public void executeDelete(String[] commandParts) throws Exception {
-		int deleteId = Integer.valueOf(commandParts[1]);
-		deleteTaskFromList(deleteId);
+		int deleteID = Integer.valueOf(commandParts[1]);
+		deleteTaskFromList(deleteID);
 		writeToFile();
 	}
 
@@ -142,56 +142,56 @@ public class CommandExecutor extends FileStorage{
 		}
 	}
 
-	public Task deleteTaskFromList(int deleteId) throws IOException, ClassNotFoundException {
+	public Task deleteTaskFromList(int deleteID) throws IOException, ClassNotFoundException {
 		Task deletedTask = new Task();
 		switch (listType) {
 		case TASKTYPE_floating:
-			deletedTask = removeTaskFromFloatingList(deleteId);
+			deletedTask = removeTaskFromFloatingList(deleteID);
 			break;
 		case TASKTYPE_deadline:
-			if (deleteId > overdueTasks.size()) {
-				int temp = deleteId - overdueTasks.size();
+			if (deleteID > overdueTasks.size()) {
+				int temp = deleteID - overdueTasks.size();
 				deletedTask = removeTaskFromDeadlineList(temp);
 			} else {
-				deletedTask = removeTaskFromOverdueList(deleteId);
+				deletedTask = removeTaskFromOverdueList(deleteID);
 			}
 			break;
 		case TASKTYPE_event:
-			deletedTask = removeTaskFromEventList(deleteId);
+			deletedTask = removeTaskFromEventList(deleteID);
 			break;
 		case TASKTYPE_overdue:
-			deletedTask = removeTaskFromOverdueList(deleteId);
+			deletedTask = removeTaskFromOverdueList(deleteID);
 			break;
 		case TASKTYPE_done:
-			deletedTask = removeTaskFromDoneList(deleteId);
+			deletedTask = removeTaskFromDoneList(deleteID);
 			break;
 		}
 		selectedTask = deletedTask;
 		return deletedTask;
 	}
 
-	public Task removeTaskFromFloatingList(int deleteId) throws IOException, ClassNotFoundException {
-		Task taskToDelete = floatingTasks.remove(deleteId - 1);
+	public Task removeTaskFromFloatingList(int deleteID) throws IOException, ClassNotFoundException {
+		Task taskToDelete = floatingTasks.remove(deleteID - 1);
 		return taskToDelete;
 	}
 
-	private Task removeTaskFromDeadlineList(int deleteId) throws IOException, ClassNotFoundException {
-		Task taskToDelete = deadlineTasks.remove(deleteId - 1);
+	public Task removeTaskFromDeadlineList(int deleteID) throws IOException, ClassNotFoundException {
+		Task taskToDelete = deadlineTasks.remove(deleteID - 1);
 		return taskToDelete;
 	}
 
-	private Task removeTaskFromEventList(int deleteId) throws IOException, ClassNotFoundException {
-		Task taskToDelete = eventTasks.remove(deleteId - 1);
+	private Task removeTaskFromEventList(int deleteID) throws IOException, ClassNotFoundException {
+		Task taskToDelete = eventTasks.remove(deleteID - 1);
 		return taskToDelete;
 	}
 	
-	private Task removeTaskFromOverdueList(int deleteId) throws IOException, ClassNotFoundException {
-		Task taskToDelete = overdueTasks.remove(deleteId - 1);
+	private Task removeTaskFromOverdueList(int deleteID) throws IOException, ClassNotFoundException {
+		Task taskToDelete = overdueTasks.remove(deleteID - 1);
 		return taskToDelete;
 	}
 	
-	private Task removeTaskFromDoneList(int deleteId) throws IOException, ClassNotFoundException {
-		Task taskToDelete = doneTasks.remove(deleteId - 1);
+	private Task removeTaskFromDoneList(int deleteID) throws IOException, ClassNotFoundException {
+		Task taskToDelete = doneTasks.remove(deleteID - 1);
 		return taskToDelete;
 	}
 
@@ -266,8 +266,8 @@ public class CommandExecutor extends FileStorage{
 	}
 
 	public void executeDone(String[] commandParts) throws Exception, IOException {
-		int deleteId = Integer.valueOf(commandParts[1]);
-		deleteTaskFromList(deleteId);
+		int deleteID = Integer.valueOf(commandParts[1]);
+		deleteTaskFromList(deleteID);
 
 	}
 
