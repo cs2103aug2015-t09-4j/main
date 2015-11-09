@@ -22,7 +22,7 @@ public class FileStorage {
     	try {
     		fw.write(content);
 		} catch (IOException e) {
-			Logger.log(Level.WARNING, "Cannot write into the file", e);
+			Logger.log(Level.WARNING, "Cannot write into the file when write object", e);
 			StorageFunction.printExceptionMessage(e);
 		} finally {
 			fw.flush();
@@ -36,7 +36,7 @@ public class FileStorage {
     	try {
     		fw.write(s);
 		} catch (IOException e) {
-			Logger.log(Level.WARNING, "Cannot write into the file", e);
+			Logger.log(Level.WARNING, "Cannot write into the file when write string", e);
 			StorageFunction.printExceptionMessage(e);
 		} finally {
 			fw.flush();
@@ -49,10 +49,11 @@ public class FileStorage {
 		File f = new File(filename);	
 		assert(StorageFunction.checkFileStatus(f));
 		FileWriter fw = new FileWriter(f);
+		assert(StorageFunction.checkFileStatus(f));
 		try {
     		fw.write(EMPTY_CONTENT);
 		} catch (IOException e) {
-			Logger.log(Level.WARNING, "Cannot write into the file", e);
+			Logger.log(Level.WARNING, "Cannot write into the file when clear", e);
 			StorageFunction.printExceptionMessage(e);
 		} finally {
 			fw.flush();
@@ -71,7 +72,7 @@ public class FileStorage {
 			tempObjectList = StorageFunction.createArrayList(f);	
 			newList = StorageFunction.separateTaskList(tempObjectList);
 		} catch (IOException e) {
-			Logger.log(Level.WARNING, "Cannot write into the file", e);
+			Logger.log(Level.WARNING, "Cannot write into the file when read as object", e);
 			StorageFunction.printFileInvalidMessage();
 			StorageFunction.printExceptionMessage(e);
     	} finally {
@@ -87,7 +88,7 @@ public class FileStorage {
          if(StorageFunction.checkFileStatus(f)){        	 
         	 filecontent = StorageFunction.createString(f,filecontent);
          } else {
-			 Logger.log(Level.WARNING, "Cannot write into the file");
+			 Logger.log(Level.WARNING, "Cannot write into the file when read as string");
         	 StorageFunction.printFileInvalidMessage();
          }
 		 return filecontent;       
