@@ -13,9 +13,7 @@ public class SortImplementation{
 			case "high":
 				return 1;
 			case "medium":
-				return 0;
-			case "low":
-				return -1;			
+				return 0;		
 			default:
 				return -1;
 		}
@@ -30,12 +28,10 @@ public class SortImplementation{
 				return -1;
 			case "event":
 				return 0;
-			case "floating":
-				return 1;
 			case "done":
 				return 2;
 			default:
-				return -2;
+				return 1;
 		}
 	}
 	
