@@ -48,7 +48,7 @@ public class Task implements Serializable {
 	//initializer
 	public Task(){
 		taskName = "";
-		taskType = "Floating";
+		taskType = "floating";
 		taskStartDate = "-1";
 		taskEndDate = "-1";
 		taskPriority = "low";
@@ -66,7 +66,7 @@ public class Task implements Serializable {
 		if (this.taskName.equals("")) {
 			this.taskName = initialTask.getTaskName();
 		}
-		if (this.taskType.equals("Floating")) {
+		if (this.taskType.equals("floating")) {
 			this.taskType = initialTask.getTaskType();
 			this.taskStartDate = initialTask.getTaskStartDate();
 			this.taskEndDate = initialTask.getTaskEndDate();

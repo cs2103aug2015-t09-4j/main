@@ -15,9 +15,9 @@ public class Parser {
 	private static final String KEYWORD_PRIORITY = "*";
 	private static final String KEYWORD_FROM = "from";
 	private static final String KEYWORD_ON = "on";
-	private static final String TASKTYPE_FLOATING = "Floating";
-	private static final String TASKTYPE_DEADLINE = "Deadline";
-	private static final String TASKTYPE_EVENT = "Event";
+	private static final String TASKTYPE_FLOATING = "floating";
+	private static final String TASKTYPE_DEADLINE = "deadline";
+	private static final String TASKTYPE_EVENT = "event";
 
 	/***************************************Create Task from string ******************************************************************/
 	public Task parseTask(String[] commandParts) throws Exception {

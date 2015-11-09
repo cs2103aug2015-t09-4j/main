@@ -85,7 +85,7 @@ public class CommandExecutor extends FileStorage{
 		String commandType = commandParts[0];
 		Task newTask = parser.parseTask(commandParts);
 		newTask.setTaskIsNewest();
-		addTaskToList(newTask);
+		addTaskToList(newTask);	
 		LemonGUIController.setCommand(commandType);
 		System.out.println(newTask);
 		writeToFile();
