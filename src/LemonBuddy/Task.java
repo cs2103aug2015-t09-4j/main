@@ -48,10 +48,10 @@ public class Task implements Serializable {
 	//initializer
 	public Task(){
 		taskName = "";
-		taskType = "";
+		taskType = "Floating";
 		taskStartDate = "-1";
 		taskEndDate = "-1";
-		taskPriority = "";
+		taskPriority = "low";
 		taskDescription = "";
 		taskIsDone = false;
 		taskIsOverdue = false;
@@ -66,14 +66,14 @@ public class Task implements Serializable {
 		if (this.taskName.equals("")) {
 			this.taskName = initialTask.getTaskName();
 		}
-		if (this.taskType.equals("floating")) {
+		if (this.taskType.equals("Floating")) {
 			this.taskType = initialTask.getTaskType();
 			this.taskStartDate = initialTask.getTaskStartDate();
 			this.taskEndDate = initialTask.getTaskEndDate();
 			this.taskStartTime = initialTask.getTaskStartTime();
 			this.taskEndTime = initialTask.getTaskEndTime();
 		}
-		if (this.taskPriority.equals("")) {
+		if (this.taskPriority.equals("low")) {
 			this.taskPriority = initialTask.getTaskPriority();
 		}
 		if (this.taskDescription.equals("")) {
@@ -127,7 +127,10 @@ public class Task implements Serializable {
 		this.displayEndTime = new SimpleStringProperty(this.taskEndTime);
 	}
 
-	public void setTaskPriority(String taskPriority) {
+	public void setTaskPriority(String taskPriority) throws Exception {
+		if(!(taskPriority.equals("low")||taskPriority.equals("medium")||taskPriority.equals("high"))){
+			throw new Exception("Invalid priority type");
+		}
 		this.taskPriority = taskPriority;
 		this.displayPriority = new SimpleStringProperty(this.taskPriority);
 	}

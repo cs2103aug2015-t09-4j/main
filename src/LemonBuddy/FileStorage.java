@@ -5,7 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class FileStorage extends Parser {
+public class FileStorage {
     private static String EMPTY_CONTENT = "";
 	public static String filename = "default.txt";
 
@@ -55,7 +55,7 @@ public class FileStorage extends Parser {
 	
 
 	/************************************************** Read From Storage ******************************************************************/
-	public static ArrayList<ArrayList<Task>> readStringAsObject(String path) throws IOException, ClassNotFoundException {
+	public static ArrayList<ArrayList<Task>> readStringAsObject(String path) throws Exception {
 		//floating deadline event all done overdue
 		ArrayList<ArrayList<Task>> newList = new ArrayList<ArrayList<Task>>();
 		try {

@@ -12,11 +12,11 @@ import java.util.Date;
 import java.util.Stack;
 
 public class CommandExecutor extends FileStorage{
-	private static final String TASKTYPE_EVENT = "event";
-	private static final String TASKTYPE_DEADLINE = "deadline";
-	private static final String TASKTYPE_OVERDUE = "overdue";
-	private static final String TASKTYPE_DONE = "done";
-	private static final String TASKTYPE_FLOATING = "floating";
+	private static final String TASKTYPE_EVENT = "Event";
+	private static final String TASKTYPE_DEADLINE = "Deadline";
+	private static final String TASKTYPE_OVERDUE = "Overdue";
+	private static final String TASKTYPE_DONE = "Done";
+	private static final String TASKTYPE_FLOATING = "Floating";
 
 	private static String path;
 	private lemonGUI lemonGUI;
@@ -39,7 +39,7 @@ public class CommandExecutor extends FileStorage{
 	private static String[] date = {"", ""};
 	
 
-	public CommandExecutor() throws ClassNotFoundException, IOException {
+	public CommandExecutor() throws Exception {
 		if (parser == null) {
 			parser = new Parser();
 		}
@@ -58,7 +58,7 @@ public class CommandExecutor extends FileStorage{
 		searchResults = new ArrayList<Task>();
 	}
 	
-	public void updateLists() throws IOException, ClassNotFoundException{
+	public void updateLists() throws Exception{
 //		ArrayList<Task> newList = new ArrayList<Task>();
 //		newList.addAll(floatingTasks);
 //		newList.addAll(deadlineTasks);
@@ -98,7 +98,7 @@ public class CommandExecutor extends FileStorage{
 		String[] stringToParse = getStringForParsing(commandParts);
 		Task newTask = parser.parseTask(stringToParse);
 		Task oldTask = deleteTaskFromList(deleteIndex);
-		newTask.mergeTaskDetails(oldTask);
+		newTask = newTask.mergeTaskDetails(oldTask);
 		addTaskToList(newTask);
 		writeToFile();
 	}
@@ -125,7 +125,6 @@ public class CommandExecutor extends FileStorage{
 		case TASKTYPE_FLOATING:
 			floatingTasks.add(newTask);
 			listType = "floating";
-			System.out.println(listType);
 			break;
 		case TASKTYPE_DEADLINE:
 			this.fillUpTime(newTask);

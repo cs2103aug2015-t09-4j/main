@@ -6,11 +6,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CommandController {
-	private static final String TASKTYPE_EVENT = "event";
+	private static final String TASKTYPE_EVENT = "Event";
 
-	private static final String TASKTYPE_DEADLINE = "deadline";
+	private static final String TASKTYPE_DEADLINE = "Deadline";
 
-	private static final String TASKTYPE_FLOATING = "floating";
+	private static final String TASKTYPE_FLOATING = "Floating";
 
 	private static Logger logger = Logger.getLogger("CommandController");
 
@@ -51,8 +51,8 @@ public class CommandController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		String command = "add spectacular spiderman on 2340 *medium desc super duper";
-//		commandcontroller.processCommand(command);
+		String command = "add spectacular spiderman from 0000, 11/11/15 to 2350, 11/12/15 *higher desc super spec";
+		commandcontroller.processCommand(command);
 	}
 	/////////////////////////////////////////////////////////////////////
 

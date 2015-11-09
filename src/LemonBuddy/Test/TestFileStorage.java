@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import org.junit.Test;
 
 import LemonBuddy.FileStorage;
+import LemonBuddy.StorageFunction;
 import LemonBuddy.Task;
 
 public class TestFileStorage extends FileStorage {
@@ -27,7 +28,25 @@ public class TestFileStorage extends FileStorage {
 	private static final String MSG_WHEN_IOEXCEPTION = "cannjot store information"; 
 	
 	/***************************************************** Private Function ******************************************************************/	
+	
+	public void testCreateTaskFromString(Task expectedTask, String storageString){
+		try {
+			Task task = StorageFunction.createTaskFromString(storageString);
+			assertEquals(((Task) task).getTaskName(), expectedTask.getTaskName());
+			assertEquals(((Task) task).getTaskType(), expectedTask.getTaskType());
+			assertEquals(((Task) task).getTaskIsNewest(), expectedTask.getTaskIsNewest());
+			assertEquals(((Task) task).getTaskStartDate(), expectedTask.getTaskStartDate());
+			assertEquals(((Task) task).getTaskEndDate(), expectedTask.getTaskEndDate());
+			assertEquals(((Task) task).getTaskStartTime(), expectedTask.getTaskStartTime());
+			assertEquals(((Task) task).getTaskEndTime(), expectedTask.getTaskEndTime());
+			assertEquals(((Task) task).getTaskPriority(), expectedTask.getTaskPriority());
+			assertEquals(((Task) task).getTaskDescription(), expectedTask.getTaskDescription());
+		} catch (Exception e) {
+			fail("Unknown exception");
+		}
+	}
 
+	
 	private boolean compareTwoFiles(File f1, File f2) {
 		
 		boolean tag = true;
@@ -94,7 +113,7 @@ public class TestFileStorage extends FileStorage {
 		e.printStackTrace();
 	}
 	
-	private ArrayList<Task> initialTaskListForTest() {
+	private ArrayList<Task> initialTaskListForTest() throws Exception {
 		
 		ArrayList<Task> testList = new ArrayList<Task>();
 		
@@ -155,7 +174,7 @@ public class TestFileStorage extends FileStorage {
 		return testList;
 	}
 	
-	private void initialTaskListForTestRead() {
+	private void initialTaskListForTestRead() throws Exception {
 		
 		ArrayList<Task> testFloatingList = new ArrayList<Task>();
 		ArrayList<Task> testDeadlineList = new ArrayList<Task>();
@@ -247,10 +266,10 @@ public class TestFileStorage extends FileStorage {
 		stringUnderTest =  content;
 	}
 	
-	/*********************************************************** Test *************************************************************************/	
+	/*********************************************************** Test*************************************************************************/	
 	
 	@Test
-	public void testWriteObjectAsString() throws IOException {
+	public void testWriteObjectAsString() throws Exception {
 		try {
 			filename = "testWriteObjectExpected.txt";			
 			arrayListUnderTest = initialTaskListForTest();

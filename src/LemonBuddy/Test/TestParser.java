@@ -1,6 +1,7 @@
 package LemonBuddy.Test;
 
 import LemonBuddy.Parser;
+import LemonBuddy.StorageFunction;
 import LemonBuddy.Task;
 import LemonBuddy.CommandExecutor;
 
@@ -79,7 +80,7 @@ public class TestParser {
 
 	public void testCompareTwoTasks(Task expectedTask, String storageString) {
 		try {
-			Task task = parser.createTaskFromString(storageString);
+			Task task = StorageFunction.createTaskFromString(storageString);
 			assertEquals(((Task) task).getTaskName(), expectedTask.getTaskName());
 			assertEquals(((Task) task).getTaskType(), expectedTask.getTaskType());
 			assertEquals(((Task) task).getTaskIsNewest(), expectedTask.getTaskIsNewest());
@@ -122,12 +123,19 @@ public class TestParser {
 		}
 		assertEquals(exceptionMessage, expectedMessage);
 	}
-////--------------------------------------------------------------------------------------------------------///
-
-	@Test
-	public void executeTestCreateTaskFromString() {
-		testCompareTwoTasks(testTask, storageString);
+	
+	public void testInvalidPriority(String[] commandParts, String expectedMessage) {
+		Task task = new Task();
+		String exceptionMessage = "";
+		try {
+			task = parser.parseTask(commandParts);
+		} catch (Exception e) {
+			exceptionMessage = e.getMessage();
+		}
+		System.out.println(exceptionMessage);
+		assertEquals(exceptionMessage, expectedMessage);
 	}
+////--------------------------------------------------------------------------------------------------------///
 
 	@Test
 	public void executeTestParseEvent() {
@@ -138,15 +146,15 @@ public class TestParser {
 				"super");
 
 		commandParts = splitString("add spectacular spiderman on 201225, 1200");
-		testCompareTwoTasks(commandParts, "spectacular spiderman", "201225", "201225", "1200", "1300", "", "");
+		testCompareTwoTasks(commandParts, "spectacular spiderman", "201225", "201225", "1200", "1300", "low", "");
 
 		commandParts = splitString("add spectacular spiderman on 1200, tomorrow");
 		testCompareTwoTasks(commandParts, "spectacular spiderman", tomorrowDateAtCurrentTime, tomorrowDateAfterOneHour,
-				"1200", "1300", "", "");
+				"1200", "1300", "low", "");
 
 		commandParts = splitString("add spectacular spiderman on tomorrow, 1200");
 		testCompareTwoTasks(commandParts, "spectacular spiderman", tomorrowDateAtCurrentTime, tomorrowDateAtCurrentTime,
-				"1200", "1300", "", "");
+				"1200", "1300", "low", "");
 
 		commandParts = splitString(
 				"add spectacular spiderman from 1000, 12/12/15 to 1200, 13/12/15 *high desc super spec");
@@ -154,13 +162,13 @@ public class TestParser {
 				"super spec");
 
 		commandParts = splitString("add spectacular spiderman from 201225, 1200 to 221225, 1200");
-		testCompareTwoTasks(commandParts, "spectacular spiderman", "201225", "221225", "1200", "1200", "", "");
+		testCompareTwoTasks(commandParts, "spectacular spiderman", "201225", "221225", "1200", "1200", "low", "");
 
 		commandParts = splitString("add spectacular spiderman from 201225, 1200 to 221225, 1200");
-		testCompareTwoTasks(commandParts, "spectacular spiderman", "201225", "221225", "1200", "1200", "", "");
+		testCompareTwoTasks(commandParts, "spectacular spiderman", "201225", "221225", "1200", "1200", "low", "");
 
 		commandParts = splitString("add spectacular spiderman from 201225, 1200 to 221225, 1200");
-		testCompareTwoTasks(commandParts, "spectacular spiderman", "201225", "221225", "1200", "1200", "", "");
+		testCompareTwoTasks(commandParts, "spectacular spiderman", "201225", "221225", "1200", "1200", "low", "");
 
 	}
 
@@ -174,33 +182,33 @@ public class TestParser {
 
 		commandParts = splitString("add spectacular spiderman on 201225");
 		testCompareTwoTasks(commandParts, "spectacular spiderman", "201225", "201225", currentTime,
-				currentTimeAfterOneHour, "", "");
+				currentTimeAfterOneHour, "low", "");
 
 		commandParts = splitString("add spectacular spiderman on tomorrow");
 		testCompareTwoTasks(commandParts, "spectacular spiderman", tomorrowDateAtCurrentTime, tomorrowDateAtCurrentTime,
-				currentTime, currentTimeAfterOneHour, "", "");
+				currentTime, currentTimeAfterOneHour, "low", "");
 
 		commandParts = splitString("add spectacular spiderman from 1000, 12/12/15 to 1200 *high desc super spec");
 		testCompareTwoTasks(commandParts, "spectacular spiderman", "121215", "121215", "1000", "1200", "high",
 				"super spec");
 
 		commandParts = splitString("add spectacular spiderman from 201225, 1200 to 221225");
-		testCompareTwoTasks(commandParts, "spectacular spiderman", "201225", "221225", "1200", "1200", "", "");
+		testCompareTwoTasks(commandParts, "spectacular spiderman", "201225", "221225", "1200", "1200", "low", "");
 
 		commandParts = splitString("add spectacular spiderman from 1200 to 221225, 1500");
-		testCompareTwoTasks(commandParts, "spectacular spiderman", "221225", "221225", "1200", "1500", "", "");
+		testCompareTwoTasks(commandParts, "spectacular spiderman", "221225", "221225", "1200", "1500", "low", "");
 
 		commandParts = splitString("add spectacular spiderman from 1200 to 221225");
-		testCompareTwoTasks(commandParts, "spectacular spiderman", "221225", "221225", "1200", "1200", "", "");
+		testCompareTwoTasks(commandParts, "spectacular spiderman", "221225", "221225", "1200", "1200", "low", "");
 
 		commandParts = splitString("add spectacular spiderman from 201225 to 221225");
-		testCompareTwoTasks(commandParts, "spectacular spiderman", "201225", "221225", "0000", "2359", "", "");
+		testCompareTwoTasks(commandParts, "spectacular spiderman", "201225", "221225", "0000", "2359", "low", "");
 
 		commandParts = splitString("add spectacular spiderman from 1000 to 1200");
-		testCompareTwoTasks(commandParts, "spectacular spiderman", currentDate, currentDate, "1000", "1200", "", "");
+		testCompareTwoTasks(commandParts, "spectacular spiderman", currentDate, currentDate, "1000", "1200", "low", "");
 
 		commandParts = splitString("add spectacular spiderman from 251215 to 261215");
-		testCompareTwoTasks(commandParts, "spectacular spiderman", "251215", "261215", "0000", "2359", "", "");
+		testCompareTwoTasks(commandParts, "spectacular spiderman", "251215", "261215", "0000", "2359", "low", "");
 	}
 
 	@Test
@@ -208,7 +216,7 @@ public class TestParser {
 		String[] commandParts = new String[50];
 
 		commandParts = splitString("add bumbling bumblebee by 0010, 25/12/15");
-		testCompareTwoTasks(commandParts, "bumbling bumblebee", "-1", "251215", "-1", "0010", "", "");
+		testCompareTwoTasks(commandParts, "bumbling bumblebee", "-1", "251215", "-1", "0010", "low", "");
 
 		commandParts = splitString("add bumbling bumblebee by 1200, 261215 *medium desc fly high");
 		testCompareTwoTasks(commandParts, "bumbling bumblebee", "-1", "261215", "-1", "1200", "medium", "fly high");
@@ -224,7 +232,7 @@ public class TestParser {
 		String[] commandParts = new String[50];
 
 		commandParts = splitString("add bumbling bumblebee by 0010");
-		testCompareTwoTasks(commandParts, "bumbling bumblebee", "-1", parser.getCurrentDate(), "-1", "0010", "", "");
+		testCompareTwoTasks(commandParts, "bumbling bumblebee", "-1", parser.getCurrentDate(), "-1", "0010", "low", "");
 
 		commandParts = splitString("add bumbling bumblebee by 261215 *medium desc fly high");
 		testCompareTwoTasks(commandParts, "bumbling bumblebee", "-1", "261215", "-1", parser.getCurrentTime(), "medium",
@@ -260,9 +268,15 @@ public class TestParser {
 		commandParts = "add spectacular spiderman from 0000, 11/1sh/15 to 2400, 1a/12/15 *high desc super spec"
 				.split(" ");
 		testInvalidTime(commandParts, "Invalid date/time format");
-//		commandParts = "add spectacular spiderman from -1, 11/12/15 to 2359, 11/12/15 *high desc super spec"
-//				.split(" ");
-//		testInvalidTime(commandParts, "Time out of range");
+		commandParts = "add spectacular spiderman from -1, 11/12/15 to 2359, 11/12/15 *high desc super spec"
+				.split(" ");
+		testInvalidTime(commandParts, "Invalid date/time format");
+	}
+	
+	public void executeTestInvalidPriority() {
+		String[] commandParts = "add spectacular spiderman from 0000, 11/11/15 to 2350, 11/12/15 *higher desc super spec"
+				.split(" ");
+		testInvalidPriority(commandParts, "Invalid priority type");
 	}
 	
 	private String[] splitString(String command) {

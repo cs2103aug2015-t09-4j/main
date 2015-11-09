@@ -11,15 +11,60 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class StorageFunction extends FileStorage {
+public class StorageFunction {
 
 	private static final String MSG_WHEN_INVALID_FILENAME = "cannot find targeted file"; 
 	private static final String MSG_WHEN_IOEXCEPTION = "cannot store information"; 
 	
+
+	/************************************************** Modify String 
+	 * @throws Exception ******************************************************************/	
+	public static Task createTaskFromString(String s) throws Exception {
+		String[] array = s.split(";");
+		Task t = new Task();
+		for (int i = 0; i < array.length; i++) {
+			String[] temp = array[i].split(":", 2);
+			switch (temp[0]) {
+			case "taskname":
+				t.setTaskName(temp[1]);
+				break;
+			case "tasktype":
+				t.setTaskType(temp[1]);
+				break;
+			case "taskIsNewest":
+				if (temp[1].equals("true"))
+					t.setTaskIsNewest();
+				break;
+			case "taskStartDate":
+				t.setTaskStartDate(temp[1]);
+				break;
+			case "taskEndDate":
+				t.setTaskEndDate(temp[1]);
+				break;
+			case "taskPriority":
+				t.setTaskPriority(temp[1]);
+				break;
+			case "taskDescription":
+				t.setTaskDescription(temp[1]);
+				break;
+			case "taskStartTime":
+				t.setTaskStartTime(temp[1]);
+				break;
+			case "taskEndTime":
+				t.setTaskEndTime(temp[1]);
+				break;
+			default:
+				break;
+			}
+		}
+		return t;
+	}
+	
+
 /************************************************** Modify TaskList ******************************************************************/		
+
 	
-	
-	protected static ArrayList<Task> createArrayList(File f) throws IOException {
+	protected static ArrayList<Task> createArrayList(File f) throws Exception {
 		ArrayList<Task> result= new ArrayList<Task>();
 		try {
 			FileInputStream fis = new FileInputStream(f);
@@ -93,19 +138,19 @@ public class StorageFunction extends FileStorage {
 			type = temptask.getTaskType();
 			
 			switch(type){
-				case "floating":
+				case "Floating":
 					floatingList.add(temptask);
 					break;
-				case "deadline":
+				case "Deadline":
 					deadlineList.add(temptask);
 					break;
-				case "event":
+				case "Event":
 					eventList.add(temptask);
 					break;
-				case "done":
+				case "Done":
 					doneList.add(temptask);
 					break;
-				case "overdue":
+				case "Overdue":
 					overdueList.add(temptask);
 					break;
 				default:

@@ -28,7 +28,7 @@ public class TestSort extends Sort {
 	ArrayList<Task> ExpectedTestSortByEndDate = new ArrayList<Task>();
 	ArrayList<Task> ExpectedTestSortByStatus = new ArrayList<Task>();
 	
-	private void initialTaskListForTest() {
+	private void initialTaskListForTest() throws Exception {
 		
 		Task t1 = new Task();
 		t1.setTaskName("t1");
@@ -199,42 +199,42 @@ public class TestSort extends Sort {
 	}
 
 	@Test
-	public void testSortByTime() {
+	public void testSortByTime() throws Exception {
 		initialTaskListForTest();
 		sortByTime(TestSortByTime);
 		assertEquals(ExpectedTestSortByTime, TestSortByTime);
 	}
 
 	@Test
-	public void testNormal_sort() {
+	public void testNormal_sort() throws Exception {
 		initialTaskListForTest();
 		normal_sort(TestNormal_sort);
 		assertEquals(ExpectedTestNormal_sort, TestNormal_sort);
 	}
 
 	@Test
-	public void testSortByName() {
+	public void testSortByName() throws Exception {
 		initialTaskListForTest();
 		sortByName(TestSortByName);
 		assertEquals(ExpectedTestSortByName, TestSortByName);
 	}
 
 	@Test
-	public void testSortByType() {
+	public void testSortByType() throws Exception {
 		initialTaskListForTest();
 		sortByType(TestSortByType);
 		assertEquals(ExpectedTestSortByType, TestSortByType);
 	}
 
 	@Test
-	public void testSortByStartDate() {
+	public void testSortByStartDate() throws Exception {
 		initialTaskListForTest();
 		sortByStartDate(TestSortByStartDate);
 		assertEquals(ExpectedTestSortByStartDate, TestSortByStartDate);
 	}
 	
 	@Test
-	public void testSortByEndDate() {
+	public void testSortByEndDate() throws Exception {
 		initialTaskListForTest();
 		sortByStartDate(TestSortByEndDate);
 		assertEquals(ExpectedTestSortByEndDate, TestSortByEndDate);
