@@ -6,13 +6,6 @@ import java.util.Comparator;
 
 public class SortImplementation{
 	
-	private static Parser parser;
-	public SortImplementation() {
-		if (parser == null) {
-			parser = new Parser();
-		}
-	}
-	
 /************************************************** Convert Function for Sorting ******************************************************************/	
 	private static int convertPriority(Task t){
 		String tempPriority = t.getTaskPriority();
@@ -22,7 +15,7 @@ public class SortImplementation{
 			case "medium":
 				return 0;
 			case "low":
-				return -1;
+				return -1;			
 			default:
 				return -1;
 		}

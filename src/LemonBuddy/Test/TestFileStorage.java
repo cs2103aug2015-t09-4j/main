@@ -47,6 +47,7 @@ public class TestFileStorage extends FileStorage {
 	}
 
 	
+	@SuppressWarnings("resource")
 	private boolean compareTwoFiles(File f1, File f2) {
 		
 		boolean tag = true;

@@ -78,22 +78,22 @@ public class TestParser {
 		storageString = null;
 	}
 
-	public void testCompareTwoTasks(Task expectedTask, String storageString) {
-		try {
-			Task task = StorageFunction.createTaskFromString(storageString);
-			assertEquals(((Task) task).getTaskName(), expectedTask.getTaskName());
-			assertEquals(((Task) task).getTaskType(), expectedTask.getTaskType());
-			assertEquals(((Task) task).getTaskIsNewest(), expectedTask.getTaskIsNewest());
-			assertEquals(((Task) task).getTaskStartDate(), expectedTask.getTaskStartDate());
-			assertEquals(((Task) task).getTaskEndDate(), expectedTask.getTaskEndDate());
-			assertEquals(((Task) task).getTaskStartTime(), expectedTask.getTaskStartTime());
-			assertEquals(((Task) task).getTaskEndTime(), expectedTask.getTaskEndTime());
-			assertEquals(((Task) task).getTaskPriority(), expectedTask.getTaskPriority());
-			assertEquals(((Task) task).getTaskDescription(), expectedTask.getTaskDescription());
-		} catch (Exception e) {
-			fail("Unknown exception");
-		}
-	}
+//	public void testCompareTwoTasks(Task expectedTask, String storageString) {
+//		try {
+//			Task task = StorageFunction.createTaskFromString(storageString);
+//			assertEquals(((Task) task).getTaskName(), expectedTask.getTaskName());
+//			assertEquals(((Task) task).getTaskType(), expectedTask.getTaskType());
+//			assertEquals(((Task) task).getTaskIsNewest(), expectedTask.getTaskIsNewest());
+//			assertEquals(((Task) task).getTaskStartDate(), expectedTask.getTaskStartDate());
+//			assertEquals(((Task) task).getTaskEndDate(), expectedTask.getTaskEndDate());
+//			assertEquals(((Task) task).getTaskStartTime(), expectedTask.getTaskStartTime());
+//			assertEquals(((Task) task).getTaskEndTime(), expectedTask.getTaskEndTime());
+//			assertEquals(((Task) task).getTaskPriority(), expectedTask.getTaskPriority());
+//			assertEquals(((Task) task).getTaskDescription(), expectedTask.getTaskDescription());
+//		} catch (Exception e) {
+//			fail("Unknown exception");
+//		}
+//	}
 
 	public void testCompareTwoTasks(String[] commandParts, String expectedName, String expectedStartDate,
 			String expectedEndDate, String expectedStartTime, String expectedEndTime, String expectedPriority,
@@ -272,7 +272,7 @@ public class TestParser {
 				.split(" ");
 		testInvalidTime(commandParts, "Invalid date/time format");
 	}
-	
+	@Test
 	public void executeTestInvalidPriority() {
 		String[] commandParts = "add spectacular spiderman from 0000, 11/11/15 to 2350, 11/12/15 *higher desc super spec"
 				.split(" ");

@@ -1,5 +1,0 @@
-taskname:one;tasktype:Floating;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:-1;taskPriority:low;taskDescription:;taskStartTime:-1;taskEndTime:-1;
-taskname:two;tasktype:Deadline;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:091115;taskPriority:low;taskDescription:;taskStartTime:-1;taskEndTime:2020;
-taskname:one;tasktype:Deadline;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:-1;taskEndDate:091115;taskPriority:low;taskDescription:;taskStartTime:-1;taskEndTime:2020;
-taskname:;tasktype:Event;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:091115;taskEndDate:091115;taskPriority:low;taskDescription:;taskStartTime:1010;taskEndTime:2030;
-taskname:;tasktype:Event;taskIsDone:false;taskIsOverdue:false;taskIsNewest:false;taskStartDate:091115;taskEndDate:091115;taskPriority:low;taskDescription:more;taskStartTime:1010;taskEndTime:1030;
