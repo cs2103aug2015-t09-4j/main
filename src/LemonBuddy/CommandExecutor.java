@@ -25,7 +25,7 @@ public class CommandExecutor extends FileStorage{
 	Stack<String> lastStates;
 	Stack<String> undoneStates;
 
-	private static String listType;
+	protected static String listType;
 
 	private static ArrayList<Task> floatingTasks;
 	private static ArrayList<Task> deadlineTasks;
@@ -124,7 +124,7 @@ public class CommandExecutor extends FileStorage{
 		writeToFile();
 	}
 
-	private void addTaskToList(Task newTask) {
+	public void addTaskToList(Task newTask) {
 		switch (newTask.getTaskType()) {
 		case TASKTYPE_floating:
 			floatingTasks.add(newTask);
