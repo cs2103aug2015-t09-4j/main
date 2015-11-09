@@ -6,11 +6,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CommandController {
-	private static final String TASKTYPE_EVENT = "event";
+	private static final String TASKTYPE_EVENT = "Event";
 
-	private static final String TASKTYPE_DEADLINE = "deadline";
+	private static final String TASKTYPE_DEADLINE = "Deadline";
 
-	private static final String TASKTYPE_FLOATING = "floating";
+	private static final String TASKTYPE_FLOATING = "Floating";
 
 	private static Logger logger = Logger.getLogger("CommandController");
 

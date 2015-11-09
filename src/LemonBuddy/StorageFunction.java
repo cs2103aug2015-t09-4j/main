@@ -138,19 +138,19 @@ public class StorageFunction {
 			type = temptask.getTaskType();
 			
 			switch(type){
-				case "floating":
+				case "Floating":
 					floatingList.add(temptask);
 					break;
-				case "deadline":
+				case "Deadline":
 					deadlineList.add(temptask);
 					break;
-				case "event":
+				case "Event":
 					eventList.add(temptask);
 					break;
-				case "done":
+				case "Done":
 					doneList.add(temptask);
 					break;
-				case "overdue":
+				case "Overdue":
 					overdueList.add(temptask);
 					break;
 				default:

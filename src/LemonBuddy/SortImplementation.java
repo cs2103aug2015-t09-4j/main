@@ -31,15 +31,15 @@ public class SortImplementation{
 	private static Integer convertType(Task t){
 		String tempType = t.getTaskType();
 		switch(tempType) {
-			case "overdue":
+			case "Overdue":
 				return -2;
-			case "deadline":
+			case "Deadline":
 				return -1;
-			case "event":
+			case "Event":
 				return 0;
-			case "floating":
+			case "Floating":
 				return 1;
-			case "done":
+			case "Done":
 				return 2;
 			default:
 				return -2;
@@ -81,8 +81,8 @@ public class SortImplementation{
 		  Comparator<Task> comparator = new Comparator<Task>(){
 			public int compare(Task t1, Task t2) {
 				
-				String deadline = "deadline";
-				String event = "event";
+				String deadline = "Deadline";
+				String event = "Event";
 				
 				String type1, type2;
 				int time1, time2;

@@ -15,16 +15,15 @@ public class Parser {
 	private static final String KEYWORD_PRIORITY = "*";
 	private static final String KEYWORD_FROM = "from";
 	private static final String KEYWORD_ON = "on";
-	private static final String TASKTYPE_FLOATING = "floating";
-	private static final String TASKTYPE_DEADLINE = "deadline";
-	private static final String TASKTYPE_EVENT = "event";
+	private static final String TASKTYPE_FLOATING = "Floating";
+	private static final String TASKTYPE_DEADLINE = "Deadline";
+	private static final String TASKTYPE_EVENT = "Event";
 
 	/***************************************Create Task from string ******************************************************************/
 	public Task parseTask(String[] commandParts) throws Exception {
 		Task newTask = new Task();
 		int wordIndex = 1;
 		String taskName = "";
-		newTask.setTaskType(TASKTYPE_FLOATING);
 		parseTaskName(commandParts, newTask, wordIndex, taskName);
 		parseDescription(commandParts, newTask, wordIndex);
 		parsePriority(commandParts, newTask, wordIndex);
