@@ -22,8 +22,7 @@ public class lemonGUI extends Application {
 	private Stage primaryStage;
     private BorderPane rootLayout;
     private static ArrayList<Task> listForDisplay;
-    private String[] command = {"", ""};
-	private static ArrayList<Task> listForTimeline;
+    private static ArrayList<Task> listForTimeline;
 	private static Logger logger = Logger.getLogger("GUI");
 
 
@@ -32,15 +31,13 @@ public class lemonGUI extends Application {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("LemonBuddy");
         this.primaryStage.getIcons().add(new Image("file:resources/images/icon.png"));
-
         initRootLayout();
-
-        showLemonGUI();
+        showLemonGui();
     }
 
-    /**
-     * Initializes the root layout.
-     */
+    
+     // Initializes the root layout.
+     
     public void initRootLayout() {
         try {
         	logger.log(Level.INFO, "Initializing RootLayout");
@@ -60,18 +57,14 @@ public class lemonGUI extends Application {
         }
     }
 
-    /**
-     * Shows the GUI inside the root layout.
-     */
-    public void showLemonGUI() {
+    //Shows the GUI inside the root layout.
+    public void showLemonGui() {
         try {
-            // Load person overview.
         	logger.log(Level.INFO, "Initializing LemonGui");
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(lemonGUI.class.getResource("view/LemonGUI.fxml"));
             AnchorPane lemonGUI = (AnchorPane) loader.load();
 
-            // Set person overview into the center of root layout.
             rootLayout.setTop(lemonGUI);
             
             LemonGUIController controller = loader.getController();
@@ -89,16 +82,18 @@ public class lemonGUI extends Application {
 
     public static void main(String[] args) throws Exception {
     	commandcontroller = CommandController.getInstance();
-    	updateDisplayList();
         launch(args);
     }
     
-    public void setListForDisplay(ArrayList<Task> list) {
-    	listForDisplay = list;
+    public void updateDisplayList() throws Exception {
+    	ArrayList<ArrayList<Task>> temp = commandcontroller.passListsToGUI();
+    	listForTimeline = temp.get(0);
+    	listForDisplay = temp.get(1);
     }
     
-    public void setListForTimeline(ArrayList<Task> list) {
-    	listForTimeline = list;
+    // Functions for setting up the data for the Main Display Panel
+    public void setListForDisplay(ArrayList<Task> list) {
+    	listForDisplay = list;
     }
     
     public ArrayList<Task> getListForDisplay() {
@@ -115,47 +110,10 @@ public class lemonGUI extends Application {
     	return listForDisplay;
     }
     
-    public ArrayList<Task> getListForTimeline() {
-    	for (int counter = 0; counter < listForTimeline.size(); counter++) {
-    		if (listForTimeline.get(counter).getTaskIsNewest()) {
-    			listForTimeline.get(counter).setTaskName("#" + (listForTimeline.get(counter).getTaskName()));
-    			timelineIndex = counter;
-    		} else {
-    			listForTimeline.get(counter).setTaskName("^" + (listForTimeline.get(counter).getTaskName()));
-    		}
-    	}
-    	return listForTimeline;
-    }
-    
-    public void setCommand(String[] command) {
-    	this.command = command;
-    }
-    
-    public static void updateDisplayList() throws Exception {
-    	ArrayList<ArrayList<Task>> temp = commandcontroller.passListsToGUI();
-    	listForTimeline = temp.get(0);
-    	listForDisplay = temp.get(1);
-    	System.out.println("help" + temp.get(1));
-    }
-    
-    public void getCommand(String input) {
-    	commandcontroller.processCommand(input);
-    }
-    
-    public int getMainDisplayIndex() {
+    public int getMainDisplayIndex() {		//for the scrollTo function of the tables
     	int temp = mainDisplayIndex;
     	mainDisplayIndex = 0;
     	return temp;
-    }
-    
-    public int getTimelineIndex() {
-    	return timelineIndex;
-    }
-    
-    public String getDate() {
-    	String temp = commandcontroller.getDate();
-    	String finalDate = temp.substring(0,2) + "/" + temp.substring(2,4) + "/" + temp.substring(4,6);
-    	return finalDate;
     }
     
     public String getMainDisplayHeader() {
@@ -177,6 +135,40 @@ public class lemonGUI extends Application {
     	} else {
     		return "Search Results";
     	}
+    }
+    
+ // Functions for setting up the data for the Timetable
+    public void setListForTimeline(ArrayList<Task> list) {
+    	listForTimeline = list;
+    }
+    
+    public String getDate() {
+    	String temp = commandcontroller.getDate();
+    	String finalDate = temp.substring(0,2) + "/" + temp.substring(2,4) + "/" + temp.substring(4,6);
+    	return finalDate;
+    }
+    
+    public ArrayList<Task> getListForTimeline() {
+    	for (int counter = 0; counter < listForTimeline.size(); counter++) {
+    		if (listForTimeline.get(counter).getTaskIsNewest()) {
+    			listForTimeline.get(counter).setTaskName("#" + (listForTimeline.get(counter).getTaskName()));
+    			timelineIndex = counter;
+    		} else {
+    			listForTimeline.get(counter).setTaskName("^" + (listForTimeline.get(counter).getTaskName()));
+    		}
+    	}
+    	return listForTimeline;
+    }
+    
+    public int getTimelineIndex() {						//for the scrollTo function of the tables
+    	int temp = timelineIndex;
+    	timelineIndex = 0;
+    	return temp;
+    }
+    
+ // Functions for setting up the data for the Notification Bar
+    public void getCommand(String input) {
+    	commandcontroller.processCommand(input);
     }
     
     public String getNotificationBarDisplay() {

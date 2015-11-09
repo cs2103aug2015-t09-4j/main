@@ -35,7 +35,7 @@ public class CommandController {
 	private static String commandType;
 	private static String errorMessage;
 
-	private CommandController() throws Exception {
+	public CommandController() throws Exception {
 		commandexecutor = CommandExecutor.getInstance();
 		commandexecutor.saveLastState();
 		commandexecutor.updateLists();
@@ -49,7 +49,7 @@ public class CommandController {
 
 	}
 
-	public static void processCommand(String command) {
+	public void processCommand(String command) {
 		logger.log(Level.INFO, "going to start processing");
 		try {
 			String[] commandParts = commandcontroller.splitCommand(command);
@@ -64,7 +64,7 @@ public class CommandController {
 				break;
 
 			case COMMAND_DELETE:
-				if (!(Pattern.matches("[a-zA-Z]+", commandParts[1]) == true)) {
+				if (commandParts[1].matches("[0-9]+") == false) {
 					throw new Exception("Index is not in numerical form");
 				}
 				commandexecutor.executeDelete(commandParts);
@@ -72,7 +72,7 @@ public class CommandController {
 				break;
 
 			case COMMAND_EDIT:
-				if (!(Pattern.matches("[a-zA-Z]+", commandParts[1]) == true)) {
+				if (commandParts[1].matches("[0-9]+") == false) {
 					throw new Exception("Index is not in numerical form");
 				}
 				commandexecutor.executeEdit(commandParts);

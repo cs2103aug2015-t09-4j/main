@@ -23,15 +23,12 @@ public class Parser {
 	private static Parser parser;
 	
 	private static void parser(){
-		
 	}
-	
 	public static Parser getInstance(){
 		if(parser == null)
 			parser = new Parser();
 		return parser;
 	}
-
 	/***************************************Create Task from string ******************************************************************/
 	public Task parseTask(String[] commandParts) throws Exception {
 		Task newTask = new Task();
