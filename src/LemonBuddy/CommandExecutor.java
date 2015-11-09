@@ -211,8 +211,7 @@ public class CommandExecutor extends FileStorage {
 		if (doneTasks.size() < deleteId) {
 			throw new Exception("Invalid Index");
 		}
-		Task taskToDelete = new Task();
-		taskToDelete = doneTasks.remove(deleteId - 1);
+		Task taskToDelete = doneTasks.remove(deleteId - 1);
 		return taskToDelete;
 	}
 
@@ -345,7 +344,7 @@ public class CommandExecutor extends FileStorage {
 		;
 	}
 
-	private void fillUpTime(Task newTask) {
+	public void fillUpTime(Task newTask) {
 		if (newTask.getTaskType().equals("floating")) {
 			return;
 		} else if (newTask.getTaskType().equals("event")) {
@@ -360,7 +359,7 @@ public class CommandExecutor extends FileStorage {
 		}
 	}
 
-	private int roundDownTime(String time) {
+	public int roundDownTime(String time) {
 		int ans = Integer.parseInt(time);
 		int temp = Integer.parseInt(time);
 		ans = ans / 100;
@@ -374,7 +373,7 @@ public class CommandExecutor extends FileStorage {
 		}
 	}
 
-	private int roundUpTime(String time) {
+	public int roundUpTime(String time) {
 		int ans = Integer.parseInt(time);
 		int temp = Integer.parseInt(time);
 		ans = ans / 100;

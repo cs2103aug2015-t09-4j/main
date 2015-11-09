@@ -41,6 +41,8 @@ public class TestExecutor {
 	ArrayList<Task> floatingTasks = new ArrayList<Task>();
 	ArrayList<Task> deadlineTasks = new ArrayList<Task>();
 	ArrayList<Task> eventTasks = new ArrayList<Task>();
+	ArrayList<Task> overdueTasks = new ArrayList<Task>();
+	ArrayList<Task> doneTasks = new ArrayList<Task>();
 	ArrayList<Task> allTasks = new ArrayList<Task>();
 
 	@Before
@@ -139,6 +141,11 @@ public class TestExecutor {
 		allTasks.add(floatingTask1);
 		allTasks.add(floatingTask2);
 		allTasks.add(floatingTask3);
+		
+		overdueTasks.add(deadlineTask1);
+		overdueTasks.add(deadlineTask2);
+		doneTasks.add(deadlineTask1);
+		doneTasks.add(deadlineTask2);
 	}
 
 	@Test
@@ -237,15 +244,36 @@ public class TestExecutor {
 		assertEquals("deleting first deadline task", deadlineTask, tester.removeTaskFromDeadlineList(deleteID));
 	}
 	
+	@Test
 	public void testRemoveTaskFromEventList() throws Exception {
 		int deleteID = 1;
 		Task eventTask = new Task();
 		eventTask.setTaskType("event");
 		tester.addTaskToList(eventTask);
 		
-		assertEquals("deleting first deadline task", eventTask, tester.removeTaskFromDeadlineList(deleteID));
+		assertEquals("deleting first deadline task", eventTask, tester.removeTaskFromEventList(deleteID));
 	}
-
+	
+	@Test
+	public void testRemoveTaskFromOverdueList() throws Exception {
+		int deleteID = 1;
+		Task overdueTask = new Task();
+		overdueTask.setTaskType("overdue");
+		overdueTask.setTaskIsOverdue();
+		tester.addTaskToList(overdueTask);
+		
+		assertEquals("deleting first deadline task", overdueTask, tester.removeTaskFromOverdueList(deleteID));
+	}
+	
+	@Test
+	public void testRemoveTaskFromDoneList() throws Exception {
+		int deleteID = 1;
+		Task doneTask = new Task();
+		doneTask.setTaskType("done");
+		tester.addTaskToList(doneTask);
+		
+		assertEquals("deleting first deadline task", doneTask, tester.removeTaskFromDoneList(deleteID));
+	}
 
 	@Test
 	public void testSort() {
