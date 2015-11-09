@@ -12,11 +12,11 @@ import java.util.Date;
 import java.util.Stack;
 
 public class CommandExecutor extends FileStorage{
-	private static final String TASKTYPE_EVENT = "Event";
-	private static final String TASKTYPE_DEADLINE = "Deadline";
-	private static final String TASKTYPE_OVERDUE = "Overdue";
-	private static final String TASKTYPE_DONE = "Done";
-	private static final String TASKTYPE_FLOATING = "Floating";
+	private static final String TASKTYPE_event = "event";
+	private static final String TASKTYPE_deadline = "deadline";
+	private static final String TASKTYPE_overdue = "overdue";
+	private static final String TASKTYPE_done = "done";
+	private static final String TASKTYPE_floating = "floating";
 
 	private static String path;
 	private lemonGUI lemonGUI;
@@ -100,6 +100,7 @@ public class CommandExecutor extends FileStorage{
 		Task oldTask = deleteTaskFromList(deleteIndex);
 		newTask = newTask.mergeTaskDetails(oldTask);
 		addTaskToList(newTask);
+		listType = newTask.getTaskType();
 		writeToFile();
 	}
 
@@ -122,17 +123,17 @@ public class CommandExecutor extends FileStorage{
 
 	private void addTaskToList(Task newTask) {
 		switch (newTask.getTaskType()) {
-		case TASKTYPE_FLOATING:
+		case TASKTYPE_floating:
 			floatingTasks.add(newTask);
 			listType = "floating";
 			break;
-		case TASKTYPE_DEADLINE:
+		case TASKTYPE_deadline:
 			this.fillUpTime(newTask);
 			deadlineTasks.add(newTask);
 			date[1] = newTask.getTaskEndDate();
 			listType = "date";
 			break;
-		case TASKTYPE_EVENT:
+		case TASKTYPE_event:
 			this.fillUpTime(newTask);
 			eventTasks.add(newTask);
 			date[1] = newTask.getTaskStartDate();
@@ -145,25 +146,25 @@ public class CommandExecutor extends FileStorage{
 		Task deletedTask = new Task();
 		System.out.println("type: " + listType);
 		switch (listType) {
-		case TASKTYPE_FLOATING:
+		case TASKTYPE_floating:
 			deletedTask = removeTaskFromFloatingList(deleteId);
 			break;
-		case TASKTYPE_DEADLINE:
+		case TASKTYPE_deadline:
 			if (deleteId > overdueTasks.size()) {
 				int temp = deleteId - overdueTasks.size();
-				deletedTask = removeTaskFromDeadlineList(temp);
+				deletedTask = removeTaskFromdeadlineList(temp);
 			} else {
-				deletedTask = removeTaskFromOverdueList(deleteId);
+				deletedTask = removeTaskFromoverdueList(deleteId);
 			}
 			break;
-		case TASKTYPE_EVENT:
-			deletedTask = removeTaskFromEventList(deleteId);
+		case TASKTYPE_event:
+			deletedTask = removeTaskFromeventList(deleteId);
 			break;
-		case TASKTYPE_OVERDUE:
-			deletedTask = removeTaskFromOverdueList(deleteId);
+		case TASKTYPE_overdue:
+			deletedTask = removeTaskFromoverdueList(deleteId);
 			break;
-		case TASKTYPE_DONE:
-			deletedTask = removeTaskFromDoneList(deleteId);
+		case TASKTYPE_done:
+			deletedTask = removeTaskFromdoneList(deleteId);
 			break;
 		}
 		return deletedTask;
@@ -175,25 +176,25 @@ public class CommandExecutor extends FileStorage{
 		return taskToDelete;
 	}
 
-	private Task removeTaskFromDeadlineList(int deleteId) throws IOException, ClassNotFoundException {
+	private Task removeTaskFromdeadlineList(int deleteId) throws IOException, ClassNotFoundException {
 		Task taskToDelete = deadlineTasks.remove(deleteId - 1);
 		LemonGUIController.setTask(taskToDelete);
 		return taskToDelete;
 	}
 
-	private Task removeTaskFromEventList(int deleteId) throws IOException, ClassNotFoundException {
+	private Task removeTaskFromeventList(int deleteId) throws IOException, ClassNotFoundException {
 		Task taskToDelete = eventTasks.remove(deleteId - 1);
 		LemonGUIController.setTask(taskToDelete);
 		return taskToDelete;
 	}
 	
-	private Task removeTaskFromOverdueList(int deleteId) throws IOException, ClassNotFoundException {
+	private Task removeTaskFromoverdueList(int deleteId) throws IOException, ClassNotFoundException {
 		Task taskToDelete = overdueTasks.remove(deleteId - 1);
 		LemonGUIController.setTask(taskToDelete);
 		return taskToDelete;
 	}
 	
-	private Task removeTaskFromDoneList(int deleteId) throws IOException, ClassNotFoundException {
+	private Task removeTaskFromdoneList(int deleteId) throws IOException, ClassNotFoundException {
 		Task taskToDelete = doneTasks.remove(deleteId - 1);
 		LemonGUIController.setTask(taskToDelete);
 		return taskToDelete;
@@ -246,16 +247,16 @@ public class CommandExecutor extends FileStorage{
 		for (int i = 0; i < deadlineTasks.size(); i++) {
 			Task taskToCheck = deadlineTasks.get(i);
 			String endDate = taskToCheck.getTaskEndDate();
-				if (parser.endDatePassed(currentDate, endDate) && (!taskToCheck.getTaskType().equals(TASKTYPE_OVERDUE))) {
-					taskToCheck.setTaskType(TASKTYPE_OVERDUE);
+				if (parser.endDatePassed(currentDate, endDate) && (!taskToCheck.getTaskType().equals(TASKTYPE_overdue))) {
+					taskToCheck.setTaskType(TASKTYPE_overdue);
 				}
 		}
 			
 		for (int j = 0; j < eventTasks.size(); j++) {
 			Task taskToCheck = eventTasks.get(j);
 			String endDate = taskToCheck.getTaskEndDate();
-				if (parser.endDatePassed(currentDate, endDate) && (!taskToCheck.getTaskType().equals(TASKTYPE_DONE))) {
-					taskToCheck.setTaskType(TASKTYPE_DONE);
+				if (parser.endDatePassed(currentDate, endDate) && (!taskToCheck.getTaskType().equals(TASKTYPE_done))) {
+					taskToCheck.setTaskType(TASKTYPE_done);
 				}
 		}
 	}
@@ -299,7 +300,7 @@ public class CommandExecutor extends FileStorage{
 	}
 
 	public void executeDone(String[] commandParts) throws Exception, IOException {
-		LemonGUIController.setCommand(TASKTYPE_DONE);
+		LemonGUIController.setCommand(TASKTYPE_done);
 		int deleteId = Integer.valueOf(commandParts[1]);
 		deleteTaskFromList(deleteId);
 
@@ -420,6 +421,14 @@ public class CommandExecutor extends FileStorage{
 			updateLists();
 			listType = "overdue";
 			return temp;
+		} else if (listType.equals("All")) {
+//			System.out.println("floating: " + floatingTasks);
+			executeNavigate(date);
+			temp.add(listToTimeline);
+			temp.add(allTasks);
+			updateLists();
+			listType = "All";
+			return temp;
 		} else if (listType.equals("floating")) {
 //			System.out.println("floating: " + floatingTasks);
 			executeNavigate(date);
@@ -453,13 +462,13 @@ public class CommandExecutor extends FileStorage{
 			updateLists();
 			listType = "done";
 			return temp;
-		} else if (listType.equals("search")) {
+		} else if (listType.equals("Search")) {
 			executeNavigate(date);
 			temp.add(listToTimeline);
 			temp.add(searchResults);
 			updateLists();
 			System.out.println("search");
-			listType = "search";
+			listType = "Search";
 			return temp;
 		} else {
 			executeNavigate(date);

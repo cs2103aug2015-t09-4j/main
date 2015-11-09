@@ -30,6 +30,8 @@ public class CommandController {
 	private static CommandExecutor commandexecutor;
 	private static CommandController commandcontroller;
 
+	private static String errorMessage;
+
 	public CommandController() throws IOException, Exception {
 
 		if (commandexecutor == null) {
@@ -51,8 +53,8 @@ public class CommandController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String command = "add spectacular spiderman from 0000, 11/11/15 to 2350, 11/12/15 *higher desc super spec";
-		commandcontroller.processCommand(command);
+//		String command = "add spectacular spiderman from 0000, 11/11/15 to 2350, 11/12/15 *higher desc super spec";
+//		commandcontroller.processCommand(command);
 	}
 	/////////////////////////////////////////////////////////////////////
 
@@ -122,7 +124,7 @@ public class CommandController {
 			
 		} catch (Exception e) {
 			logger.log(Level.WARNING, "processing error", e);
-			e.printStackTrace();
+			errorMessage = (e.toString());
 		}
 
 	}
@@ -157,5 +159,11 @@ public class CommandController {
 	
 	public String getListType() {
 		return commandexecutor.passListType();
+	}
+
+	public String getNotificationMessage() {
+		String temp = errorMessage;
+		errorMessage = "";
+		return temp;
 	}
 }

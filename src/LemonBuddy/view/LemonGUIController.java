@@ -539,111 +539,120 @@ public class LemonGUIController {
 	}
 	
 	public void modifyNotificationBar() {
-		swap = false;
-		String toPrint = "";
-		int style = 0;
-		if (userCommand.equals("add")) {
-			toPrint  = (selectedTask.getTaskName() + " added!");
-			style = 1;
-			if (selectedTask.getTaskType().equals("event")) {
-				swap = true;
-				timelineDate[1] = "" + selectedTask.getTaskStartDate();
-				displayHeader = "Displaying tasks on: " + selectedTask.getTaskStartDate();
-				listType[1] = "date";
-			} else if (selectedTask.getTaskType().equals("deadline")) {
-				swap = true;
-				timelineDate[1] = "" + selectedTask.getTaskEndDate();
-				displayHeader = "Displaying tasks on: " + selectedTask.getTaskEndDate();
-				listType[1] = "date";
-			} else {
-				swap = false;
-				listType[1] = "floating";
-			}
-		}
-		if (userCommand.equals("delete")) {
-			toPrint = (selectedTask.getTaskName() + " deleted!");
-			style = 1;
-			if (selectedTask.getTaskType().equals("event")) {
-				swap = true;
-				timelineDate[1] = "" + selectedTask.getTaskStartDate();
-				displayHeader = "Displaying tasks on: " + selectedTask.getTaskStartDate();
-				listType[1] = "date";
-			} else if (selectedTask.getTaskType().equals("deadline")) {
-				swap = true;
-				timelineDate[1] = "" + selectedTask.getTaskEndDate();
-				displayHeader = "Displaying tasks on: " + selectedTask.getTaskEndDate();
-				listType[1] = "date";
-			} else {
-				swap = false;
-				listType[1] = "floating";
-			}
-		}
-		if (userCommand.equals("edit")) {
-			toPrint = (selectedTask.getTaskName() + " edited!");
-			style = 1;
-			if (selectedTask.getTaskType().equals("event")) {
-				swap = true;
-				timelineDate[1] = "" + selectedTask.getTaskStartDate();
-				displayHeader = "Displaying tasks on: " + selectedTask.getTaskStartDate();
-				listType[1] = "date";
-			} else if (selectedTask.getTaskType().equals("deadline")) {
-				swap = true;
-				timelineDate[1] = "" + selectedTask.getTaskEndDate();
-				displayHeader = "Displaying tasks on: " + selectedTask.getTaskEndDate();
-				listType[1] = "date";
-			} else {
-				swap = false;
-				listType[1] = "floating";
-			}
-		}
-		if (userCommand.equals("list")) {
-			toPrint = ("Displaying tasks");
-			style = 1;
-		}
-		if (userCommand.equals("view")) {
-			style = 1;
-			swap = true;
-			listType[1] = "date";
-			String newDate = timelineDate[1].substring(0,2) + "/" + timelineDate[1].substring(2,4) + "/" + timelineDate[1].substring(4,6);
-			displayHeader = "Displaying tasks on: " + newDate;
-			toPrint = ("Displaying tasks on " + newDate);
-		}
-		if (userCommand.equals("undo")) {
-			toPrint = ("Undo successful");
-			style = 1;
-		}
-		if (userCommand.equals("redo")) {
-			toPrint = ("Redo successful");
-			style = 1;
-		}
-		if (userCommand.equals("redo maxed")) {
-			toPrint = ("Redo unsuccessful, no more actions to redo.");
-			style = 2;
-		}
-		if (userCommand.equals("done")) {
-			toPrint = ("Task set as done.");
-			style = 1;
-		}
-		if (userCommand.equals("search")) {
-			toPrint = ("Search successful");
-			style = 1;
-		}
-		
-		Text temp = new Text(toPrint);
+		String toDisplay = mainApp.getNotificationBarDisplay();
+		System.out.println(toDisplay);
+		Text temp = new Text(toDisplay);
 		temp.setStyle("-fx-font-size: 18pt;");
 		notificationBar.getChildren().clear();
 		notificationBar.getChildren().add(temp);
 		notificationBar.setTextAlignment(TextAlignment.CENTER);
+		notificationBar.setStyle("-fx-background-color: red;");
 		
-		if (style == 1) {
-			notificationBar.setStyle("-fx-background-color: lightgreen;");
-		}
-		
-		if (style == 2) {
-			notificationBar.setStyle("-fx-background-color: red;");
-		}
-		
-		style = 0;
+//		swap = false;
+//		String toPrint = "";
+//		int style = 0;
+//		if (userCommand.equals("add")) {
+//			toPrint  = (selectedTask.getTaskName() + " added!");
+//			style = 1;
+//			if (selectedTask.getTaskType().equals("event")) {
+//				swap = true;
+//				timelineDate[1] = "" + selectedTask.getTaskStartDate();
+//				displayHeader = "Displaying tasks on: " + selectedTask.getTaskStartDate();
+//				listType[1] = "date";
+//			} else if (selectedTask.getTaskType().equals("deadline")) {
+//				swap = true;
+//				timelineDate[1] = "" + selectedTask.getTaskEndDate();
+//				displayHeader = "Displaying tasks on: " + selectedTask.getTaskEndDate();
+//				listType[1] = "date";
+//			} else {
+//				swap = false;
+//				listType[1] = "floating";
+//			}
+//		}
+//		if (userCommand.equals("delete")) {
+//			toPrint = (selectedTask.getTaskName() + " deleted!");
+//			style = 1;
+//			if (selectedTask.getTaskType().equals("event")) {
+//				swap = true;
+//				timelineDate[1] = "" + selectedTask.getTaskStartDate();
+//				displayHeader = "Displaying tasks on: " + selectedTask.getTaskStartDate();
+//				listType[1] = "date";
+//			} else if (selectedTask.getTaskType().equals("deadline")) {
+//				swap = true;
+//				timelineDate[1] = "" + selectedTask.getTaskEndDate();
+//				displayHeader = "Displaying tasks on: " + selectedTask.getTaskEndDate();
+//				listType[1] = "date";
+//			} else {
+//				swap = false;
+//				listType[1] = "floating";
+//			}
+//		}
+//		if (userCommand.equals("edit")) {
+//			toPrint = (selectedTask.getTaskName() + " edited!");
+//			style = 1;
+//			if (selectedTask.getTaskType().equals("event")) {
+//				swap = true;
+//				timelineDate[1] = "" + selectedTask.getTaskStartDate();
+//				displayHeader = "Displaying tasks on: " + selectedTask.getTaskStartDate();
+//				listType[1] = "date";
+//			} else if (selectedTask.getTaskType().equals("deadline")) {
+//				swap = true;
+//				timelineDate[1] = "" + selectedTask.getTaskEndDate();
+//				displayHeader = "Displaying tasks on: " + selectedTask.getTaskEndDate();
+//				listType[1] = "date";
+//			} else {
+//				swap = false;
+//				listType[1] = "floating";
+//			}
+//		}
+//		if (userCommand.equals("list")) {
+//			toPrint = ("Displaying tasks");
+//			style = 1;
+//		}
+//		if (userCommand.equals("view")) {
+//			style = 1;
+//			swap = true;
+//			listType[1] = "date";
+//			String newDate = timelineDate[1].substring(0,2) + "/" + timelineDate[1].substring(2,4) + "/" + timelineDate[1].substring(4,6);
+//			displayHeader = "Displaying tasks on: " + newDate;
+//			toPrint = ("Displaying tasks on " + newDate);
+//		}
+//		if (userCommand.equals("undo")) {
+//			toPrint = ("Undo successful");
+//			style = 1;
+//		}
+//		if (userCommand.equals("redo")) {
+//			toPrint = ("Redo successful");
+//			style = 1;
+//		}
+//		if (userCommand.equals("redo maxed")) {
+//			toPrint = ("Redo unsuccessful, no more actions to redo.");
+//			style = 2;
+//		}
+//		if (userCommand.equals("done")) {
+//			toPrint = ("Task set as done.");
+//			style = 1;
+//		}
+//		if (userCommand.equals("search")) {
+//			toPrint = ("Search successful");
+//			style = 1;
+//		}
+//		
+//		Text temp = new Text(toPrint);
+//		temp.setStyle("-fx-font-size: 18pt;");
+//		notificationBar.getChildren().clear();
+//		notificationBar.getChildren().add(temp);
+//		notificationBar.setTextAlignment(TextAlignment.CENTER);
+//		
+//		if (style == 1) {
+//			notificationBar.setStyle("-fx-background-color: lightgreen;");
+//		}
+//		
+//		if (style == 2) {
+//			notificationBar.setStyle("-fx-background-color: red;");
+//		}
+//		
+//		style = 0;
 	}
 
 }

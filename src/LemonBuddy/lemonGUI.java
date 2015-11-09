@@ -150,10 +150,25 @@ public class lemonGUI extends Application {
     	String list = commandcontroller.getListType();
     	if (list.equals("date")) {
     		return "Tasks on: " + getDate();
-    	} else if (list .equals("Event")) {
-    		return list + "s.";
+    	} else if (list.equals("event")) {
+    		return "Events";
+    	} else if (list.equals("floating")) {
+    		return "Floating Tasks";
+    	} else if (list.equals("deadline")) {
+    		return "Deadline Tasks";
+    	} else if (list.equals("overdue")){
+    		return "Overdue Tasks";
+    	} else if (list.equals("done")) {
+    		return "Done Tasks";
+    	} else if (list .equals("all")) {
+    		return "All Events and Tasks";
+    	} else {
+    		return "Search Results";
     	}
-    	return list + " tasks.";
+    }
+    
+    public String getNotificationBarDisplay() {
+    	return commandcontroller.getNotificationMessage();
     }
     
 }
