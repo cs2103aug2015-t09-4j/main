@@ -1,12 +1,8 @@
 package LemonBuddy;
 
-import java.io.File;
-
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
-import LemonBuddy.view.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Stack;
@@ -19,13 +15,12 @@ public class CommandExecutor extends FileStorage {
 	private static final String TASKTYPE_floating = "floating";
 
 	private static String path;
-	private lemonGUI lemonGUI;
 	private Parser parser;
 	String lastState;
 	Stack<String> lastStates;
 	Stack<String> undoneStates;
 
-	protected static String listType;
+	private static String listType;
 
 	private static ArrayList<Task> floatingTasks;
 	private static ArrayList<Task> deadlineTasks;
@@ -33,7 +28,6 @@ public class CommandExecutor extends FileStorage {
 	private static ArrayList<Task> allTasks;
 	private static ArrayList<Task> doneTasks;
 	private static ArrayList<Task> overdueTasks;
-	private static ArrayList<Task> listToDisplay;
 	private static ArrayList<Task> listToTimeline;
 	private static ArrayList<Task> searchResults;
 	private static String[] date = { "", "" };
@@ -116,12 +110,12 @@ public class CommandExecutor extends FileStorage {
 	}
 
 	public void executeDelete(String[] commandParts) throws Exception {
-		int deleteID = Integer.valueOf(commandParts[1]);
-		deleteTaskFromList(deleteID);
+		int deleteId = Integer.valueOf(commandParts[1]);
+		deleteTaskFromList(deleteId);
 		writeToFile();
 	}
 
-	public void addTaskToList(Task newTask) {
+	private void addTaskToList(Task newTask) {
 		switch (newTask.getTaskType()) {
 		case TASKTYPE_floating:
 			floatingTasks.add(newTask);
@@ -144,63 +138,58 @@ public class CommandExecutor extends FileStorage {
 
 	public Task deleteTaskFromList(int deleteId) throws Exception {
 		Task deletedTask = new Task();
-		try {
-
-			switch (listType) {
-			case TASKTYPE_floating:
-				deletedTask = removeTaskFromFloatingList(deleteId);
-				break;
-			case TASKTYPE_deadline:
-				if (deleteId > overdueTasks.size()) {
-					int temp = deleteId - overdueTasks.size();
-					deletedTask = removeTaskFromDeadlineList(temp);
-				} else {
-					deletedTask = removeTaskFromOverdueList(deleteId);
-				}
-				break;
-			case TASKTYPE_event:
-				deletedTask = removeTaskFromEventList(deleteId);
-				break;
-			case TASKTYPE_overdue:
-				deletedTask = removeTaskFromOverdueList(deleteId);
-				break;
-			case TASKTYPE_done:
-				deletedTask = removeTaskFromDoneList(deleteId);
-				break;
+		switch (listType) {
+		case TASKTYPE_floating:
+			deletedTask = removeTaskFromFloatingList(deleteId);
+			break;
+		case TASKTYPE_deadline:
+			if (deleteId > overdueTasks.size()) {
+				int temp = deleteId - overdueTasks.size();
+				deletedTask = removeTaskFromdeadlineList(temp);
+			} else {
+				deletedTask = removeTaskFromoverdueList(deleteId);
 			}
-		} catch (ArrayIndexOutOfBoundsException e) {
-			throw new Exception("Invalid index");
+			break;
+		case TASKTYPE_event:
+			deletedTask = removeTaskFromeventList(deleteId);
+			break;
+		case TASKTYPE_overdue:
+			deletedTask = removeTaskFromoverdueList(deleteId);
+			break;
+		case TASKTYPE_done:
+			deletedTask = removeTaskFromDoneList(deleteId);
+			break;
 		}
 		selectedTask = deletedTask;
 		return deletedTask;
 	}
 
 	public Task removeTaskFromFloatingList(int deleteId) throws Exception {
-		if (floatingTasks.size() < deleteId) {
+		if(floatingTasks.size()<deleteId){
 			throw new Exception("Invalid Index");
 		}
 		Task taskToDelete = floatingTasks.remove(deleteId - 1);
 		return taskToDelete;
 	}
 
-	public Task removeTaskFromDeadlineList(int deleteId) throws Exception {
-		if (deadlineTasks.size() < deleteId) {
+	private Task removeTaskFromdeadlineList(int deleteId) throws Exception {
+		if(deadlineTasks.size()<deleteId){
 			throw new Exception("Invalid Index");
 		}
 		Task taskToDelete = deadlineTasks.remove(deleteId - 1);
 		return taskToDelete;
 	}
 
-	public Task removeTaskFromEventList(int deleteId) throws Exception {
-		if (eventTasks.size() < deleteId) {
+	private Task removeTaskFromeventList(int deleteId) throws Exception {
+		if(floatingTasks.size()<deleteId){
 			throw new Exception("Invalid Index");
 		}
 		Task taskToDelete = eventTasks.remove(deleteId - 1);
 		return taskToDelete;
 	}
 
-	public Task removeTaskFromOverdueList(int deleteId) throws Exception {
-		if (overdueTasks.size() < deleteId) {
+	private Task removeTaskFromoverdueList(int deleteId) throws Exception {
+		if(floatingTasks.size()<deleteId){
 			throw new Exception("Invalid Index");
 		}
 		Task taskToDelete = overdueTasks.remove(deleteId - 1);
@@ -211,16 +200,15 @@ public class CommandExecutor extends FileStorage {
 		if (doneTasks.size() < deleteId) {
 			throw new Exception("Invalid Index");
 		}
-		Task taskToDelete = new Task();
-		taskToDelete = doneTasks.remove(deleteId - 1);
+		Task taskToDelete = doneTasks.remove(deleteId - 1);
 		return taskToDelete;
 	}
 
 	/*
 	 * get what user wants to view date e.g. navigate 010101
 	 */
-
 	public void executeView(String[] commandParts) throws ClassNotFoundException, IOException, ParseException {
+
 		listType = "date";
 		date[1] = commandParts[1];
 		SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy");
@@ -291,7 +279,7 @@ public class CommandExecutor extends FileStorage {
 		Task doneTask = deleteTaskFromList(deleteID);
 		doneTask.setTaskType("done");
 		doneTasks.add(doneTask);
-		
+
 		writeToFile();
 	}
 
@@ -347,7 +335,7 @@ public class CommandExecutor extends FileStorage {
 		;
 	}
 
-	private void fillUpTime(Task newTask) {
+	public void fillUpTime(Task newTask) {
 		if (newTask.getTaskType().equals("floating")) {
 			return;
 		} else if (newTask.getTaskType().equals("event")) {
@@ -362,7 +350,7 @@ public class CommandExecutor extends FileStorage {
 		}
 	}
 
-	private int roundDownTime(String time) {
+	public int roundDownTime(String time) {
 		int ans = Integer.parseInt(time);
 		int temp = Integer.parseInt(time);
 		ans = ans / 100;
@@ -376,7 +364,7 @@ public class CommandExecutor extends FileStorage {
 		}
 	}
 
-	private int roundUpTime(String time) {
+	public int roundUpTime(String time) {
 		int ans = Integer.parseInt(time);
 		int temp = Integer.parseInt(time);
 		ans = ans / 100;

@@ -4,33 +4,20 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
-import LemonBuddy.CommandController;
-import LemonBuddy.CommandExecutor;
-import LemonBuddy.Task;
-import LemonBuddy.Parser;
-import LemonBuddy.Task;
 import LemonBuddy.Task;
 import LemonBuddy.lemonGUI;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
@@ -39,9 +26,7 @@ public class LemonGUIController {
 
 	@FXML
 	private TextField inputField;
-
 	private lemonGUI mainApp;
-	
 	private ObservableList<Task> MainDisplayTasks = FXCollections.observableArrayList();
 	private ObservableList<Task> TimelineTasks = FXCollections.observableArrayList();
 	
@@ -178,21 +163,17 @@ public class LemonGUIController {
 		
 	}
 	
-	
 	public void setMainApp(lemonGUI mainApp) {
 		this.mainApp = mainApp;
 	}
-	
 	
 	@FXML
 	private void initialize() throws Exception {
 		if (mainApp == null) {
 			mainApp = new lemonGUI();
 		}
-		Text temp = new Text("Welcome to LemonBuddy!!!!");
-		temp.setStyle("-fx-font-size: 18pt;");
-		notificationBar.getChildren().add(temp);
-		notificationBar.setTextAlignment(TextAlignment.CENTER);
+		mainApp.updateDisplayList();
+		formatNotificationBar();
 		formatMainDisplay();
 		generateMainDisplay(mainApp.getListForDisplay());
 		formatTimeline();
@@ -216,7 +197,6 @@ public class LemonGUIController {
 		mainApp.getCommand(input);
 		inputField.clear();
 	}
-	
 	
 	public void generateMainDisplay(ArrayList<Task> listToDisplay) throws Exception {
 		mainDisplayHeader.setText(mainApp.getMainDisplayHeader());
@@ -456,7 +436,14 @@ public class LemonGUIController {
 		timelineColumns.add(column2300);
 		timelineColumns.add(column2330);
 	}
-
+	
+	private void formatNotificationBar() {
+		Text temp = new Text("Welcome to LemonBuddy!!!!");
+		temp.setStyle("-fx-font-size: 18pt;");
+		notificationBar.getChildren().add(temp);
+		notificationBar.setTextAlignment(TextAlignment.CENTER);
+	}
+	
 	public void modifyNotificationBar() {
 		String toDisplay = mainApp.getNotificationBarDisplay();
 		System.out.println(toDisplay);
