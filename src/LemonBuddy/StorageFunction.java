@@ -109,7 +109,7 @@ public class StorageFunction extends FileStorage {
 					overdueList.add(temptask);
 					break;
 				default:
-					floatingList.add(temptask);
+					allList.add(temptask);
 					break;									
 			}
 

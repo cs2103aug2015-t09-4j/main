@@ -113,10 +113,10 @@ public class CommandController {
 			case COMMAND_HELP:
 				commandexecutor.executeHelp();
 				break;
-
-			case COMMAND_UPDATE:
-				commandexecutor.executeUpdate();
-				break;
+//
+//			case COMMAND_UPDATE:
+//				commandexecutor.executeUpdate();
+//				break;
 
 			case COMMAND_SEARCH:
 				commandexecutor.executeSearch(commandParts);
@@ -147,14 +147,10 @@ public class CommandController {
 	}
 
 	private boolean isValidTaskType(String taskType) {
-		if (taskType.equals("floating") || taskType.equals("deadline") || taskType.equals("event")) {
-			if (taskType.equals(TASKTYPE_FLOATING) || taskType.equals(TASKTYPE_DEADLINE)
+		if (taskType.equals(TASKTYPE_FLOATING) || taskType.equals(TASKTYPE_DEADLINE)
 				|| taskType.equals(TASKTYPE_EVENT)) {
-				return true;
-			}
-		} else {
+			return true;
+		} else
 			return false;
-		}
-		return false;
 	}
 }

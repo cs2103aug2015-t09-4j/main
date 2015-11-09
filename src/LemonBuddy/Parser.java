@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
 
 public class Parser {
 
@@ -149,15 +150,16 @@ public class Parser {
 
 	private void checkValidDateTimeInput(Task newTask) throws ParseException, Exception {
 		if (newTask.getTaskType().equals(TASKTYPE_EVENT)) {
+			
 			SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy");
 			Date date1 = sdf.parse(newTask.getTaskStartDate());
 			Date date2 = sdf.parse(newTask.getTaskEndDate());
 			if (date1.after(date2)) {
-				throw new Exception("Start date after end date");
+				throw new Exception("Start date is after end date");
 			}
-
-			if (newTask.getTaskStartDate() == newTask.getTaskEndDate()) {
+			if (newTask.getTaskStartDate().equals(newTask.getTaskEndDate())) {
 				if (Integer.parseInt(newTask.getTaskStartTime()) > Integer.parseInt(newTask.getTaskEndTime())) {
+					
 					throw new Exception("Start time is after end time");
 				}
 			}
@@ -194,7 +196,7 @@ public class Parser {
 				newTask.setTaskStartDate(timeInfo[0]);
 				newTask.setTaskStartTime(timeInfo[1]);
 				for (int i = wordIndex; i < commandParts.length; i++) {
-					System.out.println(commandParts[i]);
+					//System.out.println(commandParts[i]);
 					if (commandParts[i].equals("to")) {
 						i++;
 						wordIndex = i;
@@ -348,7 +350,7 @@ public class Parser {
 		int parseCount = 1;
 		for (int i = 0; i < parseCount; i++) {
 			taskOn = commandParts[wordIndex];
-			System.out.println(taskOn);
+			//System.out.println(taskOn);
 			if (commandParts[wordIndex].contains(",")) {
 				taskOn = commandParts[wordIndex].substring(0, commandParts[wordIndex].indexOf(","));
 				parseCount = 2;

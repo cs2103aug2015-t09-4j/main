@@ -18,6 +18,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -206,13 +207,16 @@ public class LemonGUIController {
 		if (commandExecutor == null) {
 			commandExecutor = new CommandExecutor();
 		}
+		if (mainApp == null) {
+			mainApp = new lemonGUI();
+		}
 		
 		Text temp = new Text("Welcome to LemonBuddy!!!!");
 		temp.setStyle("-fx-font-size: 18pt;");
 		notificationBar.getChildren().add(temp);
 		notificationBar.setTextAlignment(TextAlignment.CENTER);
-//		date = parser.getCurrentDate();
-//		timelineDate[1] = date;
+		date = parser.getCurrentDate();
+		timelineDate[1] = date;
 		formatMainDisplay();
 		generateMainDisplay(mainApp.getListForDisplay());
 		formatTimeline();
@@ -229,17 +233,13 @@ public class LemonGUIController {
 		if (event.getCode() == KeyCode.ENTER) {
 			getInput();
 			modifyNotificationBar();
-			commandExecutor.executeUpdate();
+			mainApp.update();
 			if (timelineDate[1].length() == 5) {
 				timelineDate[1] = "0" + timelineDate[1];
 			}
 			String newDate = timelineDate[1].substring(0,2) + "/" + timelineDate[1].substring(2,4) + "/" + timelineDate[1].substring(4,6);
 			generateTimeline(mainApp.getListForTimeline(), newDate);
 			generateMainDisplay(mainApp.getListForDisplay());
-//			commandExecutor.executeRemoveNewest();
-//			generateTimeline(newDate);
-//			generateMainDisplay();
-			//commandExecutor.executeRemoveNewest();
 			selectedTask = new Task();
 		}
 	}
@@ -276,50 +276,26 @@ public class LemonGUIController {
 		        @Override
 		        protected void updateItem(String item, boolean empty) {
 		            super.updateItem(item, empty);
-
+		            TableRow<Task> currentRow = getTableRow();
 		            if (item == null || empty) {
 		                setText(null);
-		                setStyle("");
-		            } else if (item.startsWith("#")) {
-		            		setText(item.substring(1));
-			            	setTextFill(Color.BLACK);
-			            	setStyle("-fx-background-color: lightgreen; -fx-border-color: lightgreen;"
-			            			+ "-fx-alignment: center;");            	
+		                setStyle("");          	
 		            } else if (item.startsWith("^")) {
 	            		setText(item.substring(1));
 		            	setTextFill(Color.BLACK);
-		            	setStyle("-fx-background-color: red; -fx-border-color: red;"
-		            			+ "-fx-alignment: center;");            	
-		            }else {
-		            	setText(item);
-	                    setTextFill(Color.BLACK);
-	                    setStyle(" -fx-alignment: center");
-	                }
-		        }
-		    };
-		});
-		
-		nameColumn.setCellFactory(column -> {
-		    return new TableCell<Task, String>() {
-		        @Override
-		        protected void updateItem(String item, boolean empty) {
-		            super.updateItem(item, empty);
-
-		            if (item == null || empty) {
-		                setText(null);
-		                setStyle("");
-		            } else if (item.startsWith("#")) {
-		            		setText(item.substring(1));
-			            	setTextFill(Color.BLACK);
-			            	setStyle("-fx-background-color: lightgreen; -fx-border-color: lightgreen;");      	
-		            } else if (item.startsWith("^")) {
+		            	currentRow.setStyle("-fx-background-color: red;");
+		            	setStyle("-fx-alignment: center;");            	
+		            }else if (item.startsWith("#")) {
 	            		setText(item.substring(1));
 		            	setTextFill(Color.BLACK);
-		            	setStyle("-fx-background-color: red; -fx-border-color: red;");      	
+		            	setStyle("-fx-alignment: center;");
+		            	System.out.println(currentRow.getItem());
+		            	currentRow.setStyle("-fx-background-color: lightgreen;"); 
 		            } else {
 		            	setText(item);
 	                    setTextFill(Color.BLACK);
-	                    setStyle("");
+	                    setStyle(" -fx-alignment: center");
+	                    currentRow.setStyle(""); 
 	                }
 		        }
 		    };
@@ -338,30 +314,6 @@ public class LemonGUIController {
 			            } else if (item.equals("-1")) {
 			            	setText(null);
 			            	setStyle("");
-			            } else if (item.startsWith("#")) {
-			            	if (item.endsWith("-1")) {
-			            		setText("");
-				            	setStyle("-fx-background-color: lightgreen; -fx-border-color: lightgreen;"
-				            			+ "-fx-alignment: center;");
-			            	} else {
-			            		setText(item.substring(1));
-				            	setTextFill(Color.BLACK);
-				            	setStyle("-fx-background-color: lightgreen; -fx-border-color: lightgreen;"
-				            			+ "-fx-alignment: center;");
-			            	}
-			            	
-			            } else if (item.startsWith("^")) {
-			            	if (item.endsWith("-1")) {
-			            		setText("");
-				            	setStyle("-fx-background-color: red; -fx-border-color: red;"
-				            			+ "-fx-alignment: center;");
-			            	} else {
-			            		setText(item.substring(1));
-				            	setTextFill(Color.BLACK);
-				            	setStyle("-fx-background-color: red; -fx-border-color: red;"
-				            			+ "-fx-alignment: center;");
-			            	}
-			            	
 			            }else {
 			            	setText(item);
 		                    setTextFill(Color.BLACK);
@@ -381,19 +333,13 @@ public class LemonGUIController {
 			                setText(null);
 			                setStyle("");
 			            } else if (item.equals("high")) {
-			            	setStyle("-fx-background-color: red; -fx-border-color: red;");
+			            	setStyle("-fx-background-color: red;");
 			            } else if (item.equals("medium")) {
-			            	setStyle("-fx-background-color: yellow; -fx-border-color: yellow;");
+			            	setStyle("-fx-background-color: yellow;");
 			            } else if (item.equals("#medium")) {
-			            	setStyle("-fx-background-color: yellow; -fx-border-color: yellow;"); 
+			            	setStyle("-fx-background-color: yellow;"); 
 			            } else if (item.equals("#high")){
-			            	setStyle("-fx-background-color: red; -fx-border-color: red;");
-			            } else if (item.equals("#")) {
-			            	setStyle("-fx-background-color: lightgreen; -fx-border-color: lightgreen;"
-			            			+ "-fx-alignment: center;");
-			            }  else if (item.equals("^")) {
-			            	setStyle("-fx-background-color: red; -fx-border-color: red;"
-			            			+ "-fx-alignment: center;");
+			            	setStyle("-fx-background-color: red;");
 			            } else {
 			            	setText(null);
 		                    setStyle("");
@@ -401,34 +347,9 @@ public class LemonGUIController {
 			        }
 			    };
 			});
-			
-			descriptionColumn.setCellFactory(column -> {
-			    return new TableCell<Task, String>() {
-			        @Override
-			        protected void updateItem(String item, boolean empty) {
-			            super.updateItem(item, empty);
-
-			            if (item == null || empty) {
-			                setText(null);
-			                setStyle("");
-			            } else if (item.startsWith("#")) {
-			            		setText(item.substring(1));
-				            	setTextFill(Color.BLACK);
-				            	setStyle("-fx-background-color: lightgreen; -fx-border-color: lightgreen;");         	
-			            } else if (item.startsWith("^")) {
-		            		setText(item.substring(1));
-			            	setTextFill(Color.BLACK);
-			            	setStyle("-fx-background-color: red; -fx-border-color: red;");         	
-			            } else {
-			            	setText(item);
-		                    setTextFill(Color.BLACK);
-		                    setStyle("");
-		                }
-			        }
-			    };
-			});
 		}
 	}
+
 	
 	private void generateMainDisplayColumnList() {
 		mainDisplayColumns.add(idColumn);
@@ -592,110 +513,6 @@ public class LemonGUIController {
 	public static void setListType(String type) {
 		listType[1] = type;
 	}
-	
-	public Task convertForMainDisplay(Task newTask, int num) {
-		Task temp = new Task();
-		int id = num + 1;
-		if (newTask.getTaskIsNewest()) {
-			temp.setDisplayId("#" + id);
-			temp.setTaskName("#" + newTask.getTaskName());
-			temp.setTaskStartDate("#" + newTask.getTaskStartDate());
-			temp.setTaskEndDate("#" + newTask.getTaskEndDate());
-			temp.setTaskStartTime("#" + newTask.getTaskStartTime());
-			temp.setTaskEndTime("#" + newTask.getTaskEndTime());
-			temp.setTaskPriority("#" + newTask.getTaskPriority());
-			temp.setTaskDescription("#" + newTask.getTaskDescription());
-			mainDisplayIndex = num;
-			return temp;
-		}
-		
-//		if (newTask.getTaskIsOverdue() && !listType[1].equals("overdue")) {
-//			temp.setDisplayId("^" + id);
-//			temp.setTaskName("^" + newTask.getTaskName());
-//			temp.setTaskStartDate("^" + newTask.getTaskStartDate());
-//			temp.setTaskEndDate("^" + newTask.getTaskEndDate());
-//			temp.setTaskStartTime("^" + newTask.getTaskStartTime());
-//			temp.setTaskEndTime("^" + newTask.getTaskEndTime());
-//			temp.setTaskPriority("^" + newTask.getTaskPriority());
-//			temp.setTaskDescription("^" + newTask.getTaskDescription());
-//			return temp;
-//		}
-		
-		
-		temp.setDisplayId("" + id);
-		temp.setTaskName(newTask.getTaskName());
-		temp.setTaskStartDate(newTask.getTaskStartDate());
-		temp.setTaskEndDate(newTask.getTaskEndDate());
-		temp.setTaskStartTime("" + newTask.getTaskStartTime());
-		temp.setTaskEndTime("" + newTask.getTaskEndTime());
-		temp.setTaskPriority(newTask.getTaskPriority());
-		temp.setTaskDescription(newTask.getTaskDescription());
-		System.out.println(newTask.getTaskIsNewest());
-
-		return temp;
-	}
-	
-//	public Task convertForTimeline(Task newTask) {
-//		Task temp = new Task();
-//		if (newTask.getTaskIsNewest()) {
-//			temp.setTaskName("#" + newTask.getTaskName());
-//		} else {
-//			temp.setTaskName(newTask.getTaskName());
-//		}
-//		temp.setTaskStartDate(newTask.getTaskStartDate());
-//		temp.setTaskEndDate(newTask.getTaskEndDate());
-//		temp.setTaskType(newTask.getTaskType());
-//		int rstartTime = -1;
-//		int rendTime = -1;
-//		if (newTask.getTaskType().equals("deadline")) {
-//			rendTime = roundDown(newTask.getTaskEndTime());
-//		}
-//		if (newTask.getTaskType().equals("event")) {
-//			rstartTime = roundDown(newTask.getTaskStartTime());
-//			rendTime = roundUp(newTask.getTaskEndTime());
-//		}
-//		if (Integer.parseInt(newTask.getTaskStartDate()) != Integer.parseInt(timelineDate[1])
-//				&& Integer.parseInt(newTask.getTaskEndDate()) != Integer.parseInt(timelineDate[1])) {
-//			for (int counter2 = 0; counter2 < 48; counter2++) {
-//				temp.setTime(counter2);
-//			}
-//			return temp;
-//		}
-//		
-//		int time = 0;
-//		int add = 0;
-//		if (Integer.parseInt(newTask.getTaskStartDate()) != Integer.parseInt(timelineDate[1]) && newTask.getTaskType().equals("event")) {
-//			add = 1;
-//		} else {
-//			add = 0;
-//		}
-//		
-//		for (int counter = 0; counter < 48; counter ++) {
-//			if (time == rstartTime && Integer.parseInt(newTask.getTaskStartDate()) == Integer.parseInt(timelineDate[1])) {
-//				add = 1;
-//			}
-//			if (time == rendTime && Integer.parseInt(newTask.getTaskEndDate()) == Integer.parseInt(timelineDate[1])) {
-//				add = 0;
-//			}
-//			if (add == 1) {
-//				temp.setTime(counter);
-//			}
-//			if (add == 0) {
-//				temp.missTime(counter);
-//			}
-//			if (time == rendTime && Integer.parseInt(newTask.getTaskEndDate()) == Integer.parseInt(timelineDate[1]) &&
-//					newTask.getTaskType().equals("deadline")) {
-//				temp.setDeadline(counter);
-//			}
-//			if(time % 100 == 0) {
-//				time = time + 30;
-//			} else {
-//				time = time - 30 + 100;
-//			}
-//		}
-//		return temp;
-//	}
-//	
 	
 	public static void setTimeLineDate(String requestedDate) {
 		timelineDate[1] = requestedDate;

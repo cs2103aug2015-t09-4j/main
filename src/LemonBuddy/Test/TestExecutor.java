@@ -13,7 +13,11 @@ import LemonBuddy.Task;
 
 public class TestExecutor extends CommandExecutor {
 	
-	CommandExecutor tester = new CommandExecutor();
+	public TestExecutor() throws ClassNotFoundException, IOException {
+		super();
+	}
+
+	CommandExecutor tester;
 	
 	private static final String TASKTYPE_EVENT = "event";
 	private static final String TASKTYPE_DEADLINE = "deadline";
@@ -43,11 +47,10 @@ public class TestExecutor extends CommandExecutor {
 	
 	 @Before
 	    public void setUp() throws Exception {
-		 
+		 tester = new CommandExecutor();
 		 floatingTask1.setTaskName("paint a cat");
 		 floatingTask2.setTaskName("paint a dog");
 		 floatingTask3.setTaskName("paint a giraffe");
-		 
 		 deadlineTask1.setTaskName("do PC1432");
 		 deadlineTask1.setTaskEndDate("221215");
 		 deadlineTask1.setTaskEndTime("1310");
@@ -121,26 +124,24 @@ public class TestExecutor extends CommandExecutor {
 	@Test
 	public void testRemoveTaskFromFloatingList() throws ClassNotFoundException, IOException { 
 		int deleteID1 = 1;
-		
-		assertEquals("test correct task is deleted", floatingTask1, tester.removeTaskFromFloatingList(deleteID1));
-		
-	}
-	
-	@Test
-	public void testDeleteTaskFromList() throws ClassNotFoundException, IOException { 
-		int deleteID1 = 1;
-		
-		
-		assertEquals("test correct task is deleted", floatingTask1, tester.deleteTaskFromList(deleteID1));
+		System.out.println(this.floatingTasks.get(0));
+		assertEquals("test correct task is deleted", floatingTask1, removeTaskFromFloatingList(deleteID1));
 		
 	}
 	
-	@Test
-	public void testSort() {
-		assertEquals("test correct task is deleted", floatingTask1, tester.executeSort(allTasks));
-	}
-	
-	
+//	@Test
+//	public void testDeleteTaskFromList() throws ClassNotFoundException, IOException { 
+//		int deleteID1 = 1;
+//		
+//		
+//		assertEquals("test correct task is deleted", floatingTask1, tester.deleteTaskFromList(deleteID1));
+//		
+//	}
+//	
+//	@Test
+//	public void testSort() {
+//		assertEquals("test correct task is deleted", floatingTask1, tester.executeSort(allTasks));
+//	}
 	
 	
 	

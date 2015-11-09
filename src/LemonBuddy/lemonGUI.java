@@ -17,9 +17,9 @@ public class lemonGUI extends Application {
     private static CommandExecutor commandexecutor;
 	private Stage primaryStage;
     private BorderPane rootLayout;
-    private ArrayList<Task> listForDisplay;
+    private static ArrayList<Task> listForDisplay = new ArrayList<Task>();
     private String[] command = {"", ""};
-	private ArrayList<Task> listForTimeline;
+	private static ArrayList<Task> listForTimeline = new ArrayList<Task>();
 
 
     @Override
@@ -82,7 +82,6 @@ public class lemonGUI extends Application {
     	if (commandexecutor == null) {
 			commandexecutor = new CommandExecutor();
 		}
-    	commandexecutor.updateLists();
     	commandexecutor.passToGUI();
         launch(args);
     }
@@ -96,6 +95,17 @@ public class lemonGUI extends Application {
     }
     
     public ArrayList<Task> getListForDisplay() {
+    	
+    	for (int counter = 0; counter < listForDisplay.size(); counter++) {
+    		System.out.println(listForDisplay.get(counter).getTaskIsNewest());
+    		if (listForDisplay.get(counter).getTaskIsNewest()) {
+    			listForDisplay.get(counter).setDisplayId("#" + (counter + 1));
+    		} else if (listForDisplay.get(counter).getTaskType().equals("overdue")){
+    			listForDisplay.get(counter).setDisplayId("^" + (counter + 1));
+    		} else {
+    			listForDisplay.get(counter).setDisplayId("" + (counter + 1));
+    		}
+    	}
     	return listForDisplay;
     }
     
@@ -106,6 +116,11 @@ public class lemonGUI extends Application {
     public void setCommand(String[] command) {
     	this.command = command;
     }
+
+	public void update() throws Exception {
+		commandexecutor.passToGUI();
+		commandexecutor.updateLists();
+	}
     
 }
 		
