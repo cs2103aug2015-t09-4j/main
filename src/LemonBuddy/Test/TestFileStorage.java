@@ -276,27 +276,27 @@ public class TestFileStorage extends FileStorage {
 		} 
 	}
 
-//	@Test
-//	public void testprintExceptionMessage() throws Exception {
-//		try {
-//			initialTaskListForTestRead();
-//			filename = "happy.txt";	
-//			test = readStringAsObject(filename);
-//		} catch(IOException e) {
-//			assertThat(e.getMessage(), null);
-//		} 
-//	}
-//	
-//	@Test
-//	public void testprintInvalidMessage() throws Exception {
-//		try {
-//			initialTaskListForTestRead();
-//			filename = "justforfun";	
-//			test = readStringAsObject(filename);
-//		} catch(IOException e) {
-//			assertThat(e.getMessage(), null);
-//		} 
-//	}
+	@Test
+	public void testprintExceptionMessage() throws Exception {
+		try {
+			initialTaskListForTestRead();
+			filename = "happy.txt";	
+			test = readStringAsObject(filename);
+		} catch(IOException e) {
+			assertThat(e.getMessage(), null);
+		} 
+	}
+	
+	@Test
+	public void testprintInvalidMessage() throws Exception {
+		try {
+			initialTaskListForTestRead();
+			filename = "justforfun";	
+			test = readStringAsObject(filename);
+		} catch(IOException e) {
+			assertThat(e.getMessage(), null);
+		} 
+	}
 	
 	@Test
 	public void testWriteStringAsString() throws IOException {
@@ -319,16 +319,10 @@ public class TestFileStorage extends FileStorage {
 	public void testReadStringAsString() throws IOException, ClassNotFoundException{
 		String expected;
 		String actual;
-		try {
-			initialTaskStringTest();	
-			filename = "testWriteStringExpected.txt";
+		try {	
+			filename = "testReadStringAsString.txt";
 			expected = readStringAsString(filename);
 			actual = stringUnderTest;
-			int compare = expected.compareTo(actual);
-			System.out.println(compare);
-			System.out.println(expected);
-			System.out.println(actual);
-			System.out.println(actual);
 			assertEquals(expected, actual);		
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
