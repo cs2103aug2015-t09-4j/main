@@ -1,6 +1,8 @@
 package LemonBuddy;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -88,13 +90,17 @@ public class CommandController {
 				break;
 
 			case COMMAND_VIEW:
+				DateFormat df = new SimpleDateFormat("ddMMyy");
+				df.setLenient(false);
+				df.parse(commandParts[1]);
 				commandexecutor.executeNavigate(commandParts);
 				isSuccesful = true;
 				break;
 
 			case COMMAND_LIST:
-				if (!(commandParts.equals("floating") && commandParts.equals("deadline") && commandParts.equals("event")
-						&& commandParts.equals("done") && commandParts.equals("overdue"))) {
+				if (!(commandParts[1].equals("floating") || commandParts[1].equals("deadline")
+						|| commandParts[1].equals("event") || commandParts[1].equals("done")
+						|| commandParts[1].equals("overdue"))) {
 					throw new Exception("Invalid task type");
 				}
 				commandexecutor.executeList(commandParts);
@@ -113,7 +119,8 @@ public class CommandController {
 				commandexecutor.executeSearch(commandParts);
 				isSuccesful = true;
 				break;
-
+			case "exit":
+				System.exit(0);
 			default:
 				throw new Exception("Invalid Command");
 			}

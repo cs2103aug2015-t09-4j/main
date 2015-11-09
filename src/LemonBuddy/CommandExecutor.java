@@ -176,7 +176,7 @@ public class CommandExecutor extends FileStorage {
 	}
 
 	public Task removeTaskFromFloatingList(int deleteId) throws Exception {
-		if (floatingTasks.size() <= deleteId) {
+		if (floatingTasks.size() < deleteId) {
 			throw new Exception("Invalid Index");
 		}
 		Task taskToDelete = floatingTasks.remove(deleteId - 1);
@@ -184,7 +184,7 @@ public class CommandExecutor extends FileStorage {
 	}
 
 	private Task removeTaskFromdeadlineList(int deleteId) throws Exception {
-		if (deadlineTasks.size() <= deleteId) {
+		if (deadlineTasks.size() < deleteId) {
 			throw new Exception("Invalid Index");
 		}
 		Task taskToDelete = deadlineTasks.remove(deleteId - 1);
@@ -192,7 +192,7 @@ public class CommandExecutor extends FileStorage {
 	}
 
 	private Task removeTaskFromeventList(int deleteId) throws Exception {
-		if (eventTasks.size() <= deleteId) {
+		if (eventTasks.size() < deleteId) {
 			throw new Exception("Invalid Index");
 		}
 		Task taskToDelete = eventTasks.remove(deleteId - 1);
@@ -200,7 +200,7 @@ public class CommandExecutor extends FileStorage {
 	}
 
 	private Task removeTaskFromoverdueList(int deleteId) throws Exception {
-		if (overdueTasks.size() <= deleteId) {
+		if (overdueTasks.size() < deleteId) {
 			throw new Exception("Invalid Index");
 		}
 		Task taskToDelete = overdueTasks.remove(deleteId - 1);
@@ -208,7 +208,7 @@ public class CommandExecutor extends FileStorage {
 	}
 
 	private Task removeTaskFromdoneList(int deleteId) throws Exception {
-		if (doneTasks.size() <= deleteId) {
+		if (doneTasks.size() < deleteId) {
 			throw new Exception("Invalid Index");
 		}
 		Task taskToDelete = new Task();
@@ -220,9 +220,12 @@ public class CommandExecutor extends FileStorage {
 	 * get what user wants to view date e.g. navigate 010101
 	 */
 
-	public void executeNavigate(String[] commandParts) throws ClassNotFoundException, IOException, ParseException {
+	public void executeNavigate(String[] commandParts) throws Exception {
 		listType = "date";
 		date[1] = commandParts[1];
+		if(!parser.isDateValid(date[1])){
+			throw new Exception("Invalid Date Input");
+		}
 		SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy");
 		Date dateToView = sdf.parse(date[1]);
 		ArrayList<Task> tasksOnDate = new ArrayList<Task>();
