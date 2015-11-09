@@ -1,3 +1,4 @@
+/*@@author LI YUMENG(A0133911N)*/
 package LemonBuddy;
 
 import java.io.BufferedReader;
