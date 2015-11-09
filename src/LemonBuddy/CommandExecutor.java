@@ -99,6 +99,8 @@ public class CommandExecutor extends FileStorage{
 		Task newTask = parser.parseTask(stringToParse);
 		Task oldTask = deleteTaskFromList(deleteIndex);
 		newTask = newTask.mergeTaskDetails(oldTask);
+		System.out.println(oldTask);
+		System.out.println(newTask);
 		addTaskToList(newTask);
 		writeToFile();
 	}

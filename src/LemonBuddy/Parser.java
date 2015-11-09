@@ -305,7 +305,7 @@ public class Parser {
 				parseCount = 2;
 			}
 			taskOn = removeSlashes(taskOn);
-			if (!(taskOn.matches("[0-9]+") || ((taskOn.length() == 4) && (taskOn.length() == 6))
+			if (!(taskOn.matches("[0-9]+") && ((taskOn.length() == 4) || (taskOn.length() == 6))
 					|| (taskOn.equals(KEYWORD_TOMORROW)))) {
 				throw new Exception("Invalid date/time format");
 			}
