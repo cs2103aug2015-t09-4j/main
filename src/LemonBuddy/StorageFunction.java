@@ -131,7 +131,7 @@ public class StorageFunction {
 			
 			temptask = taskList.get(i);
 			
-			type = temptask.getTaskType();
+			type = temptask.getTaskType().toLowerCase();
 			
 			switch(type){
 				case "floating":
