@@ -59,6 +59,12 @@ public class CommandExecutor extends FileStorage{
 	}
 	
 	public void updateLists() throws IOException, ClassNotFoundException{
+//		ArrayList<Task> newList = new ArrayList<Task>();
+//		newList.addAll(floatingTasks);
+//		newList.addAll(deadlineTasks);
+//		newList.addAll(eventTasks);
+//		newList = executeSort(newList);
+//		ArrayList<ArrayList<Task>> updatedLists = StorageFunction.separateTaskList(newList);
 		ArrayList<ArrayList<Task>> updatedLists = FileStorage.readStringAsObject(path);
 		for (int counter = 0; counter < updatedLists.size(); counter++) {
 			for (int counter1 = 0; counter1 < updatedLists.get(counter).size(); counter1++) {
@@ -77,7 +83,6 @@ public class CommandExecutor extends FileStorage{
 	
 	public void executeAdd(String[] commandParts) throws Exception {
 		String commandType = commandParts[0];
-		System.out.println(commandType);
 		Task newTask = parser.parseTask(commandParts);
 		newTask.setTaskIsNewest();
 		addTaskToList(newTask);

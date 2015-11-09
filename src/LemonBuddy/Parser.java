@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
 
 public class Parser {
 
@@ -149,14 +150,14 @@ public class Parser {
 
 	private void checkValidDateTimeInput(Task newTask) throws ParseException, Exception {
 		if (newTask.getTaskType().equals(TASKTYPE_EVENT)) {
+
 			SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy");
 			Date date1 = sdf.parse(newTask.getTaskStartDate());
 			Date date2 = sdf.parse(newTask.getTaskEndDate());
 			if (date1.after(date2)) {
-				throw new Exception("Start date after end date");
+				throw new Exception("Start date is after end date");
 			}
-
-			if (newTask.getTaskStartDate() == newTask.getTaskEndDate()) {
+			if (newTask.getTaskStartDate().equals(newTask.getTaskEndDate())) {
 				if (Integer.parseInt(newTask.getTaskStartTime()) > Integer.parseInt(newTask.getTaskEndTime())) {
 					throw new Exception("Start time is after end time");
 				}
@@ -194,7 +195,7 @@ public class Parser {
 				newTask.setTaskStartDate(timeInfo[0]);
 				newTask.setTaskStartTime(timeInfo[1]);
 				for (int i = wordIndex; i < commandParts.length; i++) {
-					System.out.println(commandParts[i]);
+					// System.out.println(commandParts[i]);
 					if (commandParts[i].equals("to")) {
 						i++;
 						wordIndex = i;
@@ -202,7 +203,7 @@ public class Parser {
 					}
 				}
 				timeInfo = getTimeInfo(commandParts, newTask, wordIndex);
-			
+
 				newTask.setTaskEndDate(timeInfo[0]);
 				newTask.setTaskEndTime(timeInfo[1]);
 				newTask.setTaskType(TASKTYPE_EVENT);
@@ -348,15 +349,19 @@ public class Parser {
 		int parseCount = 1;
 		for (int i = 0; i < parseCount; i++) {
 			taskOn = commandParts[wordIndex];
-			System.out.println(taskOn);
+			// System.out.println(taskOn);
 			if (commandParts[wordIndex].contains(",")) {
 				taskOn = commandParts[wordIndex].substring(0, commandParts[wordIndex].indexOf(","));
 				parseCount = 2;
 			}
 			taskOn = removeSlashes(taskOn);
+			if (!(taskOn.matches("[0-9]+") || ((taskOn.length() == 4) && (taskOn.length() == 6))
+					|| (taskOn.equals(KEYWORD_TOMORROW)))) {
+				throw new Exception("Invalid date/time format");
+			}
 			if (taskOn.length() == 4) {
 				int taskOnInt = Integer.valueOf(taskOn);
-				if (taskOnInt > 2400 || taskOnInt < 0) {
+				if (taskOnInt >= 2400 || taskOnInt < 0) {
 					throw new Exception("Time out of range");
 				}
 				timeInfo[1] = taskOn;
@@ -440,8 +445,8 @@ public class Parser {
 	public boolean nextPriorityIsHigher(String currentPriority, String nextPriority) {
 		if (nextPriority.equals("high") && !currentPriority.equals("high")) {
 			return true;
-		} else
-			if (nextPriority.equals("medium") && !currentPriority.equals("high") && !currentPriority.equals("medium")) {
+		} else if (nextPriority.equals("medium") && !currentPriority.equals("high")
+				&& !currentPriority.equals("medium")) {
 			return true;
 		} else {
 			return false;
