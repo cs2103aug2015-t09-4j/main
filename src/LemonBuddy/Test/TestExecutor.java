@@ -74,7 +74,7 @@ public class TestExecutor extends CommandExecutor {
 		 
 		 eventTask1.setTaskName("chalet with cats");
 		 eventTask1.setTaskType("Event");
-		 eventTask1.setTaskStartDate("201215");
+		 eventTask1.setTaskStartDate("101215");
 		 eventTask1.setTaskEndDate("221215");
 		 eventTask1.setTaskStartTime("0800");
 		 eventTask1.setTaskEndTime("2200");
@@ -150,6 +150,20 @@ public class TestExecutor extends CommandExecutor {
 	
 	@Test
 	public void testSort() {
-		assertEquals("test correct task is deleted", floatingTask1, tester.executeSort(deadlineTasks));
+		
+		ArrayList<Task> expectedDeadlineSort = new ArrayList<Task>();
+		expectedDeadlineSort.add(deadlineTask3);
+		expectedDeadlineSort.add(deadlineTask2);
+		expectedDeadlineSort.add(deadlineTask1);
+		
+		assertEquals("test correct task is deleted", expectedDeadlineSort, tester.executeSort(deadlineTasks));
+		
+		ArrayList<Task> expectedEventSort = new ArrayList<Task>();
+		expectedEventSort.add(eventTask3);
+		expectedEventSort.add(eventTask1);
+		expectedEventSort.add(eventTask2);
+		
+		assertEquals("test correct task is deleted", expectedDeadlineSort, tester.executeSort(deadlineTasks));
+		
 	}
 }
