@@ -1,5 +1,5 @@
 
-//@author A0124209N
+//@@author A0124209N
 package LemonBuddy;
 
 import java.text.DateFormat;
@@ -195,7 +195,7 @@ public class Parser {
 		}
 	}
 
-	//@author A0127147H
+	//@@author A0127147H
 	private void detectFromToFormat(String[] commandParts) throws Exception {
 		Boolean from = false;
 		Boolean to = false;

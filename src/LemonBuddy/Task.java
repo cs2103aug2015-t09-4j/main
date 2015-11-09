@@ -1,3 +1,4 @@
+//@@author A0124209N
 package LemonBuddy;
 
 import java.io.Serializable;
@@ -143,7 +144,7 @@ public class Task implements Serializable {
 	public void setDisplayId(String index) {
 		this.displayId = new SimpleStringProperty(index);
 	}
-	
+	//@@author A0127147H
 	public void setEventTime(int time) {
 		SimpleStringProperty temp = new SimpleStringProperty("1");
 		this.displayTimmings[time] = temp;

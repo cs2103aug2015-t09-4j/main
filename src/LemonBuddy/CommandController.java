@@ -1,5 +1,5 @@
 
-//@author A0124209N
+//@@author A0124209N
 package LemonBuddy;
 
 import java.io.IOException;
@@ -134,7 +134,7 @@ public class CommandController {
 		}
 
 	}
-//@author A0127147H
+//@@author A0127147H
 	private static void executeSaveLastState(String commandType) throws Exception, IOException {
 		if (commandType.equals(COMMAND_ADD) || commandType.equals(COMMAND_DELETE) || commandType.equals(COMMAND_EDIT)
 				|| commandType.equals(COMMAND_DONE)) {
