@@ -71,8 +71,7 @@ public class StorageFunction {
         	 result.add(createTaskFromString(lineText));
         	}
 			read.close();		
-		} catch (FileNotFoundException e) {
-			
+		} catch (FileNotFoundException e) {			
 			printExceptionMessage(e);
 		} finally {			
 		}
@@ -135,19 +134,19 @@ public class StorageFunction {
 			type = temptask.getTaskType();
 			
 			switch(type){
-				case "Floating":
+				case "floating":
 					floatingList.add(temptask);
 					break;
-				case "Deadline":
+				case "deadline":
 					deadlineList.add(temptask);
 					break;
-				case "Event":
+				case "event":
 					eventList.add(temptask);
 					break;
-				case "Done":
+				case "done":
 					doneList.add(temptask);
 					break;
-				case "Overdue":
+				case "overdue":
 					overdueList.add(temptask);
 					break;
 				default:
