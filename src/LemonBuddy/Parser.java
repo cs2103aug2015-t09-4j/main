@@ -9,15 +9,28 @@ import java.util.logging.Level;
 
 public class Parser {
 
+	private static final String SIMPLEDATETIMEFORMAT = "ddMMyy HHmm";
 	private static final String KEYWORD_TOMORROW = "tomorrow";
 	private static final String KEYWORD_BY = "by";
 	private static final String KEYWORD_DESCRIPTION = "desc";
 	private static final String KEYWORD_PRIORITY = "*";
 	private static final String KEYWORD_FROM = "from";
+	
 	private static final String KEYWORD_ON = "on";
 	private static final String TASKTYPE_FLOATING = "floating";
 	private static final String TASKTYPE_DEADLINE = "deadline";
 	private static final String TASKTYPE_EVENT = "event";
+	private static Parser parser;
+	
+	private static void parser(){
+		
+	}
+	
+	public static Parser getInstance(){
+		if(parser == null)
+			parser = new Parser();
+		return parser;
+	}
 
 	/***************************************Create Task from string ******************************************************************/
 	public Task parseTask(String[] commandParts) throws Exception {
@@ -118,7 +131,7 @@ public class Parser {
 	private void setInputTime(String[] commandParts, Task newTask, int wordIndex) throws Exception {
 		String[] timeInfo = new String[2];
 		while (wordIndex < commandParts.length) {
-			if (commandParts[wordIndex].equals("desc")) {
+			if (commandParts[wordIndex].equals(KEYWORD_DESCRIPTION)) {
 				break;
 			}
 			switch (commandParts[wordIndex++]) {
@@ -145,7 +158,6 @@ public class Parser {
 				newTask.setTaskStartDate(timeInfo[0]);
 				newTask.setTaskStartTime(timeInfo[1]);
 				for (int i = wordIndex; i < commandParts.length; i++) {
-					// System.out.println(commandParts[i]);
 					if (commandParts[i].equals("to")) {
 						i++;
 						wordIndex = i;
@@ -243,7 +255,7 @@ public class Parser {
 
 	private String addOneDay(String date, String time) {
 		Calendar initialTime = Calendar.getInstance();
-		SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyy HHmm");
+		SimpleDateFormat dateFormatter = new SimpleDateFormat(SIMPLEDATETIMEFORMAT);
 		time = getCurrentTime();
 		initialTime.set(Integer.parseInt(date.substring(4, 6)), Integer.parseInt(date.substring(2, 4)) - 1,
 				Integer.parseInt(date.substring(0, 2)), Integer.parseInt(time.substring(0, 2)),
@@ -260,7 +272,7 @@ public class Parser {
 				Integer.parseInt(date.substring(0, 2)), Integer.parseInt(time.substring(0, 2)),
 				Integer.parseInt(time.substring(2, 4)), 0);
 		initialTime.add(Calendar.HOUR, 1);
-		SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyy HHmm");
+		SimpleDateFormat dateFormatter = new SimpleDateFormat(SIMPLEDATETIMEFORMAT);
 		String[] timeInfo = dateFormatter.format(initialTime.getTime()).split(" ");
 		return timeInfo;
 	}

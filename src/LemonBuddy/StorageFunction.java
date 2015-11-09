@@ -1,3 +1,4 @@
+/*@@author LI YUMENG(A0133911N)*/
 package LemonBuddy;
 
 import java.io.BufferedReader;
@@ -170,7 +171,7 @@ public class StorageFunction {
 
 	/************************************************** Print Function ******************************************************************/
 	
-	protected static void printExceptionMessage(IOException e) {
+	public static void printExceptionMessage(IOException e) {
 		System.out.println(MSG_WHEN_IOEXCEPTION);
 		e.printStackTrace();
 	}
