@@ -374,7 +374,7 @@ public class Parser {
 		return date.substring(4, 6);
 	}
 
-	int parseInt(String str) {
+	protected int parseInt(String str) {
 		int i = 0;
 		int num = 0;
 		boolean isNeg = false;

@@ -14,7 +14,9 @@ public class SortImplementation{
 			case "high":
 				return 1;
 			case "medium":
-				return 0;		
+				return 0;
+			case "low":
+				return -1;
 			default:
 				return -1;
 		}
@@ -60,6 +62,7 @@ public class SortImplementation{
 				 
 				String deadline = "deadline";
 				String event = "event";
+				//String floating = "floating";
 
 				type1 = t1.getTaskType().toLowerCase();
 				type2 = t2.getTaskType().toLowerCase();	
@@ -68,16 +71,20 @@ public class SortImplementation{
 					end1 = Integer.valueOf(t1.getTaskEndDate()).intValue();
 				} else if(type1.equals(event)) {
 					end1 = Integer.valueOf(t1.getTaskStartDate()).intValue();
+				//} else if(type1.equals(floating)) {
+				//	end1 = 999999;
 				} else {
-					end1 = -1;
+					end1 = 999999;
 				}
 			
 				if(type2.equals(deadline)) {
 					end2 = Integer.valueOf(t2.getTaskEndDate()).intValue();
 				} else if(type2.equals(event)) {
 					end2 = Integer.valueOf(t2.getTaskStartDate()).intValue();
+				//} else if(type1.equals(floating)) {
+				//	end2 = 999999;
 				} else {
-					end2 = -1;
+					end2 = 999999;
 				}
 				 
 				end1 = convertDate(end1);

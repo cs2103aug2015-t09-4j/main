@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.logging.*;
 
 public class FileStorage {
-    private static String EMPTY_CONTENT = "";
-	public static String filename = "default.txt";
 	
+    private static String EMPTY_CONTENT = "";
+	public static String filename = "default.txt";	
 	private static Logger Logger = java.util.logging.Logger.getLogger("FileStorage");
 
 	/************************************************** Write To Storage ******************************************************************/	
