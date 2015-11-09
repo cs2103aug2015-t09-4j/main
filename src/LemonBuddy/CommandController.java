@@ -93,7 +93,7 @@ public class CommandController {
 				DateFormat df = new SimpleDateFormat("ddMMyy");
 				df.setLenient(false);
 				df.parse(commandParts[1]);
-				commandexecutor.executeNavigate(commandParts);
+				commandexecutor.executeView(commandParts);
 				isSuccesful = true;
 				break;
 

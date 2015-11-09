@@ -220,7 +220,7 @@ public class CommandExecutor extends FileStorage {
 	 * get what user wants to view date e.g. navigate 010101
 	 */
 
-	public void executeNavigate(String[] commandParts) throws ClassNotFoundException, IOException, ParseException {
+	public void executeView(String[] commandParts) throws ClassNotFoundException, IOException, ParseException {
 		listType = "date";
 		date[1] = commandParts[1];
 		SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy");
@@ -342,7 +342,6 @@ public class CommandExecutor extends FileStorage {
 			if (searchedTask.getTaskName().toLowerCase().contains(searchKeyword)
 					|| searchedTask.getTaskDescription().toLowerCase().contains(searchKeyword)) {
 				searchResults.add(searchedTask);
-				System.out.println("result: " + searchResults);
 			}
 		}
 		;
@@ -399,28 +398,28 @@ public class CommandExecutor extends FileStorage {
 		ArrayList<Task> combinedList = new ArrayList<Task>();
 		System.out.println(listType);
 		if (listType.equals("overdue")) {
-			executeNavigate(date);
+			executeView(date);
 			temp.add(listToTimeline);
 			temp.add(overdueTasks);
 			updateLists();
 			listType = "overdue";
 			return temp;
 		} else if (listType.equals("All")) {
-			executeNavigate(date);
+			executeView(date);
 			temp.add(listToTimeline);
 			temp.add(allTasks);
 			updateLists();
 			listType = "All";
 			return temp;
 		} else if (listType.equals("floating")) {
-			executeNavigate(date);
+			executeView(date);
 			temp.add(listToTimeline);
 			temp.add(floatingTasks);
 			updateLists();
 			listType = "floating";
 			return temp;
 		} else if (listType.equals("deadline")) {
-			executeNavigate(date);
+			executeView(date);
 			temp.add(listToTimeline);
 			combinedList.addAll(overdueTasks);
 			combinedList.addAll(deadlineTasks);
@@ -430,21 +429,21 @@ public class CommandExecutor extends FileStorage {
 			updateLists();
 			return temp;
 		} else if (listType.equals("event")) {
-			executeNavigate(date);
+			executeView(date);
 			temp.add(listToTimeline);
 			temp.add(eventTasks);
 			updateLists();
 			listType = "event";
 			return temp;
 		} else if (listType.equals("done")) {
-			executeNavigate(date);
+			executeView(date);
 			temp.add(listToTimeline);
 			temp.add(doneTasks);
 			updateLists();
 			listType = "done";
 			return temp;
 		} else if (listType.equals("search")) {
-			executeNavigate(date);
+			executeView(date);
 			temp.add(listToTimeline);
 			temp.add(searchResults);
 			updateLists();
@@ -452,7 +451,7 @@ public class CommandExecutor extends FileStorage {
 			listType = "search";
 			return temp;
 		} else {
-			executeNavigate(date);
+			executeView(date);
 			temp.add(listToTimeline);
 			temp.add(listToTimeline);
 			updateLists();
