@@ -396,12 +396,12 @@ public class CommandExecutor extends FileStorage {
 			updateLists();
 			listType = "overdue";
 			return temp;
-		} else if (listType.equals("All")) {
+		} else if (listType.equals("all")) {
 			executeView(date);
 			temp.add(listToTimeline);
 			temp.add(allTasks);
 			updateLists();
-			listType = "All";
+			listType = "all";
 			return temp;
 		} else if (listType.equals("floating")) {
 			executeView(date);

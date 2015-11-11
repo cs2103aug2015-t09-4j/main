@@ -13,11 +13,13 @@ public class CommandController {
 
 	private static final String TASKTYPE_DONE = "done";
 
-	private static final String TASKTYPE_EVENT = "Event";
+	private static final String TASKTYPE_EVENT = "event";
 
-	private static final String TASKTYPE_DEADLINE = "Deadline";
+	private static final String TASKTYPE_DEADLINE = "deadline";
 
-	private static final String TASKTYPE_FLOATING = "Floating";
+	private static final String TASKTYPE_FLOATING = "floating";
+	
+	private static final String TASKTYPE_ALL = "all";
 
 	private static Logger logger = Logger.getLogger("CommandController");
 
@@ -102,7 +104,7 @@ public class CommandController {
 			case COMMAND_LIST:
 				if (!(commandParts[1].equals(TASKTYPE_FLOATING) || commandParts[1].equals(TASKTYPE_DEADLINE)
 						|| commandParts[1].equals(TASKTYPE_EVENT) || commandParts[1].equals(TASKTYPE_DONE)
-						|| commandParts[1].equals(TASKTYPE_OVERDUE))) {
+						|| commandParts[1].equals(TASKTYPE_OVERDUE) || commandParts[1].equals(TASKTYPE_ALL))) {
 					throw new Exception("Invalid task type");
 				}
 				commandexecutor.executeList(commandParts);
