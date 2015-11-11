@@ -278,7 +278,7 @@ public class CommandExecutor extends FileStorage {
 	}
 
 	public Task removeTaskFromEventList(int deleteId) throws Exception {
-		if (floatingTasks.size() < deleteId) {
+		if (eventTasks.size() < deleteId) {
 			throw new Exception("Invalid Index");
 		}
 		Task taskToDelete = eventTasks.remove(deleteId - 1);
@@ -286,7 +286,7 @@ public class CommandExecutor extends FileStorage {
 	}
 
 	public Task removeTaskFromOverdueList(int deleteId) throws Exception {
-		if (floatingTasks.size() < deleteId) {
+		if (overdueTasks.size() < deleteId) {
 			throw new Exception("Invalid Index");
 		}
 		Task taskToDelete = overdueTasks.remove(deleteId - 1);
